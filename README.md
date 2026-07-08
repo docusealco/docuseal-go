@@ -49,19 +49,15 @@ for _, template := range list.Data {
 ### Create a signature request
 
 ```go
-var data docuseal.CreateSubmissionRequest
-
-err := json.Unmarshal([]byte(`{
-	"template_id": 1000001,
-	"submitters": [
-		{"role": "First Party", "email": "signer@example.com"}
-	]
-}`), &data)
-if err != nil {
-	log.Fatal(err)
-}
-
-resp, err := client.CreateSubmission(ctx, data)
+resp, err := client.CreateSubmission(ctx, docuseal.CreateSubmissionRequest{
+	TemplateId: 1000001,
+	Submitters: []docuseal.CreateSubmissionRequestSubmitter{
+		{
+			Role:  docuseal.Ptr("First Party"),
+			Email: docuseal.Ptr("signer@example.com"),
+		},
+	},
+})
 if err != nil {
 	log.Fatal(err)
 }

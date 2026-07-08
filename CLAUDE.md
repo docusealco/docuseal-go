@@ -33,7 +33,6 @@ fix them in the spec and regenerate.
   exposed.
 - `PermanentlyDelete*` methods use the DELETE endpoints with
   `?permanently=true`.
-- Request bodies contain anonymous nested structs (oapi-codegen limitation
-  for inline schemas), so deeply nested payloads are easiest to build via
-  `json.Unmarshal` into the typed request. Fixing this requires extracting
-  request item schemas into components in the spec.
+- Nested request objects are named components in the spec
+  (`CreateSubmissionRequestSubmitter`, ...), so requests are built with
+  typed literals; `Ptr` fills optional pointer fields.

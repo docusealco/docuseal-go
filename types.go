@@ -29,204 +29,6 @@ func (e CreateSubmissionFromDocxRequestOrder) Valid() bool {
 	}
 }
 
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignCenter CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign = "center"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignLeft   CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign = "left"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignRight  CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign = "right"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignCenter:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignLeft:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlignRight:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundBlack CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground = "black"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundBlue  CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground = "blue"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundWhite CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundBlack:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundBlue:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackgroundWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorBlack CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor = "black"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorBlue  CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor = "blue"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorWhite CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorBlack:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorBlue:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColorWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyAUD CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency = "AUD"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyCAD CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency = "CAD"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyEUR CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency = "EUR"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyGBP CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency = "GBP"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyUSD CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyAUD:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyCAD:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyEUR:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyGBP:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrencyUSD:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontCourier   CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont = "Courier"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontHelvetica CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont = "Helvetica"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTimes     CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontCourier:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontHelvetica:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTimes:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeBold       CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType = "bold"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeBoldItalic CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType = "bold_italic"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeItalic     CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeBold:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign.
-const (
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignBottom CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign = "bottom"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignCenter CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign = "center"
-	CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignTop    CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign enum.
-func (e CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignBottom:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignCenter:
-		return true
-	case CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValignTop:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestDocumentsSize.
-const (
-	CreateSubmissionFromHtmlRequestDocumentsSizeA0      CreateSubmissionFromHtmlRequestDocumentsSize = "A0"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA1      CreateSubmissionFromHtmlRequestDocumentsSize = "A1"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA2      CreateSubmissionFromHtmlRequestDocumentsSize = "A2"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA3      CreateSubmissionFromHtmlRequestDocumentsSize = "A3"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA4      CreateSubmissionFromHtmlRequestDocumentsSize = "A4"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA5      CreateSubmissionFromHtmlRequestDocumentsSize = "A5"
-	CreateSubmissionFromHtmlRequestDocumentsSizeA6      CreateSubmissionFromHtmlRequestDocumentsSize = "A6"
-	CreateSubmissionFromHtmlRequestDocumentsSizeLedger  CreateSubmissionFromHtmlRequestDocumentsSize = "Ledger"
-	CreateSubmissionFromHtmlRequestDocumentsSizeLegal   CreateSubmissionFromHtmlRequestDocumentsSize = "Legal"
-	CreateSubmissionFromHtmlRequestDocumentsSizeLetter  CreateSubmissionFromHtmlRequestDocumentsSize = "Letter"
-	CreateSubmissionFromHtmlRequestDocumentsSizeTabloid CreateSubmissionFromHtmlRequestDocumentsSize = "Tabloid"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestDocumentsSize enum.
-func (e CreateSubmissionFromHtmlRequestDocumentsSize) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA0:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA1:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA2:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA3:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA4:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA5:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeA6:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeLedger:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeLegal:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeLetter:
-		return true
-	case CreateSubmissionFromHtmlRequestDocumentsSizeTabloid:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for CreateSubmissionFromHtmlRequestOrder.
 const (
 	CreateSubmissionFromHtmlRequestOrderPreserved CreateSubmissionFromHtmlRequestOrder = "preserved"
@@ -245,222 +47,45 @@ func (e CreateSubmissionFromHtmlRequestOrder) Valid() bool {
 	}
 }
 
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign.
+// Defines values for CreateSubmissionFromHtmlRequestDocumentSize.
 const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignCenter CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign = "center"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignLeft   CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign = "left"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignRight  CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign = "right"
+	CreateSubmissionFromHtmlRequestDocumentSizeA0      CreateSubmissionFromHtmlRequestDocumentSize = "A0"
+	CreateSubmissionFromHtmlRequestDocumentSizeA1      CreateSubmissionFromHtmlRequestDocumentSize = "A1"
+	CreateSubmissionFromHtmlRequestDocumentSizeA2      CreateSubmissionFromHtmlRequestDocumentSize = "A2"
+	CreateSubmissionFromHtmlRequestDocumentSizeA3      CreateSubmissionFromHtmlRequestDocumentSize = "A3"
+	CreateSubmissionFromHtmlRequestDocumentSizeA4      CreateSubmissionFromHtmlRequestDocumentSize = "A4"
+	CreateSubmissionFromHtmlRequestDocumentSizeA5      CreateSubmissionFromHtmlRequestDocumentSize = "A5"
+	CreateSubmissionFromHtmlRequestDocumentSizeA6      CreateSubmissionFromHtmlRequestDocumentSize = "A6"
+	CreateSubmissionFromHtmlRequestDocumentSizeLedger  CreateSubmissionFromHtmlRequestDocumentSize = "Ledger"
+	CreateSubmissionFromHtmlRequestDocumentSizeLegal   CreateSubmissionFromHtmlRequestDocumentSize = "Legal"
+	CreateSubmissionFromHtmlRequestDocumentSizeLetter  CreateSubmissionFromHtmlRequestDocumentSize = "Letter"
+	CreateSubmissionFromHtmlRequestDocumentSizeTabloid CreateSubmissionFromHtmlRequestDocumentSize = "Tabloid"
 )
 
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestDocumentSize enum.
+func (e CreateSubmissionFromHtmlRequestDocumentSize) Valid() bool {
 	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignCenter:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA0:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignLeft:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA1:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlignRight:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA2:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundBlack CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground = "black"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundBlue  CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground = "blue"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundWhite CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundBlack:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA3:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundBlue:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA4:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackgroundWhite:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA5:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorBlack CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor = "black"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorBlue  CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor = "blue"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorWhite CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorBlack:
+	case CreateSubmissionFromHtmlRequestDocumentSizeA6:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorBlue:
+	case CreateSubmissionFromHtmlRequestDocumentSizeLedger:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColorWhite:
+	case CreateSubmissionFromHtmlRequestDocumentSizeLegal:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyAUD CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency = "AUD"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyCAD CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency = "CAD"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyEUR CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency = "EUR"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyGBP CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency = "GBP"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyUSD CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyAUD:
+	case CreateSubmissionFromHtmlRequestDocumentSizeLetter:
 		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyCAD:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyEUR:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyGBP:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrencyUSD:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontCourier   CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont = "Courier"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontHelvetica CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont = "Helvetica"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTimes     CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontCourier:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontHelvetica:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTimes:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeBold       CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType = "bold"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeBoldItalic CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType = "bold_italic"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeItalic     CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeBold:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign.
-const (
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignBottom CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign = "bottom"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignCenter CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign = "center"
-	CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignTop    CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign enum.
-func (e CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignBottom:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignCenter:
-		return true
-	case CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValignTop:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestDocumentsFieldsType.
-const (
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeCells         CreateSubmissionFromPdfRequestDocumentsFieldsType = "cells"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeCheckbox      CreateSubmissionFromPdfRequestDocumentsFieldsType = "checkbox"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeDate          CreateSubmissionFromPdfRequestDocumentsFieldsType = "date"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeFile          CreateSubmissionFromPdfRequestDocumentsFieldsType = "file"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeHeading       CreateSubmissionFromPdfRequestDocumentsFieldsType = "heading"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeImage         CreateSubmissionFromPdfRequestDocumentsFieldsType = "image"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeInitials      CreateSubmissionFromPdfRequestDocumentsFieldsType = "initials"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeKba           CreateSubmissionFromPdfRequestDocumentsFieldsType = "kba"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeMultiple      CreateSubmissionFromPdfRequestDocumentsFieldsType = "multiple"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeNumber        CreateSubmissionFromPdfRequestDocumentsFieldsType = "number"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypePayment       CreateSubmissionFromPdfRequestDocumentsFieldsType = "payment"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypePhone         CreateSubmissionFromPdfRequestDocumentsFieldsType = "phone"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeRadio         CreateSubmissionFromPdfRequestDocumentsFieldsType = "radio"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeSelect        CreateSubmissionFromPdfRequestDocumentsFieldsType = "select"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeSignature     CreateSubmissionFromPdfRequestDocumentsFieldsType = "signature"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeStamp         CreateSubmissionFromPdfRequestDocumentsFieldsType = "stamp"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeStrikethrough CreateSubmissionFromPdfRequestDocumentsFieldsType = "strikethrough"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeText          CreateSubmissionFromPdfRequestDocumentsFieldsType = "text"
-	CreateSubmissionFromPdfRequestDocumentsFieldsTypeVerification  CreateSubmissionFromPdfRequestDocumentsFieldsType = "verification"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestDocumentsFieldsType enum.
-func (e CreateSubmissionFromPdfRequestDocumentsFieldsType) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeCells:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeCheckbox:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeDate:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeFile:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeHeading:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeImage:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeInitials:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeKba:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeMultiple:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeNumber:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypePayment:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypePhone:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeRadio:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeSelect:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeSignature:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeStamp:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeStrikethrough:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeText:
-		return true
-	case CreateSubmissionFromPdfRequestDocumentsFieldsTypeVerification:
+	case CreateSubmissionFromHtmlRequestDocumentSizeTabloid:
 		return true
 	default:
 		return false
@@ -485,153 +110,69 @@ func (e CreateSubmissionFromPdfRequestOrder) Valid() bool {
 	}
 }
 
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign.
+// Defines values for CreateSubmissionFromPdfRequestDocumentFieldType.
 const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignCenter CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign = "center"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignLeft   CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign = "left"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignRight  CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign = "right"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeCells         CreateSubmissionFromPdfRequestDocumentFieldType = "cells"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeCheckbox      CreateSubmissionFromPdfRequestDocumentFieldType = "checkbox"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeDate          CreateSubmissionFromPdfRequestDocumentFieldType = "date"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeFile          CreateSubmissionFromPdfRequestDocumentFieldType = "file"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeHeading       CreateSubmissionFromPdfRequestDocumentFieldType = "heading"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeImage         CreateSubmissionFromPdfRequestDocumentFieldType = "image"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeInitials      CreateSubmissionFromPdfRequestDocumentFieldType = "initials"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeKba           CreateSubmissionFromPdfRequestDocumentFieldType = "kba"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeMultiple      CreateSubmissionFromPdfRequestDocumentFieldType = "multiple"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeNumber        CreateSubmissionFromPdfRequestDocumentFieldType = "number"
+	CreateSubmissionFromPdfRequestDocumentFieldTypePayment       CreateSubmissionFromPdfRequestDocumentFieldType = "payment"
+	CreateSubmissionFromPdfRequestDocumentFieldTypePhone         CreateSubmissionFromPdfRequestDocumentFieldType = "phone"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeRadio         CreateSubmissionFromPdfRequestDocumentFieldType = "radio"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeSelect        CreateSubmissionFromPdfRequestDocumentFieldType = "select"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeSignature     CreateSubmissionFromPdfRequestDocumentFieldType = "signature"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeStamp         CreateSubmissionFromPdfRequestDocumentFieldType = "stamp"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeStrikethrough CreateSubmissionFromPdfRequestDocumentFieldType = "strikethrough"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeText          CreateSubmissionFromPdfRequestDocumentFieldType = "text"
+	CreateSubmissionFromPdfRequestDocumentFieldTypeVerification  CreateSubmissionFromPdfRequestDocumentFieldType = "verification"
 )
 
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestDocumentFieldType enum.
+func (e CreateSubmissionFromPdfRequestDocumentFieldType) Valid() bool {
 	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignCenter:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeCells:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignLeft:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeCheckbox:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlignRight:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeDate:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundBlack CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground = "black"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundBlue  CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground = "blue"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundWhite CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundBlack:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeFile:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundBlue:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeHeading:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackgroundWhite:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeImage:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorBlack CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor = "black"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorBlue  CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor = "blue"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorWhite CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorBlack:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeInitials:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorBlue:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeKba:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColorWhite:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeMultiple:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyAUD CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency = "AUD"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyCAD CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency = "CAD"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyEUR CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency = "EUR"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyGBP CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency = "GBP"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyUSD CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyAUD:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeNumber:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyCAD:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypePayment:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyEUR:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypePhone:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyGBP:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeRadio:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrencyUSD:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeSelect:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontCourier   CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont = "Courier"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontHelvetica CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont = "Helvetica"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTimes     CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontCourier:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeSignature:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontHelvetica:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeStamp:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTimes:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeStrikethrough:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeBold       CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType = "bold"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeBoldItalic CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType = "bold_italic"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeItalic     CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeBold:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeText:
 		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign.
-const (
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignBottom CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign = "bottom"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignCenter CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign = "center"
-	CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignTop    CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign enum.
-func (e CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignBottom:
-		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignCenter:
-		return true
-	case CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValignTop:
+	case CreateSubmissionFromPdfRequestDocumentFieldTypeVerification:
 		return true
 	default:
 		return false
@@ -752,159 +293,6 @@ func (e CreateSubmissionRequestOrder) Valid() bool {
 	}
 }
 
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesAlign.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesAlignCenter CreateSubmissionRequestSubmittersFieldsPreferencesAlign = "center"
-	CreateSubmissionRequestSubmittersFieldsPreferencesAlignLeft   CreateSubmissionRequestSubmittersFieldsPreferencesAlign = "left"
-	CreateSubmissionRequestSubmittersFieldsPreferencesAlignRight  CreateSubmissionRequestSubmittersFieldsPreferencesAlign = "right"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesAlign enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesAlign) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesAlignCenter:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesAlignLeft:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesAlignRight:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesBackground.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundBlack CreateSubmissionRequestSubmittersFieldsPreferencesBackground = "black"
-	CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundBlue  CreateSubmissionRequestSubmittersFieldsPreferencesBackground = "blue"
-	CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundWhite CreateSubmissionRequestSubmittersFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesBackground enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundBlack:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundBlue:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesBackgroundWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesColor.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesColorBlack CreateSubmissionRequestSubmittersFieldsPreferencesColor = "black"
-	CreateSubmissionRequestSubmittersFieldsPreferencesColorBlue  CreateSubmissionRequestSubmittersFieldsPreferencesColor = "blue"
-	CreateSubmissionRequestSubmittersFieldsPreferencesColorWhite CreateSubmissionRequestSubmittersFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesColor enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesColorBlack:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesColorBlue:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesColorWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesCurrency.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyAUD CreateSubmissionRequestSubmittersFieldsPreferencesCurrency = "AUD"
-	CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyCAD CreateSubmissionRequestSubmittersFieldsPreferencesCurrency = "CAD"
-	CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyEUR CreateSubmissionRequestSubmittersFieldsPreferencesCurrency = "EUR"
-	CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyGBP CreateSubmissionRequestSubmittersFieldsPreferencesCurrency = "GBP"
-	CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyUSD CreateSubmissionRequestSubmittersFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesCurrency enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyAUD:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyCAD:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyEUR:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyGBP:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesCurrencyUSD:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesFont.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontCourier   CreateSubmissionRequestSubmittersFieldsPreferencesFont = "Courier"
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontHelvetica CreateSubmissionRequestSubmittersFieldsPreferencesFont = "Helvetica"
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontTimes     CreateSubmissionRequestSubmittersFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesFont enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontCourier:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontHelvetica:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontTimes:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesFontType.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeBold       CreateSubmissionRequestSubmittersFieldsPreferencesFontType = "bold"
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeBoldItalic CreateSubmissionRequestSubmittersFieldsPreferencesFontType = "bold_italic"
-	CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeItalic     CreateSubmissionRequestSubmittersFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesFontType enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeBold:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateSubmissionRequestSubmittersFieldsPreferencesValign.
-const (
-	CreateSubmissionRequestSubmittersFieldsPreferencesValignBottom CreateSubmissionRequestSubmittersFieldsPreferencesValign = "bottom"
-	CreateSubmissionRequestSubmittersFieldsPreferencesValignCenter CreateSubmissionRequestSubmittersFieldsPreferencesValign = "center"
-	CreateSubmissionRequestSubmittersFieldsPreferencesValignTop    CreateSubmissionRequestSubmittersFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the CreateSubmissionRequestSubmittersFieldsPreferencesValign enum.
-func (e CreateSubmissionRequestSubmittersFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case CreateSubmissionRequestSubmittersFieldsPreferencesValignBottom:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesValignCenter:
-		return true
-	case CreateSubmissionRequestSubmittersFieldsPreferencesValignTop:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for CreateSubmissionsFromEmailsResponseStatus.
 const (
 	CreateSubmissionsFromEmailsResponseStatusAwaiting  CreateSubmissionsFromEmailsResponseStatus = "awaiting"
@@ -932,222 +320,69 @@ func (e CreateSubmissionsFromEmailsResponseStatus) Valid() bool {
 	}
 }
 
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign.
+// Defines values for CreateTemplateFromDocxRequestDocumentFieldType.
 const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignCenter CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign = "center"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignLeft   CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign = "left"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignRight  CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign = "right"
+	CreateTemplateFromDocxRequestDocumentFieldTypeCells         CreateTemplateFromDocxRequestDocumentFieldType = "cells"
+	CreateTemplateFromDocxRequestDocumentFieldTypeCheckbox      CreateTemplateFromDocxRequestDocumentFieldType = "checkbox"
+	CreateTemplateFromDocxRequestDocumentFieldTypeDate          CreateTemplateFromDocxRequestDocumentFieldType = "date"
+	CreateTemplateFromDocxRequestDocumentFieldTypeFile          CreateTemplateFromDocxRequestDocumentFieldType = "file"
+	CreateTemplateFromDocxRequestDocumentFieldTypeHeading       CreateTemplateFromDocxRequestDocumentFieldType = "heading"
+	CreateTemplateFromDocxRequestDocumentFieldTypeImage         CreateTemplateFromDocxRequestDocumentFieldType = "image"
+	CreateTemplateFromDocxRequestDocumentFieldTypeInitials      CreateTemplateFromDocxRequestDocumentFieldType = "initials"
+	CreateTemplateFromDocxRequestDocumentFieldTypeKba           CreateTemplateFromDocxRequestDocumentFieldType = "kba"
+	CreateTemplateFromDocxRequestDocumentFieldTypeMultiple      CreateTemplateFromDocxRequestDocumentFieldType = "multiple"
+	CreateTemplateFromDocxRequestDocumentFieldTypeNumber        CreateTemplateFromDocxRequestDocumentFieldType = "number"
+	CreateTemplateFromDocxRequestDocumentFieldTypePayment       CreateTemplateFromDocxRequestDocumentFieldType = "payment"
+	CreateTemplateFromDocxRequestDocumentFieldTypePhone         CreateTemplateFromDocxRequestDocumentFieldType = "phone"
+	CreateTemplateFromDocxRequestDocumentFieldTypeRadio         CreateTemplateFromDocxRequestDocumentFieldType = "radio"
+	CreateTemplateFromDocxRequestDocumentFieldTypeSelect        CreateTemplateFromDocxRequestDocumentFieldType = "select"
+	CreateTemplateFromDocxRequestDocumentFieldTypeSignature     CreateTemplateFromDocxRequestDocumentFieldType = "signature"
+	CreateTemplateFromDocxRequestDocumentFieldTypeStamp         CreateTemplateFromDocxRequestDocumentFieldType = "stamp"
+	CreateTemplateFromDocxRequestDocumentFieldTypeStrikethrough CreateTemplateFromDocxRequestDocumentFieldType = "strikethrough"
+	CreateTemplateFromDocxRequestDocumentFieldTypeText          CreateTemplateFromDocxRequestDocumentFieldType = "text"
+	CreateTemplateFromDocxRequestDocumentFieldTypeVerification  CreateTemplateFromDocxRequestDocumentFieldType = "verification"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentFieldType enum.
+func (e CreateTemplateFromDocxRequestDocumentFieldType) Valid() bool {
 	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignCenter:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeCells:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignLeft:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeCheckbox:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlignRight:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeDate:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundBlack CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground = "black"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundBlue  CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground = "blue"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundWhite CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundBlack:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeFile:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundBlue:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeHeading:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackgroundWhite:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeImage:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorBlack CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor = "black"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorBlue  CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor = "blue"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorWhite CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorBlack:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeInitials:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorBlue:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeKba:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColorWhite:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeMultiple:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyAUD CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency = "AUD"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyCAD CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency = "CAD"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyEUR CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency = "EUR"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyGBP CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency = "GBP"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyUSD CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyAUD:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeNumber:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyCAD:
+	case CreateTemplateFromDocxRequestDocumentFieldTypePayment:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyEUR:
+	case CreateTemplateFromDocxRequestDocumentFieldTypePhone:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyGBP:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeRadio:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrencyUSD:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeSelect:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontCourier   CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont = "Courier"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontHelvetica CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont = "Helvetica"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTimes     CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontCourier:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeSignature:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontHelvetica:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeStamp:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTimes:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeStrikethrough:
 		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeBold       CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType = "bold"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeBoldItalic CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType = "bold_italic"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeItalic     CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeBold:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeText:
 		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignBottom CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign = "bottom"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignCenter CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign = "center"
-	CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignTop    CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignBottom:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignCenter:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValignTop:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for CreateTemplateFromDocxRequestDocumentsFieldsType.
-const (
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeCells         CreateTemplateFromDocxRequestDocumentsFieldsType = "cells"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeCheckbox      CreateTemplateFromDocxRequestDocumentsFieldsType = "checkbox"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeDate          CreateTemplateFromDocxRequestDocumentsFieldsType = "date"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeFile          CreateTemplateFromDocxRequestDocumentsFieldsType = "file"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeHeading       CreateTemplateFromDocxRequestDocumentsFieldsType = "heading"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeImage         CreateTemplateFromDocxRequestDocumentsFieldsType = "image"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeInitials      CreateTemplateFromDocxRequestDocumentsFieldsType = "initials"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeKba           CreateTemplateFromDocxRequestDocumentsFieldsType = "kba"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeMultiple      CreateTemplateFromDocxRequestDocumentsFieldsType = "multiple"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeNumber        CreateTemplateFromDocxRequestDocumentsFieldsType = "number"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypePayment       CreateTemplateFromDocxRequestDocumentsFieldsType = "payment"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypePhone         CreateTemplateFromDocxRequestDocumentsFieldsType = "phone"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeRadio         CreateTemplateFromDocxRequestDocumentsFieldsType = "radio"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeSelect        CreateTemplateFromDocxRequestDocumentsFieldsType = "select"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeSignature     CreateTemplateFromDocxRequestDocumentsFieldsType = "signature"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeStamp         CreateTemplateFromDocxRequestDocumentsFieldsType = "stamp"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeStrikethrough CreateTemplateFromDocxRequestDocumentsFieldsType = "strikethrough"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeText          CreateTemplateFromDocxRequestDocumentsFieldsType = "text"
-	CreateTemplateFromDocxRequestDocumentsFieldsTypeVerification  CreateTemplateFromDocxRequestDocumentsFieldsType = "verification"
-)
-
-// Valid indicates whether the value is a known member of the CreateTemplateFromDocxRequestDocumentsFieldsType enum.
-func (e CreateTemplateFromDocxRequestDocumentsFieldsType) Valid() bool {
-	switch e {
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeCells:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeCheckbox:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeDate:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeFile:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeHeading:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeImage:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeInitials:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeKba:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeMultiple:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeNumber:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypePayment:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypePhone:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeRadio:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeSelect:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeSignature:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeStamp:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeStrikethrough:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeText:
-		return true
-	case CreateTemplateFromDocxRequestDocumentsFieldsTypeVerification:
+	case CreateTemplateFromDocxRequestDocumentFieldTypeVerification:
 		return true
 	default:
 		return false
@@ -1199,222 +434,222 @@ func (e CreateTemplateFromHtmlRequestSize) Valid() bool {
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign.
+// Defines values for CreateTemplateFromPdfRequestDocumentFieldType.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignCenter CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign = "center"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignLeft   CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign = "left"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignRight  CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign = "right"
+	CreateTemplateFromPdfRequestDocumentFieldTypeCells         CreateTemplateFromPdfRequestDocumentFieldType = "cells"
+	CreateTemplateFromPdfRequestDocumentFieldTypeCheckbox      CreateTemplateFromPdfRequestDocumentFieldType = "checkbox"
+	CreateTemplateFromPdfRequestDocumentFieldTypeDate          CreateTemplateFromPdfRequestDocumentFieldType = "date"
+	CreateTemplateFromPdfRequestDocumentFieldTypeFile          CreateTemplateFromPdfRequestDocumentFieldType = "file"
+	CreateTemplateFromPdfRequestDocumentFieldTypeHeading       CreateTemplateFromPdfRequestDocumentFieldType = "heading"
+	CreateTemplateFromPdfRequestDocumentFieldTypeImage         CreateTemplateFromPdfRequestDocumentFieldType = "image"
+	CreateTemplateFromPdfRequestDocumentFieldTypeInitials      CreateTemplateFromPdfRequestDocumentFieldType = "initials"
+	CreateTemplateFromPdfRequestDocumentFieldTypeKba           CreateTemplateFromPdfRequestDocumentFieldType = "kba"
+	CreateTemplateFromPdfRequestDocumentFieldTypeMultiple      CreateTemplateFromPdfRequestDocumentFieldType = "multiple"
+	CreateTemplateFromPdfRequestDocumentFieldTypeNumber        CreateTemplateFromPdfRequestDocumentFieldType = "number"
+	CreateTemplateFromPdfRequestDocumentFieldTypePayment       CreateTemplateFromPdfRequestDocumentFieldType = "payment"
+	CreateTemplateFromPdfRequestDocumentFieldTypePhone         CreateTemplateFromPdfRequestDocumentFieldType = "phone"
+	CreateTemplateFromPdfRequestDocumentFieldTypeRadio         CreateTemplateFromPdfRequestDocumentFieldType = "radio"
+	CreateTemplateFromPdfRequestDocumentFieldTypeSelect        CreateTemplateFromPdfRequestDocumentFieldType = "select"
+	CreateTemplateFromPdfRequestDocumentFieldTypeSignature     CreateTemplateFromPdfRequestDocumentFieldType = "signature"
+	CreateTemplateFromPdfRequestDocumentFieldTypeStamp         CreateTemplateFromPdfRequestDocumentFieldType = "stamp"
+	CreateTemplateFromPdfRequestDocumentFieldTypeStrikethrough CreateTemplateFromPdfRequestDocumentFieldType = "strikethrough"
+	CreateTemplateFromPdfRequestDocumentFieldTypeText          CreateTemplateFromPdfRequestDocumentFieldType = "text"
+	CreateTemplateFromPdfRequestDocumentFieldTypeVerification  CreateTemplateFromPdfRequestDocumentFieldType = "verification"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign) Valid() bool {
+// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentFieldType enum.
+func (e CreateTemplateFromPdfRequestDocumentFieldType) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignCenter:
+	case CreateTemplateFromPdfRequestDocumentFieldTypeCells:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignLeft:
+	case CreateTemplateFromPdfRequestDocumentFieldTypeCheckbox:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlignRight:
+	case CreateTemplateFromPdfRequestDocumentFieldTypeDate:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeFile:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeHeading:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeImage:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeInitials:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeKba:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeMultiple:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeNumber:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypePayment:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypePhone:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeRadio:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeSelect:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeSignature:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeStamp:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeStrikethrough:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeText:
+		return true
+	case CreateTemplateFromPdfRequestDocumentFieldTypeVerification:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground.
+// Defines values for FieldPreferencesAlign.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundBlack CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground = "black"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundBlue  CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground = "blue"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundWhite CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground = "white"
+	FieldPreferencesAlignCenter FieldPreferencesAlign = "center"
+	FieldPreferencesAlignLeft   FieldPreferencesAlign = "left"
+	FieldPreferencesAlignRight  FieldPreferencesAlign = "right"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesAlign enum.
+func (e FieldPreferencesAlign) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundBlack:
+	case FieldPreferencesAlignCenter:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundBlue:
+	case FieldPreferencesAlignLeft:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackgroundWhite:
+	case FieldPreferencesAlignRight:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor.
+// Defines values for FieldPreferencesBackground.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorBlack CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor = "black"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorBlue  CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor = "blue"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorWhite CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor = "white"
+	FieldPreferencesBackgroundBlack FieldPreferencesBackground = "black"
+	FieldPreferencesBackgroundBlue  FieldPreferencesBackground = "blue"
+	FieldPreferencesBackgroundWhite FieldPreferencesBackground = "white"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesBackground enum.
+func (e FieldPreferencesBackground) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorBlack:
+	case FieldPreferencesBackgroundBlack:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorBlue:
+	case FieldPreferencesBackgroundBlue:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColorWhite:
+	case FieldPreferencesBackgroundWhite:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency.
+// Defines values for FieldPreferencesColor.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyAUD CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency = "AUD"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyCAD CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency = "CAD"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyEUR CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency = "EUR"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyGBP CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency = "GBP"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyUSD CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency = "USD"
+	FieldPreferencesColorBlack FieldPreferencesColor = "black"
+	FieldPreferencesColorBlue  FieldPreferencesColor = "blue"
+	FieldPreferencesColorWhite FieldPreferencesColor = "white"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesColor enum.
+func (e FieldPreferencesColor) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyAUD:
+	case FieldPreferencesColorBlack:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyCAD:
+	case FieldPreferencesColorBlue:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyEUR:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyGBP:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrencyUSD:
+	case FieldPreferencesColorWhite:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont.
+// Defines values for FieldPreferencesCurrency.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontCourier   CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont = "Courier"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontHelvetica CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont = "Helvetica"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTimes     CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont = "Times"
+	AUD FieldPreferencesCurrency = "AUD"
+	CAD FieldPreferencesCurrency = "CAD"
+	EUR FieldPreferencesCurrency = "EUR"
+	GBP FieldPreferencesCurrency = "GBP"
+	USD FieldPreferencesCurrency = "USD"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesCurrency enum.
+func (e FieldPreferencesCurrency) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontCourier:
+	case AUD:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontHelvetica:
+	case CAD:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTimes:
+	case EUR:
+		return true
+	case GBP:
+		return true
+	case USD:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType.
+// Defines values for FieldPreferencesFont.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeBold       CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType = "bold"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeBoldItalic CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType = "bold_italic"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeItalic     CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType = "italic"
+	Courier   FieldPreferencesFont = "Courier"
+	Helvetica FieldPreferencesFont = "Helvetica"
+	Times     FieldPreferencesFont = "Times"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesFont enum.
+func (e FieldPreferencesFont) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeBold:
+	case Courier:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeBoldItalic:
+	case Helvetica:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontTypeItalic:
+	case Times:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign.
+// Defines values for FieldPreferencesFontType.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignBottom CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign = "bottom"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignCenter CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign = "center"
-	CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignTop    CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign = "top"
+	Bold       FieldPreferencesFontType = "bold"
+	BoldItalic FieldPreferencesFontType = "bold_italic"
+	Italic     FieldPreferencesFontType = "italic"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesFontType enum.
+func (e FieldPreferencesFontType) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignBottom:
+	case Bold:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignCenter:
+	case BoldItalic:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValignTop:
+	case Italic:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for CreateTemplateFromPdfRequestDocumentsFieldsType.
+// Defines values for FieldPreferencesValign.
 const (
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeCells         CreateTemplateFromPdfRequestDocumentsFieldsType = "cells"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeCheckbox      CreateTemplateFromPdfRequestDocumentsFieldsType = "checkbox"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeDate          CreateTemplateFromPdfRequestDocumentsFieldsType = "date"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeFile          CreateTemplateFromPdfRequestDocumentsFieldsType = "file"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeHeading       CreateTemplateFromPdfRequestDocumentsFieldsType = "heading"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeImage         CreateTemplateFromPdfRequestDocumentsFieldsType = "image"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeInitials      CreateTemplateFromPdfRequestDocumentsFieldsType = "initials"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeKba           CreateTemplateFromPdfRequestDocumentsFieldsType = "kba"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeMultiple      CreateTemplateFromPdfRequestDocumentsFieldsType = "multiple"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeNumber        CreateTemplateFromPdfRequestDocumentsFieldsType = "number"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypePayment       CreateTemplateFromPdfRequestDocumentsFieldsType = "payment"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypePhone         CreateTemplateFromPdfRequestDocumentsFieldsType = "phone"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeRadio         CreateTemplateFromPdfRequestDocumentsFieldsType = "radio"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeSelect        CreateTemplateFromPdfRequestDocumentsFieldsType = "select"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeSignature     CreateTemplateFromPdfRequestDocumentsFieldsType = "signature"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeStamp         CreateTemplateFromPdfRequestDocumentsFieldsType = "stamp"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeStrikethrough CreateTemplateFromPdfRequestDocumentsFieldsType = "strikethrough"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeText          CreateTemplateFromPdfRequestDocumentsFieldsType = "text"
-	CreateTemplateFromPdfRequestDocumentsFieldsTypeVerification  CreateTemplateFromPdfRequestDocumentsFieldsType = "verification"
+	FieldPreferencesValignBottom FieldPreferencesValign = "bottom"
+	FieldPreferencesValignCenter FieldPreferencesValign = "center"
+	FieldPreferencesValignTop    FieldPreferencesValign = "top"
 )
 
-// Valid indicates whether the value is a known member of the CreateTemplateFromPdfRequestDocumentsFieldsType enum.
-func (e CreateTemplateFromPdfRequestDocumentsFieldsType) Valid() bool {
+// Valid indicates whether the value is a known member of the FieldPreferencesValign enum.
+func (e FieldPreferencesValign) Valid() bool {
 	switch e {
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeCells:
+	case FieldPreferencesValignBottom:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeCheckbox:
+	case FieldPreferencesValignCenter:
 		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeDate:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeFile:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeHeading:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeImage:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeInitials:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeKba:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeMultiple:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeNumber:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypePayment:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypePhone:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeRadio:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeSelect:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeSignature:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeStamp:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeStrikethrough:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeText:
-		return true
-	case CreateTemplateFromPdfRequestDocumentsFieldsTypeVerification:
+	case FieldPreferencesValignTop:
 		return true
 	default:
 		return false
@@ -1844,159 +1079,6 @@ func (e TemplateFieldType) Valid() bool {
 	}
 }
 
-// Defines values for UpdateSubmitterRequestFieldsPreferencesAlign.
-const (
-	UpdateSubmitterRequestFieldsPreferencesAlignCenter UpdateSubmitterRequestFieldsPreferencesAlign = "center"
-	UpdateSubmitterRequestFieldsPreferencesAlignLeft   UpdateSubmitterRequestFieldsPreferencesAlign = "left"
-	UpdateSubmitterRequestFieldsPreferencesAlignRight  UpdateSubmitterRequestFieldsPreferencesAlign = "right"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesAlign enum.
-func (e UpdateSubmitterRequestFieldsPreferencesAlign) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesAlignCenter:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesAlignLeft:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesAlignRight:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesBackground.
-const (
-	UpdateSubmitterRequestFieldsPreferencesBackgroundBlack UpdateSubmitterRequestFieldsPreferencesBackground = "black"
-	UpdateSubmitterRequestFieldsPreferencesBackgroundBlue  UpdateSubmitterRequestFieldsPreferencesBackground = "blue"
-	UpdateSubmitterRequestFieldsPreferencesBackgroundWhite UpdateSubmitterRequestFieldsPreferencesBackground = "white"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesBackground enum.
-func (e UpdateSubmitterRequestFieldsPreferencesBackground) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesBackgroundBlack:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesBackgroundBlue:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesBackgroundWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesColor.
-const (
-	UpdateSubmitterRequestFieldsPreferencesColorBlack UpdateSubmitterRequestFieldsPreferencesColor = "black"
-	UpdateSubmitterRequestFieldsPreferencesColorBlue  UpdateSubmitterRequestFieldsPreferencesColor = "blue"
-	UpdateSubmitterRequestFieldsPreferencesColorWhite UpdateSubmitterRequestFieldsPreferencesColor = "white"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesColor enum.
-func (e UpdateSubmitterRequestFieldsPreferencesColor) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesColorBlack:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesColorBlue:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesColorWhite:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesCurrency.
-const (
-	UpdateSubmitterRequestFieldsPreferencesCurrencyAUD UpdateSubmitterRequestFieldsPreferencesCurrency = "AUD"
-	UpdateSubmitterRequestFieldsPreferencesCurrencyCAD UpdateSubmitterRequestFieldsPreferencesCurrency = "CAD"
-	UpdateSubmitterRequestFieldsPreferencesCurrencyEUR UpdateSubmitterRequestFieldsPreferencesCurrency = "EUR"
-	UpdateSubmitterRequestFieldsPreferencesCurrencyGBP UpdateSubmitterRequestFieldsPreferencesCurrency = "GBP"
-	UpdateSubmitterRequestFieldsPreferencesCurrencyUSD UpdateSubmitterRequestFieldsPreferencesCurrency = "USD"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesCurrency enum.
-func (e UpdateSubmitterRequestFieldsPreferencesCurrency) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesCurrencyAUD:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesCurrencyCAD:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesCurrencyEUR:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesCurrencyGBP:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesCurrencyUSD:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesFont.
-const (
-	UpdateSubmitterRequestFieldsPreferencesFontCourier   UpdateSubmitterRequestFieldsPreferencesFont = "Courier"
-	UpdateSubmitterRequestFieldsPreferencesFontHelvetica UpdateSubmitterRequestFieldsPreferencesFont = "Helvetica"
-	UpdateSubmitterRequestFieldsPreferencesFontTimes     UpdateSubmitterRequestFieldsPreferencesFont = "Times"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesFont enum.
-func (e UpdateSubmitterRequestFieldsPreferencesFont) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesFontCourier:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesFontHelvetica:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesFontTimes:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesFontType.
-const (
-	UpdateSubmitterRequestFieldsPreferencesFontTypeBold       UpdateSubmitterRequestFieldsPreferencesFontType = "bold"
-	UpdateSubmitterRequestFieldsPreferencesFontTypeBoldItalic UpdateSubmitterRequestFieldsPreferencesFontType = "bold_italic"
-	UpdateSubmitterRequestFieldsPreferencesFontTypeItalic     UpdateSubmitterRequestFieldsPreferencesFontType = "italic"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesFontType enum.
-func (e UpdateSubmitterRequestFieldsPreferencesFontType) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesFontTypeBold:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesFontTypeBoldItalic:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesFontTypeItalic:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for UpdateSubmitterRequestFieldsPreferencesValign.
-const (
-	UpdateSubmitterRequestFieldsPreferencesValignBottom UpdateSubmitterRequestFieldsPreferencesValign = "bottom"
-	UpdateSubmitterRequestFieldsPreferencesValignCenter UpdateSubmitterRequestFieldsPreferencesValign = "center"
-	UpdateSubmitterRequestFieldsPreferencesValignTop    UpdateSubmitterRequestFieldsPreferencesValign = "top"
-)
-
-// Valid indicates whether the value is a known member of the UpdateSubmitterRequestFieldsPreferencesValign enum.
-func (e UpdateSubmitterRequestFieldsPreferencesValign) Valid() bool {
-	switch e {
-	case UpdateSubmitterRequestFieldsPreferencesValignBottom:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesValignCenter:
-		return true
-	case UpdateSubmitterRequestFieldsPreferencesValignTop:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for UpdateSubmitterResponseStatus.
 const (
 	UpdateSubmitterResponseStatusAwaiting  UpdateSubmitterResponseStatus = "awaiting"
@@ -2051,32 +1133,35 @@ func (e GetSubmissionsParamsStatus) Valid() bool {
 // AddDocumentToTemplateRequest defines model for AddDocumentToTemplateRequest.
 type AddDocumentToTemplateRequest struct {
 	// Documents The list of documents to add or replace in the template.
-	Documents *[]struct {
-		// File Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
-		File *string `json:"file,omitempty"`
-
-		// Html HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
-		Html *string `json:"html,omitempty"`
-
-		// Name Document name. Random uuid will be assigned when not specified.
-		//
-		// Examples: Test Template
-		Name *string `json:"name,omitempty"`
-
-		// Position Position of the document. By default will be added as the last document in the template.
-		//
-		// Examples: 0
-		Position *int `json:"position,omitempty"`
-
-		// Remove Set to `true` to remove existing document at given `position` or with given `name`.
-		Remove *bool `json:"remove,omitempty"`
-
-		// Replace Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
-		Replace *bool `json:"replace,omitempty"`
-	} `json:"documents,omitempty"`
+	Documents *[]AddDocumentToTemplateRequestDocument `json:"documents,omitempty"`
 
 	// Merge Set to `true` to merge all existing and new documents into a single PDF document in the template.
 	Merge *bool `json:"merge,omitempty"`
+}
+
+// AddDocumentToTemplateRequestDocument defines model for AddDocumentToTemplateRequestDocument.
+type AddDocumentToTemplateRequestDocument struct {
+	// File Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
+	File *string `json:"file,omitempty"`
+
+	// Html HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
+	Html *string `json:"html,omitempty"`
+
+	// Name Document name. Random uuid will be assigned when not specified.
+	//
+	// Examples: Test Template
+	Name *string `json:"name,omitempty"`
+
+	// Position Position of the document. By default will be added as the last document in the template.
+	//
+	// Examples: 0
+	Position *int `json:"position,omitempty"`
+
+	// Remove Set to `true` to remove existing document at given `position` or with given `name`.
+	Remove *bool `json:"remove,omitempty"`
+
+	// Replace Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
+	Replace *bool `json:"replace,omitempty"`
 }
 
 // ArchiveSubmissionResponse defines model for ArchiveSubmissionResponse.
@@ -2129,18 +1214,7 @@ type CreateSubmissionFromDocxRequest struct {
 	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
 
 	// Documents An array of DOCX documents to create a submission.
-	Documents []struct {
-		// File Base64-encoded content of the PDF or DOCX file or downloadable file URL.
-		//
-		// Examples: base64
-		File string `json:"file"`
-
-		// Name Name of the document.
-		Name string `json:"name"`
-
-		// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-		Position *int `json:"position,omitempty"`
-	} `json:"documents"`
+	Documents []CreateSubmissionFromDocxRequestDocument `json:"documents"`
 
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
@@ -2151,13 +1225,7 @@ type CreateSubmissionFromDocxRequest struct {
 	MergeDocuments *bool `json:"merge_documents,omitempty"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionFromPdfRequestMessage `json:"message,omitempty"`
 
 	// Name Name of the document submission.
 	//
@@ -2180,156 +1248,7 @@ type CreateSubmissionFromDocxRequest struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Submitters The list of submitters for the submission.
-	Submitters []struct {
-		// Completed Pass `true` to mark submitter as completed and auto-signed via API.
-		Completed *bool `json:"completed,omitempty"`
-
-		// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-		CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
-
-		// Email The email address of the submitter.
-		//
-		// Examples: john.doe@example.com
-		Email *openapi_types.Email `json:"email,omitempty"`
-
-		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id,omitempty"`
-
-		// Fields A list of configurations for document form fields.
-		Fields *[]struct {
-			// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-			//
-			// Examples: Acme
-			DefaultValue *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue `json:"default_value,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Document field name.
-			//
-			// Examples: First Name
-			Name string `json:"name"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
-			Readonly *bool `json:"readonly,omitempty"`
-
-			// Required Set `true` to make the field required.
-			Required *bool `json:"required,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// InviteBy Set the role name of the previous party that should invite this party via email.
-		InviteBy *string `json:"invite_by,omitempty"`
-
-		// Metadata Metadata object with additional submitter information.
-		//
-		// Examples: { "customField": "value" }
-		Metadata *map[string]interface{} `json:"metadata,omitempty"`
-
-		// Name The name of the submitter.
-		Name *string `json:"name,omitempty"`
-
-		// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-		Order *int `json:"order,omitempty"`
-
-		// Phone The phone number of the submitter, formatted according to the E.164 standard.
-		//
-		// Examples: +1234567890
-		Phone *string `json:"phone,omitempty"`
-
-		// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-		ReplyTo *string `json:"reply_to,omitempty"`
-
-		// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-		RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
-
-		// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
-		RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
-
-		// Role The role name or title of the submitter.
-		//
-		// Examples: First Party
-		Role *string `json:"role,omitempty"`
-
-		// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-		Roles *[]string `json:"roles,omitempty"`
-
-		// SendEmail Set `false` to disable signature request emails sending only for this submitter.
-		SendEmail *bool `json:"send_email,omitempty"`
-
-		// SendSms Set `true` to send signature request via phone number and SMS.
-		SendSms *bool `json:"send_sms,omitempty"`
-
-		// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-		Values *map[string]interface{} `json:"values,omitempty"`
-	} `json:"submitters"`
+	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIds *[]int `json:"template_ids,omitempty"`
@@ -2343,91 +1262,18 @@ type CreateSubmissionFromDocxRequest struct {
 // CreateSubmissionFromDocxRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 type CreateSubmissionFromDocxRequestOrder string
 
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0 = string
+// CreateSubmissionFromDocxRequestDocument defines model for CreateSubmissionFromDocxRequestDocument.
+type CreateSubmissionFromDocxRequestDocument struct {
+	// File Base64-encoded content of the PDF or DOCX file or downloadable file URL.
+	//
+	// Examples: base64
+	File string `json:"file"`
 
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1 = float32
+	// Name Name of the document.
+	Name string `json:"name"`
 
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2 = bool
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3 = []CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30 = string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31 = float32
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32 = bool
-
-// CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item defines model for CreateSubmissionFromDocxRequest.Submitters.Fields.DefaultValue.3.Item.
-type CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-//
-// Examples: Acme
-type CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesAlign string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground Field box background color.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesBackground string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor Font color of the field value.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesColor string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesCurrency string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont Font family of the field value.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFont string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType Font type of the field value.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesFontType string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0 = int
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1 = bool
-
-// CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesValign string
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0 = float32
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1 = string
-
-// CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0 = float32
-
-// CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1 defines model for .
-type CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1 = string
-
-// CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min struct {
-	union json.RawMessage
+	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
+	Position *int `json:"position,omitempty"`
 }
 
 // CreateSubmissionFromHtmlRequest defines model for CreateSubmissionFromHtmlRequest.
@@ -2439,38 +1285,7 @@ type CreateSubmissionFromHtmlRequest struct {
 	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
 
 	// Documents The list of documents built from HTML. Can be used to create a submission with multiple documents.
-	Documents []struct {
-		// Html HTML document content with field tags.
-		//
-		// Examples: <p>Lorem Ipsum is simply dummy text of the
-		// <text-field
-		//   name="Industry"
-		//   role="First Party"
-		//   required="false"
-		//   style="width: 80px; height: 16px; display: inline-block; margin-bottom: -4px">
-		// </text-field>
-		// and typesetting industry</p>
-		Html string `json:"html"`
-
-		// HtmlFooter HTML document content of the footer to be displayed on every page.
-		HtmlFooter *string `json:"html_footer,omitempty"`
-
-		// HtmlHeader HTML document content of the header to be displayed on every page.
-		HtmlHeader *string `json:"html_header,omitempty"`
-
-		// Name Document name. Random uuid will be assigned when not specified.
-		//
-		// Examples: Test Document
-		Name *string `json:"name,omitempty"`
-
-		// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-		Position *int `json:"position,omitempty"`
-
-		// Size Page size. Letter 8.5 x 11 will be assigned when not specified.
-		//
-		// Examples: A4
-		Size *CreateSubmissionFromHtmlRequestDocumentsSize `json:"size,omitempty"`
-	} `json:"documents"`
+	Documents []CreateSubmissionFromHtmlRequestDocument `json:"documents"`
 
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
@@ -2481,13 +1296,7 @@ type CreateSubmissionFromHtmlRequest struct {
 	MergeDocuments *bool `json:"merge_documents,omitempty"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionFromPdfRequestMessage `json:"message,omitempty"`
 
 	// Name Name of the document submission.
 	//
@@ -2507,255 +1316,53 @@ type CreateSubmissionFromHtmlRequest struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Submitters The list of submitters for the submission.
-	Submitters []struct {
-		// Completed Pass `true` to mark submitter as completed and auto-signed via API.
-		Completed *bool `json:"completed,omitempty"`
-
-		// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-		CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
-
-		// Email The email address of the submitter.
-		//
-		// Examples: john.doe@example.com
-		Email *openapi_types.Email `json:"email,omitempty"`
-
-		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id,omitempty"`
-
-		// Fields A list of configurations for document form fields.
-		Fields *[]struct {
-			// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-			//
-			// Examples: Acme
-			DefaultValue *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue `json:"default_value,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Document field name.
-			//
-			// Examples: First Name
-			Name string `json:"name"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
-			Readonly *bool `json:"readonly,omitempty"`
-
-			// Required Set `true` to make the field required.
-			Required *bool `json:"required,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// InviteBy Set the role name of the previous party that should invite this party via email.
-		InviteBy *string `json:"invite_by,omitempty"`
-
-		// Metadata Metadata object with additional submitter information.
-		//
-		// Examples: { "customField": "value" }
-		Metadata *map[string]interface{} `json:"metadata,omitempty"`
-
-		// Name The name of the submitter.
-		Name *string `json:"name,omitempty"`
-
-		// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-		Order *int `json:"order,omitempty"`
-
-		// Phone The phone number of the submitter, formatted according to the E.164 standard.
-		//
-		// Examples: +1234567890
-		Phone *string `json:"phone,omitempty"`
-
-		// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-		ReplyTo *string `json:"reply_to,omitempty"`
-
-		// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-		RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
-
-		// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
-		RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
-
-		// Role The role name or title of the submitter.
-		//
-		// Examples: First Party
-		Role *string `json:"role,omitempty"`
-
-		// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-		Roles *[]string `json:"roles,omitempty"`
-
-		// SendEmail Set `false` to disable signature request emails sending only for this submitter.
-		SendEmail *bool `json:"send_email,omitempty"`
-
-		// SendSms Set `true` to send signature request via phone number and SMS.
-		SendSms *bool `json:"send_sms,omitempty"`
-
-		// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-		Values *map[string]interface{} `json:"values,omitempty"`
-	} `json:"submitters"`
+	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIds *[]int `json:"template_ids,omitempty"`
 }
 
-// CreateSubmissionFromHtmlRequestDocumentsSize Page size. Letter 8.5 x 11 will be assigned when not specified.
-//
-// Examples: A4
-type CreateSubmissionFromHtmlRequestDocumentsSize string
-
 // CreateSubmissionFromHtmlRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 type CreateSubmissionFromHtmlRequestOrder string
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0 = string
+// CreateSubmissionFromHtmlRequestDocument defines model for CreateSubmissionFromHtmlRequestDocument.
+type CreateSubmissionFromHtmlRequestDocument struct {
+	// Html HTML document content with field tags.
+	//
+	// Examples: <p>Lorem Ipsum is simply dummy text of the
+	// <text-field
+	//   name="Industry"
+	//   role="First Party"
+	//   required="false"
+	//   style="width: 80px; height: 16px; display: inline-block; margin-bottom: -4px">
+	// </text-field>
+	// and typesetting industry</p>
+	Html string `json:"html"`
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1 = float32
+	// HtmlFooter HTML document content of the footer to be displayed on every page.
+	HtmlFooter *string `json:"html_footer,omitempty"`
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2 = bool
+	// HtmlHeader HTML document content of the header to be displayed on every page.
+	HtmlHeader *string `json:"html_header,omitempty"`
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3 = []CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item
+	// Name Document name. Random uuid will be assigned when not specified.
+	//
+	// Examples: Test Document
+	Name *string `json:"name,omitempty"`
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30 = string
+	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
+	Position *int `json:"position,omitempty"`
 
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31 = float32
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32 = bool
-
-// CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item defines model for CreateSubmissionFromHtmlRequest.Submitters.Fields.DefaultValue.3.Item.
-type CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item struct {
-	union json.RawMessage
+	// Size Page size. Letter 8.5 x 11 will be assigned when not specified.
+	//
+	// Examples: A4
+	Size *CreateSubmissionFromHtmlRequestDocumentSize `json:"size,omitempty"`
 }
 
-// CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+// CreateSubmissionFromHtmlRequestDocumentSize Page size. Letter 8.5 x 11 will be assigned when not specified.
 //
-// Examples: Acme
-type CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesAlign string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground Field box background color.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesBackground string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor Font color of the field value.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesColor string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesCurrency string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont Font family of the field value.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFont string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType Font type of the field value.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesFontType string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0 = int
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1 = bool
-
-// CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesValign string
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0 = float32
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1 = string
-
-// CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0 = float32
-
-// CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1 defines model for .
-type CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1 = string
-
-// CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min struct {
-	union json.RawMessage
-}
+// Examples: A4
+type CreateSubmissionFromHtmlRequestDocumentSize string
 
 // CreateSubmissionFromPdfRequest defines model for CreateSubmissionFromPdfRequest.
 type CreateSubmissionFromPdfRequest struct {
@@ -2766,67 +1373,7 @@ type CreateSubmissionFromPdfRequest struct {
 	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
 
 	// Documents An array of PDF documents to create a submission.
-	Documents []struct {
-		// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-		Fields *[]struct {
-			// Areas List of areas where the field is located in the document.
-			Areas *[]struct {
-				// H Height of the field area.
-				H float32 `json:"h"`
-
-				// Option Option string value for 'radio' and 'multiple' select field types.
-				Option *string `json:"option,omitempty"`
-
-				// Page Page number of the field area. Starts from 1.
-				//
-				// Examples: 1
-				Page int `json:"page"`
-
-				// W Width of the field area.
-				W float32 `json:"w"`
-
-				// X X-coordinate of the field area.
-				X float32 `json:"x"`
-
-				// Y Y-coordinate of the field area.
-				Y float32 `json:"y"`
-			} `json:"areas,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Name of the field.
-			Name *string `json:"name,omitempty"`
-
-			// Options An array of option values for 'select' field type.
-			//
-			// Examples: ["Option A","Option B"]
-			Options *[]string `json:"options,omitempty"`
-
-			// Required Indicates if the field is required.
-			Required *bool `json:"required,omitempty"`
-
-			// Role Role name of the signer.
-			Role *string `json:"role,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Type Type of the field (e.g., text, signature, date, initials).
-			Type *CreateSubmissionFromPdfRequestDocumentsFieldsType `json:"type,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// File Base64-encoded content of the PDF file or downloadable file URL.
-		//
-		// Examples: base64
-		File string `json:"file"`
-
-		// Name Name of the document.
-		Name string `json:"name"`
-
-		// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-		Position *int `json:"position,omitempty"`
-	} `json:"documents"`
+	Documents []CreateSubmissionFromPdfRequestDocument `json:"documents"`
 
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
@@ -2840,13 +1387,7 @@ type CreateSubmissionFromPdfRequest struct {
 	MergeDocuments *bool `json:"merge_documents,omitempty"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionFromPdfRequestMessage `json:"message,omitempty"`
 
 	// Name Name of the document submission.
 	//
@@ -2869,251 +1410,222 @@ type CreateSubmissionFromPdfRequest struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Submitters The list of submitters for the submission.
-	Submitters []struct {
-		// Completed Pass `true` to mark submitter as completed and auto-signed via API.
-		Completed *bool `json:"completed,omitempty"`
-
-		// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-		CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
-
-		// Email The email address of the submitter.
-		//
-		// Examples: john.doe@example.com
-		Email *openapi_types.Email `json:"email,omitempty"`
-
-		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id,omitempty"`
-
-		// Fields A list of configurations for document form fields.
-		Fields *[]struct {
-			// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-			//
-			// Examples: Acme
-			DefaultValue *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue `json:"default_value,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Document field name.
-			//
-			// Examples: First Name
-			Name string `json:"name"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
-			Readonly *bool `json:"readonly,omitempty"`
-
-			// Required Set `true` to make the field required.
-			Required *bool `json:"required,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// InviteBy Set the role name of the previous party that should invite this party via email.
-		InviteBy *string `json:"invite_by,omitempty"`
-
-		// Metadata Metadata object with additional submitter information.
-		//
-		// Examples: { "customField": "value" }
-		Metadata *map[string]interface{} `json:"metadata,omitempty"`
-
-		// Name The name of the submitter.
-		Name *string `json:"name,omitempty"`
-
-		// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-		Order *int `json:"order,omitempty"`
-
-		// Phone The phone number of the submitter, formatted according to the E.164 standard.
-		//
-		// Examples: +1234567890
-		Phone *string `json:"phone,omitempty"`
-
-		// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-		ReplyTo *string `json:"reply_to,omitempty"`
-
-		// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-		RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
-
-		// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
-		RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
-
-		// Role The role name or title of the submitter.
-		//
-		// Examples: First Party
-		Role *string `json:"role,omitempty"`
-
-		// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-		Roles *[]string `json:"roles,omitempty"`
-
-		// SendEmail Set `false` to disable signature request emails sending only for this submitter.
-		SendEmail *bool `json:"send_email,omitempty"`
-
-		// SendSms Set `true` to send signature request via phone number and SMS.
-		SendSms *bool `json:"send_sms,omitempty"`
-
-		// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-		Values *map[string]interface{} `json:"values,omitempty"`
-	} `json:"submitters"`
+	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIds *[]int `json:"template_ids,omitempty"`
 }
 
-// CreateSubmissionFromPdfRequestDocumentsFieldsType Type of the field (e.g., text, signature, date, initials).
-type CreateSubmissionFromPdfRequestDocumentsFieldsType string
-
 // CreateSubmissionFromPdfRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 type CreateSubmissionFromPdfRequestOrder string
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0 = string
+// CreateSubmissionFromPdfRequestDocument defines model for CreateSubmissionFromPdfRequestDocument.
+type CreateSubmissionFromPdfRequestDocument struct {
+	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
+	Fields *[]CreateSubmissionFromPdfRequestDocumentField `json:"fields,omitempty"`
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1 = float32
+	// File Base64-encoded content of the PDF file or downloadable file URL.
+	//
+	// Examples: base64
+	File string `json:"file"`
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2 = bool
+	// Name Name of the document.
+	Name string `json:"name"`
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3 = []CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item
+	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
+	Position *int `json:"position,omitempty"`
+}
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30 = string
+// CreateSubmissionFromPdfRequestDocumentField defines model for CreateSubmissionFromPdfRequestDocumentField.
+type CreateSubmissionFromPdfRequestDocumentField struct {
+	// Areas List of areas where the field is located in the document.
+	Areas *[]CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31 = float32
+	// Description Field description displayed on the signing form. Supports Markdown.
+	Description *string `json:"description,omitempty"`
 
-// CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32 = bool
+	// Name Name of the field.
+	Name *string `json:"name,omitempty"`
 
-// CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item defines model for CreateSubmissionFromPdfRequest.Submitters.Fields.DefaultValue.3.Item.
-type CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item struct {
+	// Options An array of option values for 'select' field type.
+	//
+	// Examples: ["Option A","Option B"]
+	Options *[]string `json:"options,omitempty"`
+
+	// Required Indicates if the field is required.
+	Required *bool `json:"required,omitempty"`
+
+	// Role Role name of the signer.
+	Role *string `json:"role,omitempty"`
+
+	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title *string `json:"title,omitempty"`
+
+	// Type Type of the field (e.g., text, signature, date, initials).
+	Type *CreateSubmissionFromPdfRequestDocumentFieldType `json:"type,omitempty"`
+}
+
+// CreateSubmissionFromPdfRequestDocumentFieldType Type of the field (e.g., text, signature, date, initials).
+type CreateSubmissionFromPdfRequestDocumentFieldType string
+
+// CreateSubmissionFromPdfRequestDocumentFieldArea defines model for CreateSubmissionFromPdfRequestDocumentFieldArea.
+type CreateSubmissionFromPdfRequestDocumentFieldArea struct {
+	// H Height of the field area.
+	H float32 `json:"h"`
+
+	// Option Option string value for 'radio' and 'multiple' select field types.
+	Option *string `json:"option,omitempty"`
+
+	// Page Page number of the field area. Starts from 1.
+	//
+	// Examples: 1
+	Page int `json:"page"`
+
+	// W Width of the field area.
+	W float32 `json:"w"`
+
+	// X X-coordinate of the field area.
+	X float32 `json:"x"`
+
+	// Y Y-coordinate of the field area.
+	Y float32 `json:"y"`
+}
+
+// CreateSubmissionFromPdfRequestMessage Custom signature request email message.
+type CreateSubmissionFromPdfRequestMessage struct {
+	// Body Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
+	Body *string `json:"body,omitempty"`
+
+	// Subject Custom signature request email subject.
+	Subject *string `json:"subject,omitempty"`
+}
+
+// CreateSubmissionFromPdfRequestSubmitter defines model for CreateSubmissionFromPdfRequestSubmitter.
+type CreateSubmissionFromPdfRequestSubmitter struct {
+	// Completed Pass `true` to mark submitter as completed and auto-signed via API.
+	Completed *bool `json:"completed,omitempty"`
+
+	// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
+	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+
+	// Email The email address of the submitter.
+	//
+	// Examples: john.doe@example.com
+	Email *openapi_types.Email `json:"email,omitempty"`
+
+	// ExternalId Your application-specific unique string key to identify this submitter within your app.
+	ExternalId *string `json:"external_id,omitempty"`
+
+	// Fields A list of configurations for document form fields.
+	Fields *[]CreateSubmissionFromPdfRequestSubmitterField `json:"fields,omitempty"`
+
+	// InviteBy Set the role name of the previous party that should invite this party via email.
+	InviteBy *string `json:"invite_by,omitempty"`
+
+	// Metadata Metadata object with additional submitter information.
+	//
+	// Examples: { "customField": "value" }
+	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+
+	// Name The name of the submitter.
+	Name *string `json:"name,omitempty"`
+
+	// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
+	Order *int `json:"order,omitempty"`
+
+	// Phone The phone number of the submitter, formatted according to the E.164 standard.
+	//
+	// Examples: +1234567890
+	Phone *string `json:"phone,omitempty"`
+
+	// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
+	ReplyTo *string `json:"reply_to,omitempty"`
+
+	// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
+	RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
+
+	// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
+	RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
+
+	// Role The role name or title of the submitter.
+	//
+	// Examples: First Party
+	Role *string `json:"role,omitempty"`
+
+	// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
+	Roles *[]string `json:"roles,omitempty"`
+
+	// SendEmail Set `false` to disable signature request emails sending only for this submitter.
+	SendEmail *bool `json:"send_email,omitempty"`
+
+	// SendSms Set `true` to send signature request via phone number and SMS.
+	SendSms *bool `json:"send_sms,omitempty"`
+
+	// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
+	Values *map[string]interface{} `json:"values,omitempty"`
+}
+
+// CreateSubmissionFromPdfRequestSubmitterField defines model for CreateSubmissionFromPdfRequestSubmitterField.
+type CreateSubmissionFromPdfRequestSubmitterField struct {
+	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+	//
+	// Examples: Acme
+	DefaultValue *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
+
+	// Description Field description displayed on the signing form. Supports Markdown.
+	Description *string `json:"description,omitempty"`
+
+	// Name Document field name.
+	//
+	// Examples: First Name
+	Name string `json:"name"`
+
+	// Preferences Field display preferences.
+	Preferences *FieldPreferences `json:"preferences,omitempty"`
+
+	// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
+	Readonly *bool `json:"readonly,omitempty"`
+
+	// Required Set `true` to make the field required.
+	Required *bool `json:"required,omitempty"`
+
+	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title *string `json:"title,omitempty"`
+
+	// Validation Field validation rules.
+	Validation *FieldValidation `json:"validation,omitempty"`
+}
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0 = string
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1 = float32
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2 = bool
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3 = []CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30 = string
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31 = float32
+
+// CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32 defines model for .
+type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32 = bool
+
+// CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item defines model for CreateSubmissionFromPdfRequestSubmitterField.DefaultValue.3.Item.
+type CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item struct {
 	union json.RawMessage
 }
 
-// CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+// CreateSubmissionFromPdfRequestSubmitterField_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 //
 // Examples: Acme
-type CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesAlign string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground Field box background color.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesBackground string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor Font color of the field value.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesColor string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesCurrency string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont Font family of the field value.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFont string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType Font type of the field value.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesFontType string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0 = int
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1 = bool
-
-// CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesValign string
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0 = float32
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1 = string
-
-// CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0 = float32
-
-// CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1 defines model for .
-type CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1 = string
-
-// CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min struct {
+type CreateSubmissionFromPdfRequestSubmitterField_DefaultValue struct {
 	union json.RawMessage
 }
 
@@ -3241,13 +1753,7 @@ type CreateSubmissionRequest struct {
 	ExpireAt *string `json:"expire_at,omitempty"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty"`
 
 	// Order Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 	Order *CreateSubmissionRequestOrder `json:"order,omitempty"`
@@ -3262,162 +1768,7 @@ type CreateSubmissionRequest struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Submitters The list of submitters for the submission.
-	Submitters []struct {
-		// Completed Pass `true` to mark submitter as completed and auto-signed via API.
-		Completed *bool `json:"completed,omitempty"`
-
-		// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-		CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
-
-		// Email The email address of the submitter.
-		//
-		// Examples: john.doe@example.com
-		Email *openapi_types.Email `json:"email,omitempty"`
-
-		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id,omitempty"`
-
-		// Fields A list of configurations for template document form fields.
-		Fields *[]struct {
-			// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-			//
-			// Examples: Acme
-			DefaultValue *CreateSubmissionRequest_Submitters_Fields_DefaultValue `json:"default_value,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Document template field name.
-			//
-			// Examples: First Name
-			Name string `json:"name"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateSubmissionRequestSubmittersFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateSubmissionRequestSubmittersFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateSubmissionRequestSubmittersFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateSubmissionRequestSubmittersFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateSubmissionRequestSubmittersFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateSubmissionRequestSubmittersFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateSubmissionRequestSubmittersFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
-			Readonly *bool `json:"readonly,omitempty"`
-
-			// Required Set `true` to make the field required.
-			Required *bool `json:"required,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateSubmissionRequest_Submitters_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateSubmissionRequest_Submitters_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// Message Custom signature request email message for the submitter.
-		Message *struct {
-			// Body Custom signature request email body for the submitter. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-			Body *string `json:"body,omitempty"`
-
-			// Subject Custom signature request email subject for the submitter.
-			Subject *string `json:"subject,omitempty"`
-		} `json:"message,omitempty"`
-
-		// Metadata Metadata object with additional submitter information.
-		//
-		// Examples: { "customField": "value" }
-		Metadata *map[string]interface{} `json:"metadata,omitempty"`
-
-		// Name The name of the submitter.
-		Name *string `json:"name,omitempty"`
-
-		// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-		Order *int `json:"order,omitempty"`
-
-		// Phone The phone number of the submitter, formatted according to the E.164 standard.
-		//
-		// Examples: +1234567890
-		Phone *string `json:"phone,omitempty"`
-
-		// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-		ReplyTo *string `json:"reply_to,omitempty"`
-
-		// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-		RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
-
-		// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
-		RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
-
-		// Role The role name or title of the submitter.
-		//
-		// Examples: First Party
-		Role *string `json:"role,omitempty"`
-
-		// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-		Roles *[]string `json:"roles,omitempty"`
-
-		// SendEmail Set `false` to disable signature request emails sending only for this submitter.
-		SendEmail *bool `json:"send_email,omitempty"`
-
-		// SendSms Set `true` to send signature request via phone number and SMS.
-		SendSms *bool `json:"send_sms,omitempty"`
-
-		// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-		Values *map[string]interface{} `json:"values,omitempty"`
-	} `json:"submitters"`
+	Submitters []CreateSubmissionRequestSubmitter `json:"submitters"`
 
 	// TemplateId The unique identifier of the template. Document template forms can be created via the Web UI, <a href="https://www.docuseal.com/guides/use-embedded-text-field-tags-in-the-pdf-to-create-a-fillable-form" class="link">PDF and DOCX API</a>, or <a href="https://www.docuseal.com/guides/create-pdf-document-fillable-form-with-html-api" class="link">HTML API</a>.
 	//
@@ -3433,91 +1784,142 @@ type CreateSubmissionRequest struct {
 // CreateSubmissionRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 type CreateSubmissionRequestOrder string
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue0 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue0 = string
+// CreateSubmissionRequestSubmitter defines model for CreateSubmissionRequestSubmitter.
+type CreateSubmissionRequestSubmitter struct {
+	// Completed Pass `true` to mark submitter as completed and auto-signed via API.
+	Completed *bool `json:"completed,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue1 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue1 = float32
+	// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
+	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue2 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue2 = bool
+	// Email The email address of the submitter.
+	//
+	// Examples: john.doe@example.com
+	Email *openapi_types.Email `json:"email,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue3 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue3 = []CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item
+	// ExternalId Your application-specific unique string key to identify this submitter within your app.
+	ExternalId *string `json:"external_id,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue30 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue30 = string
+	// Fields A list of configurations for template document form fields.
+	Fields *[]CreateSubmissionRequestSubmitterField `json:"fields,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue31 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue31 = float32
+	// Message Custom signature request email message for the submitter.
+	Message *CreateSubmissionRequestSubmitterMessage `json:"message,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsDefaultValue32 defines model for .
-type CreateSubmissionRequestSubmittersFieldsDefaultValue32 = bool
+	// Metadata Metadata object with additional submitter information.
+	//
+	// Examples: { "customField": "value" }
+	Metadata *map[string]interface{} `json:"metadata,omitempty"`
 
-// CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item defines model for CreateSubmissionRequest.Submitters.Fields.DefaultValue.3.Item.
-type CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item struct {
+	// Name The name of the submitter.
+	Name *string `json:"name,omitempty"`
+
+	// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
+	Order *int `json:"order,omitempty"`
+
+	// Phone The phone number of the submitter, formatted according to the E.164 standard.
+	//
+	// Examples: +1234567890
+	Phone *string `json:"phone,omitempty"`
+
+	// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
+	ReplyTo *string `json:"reply_to,omitempty"`
+
+	// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
+	RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
+
+	// RequirePhone2fa Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
+	RequirePhone2fa *bool `json:"require_phone_2fa,omitempty"`
+
+	// Role The role name or title of the submitter.
+	//
+	// Examples: First Party
+	Role *string `json:"role,omitempty"`
+
+	// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
+	Roles *[]string `json:"roles,omitempty"`
+
+	// SendEmail Set `false` to disable signature request emails sending only for this submitter.
+	SendEmail *bool `json:"send_email,omitempty"`
+
+	// SendSms Set `true` to send signature request via phone number and SMS.
+	SendSms *bool `json:"send_sms,omitempty"`
+
+	// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
+	Values *map[string]interface{} `json:"values,omitempty"`
+}
+
+// CreateSubmissionRequestSubmitterField defines model for CreateSubmissionRequestSubmitterField.
+type CreateSubmissionRequestSubmitterField struct {
+	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+	//
+	// Examples: Acme
+	DefaultValue *CreateSubmissionRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
+
+	// Description Field description displayed on the signing form. Supports Markdown.
+	Description *string `json:"description,omitempty"`
+
+	// Name Document template field name.
+	//
+	// Examples: First Name
+	Name string `json:"name"`
+
+	// Preferences Field display preferences.
+	Preferences *FieldPreferences `json:"preferences,omitempty"`
+
+	// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
+	Readonly *bool `json:"readonly,omitempty"`
+
+	// Required Set `true` to make the field required.
+	Required *bool `json:"required,omitempty"`
+
+	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title *string `json:"title,omitempty"`
+
+	// Validation Field validation rules.
+	Validation *FieldValidation `json:"validation,omitempty"`
+}
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue0 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue0 = string
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue1 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue1 = float32
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue2 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue2 = bool
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue3 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue3 = []CreateSubmissionRequestSubmitterField_DefaultValue_3_Item
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue30 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue30 = string
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue31 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue31 = float32
+
+// CreateSubmissionRequestSubmitterFieldDefaultValue32 defines model for .
+type CreateSubmissionRequestSubmitterFieldDefaultValue32 = bool
+
+// CreateSubmissionRequestSubmitterField_DefaultValue_3_Item defines model for CreateSubmissionRequestSubmitterField.DefaultValue.3.Item.
+type CreateSubmissionRequestSubmitterField_DefaultValue_3_Item struct {
 	union json.RawMessage
 }
 
-// CreateSubmissionRequest_Submitters_Fields_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+// CreateSubmissionRequestSubmitterField_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 //
 // Examples: Acme
-type CreateSubmissionRequest_Submitters_Fields_DefaultValue struct {
+type CreateSubmissionRequestSubmitterField_DefaultValue struct {
 	union json.RawMessage
 }
 
-// CreateSubmissionRequestSubmittersFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateSubmissionRequestSubmittersFieldsPreferencesAlign string
+// CreateSubmissionRequestSubmitterMessage Custom signature request email message for the submitter.
+type CreateSubmissionRequestSubmitterMessage struct {
+	// Body Custom signature request email body for the submitter. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
+	Body *string `json:"body,omitempty"`
 
-// CreateSubmissionRequestSubmittersFieldsPreferencesBackground Field box background color.
-type CreateSubmissionRequestSubmittersFieldsPreferencesBackground string
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesColor Font color of the field value.
-type CreateSubmissionRequestSubmittersFieldsPreferencesColor string
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateSubmissionRequestSubmittersFieldsPreferencesCurrency string
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesFont Font family of the field value.
-type CreateSubmissionRequestSubmittersFieldsPreferencesFont string
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesFontType Font type of the field value.
-type CreateSubmissionRequestSubmittersFieldsPreferencesFontType string
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesMask0 defines model for .
-type CreateSubmissionRequestSubmittersFieldsPreferencesMask0 = int
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesMask1 defines model for .
-type CreateSubmissionRequestSubmittersFieldsPreferencesMask1 = bool
-
-// CreateSubmissionRequest_Submitters_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateSubmissionRequest_Submitters_Fields_Preferences_Mask struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionRequestSubmittersFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateSubmissionRequestSubmittersFieldsPreferencesValign string
-
-// CreateSubmissionRequestSubmittersFieldsValidationMax0 defines model for .
-type CreateSubmissionRequestSubmittersFieldsValidationMax0 = float32
-
-// CreateSubmissionRequestSubmittersFieldsValidationMax1 defines model for .
-type CreateSubmissionRequestSubmittersFieldsValidationMax1 = string
-
-// CreateSubmissionRequest_Submitters_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateSubmissionRequest_Submitters_Fields_Validation_Max struct {
-	union json.RawMessage
-}
-
-// CreateSubmissionRequestSubmittersFieldsValidationMin0 defines model for .
-type CreateSubmissionRequestSubmittersFieldsValidationMin0 = float32
-
-// CreateSubmissionRequestSubmittersFieldsValidationMin1 defines model for .
-type CreateSubmissionRequestSubmittersFieldsValidationMin1 = string
-
-// CreateSubmissionRequest_Submitters_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateSubmissionRequest_Submitters_Fields_Validation_Min struct {
-	union json.RawMessage
+	// Subject Custom signature request email subject for the submitter.
+	Subject *string `json:"subject,omitempty"`
 }
 
 // CreateSubmissionsFromEmailsRequest defines model for CreateSubmissionsFromEmailsRequest.
@@ -3528,13 +1930,7 @@ type CreateSubmissionsFromEmailsRequest struct {
 	Emails string `json:"emails"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -3543,6 +1939,15 @@ type CreateSubmissionsFromEmailsRequest struct {
 	//
 	// Examples: 1000001
 	TemplateId int `json:"template_id"`
+}
+
+// CreateSubmissionsFromEmailsRequestMessage Custom signature request email message.
+type CreateSubmissionsFromEmailsRequestMessage struct {
+	// Body Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
+	Body *string `json:"body,omitempty"`
+
+	// Subject Custom signature request email subject.
+	Subject *string `json:"subject,omitempty"`
 }
 
 // CreateSubmissionsFromEmailsResponse defines model for CreateSubmissionsFromEmailsResponse.
@@ -3620,130 +2025,7 @@ type CreateSubmissionsFromEmailsResponseStatus string
 // CreateTemplateFromDocxRequest defines model for CreateTemplateFromDocxRequest.
 type CreateTemplateFromDocxRequest struct {
 	// Documents An array of DOCX documents to create a template.
-	Documents []struct {
-		// Dynamic Set to `true` to make the document dynamic. When enabled, the DOCX document content can be edited or use [[variables]] in the template editor.
-		Dynamic *bool `json:"dynamic,omitempty"`
-
-		// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-		Fields *[]struct {
-			// Areas List of areas where the field is located in the document.
-			Areas *[]struct {
-				// H Height of the field area.
-				H *float32 `json:"h,omitempty"`
-
-				// Option Option string value for 'radio' and 'multiple' select field types.
-				Option *string `json:"option,omitempty"`
-
-				// Page Page number of the field area. Starts from 1.
-				Page *int `json:"page,omitempty"`
-
-				// W Width of the field area.
-				W *float32 `json:"w,omitempty"`
-
-				// X X-coordinate of the field area.
-				X *float32 `json:"x,omitempty"`
-
-				// Y Y-coordinate of the field area.
-				Y *float32 `json:"y,omitempty"`
-			} `json:"areas,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Name of the field.
-			Name *string `json:"name,omitempty"`
-
-			// Options An array of option values for 'select' field type.
-			//
-			// Examples: ["Option A","Option B"]
-			Options *[]string `json:"options,omitempty"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Required Indicates if the field is required.
-			Required *bool `json:"required,omitempty"`
-
-			// Role Role name of the signer.
-			Role *string `json:"role,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Type Type of the field (e.g., text, signature, date, initials).
-			Type *CreateTemplateFromDocxRequestDocumentsFieldsType `json:"type,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// File Base64-encoded content of the DOCX file or downloadable file URL.
-		//
-		// Examples: base64
-		File string `json:"file"`
-
-		// Name Name of the document.
-		Name string `json:"name"`
-	} `json:"documents"`
+	Documents []CreateTemplateFromDocxRequestDocument `json:"documents"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new document.
 	//
@@ -3762,84 +2044,86 @@ type CreateTemplateFromDocxRequest struct {
 	SharedLink *bool `json:"shared_link,omitempty"`
 }
 
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesAlign string
+// CreateTemplateFromDocxRequestDocument defines model for CreateTemplateFromDocxRequestDocument.
+type CreateTemplateFromDocxRequestDocument struct {
+	// Dynamic Set to `true` to make the document dynamic. When enabled, the DOCX document content can be edited or use [[variables]] in the template editor.
+	Dynamic *bool `json:"dynamic,omitempty"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground Field box background color.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesBackground string
+	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
+	Fields *[]CreateTemplateFromDocxRequestDocumentField `json:"fields,omitempty"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor Font color of the field value.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesColor string
+	// File Base64-encoded content of the DOCX file or downloadable file URL.
+	//
+	// Examples: base64
+	File string `json:"file"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesCurrency string
-
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont Font family of the field value.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFont string
-
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType Font type of the field value.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesFontType string
-
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0 = int
-
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1 = bool
-
-// CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask struct {
-	union json.RawMessage
+	// Name Name of the document.
+	Name string `json:"name"`
 }
 
-// CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateTemplateFromDocxRequestDocumentsFieldsPreferencesValign string
+// CreateTemplateFromDocxRequestDocumentField defines model for CreateTemplateFromDocxRequestDocumentField.
+type CreateTemplateFromDocxRequestDocumentField struct {
+	// Areas List of areas where the field is located in the document.
+	Areas *[]CreateTemplateFromDocxRequestDocumentFieldArea `json:"areas,omitempty"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsType Type of the field (e.g., text, signature, date, initials).
-type CreateTemplateFromDocxRequestDocumentsFieldsType string
+	// Description Field description displayed on the signing form. Supports Markdown.
+	Description *string `json:"description,omitempty"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0 = float32
+	// Name Name of the field.
+	Name *string `json:"name,omitempty"`
 
-// CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1 = string
+	// Options An array of option values for 'select' field type.
+	//
+	// Examples: ["Option A","Option B"]
+	Options *[]string `json:"options,omitempty"`
 
-// CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max struct {
-	union json.RawMessage
+	// Preferences Field display preferences.
+	Preferences *FieldPreferences `json:"preferences,omitempty"`
+
+	// Required Indicates if the field is required.
+	Required *bool `json:"required,omitempty"`
+
+	// Role Role name of the signer.
+	Role *string `json:"role,omitempty"`
+
+	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title *string `json:"title,omitempty"`
+
+	// Type Type of the field (e.g., text, signature, date, initials).
+	Type *CreateTemplateFromDocxRequestDocumentFieldType `json:"type,omitempty"`
+
+	// Validation Field validation rules.
+	Validation *FieldValidation `json:"validation,omitempty"`
 }
 
-// CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0 = float32
+// CreateTemplateFromDocxRequestDocumentFieldType Type of the field (e.g., text, signature, date, initials).
+type CreateTemplateFromDocxRequestDocumentFieldType string
 
-// CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1 defines model for .
-type CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1 = string
+// CreateTemplateFromDocxRequestDocumentFieldArea defines model for CreateTemplateFromDocxRequestDocumentFieldArea.
+type CreateTemplateFromDocxRequestDocumentFieldArea struct {
+	// H Height of the field area.
+	H *float32 `json:"h,omitempty"`
 
-// CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min struct {
-	union json.RawMessage
+	// Option Option string value for 'radio' and 'multiple' select field types.
+	Option *string `json:"option,omitempty"`
+
+	// Page Page number of the field area. Starts from 1.
+	Page *int `json:"page,omitempty"`
+
+	// W Width of the field area.
+	W *float32 `json:"w,omitempty"`
+
+	// X X-coordinate of the field area.
+	X *float32 `json:"x,omitempty"`
+
+	// Y Y-coordinate of the field area.
+	Y *float32 `json:"y,omitempty"`
 }
 
 // CreateTemplateFromHtmlRequest defines model for CreateTemplateFromHtmlRequest.
 type CreateTemplateFromHtmlRequest struct {
 	// Documents The list of documents built from HTML. Can be used to create a template with multiple documents. Leave `documents` param empty when using a top-level `html` param for a template with a single document.
-	Documents *[]struct {
-		// Html HTML template with field tags.
-		//
-		// Examples: <p>Lorem Ipsum is simply dummy text of the
-		// <text-field
-		//   name="Industry"
-		//   role="First Party"
-		//   required="false"
-		//   style="width: 80px; height: 16px; display: inline-block; margin-bottom: -4px">
-		// </text-field>
-		// and typesetting industry</p>
-		Html string `json:"html"`
-
-		// Name Document name. Random uuid will be assigned when not specified.
-		//
-		// Examples: Test Document
-		Name *string `json:"name,omitempty"`
-	} `json:"documents,omitempty"`
+	Documents *[]CreateTemplateFromHtmlRequestDocument `json:"documents,omitempty"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new HTML.
 	//
@@ -3886,132 +2170,30 @@ type CreateTemplateFromHtmlRequest struct {
 // Examples: A4
 type CreateTemplateFromHtmlRequestSize string
 
+// CreateTemplateFromHtmlRequestDocument defines model for CreateTemplateFromHtmlRequestDocument.
+type CreateTemplateFromHtmlRequestDocument struct {
+	// Html HTML template with field tags.
+	//
+	// Examples: <p>Lorem Ipsum is simply dummy text of the
+	// <text-field
+	//   name="Industry"
+	//   role="First Party"
+	//   required="false"
+	//   style="width: 80px; height: 16px; display: inline-block; margin-bottom: -4px">
+	// </text-field>
+	// and typesetting industry</p>
+	Html string `json:"html"`
+
+	// Name Document name. Random uuid will be assigned when not specified.
+	//
+	// Examples: Test Document
+	Name *string `json:"name,omitempty"`
+}
+
 // CreateTemplateFromPdfRequest defines model for CreateTemplateFromPdfRequest.
 type CreateTemplateFromPdfRequest struct {
 	// Documents An array of PDF documents to create a template.
-	Documents []struct {
-		// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-		Fields *[]struct {
-			// Areas List of areas where the field is located in the document.
-			Areas *[]struct {
-				// H Height of the field area.
-				H float32 `json:"h"`
-
-				// Option Option string value for 'radio' and 'multiple' select field types.
-				Option *string `json:"option,omitempty"`
-
-				// Page Page number of the field area. Starts from 1.
-				//
-				// Examples: 1
-				Page int `json:"page"`
-
-				// W Width of the field area.
-				W float32 `json:"w"`
-
-				// X X-coordinate of the field area.
-				X float32 `json:"x"`
-
-				// Y Y-coordinate of the field area.
-				Y float32 `json:"y"`
-			} `json:"areas,omitempty"`
-
-			// Description Field description displayed on the signing form. Supports Markdown.
-			Description *string `json:"description,omitempty"`
-
-			// Name Name of the field.
-			Name *string `json:"name,omitempty"`
-
-			// Options An array of option values for 'select' field type.
-			//
-			// Examples: ["Option A","Option B"]
-			Options *[]string `json:"options,omitempty"`
-
-			// Preferences Field display preferences.
-			Preferences *struct {
-				// Align Horizontal alignment of the field text value.
-				Align *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign `json:"align,omitempty"`
-
-				// Background Field box background color.
-				Background *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground `json:"background,omitempty"`
-
-				// Color Font color of the field value.
-				Color *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor `json:"color,omitempty"`
-
-				// Currency Currency value of the payment field. Only for payment fields.
-				Currency *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-				// Font Font family of the field value.
-				Font *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont `json:"font,omitempty"`
-
-				// FontSize Font size of the field value in pixels.
-				//
-				// Examples: 12
-				FontSize *int `json:"font_size,omitempty"`
-
-				// FontType Font type of the field value.
-				FontType *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-				// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-				//
-				// Examples: DD/MM/YYYY
-				Format *string `json:"format,omitempty"`
-
-				// Mask Set `true` to make sensitive data masked on the document.
-				Mask *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-				// Price Price value of the payment field. Only for payment fields.
-				//
-				// Examples: 99.99
-				Price *float32 `json:"price,omitempty"`
-
-				// Reasons An array of signature reasons to choose from.
-				Reasons *[]string `json:"reasons,omitempty"`
-
-				// Valign Vertical alignment of the field text value.
-				Valign *CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign `json:"valign,omitempty"`
-			} `json:"preferences,omitempty"`
-
-			// Required Indicates if the field is required.
-			Required *bool `json:"required,omitempty"`
-
-			// Role Role name of the signer.
-			Role *string `json:"role,omitempty"`
-
-			// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-			Title *string `json:"title,omitempty"`
-
-			// Type Type of the field (e.g., text, signature, date, initials).
-			Type *CreateTemplateFromPdfRequestDocumentsFieldsType `json:"type,omitempty"`
-
-			// Validation Field validation rules.
-			Validation *struct {
-				// Max Maximum allowed number value or date depending on field type.
-				Max *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max `json:"max,omitempty"`
-
-				// Message A custom error message to display on validation failure.
-				Message *string `json:"message,omitempty"`
-
-				// Min Minimum allowed number value or date depending on field type.
-				Min *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min `json:"min,omitempty"`
-
-				// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-				//
-				// Examples: [A-Z]{4}
-				Pattern *string `json:"pattern,omitempty"`
-
-				// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-				Step *float32 `json:"step,omitempty"`
-			} `json:"validation,omitempty"`
-		} `json:"fields,omitempty"`
-
-		// File Base64-encoded content of the PDF file or downloadable file URL.
-		//
-		// Examples: base64
-		File string `json:"file"`
-
-		// Name Name of the document.
-		Name string `json:"name"`
-	} `json:"documents"`
+	Documents []CreateTemplateFromPdfRequestDocument `json:"documents"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new PDF.
 	//
@@ -4036,60 +2218,174 @@ type CreateTemplateFromPdfRequest struct {
 	SharedLink *bool `json:"shared_link,omitempty"`
 }
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign Horizontal alignment of the field text value.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesAlign string
+// CreateTemplateFromPdfRequestDocument defines model for CreateTemplateFromPdfRequestDocument.
+type CreateTemplateFromPdfRequestDocument struct {
+	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
+	Fields *[]CreateTemplateFromPdfRequestDocumentField `json:"fields,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground Field box background color.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesBackground string
+	// File Base64-encoded content of the PDF file or downloadable file URL.
+	//
+	// Examples: base64
+	File string `json:"file"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor Font color of the field value.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesColor string
+	// Name Name of the document.
+	Name string `json:"name"`
+}
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesCurrency string
+// CreateTemplateFromPdfRequestDocumentField defines model for CreateTemplateFromPdfRequestDocumentField.
+type CreateTemplateFromPdfRequestDocumentField struct {
+	// Areas List of areas where the field is located in the document.
+	Areas *[]CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont Font family of the field value.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFont string
+	// Description Field description displayed on the signing form. Supports Markdown.
+	Description *string `json:"description,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType Font type of the field value.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesFontType string
+	// Name Name of the field.
+	Name *string `json:"name,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0 = int
+	// Options An array of option values for 'select' field type.
+	//
+	// Examples: ["Option A","Option B"]
+	Options *[]string `json:"options,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1 = bool
+	// Preferences Field display preferences.
+	Preferences *FieldPreferences `json:"preferences,omitempty"`
 
-// CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask struct {
+	// Required Indicates if the field is required.
+	Required *bool `json:"required,omitempty"`
+
+	// Role Role name of the signer.
+	Role *string `json:"role,omitempty"`
+
+	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title *string `json:"title,omitempty"`
+
+	// Type Type of the field (e.g., text, signature, date, initials).
+	Type *CreateTemplateFromPdfRequestDocumentFieldType `json:"type,omitempty"`
+
+	// Validation Field validation rules.
+	Validation *FieldValidation `json:"validation,omitempty"`
+}
+
+// CreateTemplateFromPdfRequestDocumentFieldType Type of the field (e.g., text, signature, date, initials).
+type CreateTemplateFromPdfRequestDocumentFieldType string
+
+// FieldPreferences Field display preferences.
+type FieldPreferences struct {
+	// Align Horizontal alignment of the field text value.
+	Align *FieldPreferencesAlign `json:"align,omitempty"`
+
+	// Background Field box background color.
+	Background *FieldPreferencesBackground `json:"background,omitempty"`
+
+	// Color Font color of the field value.
+	Color *FieldPreferencesColor `json:"color,omitempty"`
+
+	// Currency Currency value of the payment field. Only for payment fields.
+	Currency *FieldPreferencesCurrency `json:"currency,omitempty"`
+
+	// Font Font family of the field value.
+	Font *FieldPreferencesFont `json:"font,omitempty"`
+
+	// FontSize Font size of the field value in pixels.
+	//
+	// Examples: 12
+	FontSize *int `json:"font_size,omitempty"`
+
+	// FontType Font type of the field value.
+	FontType *FieldPreferencesFontType `json:"font_type,omitempty"`
+
+	// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
+	//
+	// Examples: DD/MM/YYYY
+	Format *string `json:"format,omitempty"`
+
+	// Mask Set `true` to make sensitive data masked on the document.
+	Mask *FieldPreferences_Mask `json:"mask,omitempty"`
+
+	// Price Price value of the payment field. Only for payment fields.
+	//
+	// Examples: 99.99
+	Price *float32 `json:"price,omitempty"`
+
+	// Reasons An array of signature reasons to choose from.
+	Reasons *[]string `json:"reasons,omitempty"`
+
+	// Valign Vertical alignment of the field text value.
+	Valign *FieldPreferencesValign `json:"valign,omitempty"`
+}
+
+// FieldPreferencesAlign Horizontal alignment of the field text value.
+type FieldPreferencesAlign string
+
+// FieldPreferencesBackground Field box background color.
+type FieldPreferencesBackground string
+
+// FieldPreferencesColor Font color of the field value.
+type FieldPreferencesColor string
+
+// FieldPreferencesCurrency Currency value of the payment field. Only for payment fields.
+type FieldPreferencesCurrency string
+
+// FieldPreferencesFont Font family of the field value.
+type FieldPreferencesFont string
+
+// FieldPreferencesFontType Font type of the field value.
+type FieldPreferencesFontType string
+
+// FieldPreferencesMask0 defines model for .
+type FieldPreferencesMask0 = int
+
+// FieldPreferencesMask1 defines model for .
+type FieldPreferencesMask1 = bool
+
+// FieldPreferences_Mask Set `true` to make sensitive data masked on the document.
+type FieldPreferences_Mask struct {
 	union json.RawMessage
 }
 
-// CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign Vertical alignment of the field text value.
-type CreateTemplateFromPdfRequestDocumentsFieldsPreferencesValign string
+// FieldPreferencesValign Vertical alignment of the field text value.
+type FieldPreferencesValign string
 
-// CreateTemplateFromPdfRequestDocumentsFieldsType Type of the field (e.g., text, signature, date, initials).
-type CreateTemplateFromPdfRequestDocumentsFieldsType string
+// FieldValidation Field validation rules.
+type FieldValidation struct {
+	// Max Maximum allowed number value or date depending on field type.
+	Max *FieldValidation_Max `json:"max,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0 = float32
+	// Message A custom error message to display on validation failure.
+	Message *string `json:"message,omitempty"`
 
-// CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1 = string
+	// Min Minimum allowed number value or date depending on field type.
+	Min *FieldValidation_Min `json:"min,omitempty"`
 
-// CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max struct {
+	// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
+	//
+	// Examples: [A-Z]{4}
+	Pattern *string `json:"pattern,omitempty"`
+
+	// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
+	Step *float32 `json:"step,omitempty"`
+}
+
+// FieldValidationMax0 defines model for .
+type FieldValidationMax0 = float32
+
+// FieldValidationMax1 defines model for .
+type FieldValidationMax1 = string
+
+// FieldValidation_Max Maximum allowed number value or date depending on field type.
+type FieldValidation_Max struct {
 	union json.RawMessage
 }
 
-// CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0 = float32
+// FieldValidationMin0 defines model for .
+type FieldValidationMin0 = float32
 
-// CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1 defines model for .
-type CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1 = string
+// FieldValidationMin1 defines model for .
+type FieldValidationMin1 = string
 
-// CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min struct {
+// FieldValidation_Min Minimum allowed number value or date depending on field type.
+type FieldValidation_Min struct {
 	union json.RawMessage
 }
 
@@ -4932,97 +3228,10 @@ type UpdateSubmitterRequest struct {
 	ExternalId *string `json:"external_id,omitempty"`
 
 	// Fields A list of configurations for template document form fields.
-	Fields *[]struct {
-		// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-		//
-		// Examples: Acme
-		DefaultValue *UpdateSubmitterRequest_Fields_DefaultValue `json:"default_value,omitempty"`
-
-		// Name Document template field name.
-		//
-		// Examples: First Name
-		Name string `json:"name"`
-
-		// Preferences Field display preferences.
-		Preferences *struct {
-			// Align Horizontal alignment of the field text value.
-			Align *UpdateSubmitterRequestFieldsPreferencesAlign `json:"align,omitempty"`
-
-			// Background Field box background color.
-			Background *UpdateSubmitterRequestFieldsPreferencesBackground `json:"background,omitempty"`
-
-			// Color Font color of the field value.
-			Color *UpdateSubmitterRequestFieldsPreferencesColor `json:"color,omitempty"`
-
-			// Currency Currency value of the payment field. Only for payment fields.
-			Currency *UpdateSubmitterRequestFieldsPreferencesCurrency `json:"currency,omitempty"`
-
-			// Font Font family of the field value.
-			Font *UpdateSubmitterRequestFieldsPreferencesFont `json:"font,omitempty"`
-
-			// FontSize Font size of the field value in pixels.
-			//
-			// Examples: 12
-			FontSize *int `json:"font_size,omitempty"`
-
-			// FontType Font type of the field value.
-			FontType *UpdateSubmitterRequestFieldsPreferencesFontType `json:"font_type,omitempty"`
-
-			// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-			//
-			// Examples: DD/MM/YYYY
-			Format *string `json:"format,omitempty"`
-
-			// Mask Set `true` to make sensitive data masked on the document.
-			Mask *UpdateSubmitterRequest_Fields_Preferences_Mask `json:"mask,omitempty"`
-
-			// Price Price value of the payment field. Only for payment fields.
-			//
-			// Examples: 99.99
-			Price *float32 `json:"price,omitempty"`
-
-			// Reasons An array of signature reasons to choose from.
-			Reasons *[]string `json:"reasons,omitempty"`
-
-			// Valign Vertical alignment of the field text value.
-			Valign *UpdateSubmitterRequestFieldsPreferencesValign `json:"valign,omitempty"`
-		} `json:"preferences,omitempty"`
-
-		// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
-		Readonly *bool `json:"readonly,omitempty"`
-
-		// Required Set `true` to make the field required.
-		Required *bool `json:"required,omitempty"`
-
-		// Validation Field validation rules.
-		Validation *struct {
-			// Max Maximum allowed number value or date depending on field type.
-			Max *UpdateSubmitterRequest_Fields_Validation_Max `json:"max,omitempty"`
-
-			// Message A custom error message to display on validation failure.
-			Message *string `json:"message,omitempty"`
-
-			// Min Minimum allowed number value or date depending on field type.
-			Min *UpdateSubmitterRequest_Fields_Validation_Min `json:"min,omitempty"`
-
-			// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-			//
-			// Examples: [A-Z]{4}
-			Pattern *string `json:"pattern,omitempty"`
-
-			// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-			Step *float32 `json:"step,omitempty"`
-		} `json:"validation,omitempty"`
-	} `json:"fields,omitempty"`
+	Fields *[]UpdateSubmitterRequestField `json:"fields,omitempty"`
 
 	// Message Custom signature request email message.
-	Message *struct {
-		// Body Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-		Body *string `json:"body,omitempty"`
-
-		// Subject Custom signature request email subject.
-		Subject *string `json:"subject,omitempty"`
-	} `json:"message,omitempty"`
+	Message *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty"`
 
 	// Metadata Metadata object with additional submitter information.
 	//
@@ -5056,90 +3265,61 @@ type UpdateSubmitterRequest struct {
 	Values *map[string]interface{} `json:"values,omitempty"`
 }
 
-// UpdateSubmitterRequestFieldsDefaultValue0 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue0 = string
+// UpdateSubmitterRequestField defines model for UpdateSubmitterRequestField.
+type UpdateSubmitterRequestField struct {
+	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+	//
+	// Examples: Acme
+	DefaultValue *UpdateSubmitterRequestField_DefaultValue `json:"default_value,omitempty"`
 
-// UpdateSubmitterRequestFieldsDefaultValue1 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue1 = float32
+	// Name Document template field name.
+	//
+	// Examples: First Name
+	Name string `json:"name"`
 
-// UpdateSubmitterRequestFieldsDefaultValue2 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue2 = bool
+	// Preferences Field display preferences.
+	Preferences *FieldPreferences `json:"preferences,omitempty"`
 
-// UpdateSubmitterRequestFieldsDefaultValue3 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue3 = []UpdateSubmitterRequest_Fields_DefaultValue_3_Item
+	// Readonly Set `true` to make it impossible for the submitter to edit predefined field value.
+	Readonly *bool `json:"readonly,omitempty"`
 
-// UpdateSubmitterRequestFieldsDefaultValue30 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue30 = string
+	// Required Set `true` to make the field required.
+	Required *bool `json:"required,omitempty"`
 
-// UpdateSubmitterRequestFieldsDefaultValue31 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue31 = float32
+	// Validation Field validation rules.
+	Validation *FieldValidation `json:"validation,omitempty"`
+}
 
-// UpdateSubmitterRequestFieldsDefaultValue32 defines model for .
-type UpdateSubmitterRequestFieldsDefaultValue32 = bool
+// UpdateSubmitterRequestFieldDefaultValue0 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue0 = string
 
-// UpdateSubmitterRequest_Fields_DefaultValue_3_Item defines model for UpdateSubmitterRequest.Fields.DefaultValue.3.Item.
-type UpdateSubmitterRequest_Fields_DefaultValue_3_Item struct {
+// UpdateSubmitterRequestFieldDefaultValue1 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue1 = float32
+
+// UpdateSubmitterRequestFieldDefaultValue2 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue2 = bool
+
+// UpdateSubmitterRequestFieldDefaultValue3 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue3 = []UpdateSubmitterRequestField_DefaultValue_3_Item
+
+// UpdateSubmitterRequestFieldDefaultValue30 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue30 = string
+
+// UpdateSubmitterRequestFieldDefaultValue31 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue31 = float32
+
+// UpdateSubmitterRequestFieldDefaultValue32 defines model for .
+type UpdateSubmitterRequestFieldDefaultValue32 = bool
+
+// UpdateSubmitterRequestField_DefaultValue_3_Item defines model for UpdateSubmitterRequestField.DefaultValue.3.Item.
+type UpdateSubmitterRequestField_DefaultValue_3_Item struct {
 	union json.RawMessage
 }
 
-// UpdateSubmitterRequest_Fields_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+// UpdateSubmitterRequestField_DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 //
 // Examples: Acme
-type UpdateSubmitterRequest_Fields_DefaultValue struct {
-	union json.RawMessage
-}
-
-// UpdateSubmitterRequestFieldsPreferencesAlign Horizontal alignment of the field text value.
-type UpdateSubmitterRequestFieldsPreferencesAlign string
-
-// UpdateSubmitterRequestFieldsPreferencesBackground Field box background color.
-type UpdateSubmitterRequestFieldsPreferencesBackground string
-
-// UpdateSubmitterRequestFieldsPreferencesColor Font color of the field value.
-type UpdateSubmitterRequestFieldsPreferencesColor string
-
-// UpdateSubmitterRequestFieldsPreferencesCurrency Currency value of the payment field. Only for payment fields.
-type UpdateSubmitterRequestFieldsPreferencesCurrency string
-
-// UpdateSubmitterRequestFieldsPreferencesFont Font family of the field value.
-type UpdateSubmitterRequestFieldsPreferencesFont string
-
-// UpdateSubmitterRequestFieldsPreferencesFontType Font type of the field value.
-type UpdateSubmitterRequestFieldsPreferencesFontType string
-
-// UpdateSubmitterRequestFieldsPreferencesMask0 defines model for .
-type UpdateSubmitterRequestFieldsPreferencesMask0 = int
-
-// UpdateSubmitterRequestFieldsPreferencesMask1 defines model for .
-type UpdateSubmitterRequestFieldsPreferencesMask1 = bool
-
-// UpdateSubmitterRequest_Fields_Preferences_Mask Set `true` to make sensitive data masked on the document.
-type UpdateSubmitterRequest_Fields_Preferences_Mask struct {
-	union json.RawMessage
-}
-
-// UpdateSubmitterRequestFieldsPreferencesValign Vertical alignment of the field text value.
-type UpdateSubmitterRequestFieldsPreferencesValign string
-
-// UpdateSubmitterRequestFieldsValidationMax0 defines model for .
-type UpdateSubmitterRequestFieldsValidationMax0 = float32
-
-// UpdateSubmitterRequestFieldsValidationMax1 defines model for .
-type UpdateSubmitterRequestFieldsValidationMax1 = string
-
-// UpdateSubmitterRequest_Fields_Validation_Max Maximum allowed number value or date depending on field type.
-type UpdateSubmitterRequest_Fields_Validation_Max struct {
-	union json.RawMessage
-}
-
-// UpdateSubmitterRequestFieldsValidationMin0 defines model for .
-type UpdateSubmitterRequestFieldsValidationMin0 = float32
-
-// UpdateSubmitterRequestFieldsValidationMin1 defines model for .
-type UpdateSubmitterRequestFieldsValidationMin1 = string
-
-// UpdateSubmitterRequest_Fields_Validation_Min Minimum allowed number value or date depending on field type.
-type UpdateSubmitterRequest_Fields_Validation_Min struct {
+type UpdateSubmitterRequestField_DefaultValue struct {
 	union json.RawMessage
 }
 
@@ -5380,22 +3560,22 @@ type CloneTemplateJSONRequestBody = CloneTemplateRequest
 // AddDocumentToTemplateJSONRequestBody defines body for AddDocumentToTemplate for application/json ContentType.
 type AddDocumentToTemplateJSONRequestBody = AddDocumentToTemplateRequest
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue30) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5406,22 +3586,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) 
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue31) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5432,22 +3612,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) 
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue32) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue32) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5458,32 +3638,32 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) 
 	return err
 }
 
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue0) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5494,22 +3674,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue1) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5520,22 +3700,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue2) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue2) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5546,22 +3726,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3() (CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3
+// AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3 returns the union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as a CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) AsCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3() (CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3, error) {
+	var body CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3) error {
+// FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3 overwrites any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) FromCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromDocxRequestSubmittersFieldsDefaultValue3) error {
+// MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3 performs a merge with any union data inside the CreateSubmissionFromPdfRequestSubmitterField_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3(v CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue3) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5572,32 +3752,32 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) MarshalJSON() ([]byte, error) {
+func (t CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_DefaultValue) UnmarshalJSON(b []byte) error {
+func (t *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0() (CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue30 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionRequestSubmitterFieldDefaultValue30
+func (t CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionRequestSubmitterFieldDefaultValue30() (CreateSubmissionRequestSubmitterFieldDefaultValue30, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue30
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0) error {
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue30 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmitterFieldDefaultValue30
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionRequestSubmitterFieldDefaultValue30(v CreateSubmissionRequestSubmitterFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask0) error {
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue30 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue30
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmitterFieldDefaultValue30(v CreateSubmissionRequestSubmitterFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5608,22 +3788,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) Mer
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1() (CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue31 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionRequestSubmitterFieldDefaultValue31
+func (t CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionRequestSubmitterFieldDefaultValue31() (CreateSubmissionRequestSubmitterFieldDefaultValue31, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue31
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1) error {
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue31 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmitterFieldDefaultValue31
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionRequestSubmitterFieldDefaultValue31(v CreateSubmissionRequestSubmitterFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromDocxRequestSubmittersFieldsPreferencesMask1) error {
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue31 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue31
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmitterFieldDefaultValue31(v CreateSubmissionRequestSubmitterFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5634,32 +3814,58 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) Mer
 	return err
 }
 
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue32 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as a CreateSubmissionRequestSubmitterFieldDefaultValue32
+func (t CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) AsCreateSubmissionRequestSubmitterFieldDefaultValue32() (CreateSubmissionRequestSubmitterFieldDefaultValue32, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue32
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue32 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmitterFieldDefaultValue32
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) FromCreateSubmissionRequestSubmitterFieldDefaultValue32(v CreateSubmissionRequestSubmitterFieldDefaultValue32) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue32 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue32
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmitterFieldDefaultValue32(v CreateSubmissionRequestSubmitterFieldDefaultValue32) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0() (CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue0 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as a CreateSubmissionRequestSubmitterFieldDefaultValue0
+func (t CreateSubmissionRequestSubmitterField_DefaultValue) AsCreateSubmissionRequestSubmitterFieldDefaultValue0() (CreateSubmissionRequestSubmitterFieldDefaultValue0, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0) error {
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue0 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as the provided CreateSubmissionRequestSubmitterFieldDefaultValue0
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) FromCreateSubmissionRequestSubmitterFieldDefaultValue0(v CreateSubmissionRequestSubmitterFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax0) error {
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue0 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue0
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) MergeCreateSubmissionRequestSubmitterFieldDefaultValue0(v CreateSubmissionRequestSubmitterFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5670,22 +3876,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) Merge
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1() (CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue1 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as a CreateSubmissionRequestSubmitterFieldDefaultValue1
+func (t CreateSubmissionRequestSubmitterField_DefaultValue) AsCreateSubmissionRequestSubmitterFieldDefaultValue1() (CreateSubmissionRequestSubmitterFieldDefaultValue1, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1) error {
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue1 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as the provided CreateSubmissionRequestSubmitterFieldDefaultValue1
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) FromCreateSubmissionRequestSubmitterFieldDefaultValue1(v CreateSubmissionRequestSubmitterFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMax1) error {
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue1 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue1
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) MergeCreateSubmissionRequestSubmitterFieldDefaultValue1(v CreateSubmissionRequestSubmitterFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5696,32 +3902,84 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) Merge
 	return err
 }
 
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue2 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as a CreateSubmissionRequestSubmitterFieldDefaultValue2
+func (t CreateSubmissionRequestSubmitterField_DefaultValue) AsCreateSubmissionRequestSubmitterFieldDefaultValue2() (CreateSubmissionRequestSubmitterFieldDefaultValue2, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue2
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue2 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as the provided CreateSubmissionRequestSubmitterFieldDefaultValue2
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) FromCreateSubmissionRequestSubmitterFieldDefaultValue2(v CreateSubmissionRequestSubmitterFieldDefaultValue2) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue2 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue2
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) MergeCreateSubmissionRequestSubmitterFieldDefaultValue2(v CreateSubmissionRequestSubmitterFieldDefaultValue2) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCreateSubmissionRequestSubmitterFieldDefaultValue3 returns the union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as a CreateSubmissionRequestSubmitterFieldDefaultValue3
+func (t CreateSubmissionRequestSubmitterField_DefaultValue) AsCreateSubmissionRequestSubmitterFieldDefaultValue3() (CreateSubmissionRequestSubmitterFieldDefaultValue3, error) {
+	var body CreateSubmissionRequestSubmitterFieldDefaultValue3
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCreateSubmissionRequestSubmitterFieldDefaultValue3 overwrites any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue as the provided CreateSubmissionRequestSubmitterFieldDefaultValue3
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) FromCreateSubmissionRequestSubmitterFieldDefaultValue3(v CreateSubmissionRequestSubmitterFieldDefaultValue3) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCreateSubmissionRequestSubmitterFieldDefaultValue3 performs a merge with any union data inside the CreateSubmissionRequestSubmitterField_DefaultValue, using the provided CreateSubmissionRequestSubmitterFieldDefaultValue3
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) MergeCreateSubmissionRequestSubmitterFieldDefaultValue3(v CreateSubmissionRequestSubmitterFieldDefaultValue3) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t CreateSubmissionRequestSubmitterField_DefaultValue) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
+func (t *CreateSubmissionRequestSubmitterField_DefaultValue) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0() (CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0
+// AsFieldPreferencesMask0 returns the union data inside the FieldPreferences_Mask as a FieldPreferencesMask0
+func (t FieldPreferences_Mask) AsFieldPreferencesMask0() (FieldPreferencesMask0, error) {
+	var body FieldPreferencesMask0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0) error {
+// FromFieldPreferencesMask0 overwrites any union data inside the FieldPreferences_Mask as the provided FieldPreferencesMask0
+func (t *FieldPreferences_Mask) FromFieldPreferencesMask0(v FieldPreferencesMask0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin0) error {
+// MergeFieldPreferencesMask0 performs a merge with any union data inside the FieldPreferences_Mask, using the provided FieldPreferencesMask0
+func (t *FieldPreferences_Mask) MergeFieldPreferencesMask0(v FieldPreferencesMask0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5732,22 +3990,22 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) Merge
 	return err
 }
 
-// AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1 returns the union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1() (CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1, error) {
-	var body CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1
+// AsFieldPreferencesMask1 returns the union data inside the FieldPreferences_Mask as a FieldPreferencesMask1
+func (t FieldPreferences_Mask) AsFieldPreferencesMask1() (FieldPreferencesMask1, error) {
+	var body FieldPreferencesMask1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1 overwrites any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1) error {
+// FromFieldPreferencesMask1 overwrites any union data inside the FieldPreferences_Mask as the provided FieldPreferencesMask1
+func (t *FieldPreferences_Mask) FromFieldPreferencesMask1(v FieldPreferencesMask1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1 performs a merge with any union data inside the CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromDocxRequestSubmittersFieldsValidationMin1) error {
+// MergeFieldPreferencesMask1 performs a merge with any union data inside the FieldPreferences_Mask, using the provided FieldPreferencesMask1
+func (t *FieldPreferences_Mask) MergeFieldPreferencesMask1(v FieldPreferencesMask1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5758,32 +4016,32 @@ func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) Merge
 	return err
 }
 
-func (t CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
+func (t FieldPreferences_Mask) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromDocxRequest_Submitters_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
+func (t *FieldPreferences_Mask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30
+// AsFieldValidationMax0 returns the union data inside the FieldValidation_Max as a FieldValidationMax0
+func (t FieldValidation_Max) AsFieldValidationMax0() (FieldValidationMax0, error) {
+	var body FieldValidationMax0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30) error {
+// FromFieldValidationMax0 overwrites any union data inside the FieldValidation_Max as the provided FieldValidationMax0
+func (t *FieldValidation_Max) FromFieldValidationMax0(v FieldValidationMax0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue30) error {
+// MergeFieldValidationMax0 performs a merge with any union data inside the FieldValidation_Max, using the provided FieldValidationMax0
+func (t *FieldValidation_Max) MergeFieldValidationMax0(v FieldValidationMax0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5794,22 +4052,22 @@ func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) 
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31
+// AsFieldValidationMax1 returns the union data inside the FieldValidation_Max as a FieldValidationMax1
+func (t FieldValidation_Max) AsFieldValidationMax1() (FieldValidationMax1, error) {
+	var body FieldValidationMax1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31) error {
+// FromFieldValidationMax1 overwrites any union data inside the FieldValidation_Max as the provided FieldValidationMax1
+func (t *FieldValidation_Max) FromFieldValidationMax1(v FieldValidationMax1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue31) error {
+// MergeFieldValidationMax1 performs a merge with any union data inside the FieldValidation_Max, using the provided FieldValidationMax1
+func (t *FieldValidation_Max) MergeFieldValidationMax1(v FieldValidationMax1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5820,58 +4078,32 @@ func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) 
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
+func (t FieldValidation_Max) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
+func (t *FieldValidation_Max) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0
+// AsFieldValidationMin0 returns the union data inside the FieldValidation_Min as a FieldValidationMin0
+func (t FieldValidation_Min) AsFieldValidationMin0() (FieldValidationMin0, error) {
+	var body FieldValidationMin0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0) error {
+// FromFieldValidationMin0 overwrites any union data inside the FieldValidation_Min as the provided FieldValidationMin0
+func (t *FieldValidation_Min) FromFieldValidationMin0(v FieldValidationMin0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue0) error {
+// MergeFieldValidationMin0 performs a merge with any union data inside the FieldValidation_Min, using the provided FieldValidationMin0
+func (t *FieldValidation_Min) MergeFieldValidationMin0(v FieldValidationMin0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5882,22 +4114,22 @@ func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1
+// AsFieldValidationMin1 returns the union data inside the FieldValidation_Min as a FieldValidationMin1
+func (t FieldValidation_Min) AsFieldValidationMin1() (FieldValidationMin1, error) {
+	var body FieldValidationMin1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1) error {
+// FromFieldValidationMin1 overwrites any union data inside the FieldValidation_Min as the provided FieldValidationMin1
+func (t *FieldValidation_Min) FromFieldValidationMin1(v FieldValidationMin1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue1) error {
+// MergeFieldValidationMin1 performs a merge with any union data inside the FieldValidation_Min, using the provided FieldValidationMin1
+func (t *FieldValidation_Min) MergeFieldValidationMin1(v FieldValidationMin1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -5908,1398 +4140,12 @@ func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCr
 	return err
 }
 
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3() (CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromHtmlRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) MarshalJSON() ([]byte, error) {
+func (t FieldValidation_Min) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_DefaultValue) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0() (CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1() (CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromHtmlRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0() (CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1() (CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0() (CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1 returns the union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1() (CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1, error) {
-	var body CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1 overwrites any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1 performs a merge with any union data inside the CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromHtmlRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromHtmlRequest_Submitters_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue30) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue31) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as a CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3() (CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3(v CreateSubmissionFromPdfRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_DefaultValue) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0() (CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1() (CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionFromPdfRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0() (CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max as a CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1() (CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0() (CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1 returns the union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min as a CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1() (CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1, error) {
-	var body CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1 overwrites any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1 performs a merge with any union data inside the CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1(v CreateSubmissionFromPdfRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionFromPdfRequest_Submitters_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue30 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionRequestSubmittersFieldsDefaultValue30
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionRequestSubmittersFieldsDefaultValue30() (CreateSubmissionRequestSubmittersFieldsDefaultValue30, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue30
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue30 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionRequestSubmittersFieldsDefaultValue30(v CreateSubmissionRequestSubmittersFieldsDefaultValue30) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue30 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue30
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue30(v CreateSubmissionRequestSubmittersFieldsDefaultValue30) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue31 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionRequestSubmittersFieldsDefaultValue31
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionRequestSubmittersFieldsDefaultValue31() (CreateSubmissionRequestSubmittersFieldsDefaultValue31, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue31
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue31 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionRequestSubmittersFieldsDefaultValue31(v CreateSubmissionRequestSubmittersFieldsDefaultValue31) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue31 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue31
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue31(v CreateSubmissionRequestSubmittersFieldsDefaultValue31) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue32 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as a CreateSubmissionRequestSubmittersFieldsDefaultValue32
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) AsCreateSubmissionRequestSubmittersFieldsDefaultValue32() (CreateSubmissionRequestSubmittersFieldsDefaultValue32, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue32
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue32 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) FromCreateSubmissionRequestSubmittersFieldsDefaultValue32(v CreateSubmissionRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue32 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue32
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue32(v CreateSubmissionRequestSubmittersFieldsDefaultValue32) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue0 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as a CreateSubmissionRequestSubmittersFieldsDefaultValue0
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionRequestSubmittersFieldsDefaultValue0() (CreateSubmissionRequestSubmittersFieldsDefaultValue0, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue0 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionRequestSubmittersFieldsDefaultValue0(v CreateSubmissionRequestSubmittersFieldsDefaultValue0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue0 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue0
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue0(v CreateSubmissionRequestSubmittersFieldsDefaultValue0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue1 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as a CreateSubmissionRequestSubmittersFieldsDefaultValue1
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionRequestSubmittersFieldsDefaultValue1() (CreateSubmissionRequestSubmittersFieldsDefaultValue1, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue1 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionRequestSubmittersFieldsDefaultValue1(v CreateSubmissionRequestSubmittersFieldsDefaultValue1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue1 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue1
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue1(v CreateSubmissionRequestSubmittersFieldsDefaultValue1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue2 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as a CreateSubmissionRequestSubmittersFieldsDefaultValue2
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionRequestSubmittersFieldsDefaultValue2() (CreateSubmissionRequestSubmittersFieldsDefaultValue2, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue2
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue2 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionRequestSubmittersFieldsDefaultValue2(v CreateSubmissionRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue2 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue2
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue2(v CreateSubmissionRequestSubmittersFieldsDefaultValue2) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsDefaultValue3 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as a CreateSubmissionRequestSubmittersFieldsDefaultValue3
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue) AsCreateSubmissionRequestSubmittersFieldsDefaultValue3() (CreateSubmissionRequestSubmittersFieldsDefaultValue3, error) {
-	var body CreateSubmissionRequestSubmittersFieldsDefaultValue3
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsDefaultValue3 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue as the provided CreateSubmissionRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) FromCreateSubmissionRequestSubmittersFieldsDefaultValue3(v CreateSubmissionRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsDefaultValue3 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_DefaultValue, using the provided CreateSubmissionRequestSubmittersFieldsDefaultValue3
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) MergeCreateSubmissionRequestSubmittersFieldsDefaultValue3(v CreateSubmissionRequestSubmittersFieldsDefaultValue3) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionRequest_Submitters_Fields_DefaultValue) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionRequest_Submitters_Fields_DefaultValue) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsPreferencesMask0 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionRequestSubmittersFieldsPreferencesMask0
-func (t CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionRequestSubmittersFieldsPreferencesMask0() (CreateSubmissionRequestSubmittersFieldsPreferencesMask0, error) {
-	var body CreateSubmissionRequestSubmittersFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsPreferencesMask0 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsPreferencesMask0 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionRequestSubmittersFieldsPreferencesMask0
-func (t *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionRequestSubmittersFieldsPreferencesMask0(v CreateSubmissionRequestSubmittersFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsPreferencesMask1 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask as a CreateSubmissionRequestSubmittersFieldsPreferencesMask1
-func (t CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) AsCreateSubmissionRequestSubmittersFieldsPreferencesMask1() (CreateSubmissionRequestSubmittersFieldsPreferencesMask1, error) {
-	var body CreateSubmissionRequestSubmittersFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsPreferencesMask1 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask as the provided CreateSubmissionRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) FromCreateSubmissionRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsPreferencesMask1 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Preferences_Mask, using the provided CreateSubmissionRequestSubmittersFieldsPreferencesMask1
-func (t *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) MergeCreateSubmissionRequestSubmittersFieldsPreferencesMask1(v CreateSubmissionRequestSubmittersFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionRequest_Submitters_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsValidationMax0 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max as a CreateSubmissionRequestSubmittersFieldsValidationMax0
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionRequestSubmittersFieldsValidationMax0() (CreateSubmissionRequestSubmittersFieldsValidationMax0, error) {
-	var body CreateSubmissionRequestSubmittersFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsValidationMax0 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionRequestSubmittersFieldsValidationMax0(v CreateSubmissionRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsValidationMax0 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionRequestSubmittersFieldsValidationMax0
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionRequestSubmittersFieldsValidationMax0(v CreateSubmissionRequestSubmittersFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsValidationMax1 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max as a CreateSubmissionRequestSubmittersFieldsValidationMax1
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Max) AsCreateSubmissionRequestSubmittersFieldsValidationMax1() (CreateSubmissionRequestSubmittersFieldsValidationMax1, error) {
-	var body CreateSubmissionRequestSubmittersFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsValidationMax1 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max as the provided CreateSubmissionRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Max) FromCreateSubmissionRequestSubmittersFieldsValidationMax1(v CreateSubmissionRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsValidationMax1 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Max, using the provided CreateSubmissionRequestSubmittersFieldsValidationMax1
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Max) MergeCreateSubmissionRequestSubmittersFieldsValidationMax1(v CreateSubmissionRequestSubmittersFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsValidationMin0 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min as a CreateSubmissionRequestSubmittersFieldsValidationMin0
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionRequestSubmittersFieldsValidationMin0() (CreateSubmissionRequestSubmittersFieldsValidationMin0, error) {
-	var body CreateSubmissionRequestSubmittersFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsValidationMin0 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionRequestSubmittersFieldsValidationMin0(v CreateSubmissionRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsValidationMin0 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionRequestSubmittersFieldsValidationMin0
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionRequestSubmittersFieldsValidationMin0(v CreateSubmissionRequestSubmittersFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateSubmissionRequestSubmittersFieldsValidationMin1 returns the union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min as a CreateSubmissionRequestSubmittersFieldsValidationMin1
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Min) AsCreateSubmissionRequestSubmittersFieldsValidationMin1() (CreateSubmissionRequestSubmittersFieldsValidationMin1, error) {
-	var body CreateSubmissionRequestSubmittersFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateSubmissionRequestSubmittersFieldsValidationMin1 overwrites any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min as the provided CreateSubmissionRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Min) FromCreateSubmissionRequestSubmittersFieldsValidationMin1(v CreateSubmissionRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateSubmissionRequestSubmittersFieldsValidationMin1 performs a merge with any union data inside the CreateSubmissionRequest_Submitters_Fields_Validation_Min, using the provided CreateSubmissionRequestSubmittersFieldsValidationMin1
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Min) MergeCreateSubmissionRequestSubmittersFieldsValidationMin1(v CreateSubmissionRequestSubmittersFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateSubmissionRequest_Submitters_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateSubmissionRequest_Submitters_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask as a CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) AsCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0() (CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask as the provided CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) FromCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0(v CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask, using the provided CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) MergeCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0(v CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask as a CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) AsCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1() (CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask as the provided CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) FromCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1(v CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask, using the provided CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) MergeCreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1(v CreateTemplateFromDocxRequestDocumentsFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max as a CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0() (CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max as the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max, using the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMax0(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max as a CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1() (CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max as the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max, using the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMax1(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min as a CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0() (CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min as the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min, using the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMin0(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1 returns the union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min as a CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) AsCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1() (CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1, error) {
-	var body CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1 overwrites any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min as the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) FromCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1 performs a merge with any union data inside the CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min, using the provided CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) MergeCreateTemplateFromDocxRequestDocumentsFieldsValidationMin1(v CreateTemplateFromDocxRequestDocumentsFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromDocxRequest_Documents_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask as a CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) AsCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0() (CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask as the provided CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) FromCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0(v CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask, using the provided CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) MergeCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0(v CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask as a CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) AsCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1() (CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask as the provided CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) FromCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1(v CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask, using the provided CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) MergeCreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1(v CreateTemplateFromPdfRequestDocumentsFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max as a CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0() (CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max as the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max, using the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMax0(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max as a CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1() (CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max as the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max, using the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMax1(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min as a CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0() (CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min as the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min, using the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMin0(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1 returns the union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min as a CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) AsCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1() (CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1, error) {
-	var body CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1 overwrites any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min as the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) FromCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1 performs a merge with any union data inside the CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min, using the provided CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) MergeCreateTemplateFromPdfRequestDocumentsFieldsValidationMin1(v CreateTemplateFromPdfRequestDocumentsFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
+func (t *FieldValidation_Min) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -7506,22 +4352,22 @@ func (t *SubmitterValue_Value) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue30 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as a UpdateSubmitterRequestFieldsDefaultValue30
-func (t UpdateSubmitterRequest_Fields_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldsDefaultValue30() (UpdateSubmitterRequestFieldsDefaultValue30, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue30
+// AsUpdateSubmitterRequestFieldDefaultValue30 returns the union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as a UpdateSubmitterRequestFieldDefaultValue30
+func (t UpdateSubmitterRequestField_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldDefaultValue30() (UpdateSubmitterRequestFieldDefaultValue30, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue30
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue30 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldsDefaultValue30
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldsDefaultValue30(v UpdateSubmitterRequestFieldsDefaultValue30) error {
+// FromUpdateSubmitterRequestFieldDefaultValue30 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldDefaultValue30
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldDefaultValue30(v UpdateSubmitterRequestFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue30 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldsDefaultValue30
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldsDefaultValue30(v UpdateSubmitterRequestFieldsDefaultValue30) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue30 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldDefaultValue30
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldDefaultValue30(v UpdateSubmitterRequestFieldDefaultValue30) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7532,22 +4378,22 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitter
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue31 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as a UpdateSubmitterRequestFieldsDefaultValue31
-func (t UpdateSubmitterRequest_Fields_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldsDefaultValue31() (UpdateSubmitterRequestFieldsDefaultValue31, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue31
+// AsUpdateSubmitterRequestFieldDefaultValue31 returns the union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as a UpdateSubmitterRequestFieldDefaultValue31
+func (t UpdateSubmitterRequestField_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldDefaultValue31() (UpdateSubmitterRequestFieldDefaultValue31, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue31
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue31 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldsDefaultValue31
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldsDefaultValue31(v UpdateSubmitterRequestFieldsDefaultValue31) error {
+// FromUpdateSubmitterRequestFieldDefaultValue31 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldDefaultValue31
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldDefaultValue31(v UpdateSubmitterRequestFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue31 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldsDefaultValue31
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldsDefaultValue31(v UpdateSubmitterRequestFieldsDefaultValue31) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue31 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldDefaultValue31
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldDefaultValue31(v UpdateSubmitterRequestFieldDefaultValue31) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7558,22 +4404,22 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitter
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue32 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as a UpdateSubmitterRequestFieldsDefaultValue32
-func (t UpdateSubmitterRequest_Fields_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldsDefaultValue32() (UpdateSubmitterRequestFieldsDefaultValue32, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue32
+// AsUpdateSubmitterRequestFieldDefaultValue32 returns the union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as a UpdateSubmitterRequestFieldDefaultValue32
+func (t UpdateSubmitterRequestField_DefaultValue_3_Item) AsUpdateSubmitterRequestFieldDefaultValue32() (UpdateSubmitterRequestFieldDefaultValue32, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue32
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue32 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldsDefaultValue32
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldsDefaultValue32(v UpdateSubmitterRequestFieldsDefaultValue32) error {
+// FromUpdateSubmitterRequestFieldDefaultValue32 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item as the provided UpdateSubmitterRequestFieldDefaultValue32
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) FromUpdateSubmitterRequestFieldDefaultValue32(v UpdateSubmitterRequestFieldDefaultValue32) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue32 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldsDefaultValue32
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldsDefaultValue32(v UpdateSubmitterRequestFieldsDefaultValue32) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue32 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue_3_Item, using the provided UpdateSubmitterRequestFieldDefaultValue32
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) MergeUpdateSubmitterRequestFieldDefaultValue32(v UpdateSubmitterRequestFieldDefaultValue32) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7584,32 +4430,32 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MergeUpdateSubmitter
 	return err
 }
 
-func (t UpdateSubmitterRequest_Fields_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
+func (t UpdateSubmitterRequestField_DefaultValue_3_Item) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *UpdateSubmitterRequest_Fields_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
+func (t *UpdateSubmitterRequestField_DefaultValue_3_Item) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue0 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue as a UpdateSubmitterRequestFieldsDefaultValue0
-func (t UpdateSubmitterRequest_Fields_DefaultValue) AsUpdateSubmitterRequestFieldsDefaultValue0() (UpdateSubmitterRequestFieldsDefaultValue0, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue0
+// AsUpdateSubmitterRequestFieldDefaultValue0 returns the union data inside the UpdateSubmitterRequestField_DefaultValue as a UpdateSubmitterRequestFieldDefaultValue0
+func (t UpdateSubmitterRequestField_DefaultValue) AsUpdateSubmitterRequestFieldDefaultValue0() (UpdateSubmitterRequestFieldDefaultValue0, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue0 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue as the provided UpdateSubmitterRequestFieldsDefaultValue0
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) FromUpdateSubmitterRequestFieldsDefaultValue0(v UpdateSubmitterRequestFieldsDefaultValue0) error {
+// FromUpdateSubmitterRequestFieldDefaultValue0 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue as the provided UpdateSubmitterRequestFieldDefaultValue0
+func (t *UpdateSubmitterRequestField_DefaultValue) FromUpdateSubmitterRequestFieldDefaultValue0(v UpdateSubmitterRequestFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue0 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue, using the provided UpdateSubmitterRequestFieldsDefaultValue0
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequestFieldsDefaultValue0(v UpdateSubmitterRequestFieldsDefaultValue0) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue0 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue, using the provided UpdateSubmitterRequestFieldDefaultValue0
+func (t *UpdateSubmitterRequestField_DefaultValue) MergeUpdateSubmitterRequestFieldDefaultValue0(v UpdateSubmitterRequestFieldDefaultValue0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7620,22 +4466,22 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequest
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue1 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue as a UpdateSubmitterRequestFieldsDefaultValue1
-func (t UpdateSubmitterRequest_Fields_DefaultValue) AsUpdateSubmitterRequestFieldsDefaultValue1() (UpdateSubmitterRequestFieldsDefaultValue1, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue1
+// AsUpdateSubmitterRequestFieldDefaultValue1 returns the union data inside the UpdateSubmitterRequestField_DefaultValue as a UpdateSubmitterRequestFieldDefaultValue1
+func (t UpdateSubmitterRequestField_DefaultValue) AsUpdateSubmitterRequestFieldDefaultValue1() (UpdateSubmitterRequestFieldDefaultValue1, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue1
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue1 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue as the provided UpdateSubmitterRequestFieldsDefaultValue1
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) FromUpdateSubmitterRequestFieldsDefaultValue1(v UpdateSubmitterRequestFieldsDefaultValue1) error {
+// FromUpdateSubmitterRequestFieldDefaultValue1 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue as the provided UpdateSubmitterRequestFieldDefaultValue1
+func (t *UpdateSubmitterRequestField_DefaultValue) FromUpdateSubmitterRequestFieldDefaultValue1(v UpdateSubmitterRequestFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue1 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue, using the provided UpdateSubmitterRequestFieldsDefaultValue1
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequestFieldsDefaultValue1(v UpdateSubmitterRequestFieldsDefaultValue1) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue1 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue, using the provided UpdateSubmitterRequestFieldDefaultValue1
+func (t *UpdateSubmitterRequestField_DefaultValue) MergeUpdateSubmitterRequestFieldDefaultValue1(v UpdateSubmitterRequestFieldDefaultValue1) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7646,22 +4492,22 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequest
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue2 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue as a UpdateSubmitterRequestFieldsDefaultValue2
-func (t UpdateSubmitterRequest_Fields_DefaultValue) AsUpdateSubmitterRequestFieldsDefaultValue2() (UpdateSubmitterRequestFieldsDefaultValue2, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue2
+// AsUpdateSubmitterRequestFieldDefaultValue2 returns the union data inside the UpdateSubmitterRequestField_DefaultValue as a UpdateSubmitterRequestFieldDefaultValue2
+func (t UpdateSubmitterRequestField_DefaultValue) AsUpdateSubmitterRequestFieldDefaultValue2() (UpdateSubmitterRequestFieldDefaultValue2, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue2
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue2 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue as the provided UpdateSubmitterRequestFieldsDefaultValue2
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) FromUpdateSubmitterRequestFieldsDefaultValue2(v UpdateSubmitterRequestFieldsDefaultValue2) error {
+// FromUpdateSubmitterRequestFieldDefaultValue2 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue as the provided UpdateSubmitterRequestFieldDefaultValue2
+func (t *UpdateSubmitterRequestField_DefaultValue) FromUpdateSubmitterRequestFieldDefaultValue2(v UpdateSubmitterRequestFieldDefaultValue2) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue2 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue, using the provided UpdateSubmitterRequestFieldsDefaultValue2
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequestFieldsDefaultValue2(v UpdateSubmitterRequestFieldsDefaultValue2) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue2 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue, using the provided UpdateSubmitterRequestFieldDefaultValue2
+func (t *UpdateSubmitterRequestField_DefaultValue) MergeUpdateSubmitterRequestFieldDefaultValue2(v UpdateSubmitterRequestFieldDefaultValue2) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7672,22 +4518,22 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequest
 	return err
 }
 
-// AsUpdateSubmitterRequestFieldsDefaultValue3 returns the union data inside the UpdateSubmitterRequest_Fields_DefaultValue as a UpdateSubmitterRequestFieldsDefaultValue3
-func (t UpdateSubmitterRequest_Fields_DefaultValue) AsUpdateSubmitterRequestFieldsDefaultValue3() (UpdateSubmitterRequestFieldsDefaultValue3, error) {
-	var body UpdateSubmitterRequestFieldsDefaultValue3
+// AsUpdateSubmitterRequestFieldDefaultValue3 returns the union data inside the UpdateSubmitterRequestField_DefaultValue as a UpdateSubmitterRequestFieldDefaultValue3
+func (t UpdateSubmitterRequestField_DefaultValue) AsUpdateSubmitterRequestFieldDefaultValue3() (UpdateSubmitterRequestFieldDefaultValue3, error) {
+	var body UpdateSubmitterRequestFieldDefaultValue3
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromUpdateSubmitterRequestFieldsDefaultValue3 overwrites any union data inside the UpdateSubmitterRequest_Fields_DefaultValue as the provided UpdateSubmitterRequestFieldsDefaultValue3
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) FromUpdateSubmitterRequestFieldsDefaultValue3(v UpdateSubmitterRequestFieldsDefaultValue3) error {
+// FromUpdateSubmitterRequestFieldDefaultValue3 overwrites any union data inside the UpdateSubmitterRequestField_DefaultValue as the provided UpdateSubmitterRequestFieldDefaultValue3
+func (t *UpdateSubmitterRequestField_DefaultValue) FromUpdateSubmitterRequestFieldDefaultValue3(v UpdateSubmitterRequestFieldDefaultValue3) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeUpdateSubmitterRequestFieldsDefaultValue3 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_DefaultValue, using the provided UpdateSubmitterRequestFieldsDefaultValue3
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequestFieldsDefaultValue3(v UpdateSubmitterRequestFieldsDefaultValue3) error {
+// MergeUpdateSubmitterRequestFieldDefaultValue3 performs a merge with any union data inside the UpdateSubmitterRequestField_DefaultValue, using the provided UpdateSubmitterRequestFieldDefaultValue3
+func (t *UpdateSubmitterRequestField_DefaultValue) MergeUpdateSubmitterRequestFieldDefaultValue3(v UpdateSubmitterRequestFieldDefaultValue3) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -7698,198 +4544,12 @@ func (t *UpdateSubmitterRequest_Fields_DefaultValue) MergeUpdateSubmitterRequest
 	return err
 }
 
-func (t UpdateSubmitterRequest_Fields_DefaultValue) MarshalJSON() ([]byte, error) {
+func (t UpdateSubmitterRequestField_DefaultValue) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *UpdateSubmitterRequest_Fields_DefaultValue) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsPreferencesMask0 returns the union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask as a UpdateSubmitterRequestFieldsPreferencesMask0
-func (t UpdateSubmitterRequest_Fields_Preferences_Mask) AsUpdateSubmitterRequestFieldsPreferencesMask0() (UpdateSubmitterRequestFieldsPreferencesMask0, error) {
-	var body UpdateSubmitterRequestFieldsPreferencesMask0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsPreferencesMask0 overwrites any union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask as the provided UpdateSubmitterRequestFieldsPreferencesMask0
-func (t *UpdateSubmitterRequest_Fields_Preferences_Mask) FromUpdateSubmitterRequestFieldsPreferencesMask0(v UpdateSubmitterRequestFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsPreferencesMask0 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask, using the provided UpdateSubmitterRequestFieldsPreferencesMask0
-func (t *UpdateSubmitterRequest_Fields_Preferences_Mask) MergeUpdateSubmitterRequestFieldsPreferencesMask0(v UpdateSubmitterRequestFieldsPreferencesMask0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsPreferencesMask1 returns the union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask as a UpdateSubmitterRequestFieldsPreferencesMask1
-func (t UpdateSubmitterRequest_Fields_Preferences_Mask) AsUpdateSubmitterRequestFieldsPreferencesMask1() (UpdateSubmitterRequestFieldsPreferencesMask1, error) {
-	var body UpdateSubmitterRequestFieldsPreferencesMask1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsPreferencesMask1 overwrites any union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask as the provided UpdateSubmitterRequestFieldsPreferencesMask1
-func (t *UpdateSubmitterRequest_Fields_Preferences_Mask) FromUpdateSubmitterRequestFieldsPreferencesMask1(v UpdateSubmitterRequestFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsPreferencesMask1 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Preferences_Mask, using the provided UpdateSubmitterRequestFieldsPreferencesMask1
-func (t *UpdateSubmitterRequest_Fields_Preferences_Mask) MergeUpdateSubmitterRequestFieldsPreferencesMask1(v UpdateSubmitterRequestFieldsPreferencesMask1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t UpdateSubmitterRequest_Fields_Preferences_Mask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *UpdateSubmitterRequest_Fields_Preferences_Mask) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsValidationMax0 returns the union data inside the UpdateSubmitterRequest_Fields_Validation_Max as a UpdateSubmitterRequestFieldsValidationMax0
-func (t UpdateSubmitterRequest_Fields_Validation_Max) AsUpdateSubmitterRequestFieldsValidationMax0() (UpdateSubmitterRequestFieldsValidationMax0, error) {
-	var body UpdateSubmitterRequestFieldsValidationMax0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsValidationMax0 overwrites any union data inside the UpdateSubmitterRequest_Fields_Validation_Max as the provided UpdateSubmitterRequestFieldsValidationMax0
-func (t *UpdateSubmitterRequest_Fields_Validation_Max) FromUpdateSubmitterRequestFieldsValidationMax0(v UpdateSubmitterRequestFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsValidationMax0 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Validation_Max, using the provided UpdateSubmitterRequestFieldsValidationMax0
-func (t *UpdateSubmitterRequest_Fields_Validation_Max) MergeUpdateSubmitterRequestFieldsValidationMax0(v UpdateSubmitterRequestFieldsValidationMax0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsValidationMax1 returns the union data inside the UpdateSubmitterRequest_Fields_Validation_Max as a UpdateSubmitterRequestFieldsValidationMax1
-func (t UpdateSubmitterRequest_Fields_Validation_Max) AsUpdateSubmitterRequestFieldsValidationMax1() (UpdateSubmitterRequestFieldsValidationMax1, error) {
-	var body UpdateSubmitterRequestFieldsValidationMax1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsValidationMax1 overwrites any union data inside the UpdateSubmitterRequest_Fields_Validation_Max as the provided UpdateSubmitterRequestFieldsValidationMax1
-func (t *UpdateSubmitterRequest_Fields_Validation_Max) FromUpdateSubmitterRequestFieldsValidationMax1(v UpdateSubmitterRequestFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsValidationMax1 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Validation_Max, using the provided UpdateSubmitterRequestFieldsValidationMax1
-func (t *UpdateSubmitterRequest_Fields_Validation_Max) MergeUpdateSubmitterRequestFieldsValidationMax1(v UpdateSubmitterRequestFieldsValidationMax1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t UpdateSubmitterRequest_Fields_Validation_Max) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *UpdateSubmitterRequest_Fields_Validation_Max) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsValidationMin0 returns the union data inside the UpdateSubmitterRequest_Fields_Validation_Min as a UpdateSubmitterRequestFieldsValidationMin0
-func (t UpdateSubmitterRequest_Fields_Validation_Min) AsUpdateSubmitterRequestFieldsValidationMin0() (UpdateSubmitterRequestFieldsValidationMin0, error) {
-	var body UpdateSubmitterRequestFieldsValidationMin0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsValidationMin0 overwrites any union data inside the UpdateSubmitterRequest_Fields_Validation_Min as the provided UpdateSubmitterRequestFieldsValidationMin0
-func (t *UpdateSubmitterRequest_Fields_Validation_Min) FromUpdateSubmitterRequestFieldsValidationMin0(v UpdateSubmitterRequestFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsValidationMin0 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Validation_Min, using the provided UpdateSubmitterRequestFieldsValidationMin0
-func (t *UpdateSubmitterRequest_Fields_Validation_Min) MergeUpdateSubmitterRequestFieldsValidationMin0(v UpdateSubmitterRequestFieldsValidationMin0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsUpdateSubmitterRequestFieldsValidationMin1 returns the union data inside the UpdateSubmitterRequest_Fields_Validation_Min as a UpdateSubmitterRequestFieldsValidationMin1
-func (t UpdateSubmitterRequest_Fields_Validation_Min) AsUpdateSubmitterRequestFieldsValidationMin1() (UpdateSubmitterRequestFieldsValidationMin1, error) {
-	var body UpdateSubmitterRequestFieldsValidationMin1
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromUpdateSubmitterRequestFieldsValidationMin1 overwrites any union data inside the UpdateSubmitterRequest_Fields_Validation_Min as the provided UpdateSubmitterRequestFieldsValidationMin1
-func (t *UpdateSubmitterRequest_Fields_Validation_Min) FromUpdateSubmitterRequestFieldsValidationMin1(v UpdateSubmitterRequestFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeUpdateSubmitterRequestFieldsValidationMin1 performs a merge with any union data inside the UpdateSubmitterRequest_Fields_Validation_Min, using the provided UpdateSubmitterRequestFieldsValidationMin1
-func (t *UpdateSubmitterRequest_Fields_Validation_Min) MergeUpdateSubmitterRequestFieldsValidationMin1(v UpdateSubmitterRequestFieldsValidationMin1) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t UpdateSubmitterRequest_Fields_Validation_Min) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *UpdateSubmitterRequest_Fields_Validation_Min) UnmarshalJSON(b []byte) error {
+func (t *UpdateSubmitterRequestField_DefaultValue) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }

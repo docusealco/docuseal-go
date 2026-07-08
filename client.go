@@ -153,3 +153,8 @@ func queryValues(params any) url.Values {
 
 	return values
 }
+
+// Ptr returns a pointer to v: a helper for filling optional request fields.
+func Ptr[T any](v T) *T {
+	return &v
+}
