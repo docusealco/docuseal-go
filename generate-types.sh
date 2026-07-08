@@ -15,13 +15,12 @@ case "$SPEC" in
 esac
 
 # The SDK exposes only the REST API client: drop webhook payload schemas.
-python3 - "$TMP_DIR/openapi.json" << 'PY'
-import json, sys
-path = sys.argv[1]
-spec = json.load(open(path))
-spec.pop("webhooks", None)
-json.dump(spec, open(path, "w"))
-PY
+ruby -rjson -e '
+  path = ARGV[0]
+  spec = JSON.parse(File.read(path))
+  spec.delete("webhooks")
+  File.write(path, JSON.generate(spec))
+' "$TMP_DIR/openapi.json"
 
 # OpenAPI 3.1 support is merged into oapi-codegen master but not released yet
 # (latest release v2.7.2 fails on `type: [T, null]`), hence the pseudo-version

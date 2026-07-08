@@ -104,7 +104,7 @@ never edited by hand:
 ./generate-types.sh
 ```
 
-Requires `python3`. Uses a pinned oapi-codegen master build with native
+Requires `ruby`. Uses a pinned oapi-codegen master build with native
 OpenAPI 3.1 support (bump to the next tagged release when it ships).
 
 ## Documentation

@@ -20,7 +20,7 @@ const (
 	GlobalURL = "https://api.docuseal.com"
 	EuURL     = "https://api.docuseal.eu"
 
-	version = "0.1.0"
+	version = "1.0.0"
 )
 
 type Client struct {

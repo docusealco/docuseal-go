@@ -16,8 +16,6 @@ the OpenAPI spec, the client is written by hand.
   `queryValues()` params serialization.
 - `api.go` - hand-written API methods, one per endpoint. Mirrors the method
   naming of docuseal-js (`listTemplates` -> `ListTemplates`).
-- `responses.go` - the response type of `POST /submissions/init`, which is
-  not in the public spec.
 
 ## Source of truth
 

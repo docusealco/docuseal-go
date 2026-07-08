@@ -2111,6 +2111,15 @@ type CloneTemplateRequest struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// CompletedDocument defines model for CompletedDocument.
+type CompletedDocument struct {
+	// Name Document name.
+	Name string `json:"name"`
+
+	// Url Document URL.
+	Url string `json:"url"`
+}
+
 // CreateSubmissionFromDocxRequest defines model for CreateSubmissionFromDocxRequest.
 type CreateSubmissionFromDocxRequest struct {
 	// BccCompleted Specify BCC address to send signed documents to after the completion.
@@ -4087,7 +4096,7 @@ type CreateTemplateFromPdfRequest_Documents_Fields_Validation_Min struct {
 // GetSubmissionDocumentsResponse defines model for GetSubmissionDocumentsResponse.
 type GetSubmissionDocumentsResponse struct {
 	// Documents An array of completed or signed documents of the submission.
-	Documents []SignedDocument `json:"documents"`
+	Documents []CompletedDocument `json:"documents"`
 
 	// Id Submission unique ID number.
 	Id int `json:"id"`
@@ -4112,7 +4121,7 @@ type GetSubmissionResponse struct {
 	CreatedByUser *SubmissionCreatedByUser `json:"created_by_user"`
 
 	// Documents An array of completed or signed documents of the submission.
-	Documents []SignedDocument `json:"documents"`
+	Documents []CompletedDocument `json:"documents"`
 
 	// Id Submission unique ID number.
 	Id int `json:"id"`
@@ -4149,7 +4158,7 @@ type GetSubmissionResponse struct {
 		DeclinedAt *string `json:"declined_at"`
 
 		// Documents An array of completed or signed documents by the submitter.
-		Documents []SignedDocument `json:"documents"`
+		Documents []CompletedDocument `json:"documents"`
 
 		// Email The email address of the submitter.
 		Email *string `json:"email"`
@@ -4341,7 +4350,7 @@ type GetSubmitterResponse struct {
 	DeclinedAt *string `json:"declined_at"`
 
 	// Documents An array of completed or signed documents by the submitter.
-	Documents []SignedDocument `json:"documents"`
+	Documents []CompletedDocument `json:"documents"`
 
 	// Email The email address of the submitter.
 	Email *string `json:"email"`
@@ -4414,7 +4423,7 @@ type GetSubmittersResponse struct {
 		DeclinedAt *string `json:"declined_at"`
 
 		// Documents An array of completed or signed documents by the submitter.
-		Documents []SignedDocument `json:"documents"`
+		Documents []CompletedDocument `json:"documents"`
 
 		// Email The email address of the submitter.
 		Email string `json:"email"`
@@ -4618,15 +4627,6 @@ type MergeTemplateRequest struct {
 	//
 	// Examples: [321,432]
 	TemplateIds []int `json:"template_ids"`
-}
-
-// SignedDocument defines model for SignedDocument.
-type SignedDocument struct {
-	// Name Document name.
-	Name string `json:"name"`
-
-	// Url Document URL.
-	Url string `json:"url"`
 }
 
 // SubmissionCreatedByUser defines model for SubmissionCreatedByUser.
@@ -5155,7 +5155,7 @@ type UpdateSubmitterResponse struct {
 	DeclinedAt *string `json:"declined_at"`
 
 	// Documents An array of completed or signed documents by the submitter.
-	Documents []SignedDocument `json:"documents"`
+	Documents []CompletedDocument `json:"documents"`
 
 	// Email The email address of the submitter.
 	Email *string `json:"email"`

@@ -135,6 +135,15 @@ func (c *Client) GetSubmissionDocuments(ctx context.Context, id int, params *Get
 	return &out, nil
 }
 
+// POST /submissions/init is not in the public OpenAPI spec yet,
+// so its response type is defined by hand.
+type CreateSubmissionResponse struct {
+	Id         int                                 `json:"id"`
+	Submitters CreateSubmissionsFromEmailsResponse `json:"submitters"`
+	ExpiredAt  *string                             `json:"expired_at"`
+	CreatedAt  string                              `json:"created_at"`
+}
+
 func (c *Client) CreateSubmission(ctx context.Context, data CreateSubmissionRequest) (*CreateSubmissionResponse, error) {
 	var out CreateSubmissionResponse
 	if err := c.do(ctx, http.MethodPost, "/submissions/init", nil, data, &out); err != nil {
