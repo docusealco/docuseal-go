@@ -3,7 +3,7 @@
 // API documentation: https://www.docuseal.com/docs/api
 package docuseal
 
-//go:generate ./scripts/generate-types.sh
+//go:generate ./generate-types.sh
 
 import (
 	"bytes"

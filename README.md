@@ -49,17 +49,19 @@ for _, template := range list.Data {
 ### Create a signature request
 
 ```go
-import "github.com/docusealco/docuseal-go/models"
+var data docuseal.CreateSubmissionRequest
 
-resp, err := client.CreateSubmission(ctx, models.CreateSubmissionRequest{
-	TemplateId: 1000001,
-	Submitters: []models.CreateSubmissionRequestSubmittersInner{
-		{
-			Role:  models.PtrString("First Party"),
-			Email: models.PtrString("signer@example.com"),
-		},
-	},
-})
+err := json.Unmarshal([]byte(`{
+	"template_id": 1000001,
+	"submitters": [
+		{"role": "First Party", "email": "signer@example.com"}
+	]
+}`), &data)
+if err != nil {
+	log.Fatal(err)
+}
+
+resp, err := client.CreateSubmission(ctx, data)
 if err != nil {
 	log.Fatal(err)
 }
@@ -95,14 +97,15 @@ if errors.As(err, &apiErr) {
 
 ## Regenerating models
 
-The `models` package is generated from the DocuSeal OpenAPI specification
-and is never edited by hand:
+`types.go` is generated from the DocuSeal OpenAPI specification and is
+never edited by hand:
 
 ```sh
-./scripts/generate-types.sh
+./generate-types.sh
 ```
 
-Requires Node.js (`npx`) and Java for `openapi-generator-cli`.
+Requires `python3`. Uses a pinned oapi-codegen master build with native
+OpenAPI 3.1 support (bump to the next tagged release when it ships).
 
 ## Documentation
 
