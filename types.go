@@ -1133,7 +1133,7 @@ func (e GetSubmissionsParamsStatus) Valid() bool {
 // AddDocumentToTemplateRequest defines model for AddDocumentToTemplateRequest.
 type AddDocumentToTemplateRequest struct {
 	// Documents The list of documents to add or replace in the template.
-	Documents *[]AddDocumentToTemplateRequestDocument `json:"documents,omitempty"`
+	Documents []AddDocumentToTemplateRequestDocument `json:"documents,omitempty"`
 
 	// Merge Set to `true` to merge all existing and new documents into a single PDF document in the template.
 	Merge *bool `json:"merge,omitempty"`
@@ -1142,20 +1142,20 @@ type AddDocumentToTemplateRequest struct {
 // AddDocumentToTemplateRequestDocument defines model for AddDocumentToTemplateRequestDocument.
 type AddDocumentToTemplateRequestDocument struct {
 	// File Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
-	File *string `json:"file,omitempty"`
+	File string `json:"file,omitempty"`
 
 	// Html HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
-	Html *string `json:"html,omitempty"`
+	Html string `json:"html,omitempty"`
 
 	// Name Document name. Random uuid will be assigned when not specified.
 	//
 	// Examples: Test Template
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Position Position of the document. By default will be added as the last document in the template.
 	//
 	// Examples: 0
-	Position *int `json:"position,omitempty"`
+	Position int `json:"position,omitempty"`
 
 	// Remove Set to `true` to remove existing document at given `position` or with given `name`.
 	Remove *bool `json:"remove,omitempty"`
@@ -1167,7 +1167,7 @@ type AddDocumentToTemplateRequestDocument struct {
 // ArchiveSubmissionResponse defines model for ArchiveSubmissionResponse.
 type ArchiveSubmissionResponse struct {
 	// ArchivedAt Date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at"`
+	ArchivedAt string `json:"archived_at"`
 
 	// Id Submission unique ID number.
 	Id int `json:"id"`
@@ -1176,7 +1176,7 @@ type ArchiveSubmissionResponse struct {
 // ArchiveTemplateResponse defines model for ArchiveTemplateResponse.
 type ArchiveTemplateResponse struct {
 	// ArchivedAt Date and time when the template was archived.
-	ArchivedAt *string `json:"archived_at"`
+	ArchivedAt string `json:"archived_at"`
 
 	// Id Template unique ID number.
 	Id int `json:"id"`
@@ -1185,15 +1185,15 @@ type ArchiveTemplateResponse struct {
 // CloneTemplateRequest defines model for CloneTemplateRequest.
 type CloneTemplateRequest struct {
 	// ExternalId Your application-specific unique string key to identify this template within your app.
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// FolderName The folder's name to which the template should be cloned.
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Name Template name. Existing name with (Clone) suffix will be used if not specified.
 	//
 	// Examples: Cloned Template
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 // CompletedDocument defines model for CompletedDocument.
@@ -1208,10 +1208,10 @@ type CompletedDocument struct {
 // CreateSubmissionFromDocxRequest defines model for CreateSubmissionFromDocxRequest.
 type CreateSubmissionFromDocxRequest struct {
 	// BccCompleted Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty"`
+	BccCompleted string `json:"bcc_completed,omitempty"`
 
 	// CompletedRedirectUrl Specify URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Documents An array of DOCX documents to create a submission.
 	Documents []CreateSubmissionFromDocxRequestDocument `json:"documents"`
@@ -1219,7 +1219,7 @@ type CreateSubmissionFromDocxRequest struct {
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
 	// Examples: 2024-09-01 12:00:00 UTC
-	ExpireAt *string `json:"expire_at,omitempty"`
+	ExpireAt string `json:"expire_at,omitempty"`
 
 	// MergeDocuments Set `true` to merge the documents into a single PDF file.
 	MergeDocuments *bool `json:"merge_documents,omitempty"`
@@ -1230,16 +1230,16 @@ type CreateSubmissionFromDocxRequest struct {
 	// Name Name of the document submission.
 	//
 	// Examples: Test Submission Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Order Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromDocxRequestOrder `json:"order,omitempty"`
+	Order CreateSubmissionFromDocxRequestOrder `json:"order,omitempty"`
 
 	// RemoveTags Pass `false` to disable the removal of {{text}} tags from the document. This can be used along with transparent text tags for faster and more robust document processing.
 	RemoveTags *bool `json:"remove_tags,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1251,12 +1251,12 @@ type CreateSubmissionFromDocxRequest struct {
 	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
-	TemplateIds *[]int `json:"template_ids,omitempty"`
+	TemplateIds []int `json:"template_ids,omitempty"`
 
 	// Variables Dynamic content variables object. Variable values can be strings, numbers, arrays, objects, or HTML content used to generate styled text, paragraphs, and tables in DOCX.
 	//
 	// Examples: {"variable_name":"value"}
-	Variables *map[string]interface{} `json:"variables,omitempty"`
+	Variables map[string]interface{} `json:"variables,omitempty"`
 }
 
 // CreateSubmissionFromDocxRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
@@ -1273,16 +1273,16 @@ type CreateSubmissionFromDocxRequestDocument struct {
 	Name string `json:"name"`
 
 	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-	Position *int `json:"position,omitempty"`
+	Position int `json:"position,omitempty"`
 }
 
 // CreateSubmissionFromHtmlRequest defines model for CreateSubmissionFromHtmlRequest.
 type CreateSubmissionFromHtmlRequest struct {
 	// BccCompleted Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty"`
+	BccCompleted string `json:"bcc_completed,omitempty"`
 
 	// CompletedRedirectUrl Specify URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Documents The list of documents built from HTML. Can be used to create a submission with multiple documents.
 	Documents []CreateSubmissionFromHtmlRequestDocument `json:"documents"`
@@ -1290,7 +1290,7 @@ type CreateSubmissionFromHtmlRequest struct {
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
 	// Examples: 2024-09-01 12:00:00 UTC
-	ExpireAt *string `json:"expire_at,omitempty"`
+	ExpireAt string `json:"expire_at,omitempty"`
 
 	// MergeDocuments Set `true` to merge the documents into a single PDF file.
 	MergeDocuments *bool `json:"merge_documents,omitempty"`
@@ -1301,13 +1301,13 @@ type CreateSubmissionFromHtmlRequest struct {
 	// Name Name of the document submission.
 	//
 	// Examples: Test Submission Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Order Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromHtmlRequestOrder `json:"order,omitempty"`
+	Order CreateSubmissionFromHtmlRequestOrder `json:"order,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1319,7 +1319,7 @@ type CreateSubmissionFromHtmlRequest struct {
 	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
-	TemplateIds *[]int `json:"template_ids,omitempty"`
+	TemplateIds []int `json:"template_ids,omitempty"`
 }
 
 // CreateSubmissionFromHtmlRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
@@ -1340,23 +1340,23 @@ type CreateSubmissionFromHtmlRequestDocument struct {
 	Html string `json:"html"`
 
 	// HtmlFooter HTML document content of the footer to be displayed on every page.
-	HtmlFooter *string `json:"html_footer,omitempty"`
+	HtmlFooter string `json:"html_footer,omitempty"`
 
 	// HtmlHeader HTML document content of the header to be displayed on every page.
-	HtmlHeader *string `json:"html_header,omitempty"`
+	HtmlHeader string `json:"html_header,omitempty"`
 
 	// Name Document name. Random uuid will be assigned when not specified.
 	//
 	// Examples: Test Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-	Position *int `json:"position,omitempty"`
+	Position int `json:"position,omitempty"`
 
 	// Size Page size. Letter 8.5 x 11 will be assigned when not specified.
 	//
 	// Examples: A4
-	Size *CreateSubmissionFromHtmlRequestDocumentSize `json:"size,omitempty"`
+	Size CreateSubmissionFromHtmlRequestDocumentSize `json:"size,omitempty"`
 }
 
 // CreateSubmissionFromHtmlRequestDocumentSize Page size. Letter 8.5 x 11 will be assigned when not specified.
@@ -1367,10 +1367,10 @@ type CreateSubmissionFromHtmlRequestDocumentSize string
 // CreateSubmissionFromPdfRequest defines model for CreateSubmissionFromPdfRequest.
 type CreateSubmissionFromPdfRequest struct {
 	// BccCompleted Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty"`
+	BccCompleted string `json:"bcc_completed,omitempty"`
 
 	// CompletedRedirectUrl Specify URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Documents An array of PDF documents to create a submission.
 	Documents []CreateSubmissionFromPdfRequestDocument `json:"documents"`
@@ -1378,7 +1378,7 @@ type CreateSubmissionFromPdfRequest struct {
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
 	// Examples: 2024-09-01 12:00:00 UTC
-	ExpireAt *string `json:"expire_at,omitempty"`
+	ExpireAt string `json:"expire_at,omitempty"`
 
 	// Flatten Remove PDF form fields from the documents.
 	Flatten *bool `json:"flatten,omitempty"`
@@ -1392,16 +1392,16 @@ type CreateSubmissionFromPdfRequest struct {
 	// Name Name of the document submission.
 	//
 	// Examples: Test Submission Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Order Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromPdfRequestOrder `json:"order,omitempty"`
+	Order CreateSubmissionFromPdfRequestOrder `json:"order,omitempty"`
 
 	// RemoveTags Pass `false` to disable the removal of {{text}} tags from the PDF. This can be used along with transparent text tags for faster and more robust PDF processing.
 	RemoveTags *bool `json:"remove_tags,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1413,7 +1413,7 @@ type CreateSubmissionFromPdfRequest struct {
 	Submitters []CreateSubmissionFromPdfRequestSubmitter `json:"submitters"`
 
 	// TemplateIds An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
-	TemplateIds *[]int `json:"template_ids,omitempty"`
+	TemplateIds []int `json:"template_ids,omitempty"`
 }
 
 // CreateSubmissionFromPdfRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
@@ -1422,7 +1422,7 @@ type CreateSubmissionFromPdfRequestOrder string
 // CreateSubmissionFromPdfRequestDocument defines model for CreateSubmissionFromPdfRequestDocument.
 type CreateSubmissionFromPdfRequestDocument struct {
 	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields *[]CreateSubmissionFromPdfRequestDocumentField `json:"fields,omitempty"`
+	Fields []CreateSubmissionFromPdfRequestDocumentField `json:"fields,omitempty"`
 
 	// File Base64-encoded content of the PDF file or downloadable file URL.
 	//
@@ -1433,36 +1433,36 @@ type CreateSubmissionFromPdfRequestDocument struct {
 	Name string `json:"name"`
 
 	// Position Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
-	Position *int `json:"position,omitempty"`
+	Position int `json:"position,omitempty"`
 }
 
 // CreateSubmissionFromPdfRequestDocumentField defines model for CreateSubmissionFromPdfRequestDocumentField.
 type CreateSubmissionFromPdfRequestDocumentField struct {
 	// Areas List of areas where the field is located in the document.
-	Areas *[]CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
+	Areas []CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
 
 	// Description Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// Name Name of the field.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Options An array of option values for 'select' field type.
 	//
 	// Examples: ["Option A","Option B"]
-	Options *[]string `json:"options,omitempty"`
+	Options []string `json:"options,omitempty"`
 
 	// Required Indicates if the field is required.
 	Required *bool `json:"required,omitempty"`
 
 	// Role Role name of the signer.
-	Role *string `json:"role,omitempty"`
+	Role string `json:"role,omitempty"`
 
 	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 
 	// Type Type of the field (e.g., text, signature, date, initials).
-	Type *CreateSubmissionFromPdfRequestDocumentFieldType `json:"type,omitempty"`
+	Type CreateSubmissionFromPdfRequestDocumentFieldType `json:"type,omitempty"`
 }
 
 // CreateSubmissionFromPdfRequestDocumentFieldType Type of the field (e.g., text, signature, date, initials).
@@ -1474,7 +1474,7 @@ type CreateSubmissionFromPdfRequestDocumentFieldArea struct {
 	H float32 `json:"h"`
 
 	// Option Option string value for 'radio' and 'multiple' select field types.
-	Option *string `json:"option,omitempty"`
+	Option string `json:"option,omitempty"`
 
 	// Page Page number of the field area. Starts from 1.
 	//
@@ -1494,10 +1494,10 @@ type CreateSubmissionFromPdfRequestDocumentFieldArea struct {
 // CreateSubmissionFromPdfRequestMessage Custom signature request email message.
 type CreateSubmissionFromPdfRequestMessage struct {
 	// Body Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty"`
+	Body string `json:"body,omitempty"`
 
 	// Subject Custom signature request email subject.
-	Subject *string `json:"subject,omitempty"`
+	Subject string `json:"subject,omitempty"`
 }
 
 // CreateSubmissionFromPdfRequestSubmitter defines model for CreateSubmissionFromPdfRequestSubmitter.
@@ -1506,40 +1506,40 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	Completed *bool `json:"completed,omitempty"`
 
 	// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Email The email address of the submitter.
 	//
 	// Examples: john.doe@example.com
-	Email *openapi_types.Email `json:"email,omitempty"`
+	Email openapi_types.Email `json:"email,omitempty"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// Fields A list of configurations for document form fields.
-	Fields *[]CreateSubmissionFromPdfRequestSubmitterField `json:"fields,omitempty"`
+	Fields []CreateSubmissionFromPdfRequestSubmitterField `json:"fields,omitempty"`
 
 	// InviteBy Set the role name of the previous party that should invite this party via email.
-	InviteBy *string `json:"invite_by,omitempty"`
+	InviteBy string `json:"invite_by,omitempty"`
 
 	// Metadata Metadata object with additional submitter information.
 	//
 	// Examples: { "customField": "value" }
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-	Order *int `json:"order,omitempty"`
+	Order int `json:"order,omitempty"`
 
 	// Phone The phone number of the submitter, formatted according to the E.164 standard.
 	//
 	// Examples: +1234567890
-	Phone *string `json:"phone,omitempty"`
+	Phone string `json:"phone,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
 	RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
@@ -1550,10 +1550,10 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	// Role The role name or title of the submitter.
 	//
 	// Examples: First Party
-	Role *string `json:"role,omitempty"`
+	Role string `json:"role,omitempty"`
 
 	// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-	Roles *[]string `json:"roles,omitempty"`
+	Roles []string `json:"roles,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending only for this submitter.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1562,7 +1562,7 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-	Values *map[string]interface{} `json:"values,omitempty"`
+	Values map[string]interface{} `json:"values,omitempty"`
 }
 
 // CreateSubmissionFromPdfRequestSubmitterField defines model for CreateSubmissionFromPdfRequestSubmitterField.
@@ -1570,10 +1570,10 @@ type CreateSubmissionFromPdfRequestSubmitterField struct {
 	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 	//
 	// Examples: Acme
-	DefaultValue *CreateSubmissionFromPdfRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
+	DefaultValue CreateSubmissionFromPdfRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
 
 	// Description Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// Name Document field name.
 	//
@@ -1590,7 +1590,7 @@ type CreateSubmissionFromPdfRequestSubmitterField struct {
 	Required *bool `json:"required,omitempty"`
 
 	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 
 	// Validation Field validation rules.
 	Validation *FieldValidation `json:"validation,omitempty"`
@@ -1640,21 +1640,21 @@ type CreateSubmissionFromPdfResponse struct {
 	ExpireAt string `json:"expire_at"`
 
 	// Fields List of fields to be filled in the one-off submission.
-	Fields *[]TemplateField `json:"fields,omitempty"`
+	Fields []TemplateField `json:"fields,omitempty"`
 
 	// Id Submission unique ID number.
 	Id int `json:"id"`
 
 	// Name Submission name.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Schema The one-off submission document files.
-	Schema *[]struct {
+	Schema []struct {
 		// AttachmentUuid The attachment UUID.
-		AttachmentUuid *string `json:"attachment_uuid,omitempty"`
+		AttachmentUuid string `json:"attachment_uuid,omitempty"`
 
 		// Name The attachment name.
-		Name *string `json:"name,omitempty"`
+		Name string `json:"name,omitempty"`
 	} `json:"schema,omitempty"`
 
 	// Source The source of the submission.
@@ -1666,22 +1666,22 @@ type CreateSubmissionFromPdfResponse struct {
 	// Submitters The list of submitters.
 	Submitters []struct {
 		// CompletedAt The date and time when the submitter completed the signing form.
-		CompletedAt *string `json:"completed_at"`
+		CompletedAt string `json:"completed_at"`
 
 		// CreatedAt The date and time when the submitter was created.
 		CreatedAt string `json:"created_at"`
 
 		// DeclinedAt The date and time when the submitter declined the signing form.
-		DeclinedAt *string `json:"declined_at"`
+		DeclinedAt string `json:"declined_at"`
 
 		// Email The email address of the submitter.
-		Email *string `json:"email"`
+		Email string `json:"email"`
 
 		// EmbedSrc The `src` URL value to embed the signing form or sign via a link.
-		EmbedSrc *string `json:"embed_src,omitempty"`
+		EmbedSrc string `json:"embed_src,omitempty"`
 
 		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id,omitempty"`
+		ExternalId string `json:"external_id,omitempty"`
 
 		// Id Submitter unique ID number.
 		Id int `json:"id"`
@@ -1690,13 +1690,13 @@ type CreateSubmissionFromPdfResponse struct {
 		Metadata map[string]interface{} `json:"metadata"`
 
 		// Name The name of the submitter.
-		Name *string `json:"name"`
+		Name string `json:"name"`
 
 		// OpenedAt The date and time when the submitter opened the signing form.
-		OpenedAt *string `json:"opened_at"`
+		OpenedAt string `json:"opened_at"`
 
 		// Phone The phone number of the submitter.
-		Phone *string `json:"phone"`
+		Phone string `json:"phone"`
 
 		// Preferences Submitter preferences.
 		Preferences map[string]interface{} `json:"preferences"`
@@ -1705,7 +1705,7 @@ type CreateSubmissionFromPdfResponse struct {
 		Role string `json:"role"`
 
 		// SentAt The date and time when the signing request was sent to the submitter.
-		SentAt *string `json:"sent_at"`
+		SentAt string `json:"sent_at"`
 
 		// Slug Unique key to be used in the form signing link and embedded form.
 		Slug string `json:"slug"`
@@ -1720,7 +1720,7 @@ type CreateSubmissionFromPdfResponse struct {
 		Uuid string `json:"uuid"`
 
 		// Values An array of pre-filled values for the submitter.
-		Values *[]SubmitterValue `json:"values,omitempty"`
+		Values []SubmitterValue `json:"values,omitempty"`
 	} `json:"submitters"`
 
 	// SubmittersOrder The order of submitters.
@@ -1742,24 +1742,24 @@ type CreateSubmissionFromPdfResponseSubmittersOrder string
 // CreateSubmissionRequest defines model for CreateSubmissionRequest.
 type CreateSubmissionRequest struct {
 	// BccCompleted Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty"`
+	BccCompleted string `json:"bcc_completed,omitempty"`
 
 	// CompletedRedirectUrl Specify URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// ExpireAt Specify the expiration date and time after which the submission becomes unavailable for signature.
 	//
 	// Examples: 2024-09-01 12:00:00 UTC
-	ExpireAt *string `json:"expire_at,omitempty"`
+	ExpireAt string `json:"expire_at,omitempty"`
 
 	// Message Custom signature request email message.
 	Message *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty"`
 
 	// Order Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionRequestOrder `json:"order,omitempty"`
+	Order CreateSubmissionRequestOrder `json:"order,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1778,7 +1778,7 @@ type CreateSubmissionRequest struct {
 	// Variables Dynamic content variables object. Variable values can be strings, numbers, arrays, objects, or HTML content used to generate styled text, paragraphs, and tables in dynamic template documents.
 	//
 	// Examples: {"variable_name":"value"}
-	Variables *map[string]interface{} `json:"variables,omitempty"`
+	Variables map[string]interface{} `json:"variables,omitempty"`
 }
 
 // CreateSubmissionRequestOrder Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
@@ -1790,18 +1790,18 @@ type CreateSubmissionRequestSubmitter struct {
 	Completed *bool `json:"completed,omitempty"`
 
 	// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Email The email address of the submitter.
 	//
 	// Examples: john.doe@example.com
-	Email *openapi_types.Email `json:"email,omitempty"`
+	Email openapi_types.Email `json:"email,omitempty"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// Fields A list of configurations for template document form fields.
-	Fields *[]CreateSubmissionRequestSubmitterField `json:"fields,omitempty"`
+	Fields []CreateSubmissionRequestSubmitterField `json:"fields,omitempty"`
 
 	// Message Custom signature request email message for the submitter.
 	Message *CreateSubmissionRequestSubmitterMessage `json:"message,omitempty"`
@@ -1809,21 +1809,21 @@ type CreateSubmissionRequestSubmitter struct {
 	// Metadata Metadata object with additional submitter information.
 	//
 	// Examples: { "customField": "value" }
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Order The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-	Order *int `json:"order,omitempty"`
+	Order int `json:"order,omitempty"`
 
 	// Phone The phone number of the submitter, formatted according to the E.164 standard.
 	//
 	// Examples: +1234567890
-	Phone *string `json:"phone,omitempty"`
+	Phone string `json:"phone,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails for this submitter.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
 	RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
@@ -1834,10 +1834,10 @@ type CreateSubmissionRequestSubmitter struct {
 	// Role The role name or title of the submitter.
 	//
 	// Examples: First Party
-	Role *string `json:"role,omitempty"`
+	Role string `json:"role,omitempty"`
 
 	// Roles A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-	Roles *[]string `json:"roles,omitempty"`
+	Roles []string `json:"roles,omitempty"`
 
 	// SendEmail Set `false` to disable signature request emails sending only for this submitter.
 	SendEmail *bool `json:"send_email,omitempty"`
@@ -1846,7 +1846,7 @@ type CreateSubmissionRequestSubmitter struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-	Values *map[string]interface{} `json:"values,omitempty"`
+	Values map[string]interface{} `json:"values,omitempty"`
 }
 
 // CreateSubmissionRequestSubmitterField defines model for CreateSubmissionRequestSubmitterField.
@@ -1854,10 +1854,10 @@ type CreateSubmissionRequestSubmitterField struct {
 	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 	//
 	// Examples: Acme
-	DefaultValue *CreateSubmissionRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
+	DefaultValue CreateSubmissionRequestSubmitterField_DefaultValue `json:"default_value,omitempty"`
 
 	// Description Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// Name Document template field name.
 	//
@@ -1874,7 +1874,7 @@ type CreateSubmissionRequestSubmitterField struct {
 	Required *bool `json:"required,omitempty"`
 
 	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 
 	// Validation Field validation rules.
 	Validation *FieldValidation `json:"validation,omitempty"`
@@ -1916,10 +1916,10 @@ type CreateSubmissionRequestSubmitterField_DefaultValue struct {
 // CreateSubmissionRequestSubmitterMessage Custom signature request email message for the submitter.
 type CreateSubmissionRequestSubmitterMessage struct {
 	// Body Custom signature request email body for the submitter. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty"`
+	Body string `json:"body,omitempty"`
 
 	// Subject Custom signature request email subject for the submitter.
-	Subject *string `json:"subject,omitempty"`
+	Subject string `json:"subject,omitempty"`
 }
 
 // CreateSubmissionsFromEmailsRequest defines model for CreateSubmissionsFromEmailsRequest.
@@ -1944,31 +1944,31 @@ type CreateSubmissionsFromEmailsRequest struct {
 // CreateSubmissionsFromEmailsRequestMessage Custom signature request email message.
 type CreateSubmissionsFromEmailsRequestMessage struct {
 	// Body Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty"`
+	Body string `json:"body,omitempty"`
 
 	// Subject Custom signature request email subject.
-	Subject *string `json:"subject,omitempty"`
+	Subject string `json:"subject,omitempty"`
 }
 
 // CreateSubmissionsFromEmailsResponse defines model for CreateSubmissionsFromEmailsResponse.
 type CreateSubmissionsFromEmailsResponse = []struct {
 	// CompletedAt The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at"`
+	CompletedAt string `json:"completed_at"`
 
 	// CreatedAt The date and time when the submitter was created.
 	CreatedAt string `json:"created_at"`
 
 	// DeclinedAt The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at"`
+	DeclinedAt string `json:"declined_at"`
 
 	// Email The email address of the submitter.
-	Email *string `json:"email"`
+	Email string `json:"email"`
 
 	// EmbedSrc The `src` URL value to embed the signing form or sign via a link.
 	EmbedSrc string `json:"embed_src"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id"`
+	ExternalId string `json:"external_id"`
 
 	// Id Submitter unique ID number.
 	Id int `json:"id"`
@@ -1977,13 +1977,13 @@ type CreateSubmissionsFromEmailsResponse = []struct {
 	Metadata map[string]interface{} `json:"metadata"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name"`
+	Name string `json:"name"`
 
 	// OpenedAt The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at"`
+	OpenedAt string `json:"opened_at"`
 
 	// Phone The phone number of the submitter.
-	Phone *string `json:"phone"`
+	Phone string `json:"phone"`
 
 	// Preferences Submitter preferences.
 	Preferences struct {
@@ -1998,7 +1998,7 @@ type CreateSubmissionsFromEmailsResponse = []struct {
 	Role string `json:"role"`
 
 	// SentAt The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at"`
+	SentAt string `json:"sent_at"`
 
 	// Slug Unique key to be used in the form signing link and embedded form.
 	Slug string `json:"slug"`
@@ -2030,15 +2030,15 @@ type CreateTemplateFromDocxRequest struct {
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new document.
 	//
 	// Examples: unique-key
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// FolderName The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Name Name of the template.
 	//
 	// Examples: Test DOCX
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// SharedLink Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty"`
@@ -2050,7 +2050,7 @@ type CreateTemplateFromDocxRequestDocument struct {
 	Dynamic *bool `json:"dynamic,omitempty"`
 
 	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields *[]CreateTemplateFromDocxRequestDocumentField `json:"fields,omitempty"`
+	Fields []CreateTemplateFromDocxRequestDocumentField `json:"fields,omitempty"`
 
 	// File Base64-encoded content of the DOCX file or downloadable file URL.
 	//
@@ -2064,18 +2064,18 @@ type CreateTemplateFromDocxRequestDocument struct {
 // CreateTemplateFromDocxRequestDocumentField defines model for CreateTemplateFromDocxRequestDocumentField.
 type CreateTemplateFromDocxRequestDocumentField struct {
 	// Areas List of areas where the field is located in the document.
-	Areas *[]CreateTemplateFromDocxRequestDocumentFieldArea `json:"areas,omitempty"`
+	Areas []CreateTemplateFromDocxRequestDocumentFieldArea `json:"areas,omitempty"`
 
 	// Description Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// Name Name of the field.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Options An array of option values for 'select' field type.
 	//
 	// Examples: ["Option A","Option B"]
-	Options *[]string `json:"options,omitempty"`
+	Options []string `json:"options,omitempty"`
 
 	// Preferences Field display preferences.
 	Preferences *FieldPreferences `json:"preferences,omitempty"`
@@ -2084,13 +2084,13 @@ type CreateTemplateFromDocxRequestDocumentField struct {
 	Required *bool `json:"required,omitempty"`
 
 	// Role Role name of the signer.
-	Role *string `json:"role,omitempty"`
+	Role string `json:"role,omitempty"`
 
 	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 
 	// Type Type of the field (e.g., text, signature, date, initials).
-	Type *CreateTemplateFromDocxRequestDocumentFieldType `json:"type,omitempty"`
+	Type CreateTemplateFromDocxRequestDocumentFieldType `json:"type,omitempty"`
 
 	// Validation Field validation rules.
 	Validation *FieldValidation `json:"validation,omitempty"`
@@ -2102,36 +2102,36 @@ type CreateTemplateFromDocxRequestDocumentFieldType string
 // CreateTemplateFromDocxRequestDocumentFieldArea defines model for CreateTemplateFromDocxRequestDocumentFieldArea.
 type CreateTemplateFromDocxRequestDocumentFieldArea struct {
 	// H Height of the field area.
-	H *float32 `json:"h,omitempty"`
+	H float32 `json:"h,omitempty"`
 
 	// Option Option string value for 'radio' and 'multiple' select field types.
-	Option *string `json:"option,omitempty"`
+	Option string `json:"option,omitempty"`
 
 	// Page Page number of the field area. Starts from 1.
-	Page *int `json:"page,omitempty"`
+	Page int `json:"page,omitempty"`
 
 	// W Width of the field area.
-	W *float32 `json:"w,omitempty"`
+	W float32 `json:"w,omitempty"`
 
 	// X X-coordinate of the field area.
-	X *float32 `json:"x,omitempty"`
+	X float32 `json:"x,omitempty"`
 
 	// Y Y-coordinate of the field area.
-	Y *float32 `json:"y,omitempty"`
+	Y float32 `json:"y,omitempty"`
 }
 
 // CreateTemplateFromHtmlRequest defines model for CreateTemplateFromHtmlRequest.
 type CreateTemplateFromHtmlRequest struct {
 	// Documents The list of documents built from HTML. Can be used to create a template with multiple documents. Leave `documents` param empty when using a top-level `html` param for a template with a single document.
-	Documents *[]CreateTemplateFromHtmlRequestDocument `json:"documents,omitempty"`
+	Documents []CreateTemplateFromHtmlRequestDocument `json:"documents,omitempty"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new HTML.
 	//
 	// Examples: 714d974e-83d8-11ee-b962-0242ac120002
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// FolderName The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Html HTML template with field tags.
 	//
@@ -2146,15 +2146,15 @@ type CreateTemplateFromHtmlRequest struct {
 	Html string `json:"html"`
 
 	// HtmlFooter HTML template of the footer to be displayed on every page.
-	HtmlFooter *string `json:"html_footer,omitempty"`
+	HtmlFooter string `json:"html_footer,omitempty"`
 
 	// HtmlHeader HTML template of the header to be displayed on every page.
-	HtmlHeader *string `json:"html_header,omitempty"`
+	HtmlHeader string `json:"html_header,omitempty"`
 
 	// Name Template name. Random uuid will be assigned when not specified.
 	//
 	// Examples: Test Template
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// SharedLink Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty"`
@@ -2162,7 +2162,7 @@ type CreateTemplateFromHtmlRequest struct {
 	// Size Page size. Letter 8.5 x 11 will be assigned when not specified.
 	//
 	// Examples: A4
-	Size *CreateTemplateFromHtmlRequestSize `json:"size,omitempty"`
+	Size CreateTemplateFromHtmlRequestSize `json:"size,omitempty"`
 }
 
 // CreateTemplateFromHtmlRequestSize Page size. Letter 8.5 x 11 will be assigned when not specified.
@@ -2187,7 +2187,7 @@ type CreateTemplateFromHtmlRequestDocument struct {
 	// Name Document name. Random uuid will be assigned when not specified.
 	//
 	// Examples: Test Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 }
 
 // CreateTemplateFromPdfRequest defines model for CreateTemplateFromPdfRequest.
@@ -2198,18 +2198,18 @@ type CreateTemplateFromPdfRequest struct {
 	// ExternalId Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new PDF.
 	//
 	// Examples: unique-key
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// Flatten Remove PDF form fields from the documents.
 	Flatten *bool `json:"flatten,omitempty"`
 
 	// FolderName The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Name Name of the template.
 	//
 	// Examples: Test PDF
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// RemoveTags Pass `false` to disable the removal of {{text}} tags from the PDF. This can be used along with transparent text tags for faster and more robust PDF processing.
 	RemoveTags *bool `json:"remove_tags,omitempty"`
@@ -2221,7 +2221,7 @@ type CreateTemplateFromPdfRequest struct {
 // CreateTemplateFromPdfRequestDocument defines model for CreateTemplateFromPdfRequestDocument.
 type CreateTemplateFromPdfRequestDocument struct {
 	// Fields Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields *[]CreateTemplateFromPdfRequestDocumentField `json:"fields,omitempty"`
+	Fields []CreateTemplateFromPdfRequestDocumentField `json:"fields,omitempty"`
 
 	// File Base64-encoded content of the PDF file or downloadable file URL.
 	//
@@ -2235,18 +2235,18 @@ type CreateTemplateFromPdfRequestDocument struct {
 // CreateTemplateFromPdfRequestDocumentField defines model for CreateTemplateFromPdfRequestDocumentField.
 type CreateTemplateFromPdfRequestDocumentField struct {
 	// Areas List of areas where the field is located in the document.
-	Areas *[]CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
+	Areas []CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty"`
 
 	// Description Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 
 	// Name Name of the field.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Options An array of option values for 'select' field type.
 	//
 	// Examples: ["Option A","Option B"]
-	Options *[]string `json:"options,omitempty"`
+	Options []string `json:"options,omitempty"`
 
 	// Preferences Field display preferences.
 	Preferences *FieldPreferences `json:"preferences,omitempty"`
@@ -2255,13 +2255,13 @@ type CreateTemplateFromPdfRequestDocumentField struct {
 	Required *bool `json:"required,omitempty"`
 
 	// Role Role name of the signer.
-	Role *string `json:"role,omitempty"`
+	Role string `json:"role,omitempty"`
 
 	// Title Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"`
 
 	// Type Type of the field (e.g., text, signature, date, initials).
-	Type *CreateTemplateFromPdfRequestDocumentFieldType `json:"type,omitempty"`
+	Type CreateTemplateFromPdfRequestDocumentFieldType `json:"type,omitempty"`
 
 	// Validation Field validation rules.
 	Validation *FieldValidation `json:"validation,omitempty"`
@@ -2273,46 +2273,46 @@ type CreateTemplateFromPdfRequestDocumentFieldType string
 // FieldPreferences Field display preferences.
 type FieldPreferences struct {
 	// Align Horizontal alignment of the field text value.
-	Align *FieldPreferencesAlign `json:"align,omitempty"`
+	Align FieldPreferencesAlign `json:"align,omitempty"`
 
 	// Background Field box background color.
-	Background *FieldPreferencesBackground `json:"background,omitempty"`
+	Background FieldPreferencesBackground `json:"background,omitempty"`
 
 	// Color Font color of the field value.
-	Color *FieldPreferencesColor `json:"color,omitempty"`
+	Color FieldPreferencesColor `json:"color,omitempty"`
 
 	// Currency Currency value of the payment field. Only for payment fields.
-	Currency *FieldPreferencesCurrency `json:"currency,omitempty"`
+	Currency FieldPreferencesCurrency `json:"currency,omitempty"`
 
 	// Font Font family of the field value.
-	Font *FieldPreferencesFont `json:"font,omitempty"`
+	Font FieldPreferencesFont `json:"font,omitempty"`
 
 	// FontSize Font size of the field value in pixels.
 	//
 	// Examples: 12
-	FontSize *int `json:"font_size,omitempty"`
+	FontSize int `json:"font_size,omitempty"`
 
 	// FontType Font type of the field value.
-	FontType *FieldPreferencesFontType `json:"font_type,omitempty"`
+	FontType FieldPreferencesFontType `json:"font_type,omitempty"`
 
 	// Format The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
 	//
 	// Examples: DD/MM/YYYY
-	Format *string `json:"format,omitempty"`
+	Format string `json:"format,omitempty"`
 
 	// Mask Set `true` to make sensitive data masked on the document.
-	Mask *FieldPreferences_Mask `json:"mask,omitempty"`
+	Mask FieldPreferences_Mask `json:"mask,omitempty"`
 
 	// Price Price value of the payment field. Only for payment fields.
 	//
 	// Examples: 99.99
-	Price *float32 `json:"price,omitempty"`
+	Price float32 `json:"price,omitempty"`
 
 	// Reasons An array of signature reasons to choose from.
-	Reasons *[]string `json:"reasons,omitempty"`
+	Reasons []string `json:"reasons,omitempty"`
 
 	// Valign Vertical alignment of the field text value.
-	Valign *FieldPreferencesValign `json:"valign,omitempty"`
+	Valign FieldPreferencesValign `json:"valign,omitempty"`
 }
 
 // FieldPreferencesAlign Horizontal alignment of the field text value.
@@ -2350,21 +2350,21 @@ type FieldPreferencesValign string
 // FieldValidation Field validation rules.
 type FieldValidation struct {
 	// Max Maximum allowed number value or date depending on field type.
-	Max *FieldValidation_Max `json:"max,omitempty"`
+	Max FieldValidation_Max `json:"max,omitempty"`
 
 	// Message A custom error message to display on validation failure.
-	Message *string `json:"message,omitempty"`
+	Message string `json:"message,omitempty"`
 
 	// Min Minimum allowed number value or date depending on field type.
-	Min *FieldValidation_Min `json:"min,omitempty"`
+	Min FieldValidation_Min `json:"min,omitempty"`
 
 	// Pattern HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
 	//
 	// Examples: [A-Z]{4}
-	Pattern *string `json:"pattern,omitempty"`
+	Pattern string `json:"pattern,omitempty"`
 
 	// Step Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-	Step *float32 `json:"step,omitempty"`
+	Step float32 `json:"step,omitempty"`
 }
 
 // FieldValidationMax0 defines model for .
@@ -2401,16 +2401,16 @@ type GetSubmissionDocumentsResponse struct {
 // GetSubmissionResponse defines model for GetSubmissionResponse.
 type GetSubmissionResponse struct {
 	// ArchivedAt The date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at"`
+	ArchivedAt string `json:"archived_at"`
 
 	// AuditLogUrl Audit log file URL.
-	AuditLogUrl *string `json:"audit_log_url"`
+	AuditLogUrl string `json:"audit_log_url"`
 
 	// CombinedDocumentUrl Combined PDF file URL with documents and Audit Log.
-	CombinedDocumentUrl *string `json:"combined_document_url"`
+	CombinedDocumentUrl string `json:"combined_document_url"`
 
 	// CompletedAt The date and time when the submission was completed.
-	CompletedAt *string `json:"completed_at"`
+	CompletedAt string `json:"completed_at"`
 
 	// CreatedAt The date and time when the submission was created.
 	CreatedAt     string                   `json:"created_at"`
@@ -2428,7 +2428,7 @@ type GetSubmissionResponse struct {
 	// Name Name of the document submission.
 	//
 	// Examples: Test Submission Document
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Slug Unique slug of the submission.
 	Slug string `json:"slug"`
@@ -2445,40 +2445,40 @@ type GetSubmissionResponse struct {
 	// Submitters The list of submitters.
 	Submitters []struct {
 		// CompletedAt The date and time when the submitter completed the signing form.
-		CompletedAt *string `json:"completed_at"`
+		CompletedAt string `json:"completed_at"`
 
 		// CreatedAt The date and time when the submitter was created.
 		CreatedAt string `json:"created_at"`
 
 		// DeclinedAt The date and time when the submitter declined the signing form.
-		DeclinedAt *string `json:"declined_at"`
+		DeclinedAt string `json:"declined_at"`
 
 		// Documents An array of completed or signed documents by the submitter.
 		Documents []CompletedDocument `json:"documents"`
 
 		// Email The email address of the submitter.
-		Email *string `json:"email"`
+		Email string `json:"email"`
 
 		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id"`
+		ExternalId string `json:"external_id"`
 
 		// Id Submitter unique ID number.
 		Id int `json:"id"`
 
 		// Name The name of the submitter.
-		Name *string `json:"name"`
+		Name string `json:"name"`
 
 		// OpenedAt The date and time when the submitter opened the signing form.
-		OpenedAt *string `json:"opened_at"`
+		OpenedAt string `json:"opened_at"`
 
 		// Phone The phone number of the submitter.
-		Phone *string `json:"phone"`
+		Phone string `json:"phone"`
 
 		// Role The role of the submitter in the signing process.
 		Role string `json:"role"`
 
 		// SentAt The date and time when the signing request was sent to the submitter.
-		SentAt *string `json:"sent_at"`
+		SentAt string `json:"sent_at"`
 
 		// Slug Unique key to be used in the form signing link and embedded form.
 		Slug string `json:"slug"`
@@ -2523,16 +2523,16 @@ type GetSubmissionResponseSubmittersOrder string
 type GetSubmissionsResponse struct {
 	Data []struct {
 		// ArchivedAt The date and time when the submission was archived.
-		ArchivedAt *string `json:"archived_at,omitempty"`
+		ArchivedAt string `json:"archived_at,omitempty"`
 
 		// AuditLogUrl Audit log file URL.
-		AuditLogUrl *string `json:"audit_log_url"`
+		AuditLogUrl string `json:"audit_log_url"`
 
 		// CombinedDocumentUrl Combined PDF file URL with documents and Audit Log.
-		CombinedDocumentUrl *string `json:"combined_document_url,omitempty"`
+		CombinedDocumentUrl string `json:"combined_document_url,omitempty"`
 
 		// CompletedAt The date and time when the submission was completed.
-		CompletedAt *string `json:"completed_at"`
+		CompletedAt string `json:"completed_at"`
 
 		// CreatedAt The date and time when the submission was created.
 		CreatedAt     string                   `json:"created_at"`
@@ -2544,7 +2544,7 @@ type GetSubmissionsResponse struct {
 		// Name Name of the document submission.
 		//
 		// Examples: Test Submission Document
-		Name *string `json:"name,omitempty"`
+		Name string `json:"name,omitempty"`
 
 		// Slug Unique slug of the submission.
 		Slug string `json:"slug"`
@@ -2558,19 +2558,19 @@ type GetSubmissionsResponse struct {
 		// Submitters The list of submitters.
 		Submitters []struct {
 			// CompletedAt The date and time when the submitter completed the signing form.
-			CompletedAt *string `json:"completed_at"`
+			CompletedAt string `json:"completed_at"`
 
 			// CreatedAt The date and time when the submitter was created.
 			CreatedAt string `json:"created_at"`
 
 			// DeclinedAt The date and time when the submitter declined the signing form.
-			DeclinedAt *string `json:"declined_at"`
+			DeclinedAt string `json:"declined_at"`
 
 			// Email The email address of the submitter.
-			Email *string `json:"email"`
+			Email string `json:"email"`
 
 			// ExternalId Your application-specific unique string key to identify this submitter within your app.
-			ExternalId *string `json:"external_id,omitempty"`
+			ExternalId string `json:"external_id,omitempty"`
 
 			// Id Submitter unique ID number.
 			Id int `json:"id"`
@@ -2579,13 +2579,13 @@ type GetSubmissionsResponse struct {
 			Metadata map[string]interface{} `json:"metadata"`
 
 			// Name The name of the submitter.
-			Name *string `json:"name"`
+			Name string `json:"name"`
 
 			// OpenedAt The date and time when the submitter opened the signing form.
-			OpenedAt *string `json:"opened_at"`
+			OpenedAt string `json:"opened_at"`
 
 			// Phone The phone number of the submitter.
-			Phone *string `json:"phone"`
+			Phone string `json:"phone"`
 
 			// Preferences Submitter preferences.
 			Preferences map[string]interface{} `json:"preferences"`
@@ -2594,7 +2594,7 @@ type GetSubmissionsResponse struct {
 			Role string `json:"role"`
 
 			// SentAt The date and time when the signing request was sent to the submitter.
-			SentAt *string `json:"sent_at"`
+			SentAt string `json:"sent_at"`
 
 			// Slug Unique key to be used in the form signing link and embedded form.
 			Slug string `json:"slug"`
@@ -2637,22 +2637,22 @@ type GetSubmissionsResponseDataSubmittersOrder string
 // GetSubmitterResponse defines model for GetSubmitterResponse.
 type GetSubmitterResponse struct {
 	// CompletedAt The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at"`
+	CompletedAt string `json:"completed_at"`
 
 	// CreatedAt The date and time when the submitter was created.
 	CreatedAt string `json:"created_at"`
 
 	// DeclinedAt The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at"`
+	DeclinedAt string `json:"declined_at"`
 
 	// Documents An array of completed or signed documents by the submitter.
 	Documents []CompletedDocument `json:"documents"`
 
 	// Email The email address of the submitter.
-	Email *string `json:"email"`
+	Email string `json:"email"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id"`
+	ExternalId string `json:"external_id"`
 
 	// Id Submitter unique ID number.
 	Id int `json:"id"`
@@ -2661,13 +2661,13 @@ type GetSubmitterResponse struct {
 	Metadata map[string]interface{} `json:"metadata"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name"`
+	Name string `json:"name"`
 
 	// OpenedAt The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at"`
+	OpenedAt string `json:"opened_at"`
 
 	// Phone The phone number of the submitter.
-	Phone *string `json:"phone"`
+	Phone string `json:"phone"`
 
 	// Preferences Submitter preferences.
 	Preferences map[string]interface{} `json:"preferences"`
@@ -2676,7 +2676,7 @@ type GetSubmitterResponse struct {
 	Role string `json:"role"`
 
 	// SentAt The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at"`
+	SentAt string `json:"sent_at"`
 
 	// Slug Unique key to be used in the form signing link and embedded form.
 	Slug string `json:"slug"`
@@ -2708,15 +2708,15 @@ type GetSubmitterResponseStatus string
 
 // GetSubmittersResponse defines model for GetSubmittersResponse.
 type GetSubmittersResponse struct {
-	Data *[]struct {
+	Data []struct {
 		// CompletedAt The date and time when the submitter completed the signing form.
-		CompletedAt *string `json:"completed_at"`
+		CompletedAt string `json:"completed_at"`
 
 		// CreatedAt The date and time when the submitter was created.
 		CreatedAt string `json:"created_at"`
 
 		// DeclinedAt The date and time when the submitter declined the signing form.
-		DeclinedAt *string `json:"declined_at"`
+		DeclinedAt string `json:"declined_at"`
 
 		// Documents An array of completed or signed documents by the submitter.
 		Documents []CompletedDocument `json:"documents"`
@@ -2725,7 +2725,7 @@ type GetSubmittersResponse struct {
 		Email string `json:"email"`
 
 		// ExternalId Your application-specific unique string key to identify this submitter within your app.
-		ExternalId *string `json:"external_id"`
+		ExternalId string `json:"external_id"`
 
 		// Id Submitter unique ID number.
 		Id int `json:"id"`
@@ -2734,13 +2734,13 @@ type GetSubmittersResponse struct {
 		Metadata map[string]interface{} `json:"metadata"`
 
 		// Name The name of the submitter.
-		Name *string `json:"name"`
+		Name string `json:"name"`
 
 		// OpenedAt The date and time when the submitter opened the signing form.
-		OpenedAt *string `json:"opened_at"`
+		OpenedAt string `json:"opened_at"`
 
 		// Phone The phone number of the submitter.
-		Phone *string `json:"phone"`
+		Phone string `json:"phone"`
 
 		// Preferences Submitter preferences.
 		Preferences map[string]interface{} `json:"preferences"`
@@ -2749,7 +2749,7 @@ type GetSubmittersResponse struct {
 		Role string `json:"role"`
 
 		// SentAt The date and time when the signing request was sent to the submitter.
-		SentAt *string `json:"sent_at"`
+		SentAt string `json:"sent_at"`
 
 		// Slug Unique key to be used in the form signing link and embedded form.
 		Slug string `json:"slug"`
@@ -2781,7 +2781,7 @@ type GetSubmittersResponseDataStatus string
 // GetTemplateResponse defines model for GetTemplateResponse.
 type GetTemplateResponse struct {
 	// ArchivedAt Date and time when the template was archived.
-	ArchivedAt *string        `json:"archived_at"`
+	ArchivedAt string         `json:"archived_at"`
 	Author     TemplateAuthor `json:"author"`
 
 	// AuthorId Unique identifier of the author of the template.
@@ -2794,7 +2794,7 @@ type GetTemplateResponse struct {
 	Documents []TemplateDocument `json:"documents"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app.
-	ExternalId *string `json:"external_id"`
+	ExternalId string `json:"external_id"`
 
 	// Fields List of fields to be filled in the template.
 	Fields []TemplateField `json:"fields"`
@@ -2841,7 +2841,7 @@ type GetTemplatesResponse struct {
 	// Data List of templates.
 	Data []struct {
 		// ArchivedAt Date and time when the template was archived.
-		ArchivedAt *string        `json:"archived_at,omitempty"`
+		ArchivedAt string         `json:"archived_at,omitempty"`
 		Author     TemplateAuthor `json:"author"`
 
 		// AuthorId Unique identifier of the author of the template.
@@ -2854,7 +2854,7 @@ type GetTemplatesResponse struct {
 		Documents []TemplateDocument `json:"documents"`
 
 		// ExternalId Your application-specific unique string key to identify this template within your app.
-		ExternalId *string `json:"external_id"`
+		ExternalId string `json:"external_id"`
 
 		// Fields List of fields to be filled in the template.
 		Fields []TemplateField `json:"fields"`
@@ -2901,20 +2901,20 @@ type GetTemplatesResponseDataSource string
 // MergeTemplateRequest defines model for MergeTemplateRequest.
 type MergeTemplateRequest struct {
 	// ExternalId Your application-specific unique string key to identify this template within your app.
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// FolderName The name of the folder in which the merged template should be placed.
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Name Template name. Existing name with (Merged) suffix will be used if not specified.
 	//
 	// Examples: Merged Template
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Roles An array of submitter role names to be used in the merged template.
 	//
 	// Examples: ["Agent","Customer"]
-	Roles *[]string `json:"roles,omitempty"`
+	Roles []string `json:"roles,omitempty"`
 
 	// SharedLink Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty"`
@@ -2943,7 +2943,7 @@ type SubmissionCreatedByUser struct {
 // SubmissionEvent defines model for SubmissionEvent.
 type SubmissionEvent struct {
 	// Data Additional event details object.
-	Data *map[string]interface{} `json:"data,omitempty"`
+	Data map[string]interface{} `json:"data,omitempty"`
 
 	// EventTimestamp Date and time when the event was triggered.
 	EventTimestamp string `json:"event_timestamp"`
@@ -2967,10 +2967,10 @@ type SubmissionPagination struct {
 	Count int `json:"count"`
 
 	// Next The ID of the submission after which the next page starts.
-	Next *int `json:"next"`
+	Next int `json:"next"`
 
 	// Prev The ID of the submission before which the previous page ends.
-	Prev *int `json:"prev"`
+	Prev int `json:"prev"`
 }
 
 // SubmissionTemplate defines model for SubmissionTemplate.
@@ -2979,7 +2979,7 @@ type SubmissionTemplate struct {
 	CreatedAt string `json:"created_at"`
 
 	// ExternalId Your application-specific unique string key to identify this template within your app.
-	ExternalId *string `json:"external_id"`
+	ExternalId string `json:"external_id"`
 
 	// FolderName Folder name where the template is located.
 	FolderName string `json:"folder_name"`
@@ -3000,10 +3000,10 @@ type SubmitterPagination struct {
 	Count int `json:"count"`
 
 	// Next The ID of the submitter after which the next page starts.
-	Next *int `json:"next"`
+	Next int `json:"next"`
 
 	// Prev The ID of the submitter before which the previous page ends.
-	Prev *int `json:"prev"`
+	Prev int `json:"prev"`
 }
 
 // SubmitterTemplate Base template details.
@@ -3145,40 +3145,40 @@ type TemplateFieldArea struct {
 // TemplateFieldPreferences Field display preferences.
 type TemplateFieldPreferences struct {
 	// Align Horizontal alignment of the field text value.
-	Align *string `json:"align,omitempty"`
+	Align string `json:"align,omitempty"`
 
 	// Background Field box background color.
-	Background *string `json:"background,omitempty"`
+	Background string `json:"background,omitempty"`
 
 	// Color Font color of the field value.
-	Color *string `json:"color,omitempty"`
+	Color string `json:"color,omitempty"`
 
 	// Currency Currency value of the payment field. Only for payment fields.
-	Currency *string `json:"currency,omitempty"`
+	Currency string `json:"currency,omitempty"`
 
 	// Font Font family of the field value.
-	Font *string `json:"font,omitempty"`
+	Font string `json:"font,omitempty"`
 
 	// FontSize Font size of the field value in pixels.
-	FontSize *int `json:"font_size,omitempty"`
+	FontSize int `json:"font_size,omitempty"`
 
 	// FontType Font type of the field value.
-	FontType *string `json:"font_type,omitempty"`
+	FontType string `json:"font_type,omitempty"`
 
 	// Format The data format for different field types.
-	Format *string `json:"format,omitempty"`
+	Format string `json:"format,omitempty"`
 
 	// Mask Indicates if the field is masked on the document.
 	Mask *bool `json:"mask,omitempty"`
 
 	// Price Price value of the payment field. Only for payment fields.
-	Price *float32 `json:"price,omitempty"`
+	Price float32 `json:"price,omitempty"`
 
 	// Reasons An array of signature reasons to choose from.
-	Reasons *[]string `json:"reasons,omitempty"`
+	Reasons []string `json:"reasons,omitempty"`
 
 	// Valign Vertical alignment of the field text value.
-	Valign *string `json:"valign,omitempty"`
+	Valign string `json:"valign,omitempty"`
 }
 
 // TemplatePagination defines model for TemplatePagination.
@@ -3187,10 +3187,10 @@ type TemplatePagination struct {
 	Count int `json:"count"`
 
 	// Next The ID of the template after which the next page starts.
-	Next *int `json:"next"`
+	Next int `json:"next"`
 
 	// Prev The ID of the template before which the previous page ends.
-	Prev *int `json:"prev"`
+	Prev int `json:"prev"`
 }
 
 // TemplateSchemaDocument defines model for TemplateSchemaDocument.
@@ -3217,18 +3217,18 @@ type UpdateSubmitterRequest struct {
 	Completed *bool `json:"completed,omitempty"`
 
 	// CompletedRedirectUrl Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectUrl *string `json:"completed_redirect_url,omitempty"`
+	CompletedRedirectUrl string `json:"completed_redirect_url,omitempty"`
 
 	// Email The email address of the submitter.
 	//
 	// Examples: john.doe@example.com
-	Email *openapi_types.Email `json:"email,omitempty"`
+	Email openapi_types.Email `json:"email,omitempty"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id,omitempty"`
+	ExternalId string `json:"external_id,omitempty"`
 
 	// Fields A list of configurations for template document form fields.
-	Fields *[]UpdateSubmitterRequestField `json:"fields,omitempty"`
+	Fields []UpdateSubmitterRequestField `json:"fields,omitempty"`
 
 	// Message Custom signature request email message.
 	Message *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty"`
@@ -3236,18 +3236,18 @@ type UpdateSubmitterRequest struct {
 	// Metadata Metadata object with additional submitter information.
 	//
 	// Examples: { "customField": "value" }
-	Metadata *map[string]interface{} `json:"metadata,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Phone The phone number of the submitter, formatted according to the E.164 standard.
 	//
 	// Examples: +1234567890
-	Phone *string `json:"phone,omitempty"`
+	Phone string `json:"phone,omitempty"`
 
 	// ReplyTo Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty"`
 
 	// RequireEmail2fa Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
 	RequireEmail2fa *bool `json:"require_email_2fa,omitempty"`
@@ -3262,7 +3262,7 @@ type UpdateSubmitterRequest struct {
 	SendSms *bool `json:"send_sms,omitempty"`
 
 	// Values An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-	Values *map[string]interface{} `json:"values,omitempty"`
+	Values map[string]interface{} `json:"values,omitempty"`
 }
 
 // UpdateSubmitterRequestField defines model for UpdateSubmitterRequestField.
@@ -3270,7 +3270,7 @@ type UpdateSubmitterRequestField struct {
 	// DefaultValue Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
 	//
 	// Examples: Acme
-	DefaultValue *UpdateSubmitterRequestField_DefaultValue `json:"default_value,omitempty"`
+	DefaultValue UpdateSubmitterRequestField_DefaultValue `json:"default_value,omitempty"`
 
 	// Name Document template field name.
 	//
@@ -3326,25 +3326,25 @@ type UpdateSubmitterRequestField_DefaultValue struct {
 // UpdateSubmitterResponse defines model for UpdateSubmitterResponse.
 type UpdateSubmitterResponse struct {
 	// CompletedAt The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at"`
+	CompletedAt string `json:"completed_at"`
 
 	// CreatedAt The date and time when the submitter was created.
 	CreatedAt string `json:"created_at"`
 
 	// DeclinedAt The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at"`
+	DeclinedAt string `json:"declined_at"`
 
 	// Documents An array of completed or signed documents by the submitter.
 	Documents []CompletedDocument `json:"documents"`
 
 	// Email The email address of the submitter.
-	Email *string `json:"email"`
+	Email string `json:"email"`
 
 	// EmbedSrc The `src` URL value to embed the signing form or sign via a link.
 	EmbedSrc string `json:"embed_src"`
 
 	// ExternalId Your application-specific unique string key to identify this submitter within your app.
-	ExternalId *string `json:"external_id"`
+	ExternalId string `json:"external_id"`
 
 	// Id Submitter unique ID number.
 	Id int `json:"id"`
@@ -3353,13 +3353,13 @@ type UpdateSubmitterResponse struct {
 	Metadata map[string]interface{} `json:"metadata"`
 
 	// Name The name of the submitter.
-	Name *string `json:"name"`
+	Name string `json:"name"`
 
 	// OpenedAt The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at"`
+	OpenedAt string `json:"opened_at"`
 
 	// Phone The phone number of the submitter.
-	Phone *string `json:"phone"`
+	Phone string `json:"phone"`
 
 	// Preferences Submitter preferences.
 	Preferences map[string]interface{} `json:"preferences"`
@@ -3368,7 +3368,7 @@ type UpdateSubmitterResponse struct {
 	Role string `json:"role"`
 
 	// SentAt The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at"`
+	SentAt string `json:"sent_at"`
 
 	// Slug Unique key to be used in the form signing link and embedded form.
 	Slug string `json:"slug"`
@@ -3400,17 +3400,17 @@ type UpdateTemplateRequest struct {
 	// FolderName The folder's name to which the template should be moved.
 	//
 	// Examples: New Folder
-	FolderName *string `json:"folder_name,omitempty"`
+	FolderName string `json:"folder_name,omitempty"`
 
 	// Name The name of the template.
 	//
 	// Examples: New Document Name
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Roles An array of submitter role names to update the template with.
 	//
 	// Examples: ["Agent","Customer"]
-	Roles *[]string `json:"roles,omitempty"`
+	Roles []string `json:"roles,omitempty"`
 }
 
 // UpdateTemplateResponse defines model for UpdateTemplateResponse.
@@ -3425,31 +3425,31 @@ type UpdateTemplateResponse struct {
 // GetSubmissionsParams defines parameters for GetSubmissions.
 type GetSubmissionsParams struct {
 	// TemplateId The template ID allows you to receive only the submissions created from that specific template.
-	TemplateId *int `form:"template_id,omitempty" json:"template_id,omitempty"`
+	TemplateId int `form:"template_id,omitempty" json:"template_id,omitempty"`
 
 	// Status Filter submissions by status.
-	Status *GetSubmissionsParamsStatus `form:"status,omitempty" json:"status,omitempty"`
+	Status GetSubmissionsParamsStatus `form:"status,omitempty" json:"status,omitempty"`
 
 	// Q Filter submissions based on submitter's name, email or phone partial match.
-	Q *string `form:"q,omitempty" json:"q,omitempty"`
+	Q string `form:"q,omitempty" json:"q,omitempty"`
 
 	// Slug Filter submissions by unique slug.
-	Slug *string `form:"slug,omitempty" json:"slug,omitempty"`
+	Slug string `form:"slug,omitempty" json:"slug,omitempty"`
 
 	// TemplateFolder Filter submissions by template folder name.
-	TemplateFolder *string `form:"template_folder,omitempty" json:"template_folder,omitempty"`
+	TemplateFolder string `form:"template_folder,omitempty" json:"template_folder,omitempty"`
 
 	// Archived Returns only archived submissions when `true` and only active submissions when `false`.
 	Archived *bool `form:"archived,omitempty" json:"archived,omitempty"`
 
 	// Limit The number of submissions to return. Default value is 10. Maximum value is 100.
-	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
 
 	// After The unique identifier of the submission to start the list from. It allows you to receive only submissions with an ID greater than the specified value. Pass ID value from the `pagination.next` response to load the next batch of submissions.
-	After *int `form:"after,omitempty" json:"after,omitempty"`
+	After int `form:"after,omitempty" json:"after,omitempty"`
 
 	// Before The unique identifier of the submission that marks the end of the list. It allows you to receive only submissions with an ID less than the specified value.
-	Before *int `form:"before,omitempty" json:"before,omitempty"`
+	Before int `form:"before,omitempty" json:"before,omitempty"`
 }
 
 // GetSubmissionsParamsStatus defines parameters for GetSubmissions.
@@ -3464,46 +3464,46 @@ type GetSubmissionDocumentsParams struct {
 // GetSubmittersParams defines parameters for GetSubmitters.
 type GetSubmittersParams struct {
 	// SubmissionId The submission ID allows you to receive only the submitters related to that specific submission.
-	SubmissionId *int `form:"submission_id,omitempty" json:"submission_id,omitempty"`
+	SubmissionId int `form:"submission_id,omitempty" json:"submission_id,omitempty"`
 
 	// Q Filter submitters on name, email or phone partial match.
-	Q *string `form:"q,omitempty" json:"q,omitempty"`
+	Q string `form:"q,omitempty" json:"q,omitempty"`
 
 	// Slug Filter submitters by unique slug.
-	Slug *string `form:"slug,omitempty" json:"slug,omitempty"`
+	Slug string `form:"slug,omitempty" json:"slug,omitempty"`
 
 	// CompletedAfter The date and time string value to filter submitters that completed the submission after the specified date and time.
-	CompletedAfter *time.Time `form:"completed_after,omitempty" json:"completed_after,omitempty"`
+	CompletedAfter time.Time `form:"completed_after,omitempty" json:"completed_after,omitempty"`
 
 	// CompletedBefore The date and time string value to filter submitters that completed the submission before the specified date and time.
-	CompletedBefore *time.Time `form:"completed_before,omitempty" json:"completed_before,omitempty"`
+	CompletedBefore time.Time `form:"completed_before,omitempty" json:"completed_before,omitempty"`
 
 	// ExternalId The unique application-specific identifier provided for a submitter when initializing a signature request. It allows you to receive only submitters with a specified external ID.
-	ExternalId *string `form:"external_id,omitempty" json:"external_id,omitempty"`
+	ExternalId string `form:"external_id,omitempty" json:"external_id,omitempty"`
 
 	// Limit The number of submitters to return. Default value is 10. Maximum value is 100.
-	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
 
 	// After The unique identifier of the submitter to start the list from. It allows you to receive only submitters with an ID greater than the specified value. Pass ID value from the `pagination.next` response to load the next batch of submitters.
-	After *int `form:"after,omitempty" json:"after,omitempty"`
+	After int `form:"after,omitempty" json:"after,omitempty"`
 
 	// Before The unique identifier of the submitter to end the list with. It allows you to receive only submitters with an ID less than the specified value.
-	Before *int `form:"before,omitempty" json:"before,omitempty"`
+	Before int `form:"before,omitempty" json:"before,omitempty"`
 }
 
 // GetTemplatesParams defines parameters for GetTemplates.
 type GetTemplatesParams struct {
 	// Q Filter templates based on the name partial match.
-	Q *string `form:"q,omitempty" json:"q,omitempty"`
+	Q string `form:"q,omitempty" json:"q,omitempty"`
 
 	// Slug Filter templates by unique slug.
-	Slug *string `form:"slug,omitempty" json:"slug,omitempty"`
+	Slug string `form:"slug,omitempty" json:"slug,omitempty"`
 
 	// ExternalId The unique application-specific identifier provided for the template via API or Embedded template form builder. It allows you to receive only templates with your specified external ID.
-	ExternalId *string `form:"external_id,omitempty" json:"external_id,omitempty"`
+	ExternalId string `form:"external_id,omitempty" json:"external_id,omitempty"`
 
 	// Folder Filter templates by folder name.
-	Folder *string `form:"folder,omitempty" json:"folder,omitempty"`
+	Folder string `form:"folder,omitempty" json:"folder,omitempty"`
 
 	// Archived List only archived templates instead of active ones.
 	Archived *bool `form:"archived,omitempty" json:"archived,omitempty"`
@@ -3512,13 +3512,13 @@ type GetTemplatesParams struct {
 	Shared *bool `form:"shared,omitempty" json:"shared,omitempty"`
 
 	// Limit The number of templates to return. Default value is 10. Maximum value is 100.
-	Limit *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Limit int `form:"limit,omitempty" json:"limit,omitempty"`
 
 	// After The unique identifier of the template to start the list from. It allows you to receive only templates with an ID greater than the specified value. Pass ID value from the `pagination.next` response to load the next batch of templates.
-	After *int `form:"after,omitempty" json:"after,omitempty"`
+	After int `form:"after,omitempty" json:"after,omitempty"`
 
 	// Before The unique identifier of the template to end the list with. It allows you to receive only templates with an ID less than the specified value.
-	Before *int `form:"before,omitempty" json:"before,omitempty"`
+	Before int `form:"before,omitempty" json:"before,omitempty"`
 }
 
 // CreateSubmissionJSONRequestBody defines body for CreateSubmission for application/json ContentType.

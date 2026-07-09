@@ -9,8 +9,13 @@ the OpenAPI spec, the client is written by hand.
   Response types come from named OpenAPI components (`GetTemplateResponse`,
   `TemplateField`, ...), request bodies are `<OperationId>Request` components
   (`CreateSubmissionRequest`), query params are generated per operation
-  (`GetTemplatesParams`). Nullable fields are plain pointers (`*string`).
-  Webhook payload schemas are excluded from generation.
+  (`GetTemplatesParams`). Optional fields are plain values with `omitempty`
+  (`prefer-skip-optional-pointer`), except booleans and struct-typed objects,
+  which keep pointers: a plain `false` would be dropped by `omitempty` (server
+  would apply its default) and a zero struct is never omitted (an untouched
+  `message` would be sent as `{}`). The pointer opt-outs are injected by the
+  preprocess in `generate-types.sh`. Webhook payload schemas are excluded
+  from generation.
 - `client.go` - hand-written core: `Client`, options (base URL for
   Global/EU/on-premises), `do()` with auth header and error handling,
   `queryValues()` params serialization.
@@ -35,4 +40,5 @@ fix them in the spec and regenerate.
   `?permanently=true`.
 - Nested request objects are named components in the spec
   (`CreateSubmissionRequestSubmitter`, ...), so requests are built with
-  typed literals; `Ptr` fills optional pointer fields.
+  plain typed literals (`Role: "First Party"`); `Ptr` fills the remaining
+  pointer fields (booleans and nested objects).

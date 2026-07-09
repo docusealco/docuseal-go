@@ -35,8 +35,7 @@ client := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"), docuseal.WithBaseURL
 ### List templates
 
 ```go
-limit := 20
-list, err := client.ListTemplates(ctx, &docuseal.GetTemplatesParams{Limit: &limit})
+list, err := client.ListTemplates(ctx, &docuseal.GetTemplatesParams{Limit: 20})
 if err != nil {
 	log.Fatal(err)
 }
@@ -53,8 +52,8 @@ resp, err := client.CreateSubmission(ctx, docuseal.CreateSubmissionRequest{
 	TemplateId: 1000001,
 	Submitters: []docuseal.CreateSubmissionRequestSubmitter{
 		{
-			Role:  docuseal.Ptr("First Party"),
-			Email: docuseal.Ptr("signer@example.com"),
+			Role:  "First Party",
+			Email: "signer@example.com",
 		},
 	},
 })
