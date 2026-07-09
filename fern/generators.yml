@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/generators-yml.json
+api:
+  specs:
+    - openapi: ../openapi.tmp.json
+default-group: local
+groups:
+  local:
+    generators:
+      - name: fernapi/fern-go-sdk
+        version: 1.46.5
+        output:
+          location: local-file-system
+          path: ../.fern-out
+        config:
+          packageName: docuseal
+          module:
+            path: github.com/docusealco/docuseal-go

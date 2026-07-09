@@ -15,45 +15,55 @@ Get your API key at [console.docuseal.com/api](https://console.docuseal.com/api)
 ### Global cloud (docuseal.com)
 
 ```go
-client := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
+c := client.NewClient(option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")))
 ```
 
 ### EU cloud (docuseal.eu)
 
 ```go
-client := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"), docuseal.WithBaseURL(docuseal.EuURL))
+c := client.NewClient(
+	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
+	option.WithBaseURL("https://api.docuseal.eu"),
+)
 ```
 
 ### On-premises
 
 ```go
-client := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"), docuseal.WithBaseURL("https://yourdocuseal.com/api"))
+c := client.NewClient(
+	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
+	option.WithBaseURL("https://yourdocuseal.com/api"),
+)
 ```
+
+Retries are configurable with `option.WithMaxAttempts(n)`.
 
 ## Usage
 
 ### List templates
 
 ```go
-list, err := client.ListTemplates(ctx, &docuseal.GetTemplatesParams{Limit: 20})
+templates, err := c.GetTemplates(ctx, &docuseal.GetTemplatesParams{
+	Limit: docuseal.Int(20),
+})
 if err != nil {
 	log.Fatal(err)
 }
 
-for _, template := range list.Data {
-	fmt.Println(template.Id, template.Name)
+for _, template := range templates.Data {
+	fmt.Println(template.ID, template.Name)
 }
 ```
 
 ### Create a signature request
 
 ```go
-resp, err := client.CreateSubmission(ctx, docuseal.CreateSubmissionRequest{
-	TemplateId: 1000001,
-	Submitters: []docuseal.CreateSubmissionRequestSubmitter{
+submission, err := c.CreateSubmission(ctx, &docuseal.CreateSubmissionParams{
+	TemplateID: 1000001,
+	Submitters: []*docuseal.CreateSubmissionRequestSubmitter{
 		{
-			Role:  "First Party",
-			Email: "signer@example.com",
+			Role:  docuseal.String("First Party"),
+			Email: docuseal.String("signer@example.com"),
 		},
 	},
 })
@@ -61,13 +71,13 @@ if err != nil {
 	log.Fatal(err)
 }
 
-fmt.Println(resp.Submitters[0].EmbedSrc)
+fmt.Println(submission.Submitters[0].EmbedSrc)
 ```
 
 ### Track a submission
 
 ```go
-submission, err := client.GetSubmission(ctx, resp.Id)
+submission, err := c.GetSubmission(ctx, &docuseal.GetSubmissionParams{ID: 1001})
 if err != nil {
 	log.Fatal(err)
 }
@@ -75,32 +85,31 @@ if err != nil {
 fmt.Println(submission.Status)
 
 for _, document := range submission.Documents {
-	fmt.Println(document.Name, document.Url)
+	fmt.Println(document.Name, document.URL)
 }
 ```
 
 ### Handle errors
 
 ```go
-_, err := client.GetTemplate(ctx, 42)
+_, err := c.GetTemplate(ctx, &docuseal.GetTemplateParams{ID: 42})
 
-var apiErr *docuseal.APIError
+var apiErr *core.APIError
 if errors.As(err, &apiErr) {
-	fmt.Println(apiErr.StatusCode, apiErr.Message)
+	fmt.Println(apiErr.StatusCode)
 }
 ```
 
-## Regenerating models
+## Regenerating the SDK
 
-`types.go` is generated from the DocuSeal OpenAPI specification and is
-never edited by hand:
+The SDK is generated from the DocuSeal OpenAPI specification by
+[Fern](https://buildwithfern.com) and is never edited by hand:
 
 ```sh
 ./generate-types.sh
 ```
 
-Requires `ruby`. Uses a pinned oapi-codegen master build with native
-OpenAPI 3.1 support (bump to the next tagged release when it ships).
+Requires Node.js (`npx`), Docker and `ruby`.
 
 ## Documentation
 
