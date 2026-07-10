@@ -143,6 +143,26 @@ func (c *Client) GetSubmission(
 	return response.Body, nil
 }
 
+// The API endpoint allows you to update a submission: change its name, expiration date, and archive or unarchive it.
+func (c *Client) UpdateSubmission(
+	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
+	request *docuseal.UpdateSubmissionParams,
+	opts ...option.RequestOption,
+) (*docuseal.UpdateSubmissionResponse, error) {
+	response, err := c.WithRawResponse.UpdateSubmission(
+		ctx,
+		id,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // The API endpoint allows you to archive a submission.
 func (c *Client) ArchiveSubmission(
 	ctx context.Context,

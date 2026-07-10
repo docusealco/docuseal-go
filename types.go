@@ -14466,6 +14466,445 @@ func (t *TemplateSubmitter) String() string {
 }
 
 var (
+	updateSubmissionResponseFieldID                  = big.NewInt(1 << 0)
+	updateSubmissionResponseFieldName                = big.NewInt(1 << 1)
+	updateSubmissionResponseFieldSlug                = big.NewInt(1 << 2)
+	updateSubmissionResponseFieldSource              = big.NewInt(1 << 3)
+	updateSubmissionResponseFieldSubmittersOrder     = big.NewInt(1 << 4)
+	updateSubmissionResponseFieldAuditLogURL         = big.NewInt(1 << 5)
+	updateSubmissionResponseFieldCombinedDocumentURL = big.NewInt(1 << 6)
+	updateSubmissionResponseFieldCreatedAt           = big.NewInt(1 << 7)
+	updateSubmissionResponseFieldUpdatedAt           = big.NewInt(1 << 8)
+	updateSubmissionResponseFieldArchivedAt          = big.NewInt(1 << 9)
+	updateSubmissionResponseFieldSubmitters          = big.NewInt(1 << 10)
+	updateSubmissionResponseFieldTemplate            = big.NewInt(1 << 11)
+	updateSubmissionResponseFieldCreatedByUser       = big.NewInt(1 << 12)
+	updateSubmissionResponseFieldDocuments           = big.NewInt(1 << 13)
+	updateSubmissionResponseFieldStatus              = big.NewInt(1 << 14)
+	updateSubmissionResponseFieldMetadata            = big.NewInt(1 << 15)
+	updateSubmissionResponseFieldCompletedAt         = big.NewInt(1 << 16)
+)
+
+type UpdateSubmissionResponse struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Name of the document submission.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Unique slug of the submission.
+	Slug string `json:"slug" url:"slug"`
+	// The source of the submission.
+	Source UpdateSubmissionResponseSource `json:"source" url:"source"`
+	// The order of submitters.
+	SubmittersOrder UpdateSubmissionResponseSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	// Audit log file URL.
+	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
+	// Combined PDF file URL with documents and Audit Log.
+	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submission was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+	// The list of submitters.
+	Submitters    []*GetSubmissionResponseSubmitter `json:"submitters" url:"submitters"`
+	Template      *SubmissionTemplate               `json:"template,omitempty" url:"template,omitempty"`
+	CreatedByUser *SubmissionCreatedByUser          `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
+	// An array of completed or signed documents of the submission.
+	Documents []*CompletedDocument `json:"documents" url:"documents"`
+	// The status of the submission.
+	Status UpdateSubmissionResponseStatus `json:"status" url:"status"`
+	// Object with custom metadata.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// The date and time when the submission was completed.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateSubmissionResponse) GetID() int {
+	if u == nil {
+		return 0
+	}
+	return u.ID
+}
+
+func (u *UpdateSubmissionResponse) GetName() string {
+	if u == nil {
+		return ""
+	}
+	return u.Name
+}
+
+func (u *UpdateSubmissionResponse) GetSlug() string {
+	if u == nil {
+		return ""
+	}
+	return u.Slug
+}
+
+func (u *UpdateSubmissionResponse) GetSource() UpdateSubmissionResponseSource {
+	if u == nil {
+		return ""
+	}
+	return u.Source
+}
+
+func (u *UpdateSubmissionResponse) GetSubmittersOrder() UpdateSubmissionResponseSubmittersOrder {
+	if u == nil {
+		return ""
+	}
+	return u.SubmittersOrder
+}
+
+func (u *UpdateSubmissionResponse) GetAuditLogURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.AuditLogURL
+}
+
+func (u *UpdateSubmissionResponse) GetCombinedDocumentURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.CombinedDocumentURL
+}
+
+func (u *UpdateSubmissionResponse) GetCreatedAt() string {
+	if u == nil {
+		return ""
+	}
+	return u.CreatedAt
+}
+
+func (u *UpdateSubmissionResponse) GetUpdatedAt() string {
+	if u == nil {
+		return ""
+	}
+	return u.UpdatedAt
+}
+
+func (u *UpdateSubmissionResponse) GetArchivedAt() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ArchivedAt
+}
+
+func (u *UpdateSubmissionResponse) GetSubmitters() []*GetSubmissionResponseSubmitter {
+	if u == nil {
+		return nil
+	}
+	return u.Submitters
+}
+
+func (u *UpdateSubmissionResponse) GetTemplate() *SubmissionTemplate {
+	if u == nil {
+		return nil
+	}
+	return u.Template
+}
+
+func (u *UpdateSubmissionResponse) GetCreatedByUser() *SubmissionCreatedByUser {
+	if u == nil {
+		return nil
+	}
+	return u.CreatedByUser
+}
+
+func (u *UpdateSubmissionResponse) GetDocuments() []*CompletedDocument {
+	if u == nil {
+		return nil
+	}
+	return u.Documents
+}
+
+func (u *UpdateSubmissionResponse) GetStatus() UpdateSubmissionResponseStatus {
+	if u == nil {
+		return ""
+	}
+	return u.Status
+}
+
+func (u *UpdateSubmissionResponse) GetMetadata() map[string]any {
+	if u == nil {
+		return nil
+	}
+	return u.Metadata
+}
+
+func (u *UpdateSubmissionResponse) GetCompletedAt() *string {
+	if u == nil {
+		return nil
+	}
+	return u.CompletedAt
+}
+
+func (u *UpdateSubmissionResponse) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdateSubmissionResponse) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetID(id int) {
+	u.ID = id
+	u.require(updateSubmissionResponseFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetName(name string) {
+	u.Name = name
+	u.require(updateSubmissionResponseFieldName)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetSlug(slug string) {
+	u.Slug = slug
+	u.require(updateSubmissionResponseFieldSlug)
+}
+
+// SetSource sets the Source field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetSource(source UpdateSubmissionResponseSource) {
+	u.Source = source
+	u.require(updateSubmissionResponseFieldSource)
+}
+
+// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetSubmittersOrder(submittersOrder UpdateSubmissionResponseSubmittersOrder) {
+	u.SubmittersOrder = submittersOrder
+	u.require(updateSubmissionResponseFieldSubmittersOrder)
+}
+
+// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetAuditLogURL(auditLogURL *string) {
+	u.AuditLogURL = auditLogURL
+	u.require(updateSubmissionResponseFieldAuditLogURL)
+}
+
+// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetCombinedDocumentURL(combinedDocumentURL *string) {
+	u.CombinedDocumentURL = combinedDocumentURL
+	u.require(updateSubmissionResponseFieldCombinedDocumentURL)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetCreatedAt(createdAt string) {
+	u.CreatedAt = createdAt
+	u.require(updateSubmissionResponseFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetUpdatedAt(updatedAt string) {
+	u.UpdatedAt = updatedAt
+	u.require(updateSubmissionResponseFieldUpdatedAt)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetArchivedAt(archivedAt *string) {
+	u.ArchivedAt = archivedAt
+	u.require(updateSubmissionResponseFieldArchivedAt)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetSubmitters(submitters []*GetSubmissionResponseSubmitter) {
+	u.Submitters = submitters
+	u.require(updateSubmissionResponseFieldSubmitters)
+}
+
+// SetTemplate sets the Template field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetTemplate(template *SubmissionTemplate) {
+	u.Template = template
+	u.require(updateSubmissionResponseFieldTemplate)
+}
+
+// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetCreatedByUser(createdByUser *SubmissionCreatedByUser) {
+	u.CreatedByUser = createdByUser
+	u.require(updateSubmissionResponseFieldCreatedByUser)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetDocuments(documents []*CompletedDocument) {
+	u.Documents = documents
+	u.require(updateSubmissionResponseFieldDocuments)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetStatus(status UpdateSubmissionResponseStatus) {
+	u.Status = status
+	u.require(updateSubmissionResponseFieldStatus)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetMetadata(metadata map[string]any) {
+	u.Metadata = metadata
+	u.require(updateSubmissionResponseFieldMetadata)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionResponse) SetCompletedAt(completedAt *string) {
+	u.CompletedAt = completedAt
+	u.require(updateSubmissionResponseFieldCompletedAt)
+}
+
+func (u *UpdateSubmissionResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmissionResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdateSubmissionResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdateSubmissionResponse) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmissionResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdateSubmissionResponse) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+// The source of the submission.
+type UpdateSubmissionResponseSource string
+
+const (
+	UpdateSubmissionResponseSourceInvite UpdateSubmissionResponseSource = "invite"
+	UpdateSubmissionResponseSourceBulk   UpdateSubmissionResponseSource = "bulk"
+	UpdateSubmissionResponseSourceAPI    UpdateSubmissionResponseSource = "api"
+	UpdateSubmissionResponseSourceEmbed  UpdateSubmissionResponseSource = "embed"
+	UpdateSubmissionResponseSourceLink   UpdateSubmissionResponseSource = "link"
+)
+
+func NewUpdateSubmissionResponseSourceFromString(s string) (UpdateSubmissionResponseSource, error) {
+	switch s {
+	case "invite":
+		return UpdateSubmissionResponseSourceInvite, nil
+	case "bulk":
+		return UpdateSubmissionResponseSourceBulk, nil
+	case "api":
+		return UpdateSubmissionResponseSourceAPI, nil
+	case "embed":
+		return UpdateSubmissionResponseSourceEmbed, nil
+	case "link":
+		return UpdateSubmissionResponseSourceLink, nil
+	}
+	var t UpdateSubmissionResponseSource
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmissionResponseSource) Ptr() *UpdateSubmissionResponseSource {
+	return &u
+}
+
+// The status of the submission.
+type UpdateSubmissionResponseStatus string
+
+const (
+	UpdateSubmissionResponseStatusCompleted UpdateSubmissionResponseStatus = "completed"
+	UpdateSubmissionResponseStatusDeclined  UpdateSubmissionResponseStatus = "declined"
+	UpdateSubmissionResponseStatusExpired   UpdateSubmissionResponseStatus = "expired"
+	UpdateSubmissionResponseStatusPending   UpdateSubmissionResponseStatus = "pending"
+)
+
+func NewUpdateSubmissionResponseStatusFromString(s string) (UpdateSubmissionResponseStatus, error) {
+	switch s {
+	case "completed":
+		return UpdateSubmissionResponseStatusCompleted, nil
+	case "declined":
+		return UpdateSubmissionResponseStatusDeclined, nil
+	case "expired":
+		return UpdateSubmissionResponseStatusExpired, nil
+	case "pending":
+		return UpdateSubmissionResponseStatusPending, nil
+	}
+	var t UpdateSubmissionResponseStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmissionResponseStatus) Ptr() *UpdateSubmissionResponseStatus {
+	return &u
+}
+
+// The order of submitters.
+type UpdateSubmissionResponseSubmittersOrder string
+
+const (
+	UpdateSubmissionResponseSubmittersOrderRandom    UpdateSubmissionResponseSubmittersOrder = "random"
+	UpdateSubmissionResponseSubmittersOrderPreserved UpdateSubmissionResponseSubmittersOrder = "preserved"
+)
+
+func NewUpdateSubmissionResponseSubmittersOrderFromString(s string) (UpdateSubmissionResponseSubmittersOrder, error) {
+	switch s {
+	case "random":
+		return UpdateSubmissionResponseSubmittersOrderRandom, nil
+	case "preserved":
+		return UpdateSubmissionResponseSubmittersOrderPreserved, nil
+	}
+	var t UpdateSubmissionResponseSubmittersOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmissionResponseSubmittersOrder) Ptr() *UpdateSubmissionResponseSubmittersOrder {
+	return &u
+}
+
+var (
 	updateSubmitterRequestFieldFieldName         = big.NewInt(1 << 0)
 	updateSubmitterRequestFieldFieldDefaultValue = big.NewInt(1 << 1)
 	updateSubmitterRequestFieldFieldReadonly     = big.NewInt(1 << 2)
@@ -15378,6 +15817,73 @@ func (u *UpdateTemplateResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updateSubmissionParamsFieldName     = big.NewInt(1 << 0)
+	updateSubmissionParamsFieldExpireAt = big.NewInt(1 << 1)
+	updateSubmissionParamsFieldArchived = big.NewInt(1 << 2)
+)
+
+type UpdateSubmissionParams struct {
+	// The name of the submission.
+	Name string `json:"name,omitempty" url:"-"`
+	// The date and time when the submission will expire and no longer be available. Pass `null` to remove the expiration.
+	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	// Set `true` to archive the submission or `false` to unarchive it.
+	Archived *bool `json:"archived,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (u *UpdateSubmissionParams) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionParams) SetName(name string) {
+	u.Name = name
+	u.require(updateSubmissionParamsFieldName)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionParams) SetExpireAt(expireAt *string) {
+	u.ExpireAt = expireAt
+	u.require(updateSubmissionParamsFieldExpireAt)
+}
+
+// SetArchived sets the Archived field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmissionParams) SetArchived(archived *bool) {
+	u.Archived = archived
+	u.require(updateSubmissionParamsFieldArchived)
+}
+
+func (u *UpdateSubmissionParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmissionParams
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*u = UpdateSubmissionParams(body)
+	return nil
+}
+
+func (u *UpdateSubmissionParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmissionParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
 }
 
 var (

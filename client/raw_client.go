@@ -311,6 +311,54 @@ func (r *RawClient) GetSubmission(
 	}, nil
 }
 
+func (r *RawClient) UpdateSubmission(
+	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
+	request *docuseal.UpdateSubmissionParams,
+	opts ...option.RequestOption,
+) (*core.Response[*docuseal.UpdateSubmissionResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.docuseal.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/submissions/%v",
+		id,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *docuseal.UpdateSubmissionResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPut,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*docuseal.UpdateSubmissionResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) ArchiveSubmission(
 	ctx context.Context,
 	// The unique identifier of the submission.
