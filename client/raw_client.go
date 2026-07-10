@@ -82,7 +82,8 @@ func (r *RawClient) GetTemplates(
 
 func (r *RawClient) GetTemplate(
 	ctx context.Context,
-	request *docuseal.GetTemplateParams,
+	// The unique identifier of the document template.
+	id int,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetTemplateResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -93,7 +94,7 @@ func (r *RawClient) GetTemplate(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/templates/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -126,6 +127,8 @@ func (r *RawClient) GetTemplate(
 
 func (r *RawClient) UpdateTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.UpdateTemplateParams,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.UpdateTemplateResponse], error) {
@@ -137,7 +140,7 @@ func (r *RawClient) UpdateTemplate(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/templates/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -172,7 +175,8 @@ func (r *RawClient) UpdateTemplate(
 
 func (r *RawClient) ArchiveTemplate(
 	ctx context.Context,
-	request *docuseal.ArchiveTemplateParams,
+	// The unique identifier of the document template.
+	id int,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.ArchiveTemplateResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -183,7 +187,7 @@ func (r *RawClient) ArchiveTemplate(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/templates/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -264,7 +268,8 @@ func (r *RawClient) GetSubmissions(
 
 func (r *RawClient) GetSubmission(
 	ctx context.Context,
-	request *docuseal.GetSubmissionParams,
+	// The unique identifier of the submission.
+	id int,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetSubmissionResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -275,7 +280,7 @@ func (r *RawClient) GetSubmission(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/submissions/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -308,7 +313,8 @@ func (r *RawClient) GetSubmission(
 
 func (r *RawClient) ArchiveSubmission(
 	ctx context.Context,
-	request *docuseal.ArchiveSubmissionParams,
+	// The unique identifier of the submission.
+	id int,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.ArchiveSubmissionResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -319,7 +325,7 @@ func (r *RawClient) ArchiveSubmission(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/submissions/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -352,6 +358,8 @@ func (r *RawClient) ArchiveSubmission(
 
 func (r *RawClient) GetSubmissionDocuments(
 	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
 	request *docuseal.GetSubmissionDocumentsParams,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetSubmissionDocumentsResponse], error) {
@@ -363,7 +371,7 @@ func (r *RawClient) GetSubmissionDocuments(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/submissions/%v/documents",
-		request.ID,
+		id,
 	)
 	queryParams, err := internal.QueryValues(request)
 	if err != nil {
@@ -575,7 +583,8 @@ func (r *RawClient) CreateSubmissionFromHTML(
 
 func (r *RawClient) GetSubmitter(
 	ctx context.Context,
-	request *docuseal.GetSubmitterParams,
+	// The unique identifier of the submitter.
+	id int,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetSubmitterResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -586,7 +595,7 @@ func (r *RawClient) GetSubmitter(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/submitters/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -619,6 +628,8 @@ func (r *RawClient) GetSubmitter(
 
 func (r *RawClient) UpdateSubmitter(
 	ctx context.Context,
+	// The unique identifier of the submitter.
+	id int,
 	request *docuseal.UpdateSubmitterParams,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.UpdateSubmitterResponse], error) {
@@ -630,7 +641,7 @@ func (r *RawClient) UpdateSubmitter(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/submitters/%v",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -713,6 +724,8 @@ func (r *RawClient) GetSubmitters(
 
 func (r *RawClient) AddDocumentToTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.AddDocumentToTemplateParams,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetTemplateResponse], error) {
@@ -724,7 +737,7 @@ func (r *RawClient) AddDocumentToTemplate(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/templates/%v/documents",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
@@ -759,6 +772,8 @@ func (r *RawClient) AddDocumentToTemplate(
 
 func (r *RawClient) CloneTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.CloneTemplateParams,
 	opts ...option.RequestOption,
 ) (*core.Response[*docuseal.GetTemplateResponse], error) {
@@ -770,7 +785,7 @@ func (r *RawClient) CloneTemplate(
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/templates/%v/clone",
-		request.ID,
+		id,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),

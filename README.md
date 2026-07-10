@@ -77,7 +77,7 @@ fmt.Println(submission.Submitters[0].EmbedSrc)
 ### Track a submission
 
 ```go
-submission, err := c.GetSubmission(ctx, &docuseal.GetSubmissionParams{ID: 1001})
+submission, err := c.GetSubmission(ctx, 1001)
 if err != nil {
 	log.Fatal(err)
 }
@@ -92,7 +92,7 @@ for _, document := range submission.Documents {
 ### Handle errors
 
 ```go
-_, err := c.GetTemplate(ctx, &docuseal.GetTemplateParams{ID: 42})
+_, err := c.GetTemplate(ctx, 42)
 
 var apiErr *core.APIError
 if errors.As(err, &apiErr) {

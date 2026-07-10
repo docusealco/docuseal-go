@@ -55,12 +55,13 @@ func (c *Client) GetTemplates(
 // The API endpoint provides the functionality to retrieve information about a document template.
 func (c *Client) GetTemplate(
 	ctx context.Context,
-	request *docuseal.GetTemplateParams,
+	// The unique identifier of the document template.
+	id int,
 	opts ...option.RequestOption,
 ) (*docuseal.GetTemplateResponse, error) {
 	response, err := c.WithRawResponse.GetTemplate(
 		ctx,
-		request,
+		id,
 		opts...,
 	)
 	if err != nil {
@@ -72,11 +73,14 @@ func (c *Client) GetTemplate(
 // The API endpoint provides the functionality to move a document template to a different folder and update the name of the template.
 func (c *Client) UpdateTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.UpdateTemplateParams,
 	opts ...option.RequestOption,
 ) (*docuseal.UpdateTemplateResponse, error) {
 	response, err := c.WithRawResponse.UpdateTemplate(
 		ctx,
+		id,
 		request,
 		opts...,
 	)
@@ -89,12 +93,13 @@ func (c *Client) UpdateTemplate(
 // The API endpoint allows you to archive a document template.
 func (c *Client) ArchiveTemplate(
 	ctx context.Context,
-	request *docuseal.ArchiveTemplateParams,
+	// The unique identifier of the document template.
+	id int,
 	opts ...option.RequestOption,
 ) (*docuseal.ArchiveTemplateResponse, error) {
 	response, err := c.WithRawResponse.ArchiveTemplate(
 		ctx,
-		request,
+		id,
 		opts...,
 	)
 	if err != nil {
@@ -123,12 +128,13 @@ func (c *Client) GetSubmissions(
 // The API endpoint provides the functionality to retrieve information about a submission.
 func (c *Client) GetSubmission(
 	ctx context.Context,
-	request *docuseal.GetSubmissionParams,
+	// The unique identifier of the submission.
+	id int,
 	opts ...option.RequestOption,
 ) (*docuseal.GetSubmissionResponse, error) {
 	response, err := c.WithRawResponse.GetSubmission(
 		ctx,
-		request,
+		id,
 		opts...,
 	)
 	if err != nil {
@@ -140,12 +146,13 @@ func (c *Client) GetSubmission(
 // The API endpoint allows you to archive a submission.
 func (c *Client) ArchiveSubmission(
 	ctx context.Context,
-	request *docuseal.ArchiveSubmissionParams,
+	// The unique identifier of the submission.
+	id int,
 	opts ...option.RequestOption,
 ) (*docuseal.ArchiveSubmissionResponse, error) {
 	response, err := c.WithRawResponse.ArchiveSubmission(
 		ctx,
-		request,
+		id,
 		opts...,
 	)
 	if err != nil {
@@ -157,11 +164,14 @@ func (c *Client) ArchiveSubmission(
 // This endpoint returns a list of partially filled documents for a submission. If the submission has been completed, the final signed documents are returned.
 func (c *Client) GetSubmissionDocuments(
 	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
 	request *docuseal.GetSubmissionDocumentsParams,
 	opts ...option.RequestOption,
 ) (*docuseal.GetSubmissionDocumentsResponse, error) {
 	response, err := c.WithRawResponse.GetSubmissionDocuments(
 		ctx,
+		id,
 		request,
 		opts...,
 	)
@@ -242,12 +252,13 @@ func (c *Client) CreateSubmissionFromHTML(
 // The API endpoint provides functionality to retrieve information about a submitter, along with the submitter documents and field values.
 func (c *Client) GetSubmitter(
 	ctx context.Context,
-	request *docuseal.GetSubmitterParams,
+	// The unique identifier of the submitter.
+	id int,
 	opts ...option.RequestOption,
 ) (*docuseal.GetSubmitterResponse, error) {
 	response, err := c.WithRawResponse.GetSubmitter(
 		ctx,
-		request,
+		id,
 		opts...,
 	)
 	if err != nil {
@@ -259,11 +270,14 @@ func (c *Client) GetSubmitter(
 // The API endpoint allows you to update submitter details, pre-fill or update field values and re-send emails.<br><b>Related Guides</b><br><a href="https://www.docuseal.com/guides/pre-fill-pdf-document-form-fields-with-api#automatically_sign_documents_via_api" class="link">Automatically sign documents via API</a>
 func (c *Client) UpdateSubmitter(
 	ctx context.Context,
+	// The unique identifier of the submitter.
+	id int,
 	request *docuseal.UpdateSubmitterParams,
 	opts ...option.RequestOption,
 ) (*docuseal.UpdateSubmitterResponse, error) {
 	response, err := c.WithRawResponse.UpdateSubmitter(
 		ctx,
+		id,
 		request,
 		opts...,
 	)
@@ -293,11 +307,14 @@ func (c *Client) GetSubmitters(
 // The API endpoint allows you to add, remove or replace documents in the template with provided PDF/DOCX file or HTML content.
 func (c *Client) AddDocumentToTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.AddDocumentToTemplateParams,
 	opts ...option.RequestOption,
 ) (*docuseal.GetTemplateResponse, error) {
 	response, err := c.WithRawResponse.AddDocumentToTemplate(
 		ctx,
+		id,
 		request,
 		opts...,
 	)
@@ -310,11 +327,14 @@ func (c *Client) AddDocumentToTemplate(
 // The API endpoint allows you to clone an existing template into a new template.
 func (c *Client) CloneTemplate(
 	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
 	request *docuseal.CloneTemplateParams,
 	opts ...option.RequestOption,
 ) (*docuseal.GetTemplateResponse, error) {
 	response, err := c.WithRawResponse.CloneTemplate(
 		ctx,
+		id,
 		request,
 		opts...,
 	)

@@ -11,14 +11,11 @@ import (
 )
 
 var (
-	addDocumentToTemplateParamsFieldID        = big.NewInt(1 << 0)
-	addDocumentToTemplateParamsFieldDocuments = big.NewInt(1 << 1)
-	addDocumentToTemplateParamsFieldMerge     = big.NewInt(1 << 2)
+	addDocumentToTemplateParamsFieldDocuments = big.NewInt(1 << 0)
+	addDocumentToTemplateParamsFieldMerge     = big.NewInt(1 << 1)
 )
 
 type AddDocumentToTemplateParams struct {
-	// The unique identifier of the document template.
-	ID int `json:"-" url:"-"`
 	// The list of documents to add or replace in the template.
 	Documents []*AddDocumentToTemplateRequestDocument `json:"documents,omitempty" url:"-"`
 	// Set to `true` to merge all existing and new documents into a single PDF document in the template.
@@ -33,13 +30,6 @@ func (a *AddDocumentToTemplateParams) require(field *big.Int) {
 		a.explicitFields = big.NewInt(0)
 	}
 	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateParams) SetID(id int) {
-	a.ID = id
-	a.require(addDocumentToTemplateParamsFieldID)
 }
 
 // SetDocuments sets the Documents field and marks it as non-optional;
@@ -78,67 +68,12 @@ func (a *AddDocumentToTemplateParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	archiveSubmissionParamsFieldID = big.NewInt(1 << 0)
-)
-
-type ArchiveSubmissionParams struct {
-	// The unique identifier of the submission.
-	ID int `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (a *ArchiveSubmissionParams) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveSubmissionParams) SetID(id int) {
-	a.ID = id
-	a.require(archiveSubmissionParamsFieldID)
-}
-
-var (
-	archiveTemplateParamsFieldID = big.NewInt(1 << 0)
-)
-
-type ArchiveTemplateParams struct {
-	// The unique identifier of the document template.
-	ID int `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (a *ArchiveTemplateParams) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveTemplateParams) SetID(id int) {
-	a.ID = id
-	a.require(archiveTemplateParamsFieldID)
-}
-
-var (
-	cloneTemplateParamsFieldID         = big.NewInt(1 << 0)
-	cloneTemplateParamsFieldName       = big.NewInt(1 << 1)
-	cloneTemplateParamsFieldFolderName = big.NewInt(1 << 2)
-	cloneTemplateParamsFieldExternalID = big.NewInt(1 << 3)
+	cloneTemplateParamsFieldName       = big.NewInt(1 << 0)
+	cloneTemplateParamsFieldFolderName = big.NewInt(1 << 1)
+	cloneTemplateParamsFieldExternalID = big.NewInt(1 << 2)
 )
 
 type CloneTemplateParams struct {
-	// The unique identifier of the document template.
-	ID int `json:"-" url:"-"`
 	// Template name. Existing name with (Clone) suffix will be used if not specified.
 	Name string `json:"name,omitempty" url:"-"`
 	// The folder's name to which the template should be cloned.
@@ -155,13 +90,6 @@ func (c *CloneTemplateParams) require(field *big.Int) {
 		c.explicitFields = big.NewInt(0)
 	}
 	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CloneTemplateParams) SetID(id int) {
-	c.ID = id
-	c.require(cloneTemplateParamsFieldID)
 }
 
 // SetName sets the Name field and marks it as non-optional;
@@ -1288,39 +1216,10 @@ func (c *CreateTemplateFromPdfParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	getSubmissionParamsFieldID = big.NewInt(1 << 0)
-)
-
-type GetSubmissionParams struct {
-	// The unique identifier of the submission.
-	ID int `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (g *GetSubmissionParams) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionParams) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionParamsFieldID)
-}
-
-var (
-	getSubmissionDocumentsParamsFieldID    = big.NewInt(1 << 0)
-	getSubmissionDocumentsParamsFieldMerge = big.NewInt(1 << 1)
+	getSubmissionDocumentsParamsFieldMerge = big.NewInt(1 << 0)
 )
 
 type GetSubmissionDocumentsParams struct {
-	// The unique identifier of the submission.
-	ID int `json:"-" url:"-"`
 	// When `true`, merges all documents into a single PDF.
 	Merge *bool `json:"-" url:"merge,omitempty"`
 
@@ -1333,13 +1232,6 @@ func (g *GetSubmissionDocumentsParams) require(field *big.Int) {
 		g.explicitFields = big.NewInt(0)
 	}
 	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionDocumentsParams) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionDocumentsParamsFieldID)
 }
 
 // SetMerge sets the Merge field and marks it as non-optional;
@@ -1456,32 +1348,6 @@ func (g *GetSubmissionsParams) SetBefore(before *int) {
 }
 
 var (
-	getSubmitterParamsFieldID = big.NewInt(1 << 0)
-)
-
-type GetSubmitterParams struct {
-	// The unique identifier of the submitter.
-	ID int `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (g *GetSubmitterParams) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterParams) SetID(id int) {
-	g.ID = id
-	g.require(getSubmitterParamsFieldID)
-}
-
-var (
 	getSubmittersParamsFieldSubmissionID    = big.NewInt(1 << 0)
 	getSubmittersParamsFieldQ               = big.NewInt(1 << 1)
 	getSubmittersParamsFieldSlug            = big.NewInt(1 << 2)
@@ -1585,32 +1451,6 @@ func (g *GetSubmittersParams) SetAfter(after *int) {
 func (g *GetSubmittersParams) SetBefore(before *int) {
 	g.Before = before
 	g.require(getSubmittersParamsFieldBefore)
-}
-
-var (
-	getTemplateParamsFieldID = big.NewInt(1 << 0)
-)
-
-type GetTemplateParams struct {
-	// The unique identifier of the document template.
-	ID int `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (g *GetTemplateParams) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateParams) SetID(id int) {
-	g.ID = id
-	g.require(getTemplateParamsFieldID)
 }
 
 var (
@@ -15541,27 +15381,24 @@ func (u *UpdateTemplateResponse) String() string {
 }
 
 var (
-	updateSubmitterParamsFieldID                   = big.NewInt(1 << 0)
-	updateSubmitterParamsFieldName                 = big.NewInt(1 << 1)
-	updateSubmitterParamsFieldEmail                = big.NewInt(1 << 2)
-	updateSubmitterParamsFieldPhone                = big.NewInt(1 << 3)
-	updateSubmitterParamsFieldValues               = big.NewInt(1 << 4)
-	updateSubmitterParamsFieldExternalID           = big.NewInt(1 << 5)
-	updateSubmitterParamsFieldSendEmail            = big.NewInt(1 << 6)
-	updateSubmitterParamsFieldSendSms              = big.NewInt(1 << 7)
-	updateSubmitterParamsFieldReplyTo              = big.NewInt(1 << 8)
-	updateSubmitterParamsFieldCompleted            = big.NewInt(1 << 9)
-	updateSubmitterParamsFieldMetadata             = big.NewInt(1 << 10)
-	updateSubmitterParamsFieldCompletedRedirectURL = big.NewInt(1 << 11)
-	updateSubmitterParamsFieldRequirePhone2Fa      = big.NewInt(1 << 12)
-	updateSubmitterParamsFieldRequireEmail2Fa      = big.NewInt(1 << 13)
-	updateSubmitterParamsFieldMessage              = big.NewInt(1 << 14)
-	updateSubmitterParamsFieldFields               = big.NewInt(1 << 15)
+	updateSubmitterParamsFieldName                 = big.NewInt(1 << 0)
+	updateSubmitterParamsFieldEmail                = big.NewInt(1 << 1)
+	updateSubmitterParamsFieldPhone                = big.NewInt(1 << 2)
+	updateSubmitterParamsFieldValues               = big.NewInt(1 << 3)
+	updateSubmitterParamsFieldExternalID           = big.NewInt(1 << 4)
+	updateSubmitterParamsFieldSendEmail            = big.NewInt(1 << 5)
+	updateSubmitterParamsFieldSendSms              = big.NewInt(1 << 6)
+	updateSubmitterParamsFieldReplyTo              = big.NewInt(1 << 7)
+	updateSubmitterParamsFieldCompleted            = big.NewInt(1 << 8)
+	updateSubmitterParamsFieldMetadata             = big.NewInt(1 << 9)
+	updateSubmitterParamsFieldCompletedRedirectURL = big.NewInt(1 << 10)
+	updateSubmitterParamsFieldRequirePhone2Fa      = big.NewInt(1 << 11)
+	updateSubmitterParamsFieldRequireEmail2Fa      = big.NewInt(1 << 12)
+	updateSubmitterParamsFieldMessage              = big.NewInt(1 << 13)
+	updateSubmitterParamsFieldFields               = big.NewInt(1 << 14)
 )
 
 type UpdateSubmitterParams struct {
-	// The unique identifier of the submitter.
-	ID int `json:"-" url:"-"`
 	// The name of the submitter.
 	Name string `json:"name,omitempty" url:"-"`
 	// The email address of the submitter.
@@ -15601,13 +15438,6 @@ func (u *UpdateSubmitterParams) require(field *big.Int) {
 		u.explicitFields = big.NewInt(0)
 	}
 	u.explicitFields.Or(u.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetID(id int) {
-	u.ID = id
-	u.require(updateSubmitterParamsFieldID)
 }
 
 // SetName sets the Name field and marks it as non-optional;
@@ -15737,16 +15567,13 @@ func (u *UpdateSubmitterParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	updateTemplateParamsFieldID         = big.NewInt(1 << 0)
-	updateTemplateParamsFieldName       = big.NewInt(1 << 1)
-	updateTemplateParamsFieldFolderName = big.NewInt(1 << 2)
-	updateTemplateParamsFieldRoles      = big.NewInt(1 << 3)
-	updateTemplateParamsFieldArchived   = big.NewInt(1 << 4)
+	updateTemplateParamsFieldName       = big.NewInt(1 << 0)
+	updateTemplateParamsFieldFolderName = big.NewInt(1 << 1)
+	updateTemplateParamsFieldRoles      = big.NewInt(1 << 2)
+	updateTemplateParamsFieldArchived   = big.NewInt(1 << 3)
 )
 
 type UpdateTemplateParams struct {
-	// The unique identifier of the document template.
-	ID int `json:"-" url:"-"`
 	// The name of the template.
 	Name string `json:"name,omitempty" url:"-"`
 	// The folder's name to which the template should be moved.
@@ -15765,13 +15592,6 @@ func (u *UpdateTemplateParams) require(field *big.Int) {
 		u.explicitFields = big.NewInt(0)
 	}
 	u.explicitFields.Or(u.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateParams) SetID(id int) {
-	u.ID = id
-	u.require(updateTemplateParamsFieldID)
 }
 
 // SetName sets the Name field and marks it as non-optional;

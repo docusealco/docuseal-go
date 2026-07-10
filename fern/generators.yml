@@ -2,6 +2,8 @@
 api:
   specs:
     - openapi: ../openapi.tmp.json
+      settings:
+        inline-path-parameters: false
 default-group: local
 groups:
   local:
