@@ -1,3 +1,4 @@
 .fern-out/
+.fern-fork/
 openapi.tmp.json
 .DS_Store

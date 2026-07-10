@@ -6,6 +6,29 @@ set -e
 
 cd "$(dirname "$0")"
 
+# The generator image is built from the docusealco/fern fork, which adds the
+# `optionalsAsValues` config option (optional string properties as plain Go
+# values instead of pointers). The image is local-only and carries a marker
+# label: fern requires a plain X.Y.Z version, so an upstream 1.47.0 pulled
+# from Docker Hub would otherwise shadow the fork build. Build it on first
+# run; requires pnpm in addition to Node.js and Docker.
+GENERATOR_IMAGE="fernapi/fern-go-sdk:1.47.0"
+
+if [ "$(docker image inspect -f '{{index .Config.Labels "com.docuseal.fern-fork"}}' "$GENERATOR_IMAGE" 2>/dev/null)" != "true" ]; then
+  echo "Building $GENERATOR_IMAGE from the docusealco/fern fork..."
+  FERN_FORK_DIR="${FERN_FORK_DIR:-.fern-fork}"
+  if [ ! -d "$FERN_FORK_DIR" ]; then
+    git clone https://github.com/docusealco/fern "$FERN_FORK_DIR"
+  fi
+  (
+    cd "$FERN_FORK_DIR"
+    pnpm install
+    pnpm exec turbo run dist:cli --filter=@fern-api/go-sdk
+    docker build -f generators/go/sdk/Dockerfile \
+      --label com.docuseal.fern-fork=true -t "$GENERATOR_IMAGE" .
+  )
+fi
+
 SPEC="${1:-https://console.docuseal.com/openapi.yml?format=json}"
 
 case "$SPEC" in
@@ -67,4 +90,4 @@ cp -r .fern-out/. .
 
 rm -rf .fern-out openapi.tmp.json
 go mod tidy
-gofmt -w .
+gofmt -w ./*.go client core option internal

@@ -140,11 +140,11 @@ type CloneTemplateParams struct {
 	// The unique identifier of the document template.
 	ID int `json:"-" url:"-"`
 	// Template name. Existing name with (Clone) suffix will be used if not specified.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// The folder's name to which the template should be cloned.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -166,21 +166,21 @@ func (c *CloneTemplateParams) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CloneTemplateParams) SetName(name *string) {
+func (c *CloneTemplateParams) SetName(name string) {
 	c.Name = name
 	c.require(cloneTemplateParamsFieldName)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CloneTemplateParams) SetFolderName(folderName *string) {
+func (c *CloneTemplateParams) SetFolderName(folderName string) {
 	c.FolderName = folderName
 	c.require(cloneTemplateParamsFieldFolderName)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CloneTemplateParams) SetExternalID(externalID *string) {
+func (c *CloneTemplateParams) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(cloneTemplateParamsFieldExternalID)
 }
@@ -230,13 +230,13 @@ type CreateSubmissionParams struct {
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 	Order *CreateSubmissionRequestOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"-"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty" url:"-"`
+	BccCompleted string `json:"bcc_completed,omitempty" url:"-"`
 	// Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty" url:"-"`
+	ReplyTo string `json:"reply_to,omitempty" url:"-"`
 	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// Dynamic content variables object. Variable values can be strings, numbers, arrays, objects, or HTML content used to generate styled text, paragraphs, and tables in dynamic template documents.
 	Variables map[string]any                             `json:"variables,omitempty" url:"-"`
 	Message   *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty" url:"-"`
@@ -284,28 +284,28 @@ func (c *CreateSubmissionParams) SetOrder(order *CreateSubmissionRequestOrder) {
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionParamsFieldCompletedRedirectURL)
 }
 
 // SetBccCompleted sets the BccCompleted field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetBccCompleted(bccCompleted *string) {
+func (c *CreateSubmissionParams) SetBccCompleted(bccCompleted string) {
 	c.BccCompleted = bccCompleted
 	c.require(createSubmissionParamsFieldBccCompleted)
 }
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionParams) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionParamsFieldReplyTo)
 }
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetExpireAt(expireAt *string) {
+func (c *CreateSubmissionParams) SetExpireAt(expireAt string) {
 	c.ExpireAt = expireAt
 	c.require(createSubmissionParamsFieldExpireAt)
 }
@@ -372,7 +372,7 @@ var (
 
 type CreateSubmissionFromDocxParams struct {
 	// Name of the document submission.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty" url:"-"`
 	// Set `true` to send signature request via phone number and SMS.
@@ -382,13 +382,13 @@ type CreateSubmissionFromDocxParams struct {
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 	Order *CreateSubmissionFromDocxRequestOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"-"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty" url:"-"`
+	BccCompleted string `json:"bcc_completed,omitempty" url:"-"`
 	// Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty" url:"-"`
+	ReplyTo string `json:"reply_to,omitempty" url:"-"`
 	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// An array of DOCX documents to create a submission.
@@ -414,7 +414,7 @@ func (c *CreateSubmissionFromDocxParams) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetName(name *string) {
+func (c *CreateSubmissionFromDocxParams) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromDocxParamsFieldName)
 }
@@ -449,28 +449,28 @@ func (c *CreateSubmissionFromDocxParams) SetOrder(order *CreateSubmissionFromDoc
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionFromDocxParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionFromDocxParamsFieldCompletedRedirectURL)
 }
 
 // SetBccCompleted sets the BccCompleted field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetBccCompleted(bccCompleted *string) {
+func (c *CreateSubmissionFromDocxParams) SetBccCompleted(bccCompleted string) {
 	c.BccCompleted = bccCompleted
 	c.require(createSubmissionFromDocxParamsFieldBccCompleted)
 }
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionFromDocxParams) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionFromDocxParamsFieldReplyTo)
 }
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetExpireAt(expireAt *string) {
+func (c *CreateSubmissionFromDocxParams) SetExpireAt(expireAt string) {
 	c.ExpireAt = expireAt
 	c.require(createSubmissionFromDocxParamsFieldExpireAt)
 }
@@ -556,7 +556,7 @@ var (
 
 type CreateSubmissionFromHTMLParams struct {
 	// Name of the document submission.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty" url:"-"`
 	// Set `true` to send signature request via phone number and SMS.
@@ -564,13 +564,13 @@ type CreateSubmissionFromHTMLParams struct {
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 	Order *CreateSubmissionFromHTMLRequestOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"-"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty" url:"-"`
+	BccCompleted string `json:"bcc_completed,omitempty" url:"-"`
 	// Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty" url:"-"`
+	ReplyTo string `json:"reply_to,omitempty" url:"-"`
 	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// The list of documents built from HTML. Can be used to create a submission with multiple documents.
@@ -594,7 +594,7 @@ func (c *CreateSubmissionFromHTMLParams) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetName(name *string) {
+func (c *CreateSubmissionFromHTMLParams) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromHTMLParamsFieldName)
 }
@@ -622,28 +622,28 @@ func (c *CreateSubmissionFromHTMLParams) SetOrder(order *CreateSubmissionFromHTM
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionFromHTMLParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionFromHTMLParamsFieldCompletedRedirectURL)
 }
 
 // SetBccCompleted sets the BccCompleted field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetBccCompleted(bccCompleted *string) {
+func (c *CreateSubmissionFromHTMLParams) SetBccCompleted(bccCompleted string) {
 	c.BccCompleted = bccCompleted
 	c.require(createSubmissionFromHTMLParamsFieldBccCompleted)
 }
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionFromHTMLParams) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionFromHTMLParamsFieldReplyTo)
 }
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetExpireAt(expireAt *string) {
+func (c *CreateSubmissionFromHTMLParams) SetExpireAt(expireAt string) {
 	c.ExpireAt = expireAt
 	c.require(createSubmissionFromHTMLParamsFieldExpireAt)
 }
@@ -724,7 +724,7 @@ var (
 
 type CreateSubmissionFromPdfParams struct {
 	// Name of the document submission.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// Set `false` to disable signature request emails sending.
 	SendEmail *bool `json:"send_email,omitempty" url:"-"`
 	// Set `true` to send signature request via phone number and SMS.
@@ -732,13 +732,13 @@ type CreateSubmissionFromPdfParams struct {
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
 	Order *CreateSubmissionFromPdfRequestOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"-"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
-	BccCompleted *string `json:"bcc_completed,omitempty" url:"-"`
+	BccCompleted string `json:"bcc_completed,omitempty" url:"-"`
 	// Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty" url:"-"`
+	ReplyTo string `json:"reply_to,omitempty" url:"-"`
 	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// An array of PDF documents to create a submission.
@@ -766,7 +766,7 @@ func (c *CreateSubmissionFromPdfParams) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetName(name *string) {
+func (c *CreateSubmissionFromPdfParams) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromPdfParamsFieldName)
 }
@@ -794,28 +794,28 @@ func (c *CreateSubmissionFromPdfParams) SetOrder(order *CreateSubmissionFromPdfR
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionFromPdfParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionFromPdfParamsFieldCompletedRedirectURL)
 }
 
 // SetBccCompleted sets the BccCompleted field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetBccCompleted(bccCompleted *string) {
+func (c *CreateSubmissionFromPdfParams) SetBccCompleted(bccCompleted string) {
 	c.BccCompleted = bccCompleted
 	c.require(createSubmissionFromPdfParamsFieldBccCompleted)
 }
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionFromPdfParams) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionFromPdfParamsFieldReplyTo)
 }
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetExpireAt(expireAt *string) {
+func (c *CreateSubmissionFromPdfParams) SetExpireAt(expireAt string) {
 	c.ExpireAt = expireAt
 	c.require(createSubmissionFromPdfParamsFieldExpireAt)
 }
@@ -976,11 +976,11 @@ var (
 
 type CreateTemplateFromDocxParams struct {
 	// Name of the template.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new document.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// An array of DOCX documents to create a template.
@@ -999,21 +999,21 @@ func (c *CreateTemplateFromDocxParams) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxParams) SetName(name *string) {
+func (c *CreateTemplateFromDocxParams) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromDocxParamsFieldName)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxParams) SetExternalID(externalID *string) {
+func (c *CreateTemplateFromDocxParams) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(createTemplateFromDocxParamsFieldExternalID)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxParams) SetFolderName(folderName *string) {
+func (c *CreateTemplateFromDocxParams) SetFolderName(folderName string) {
 	c.FolderName = folderName
 	c.require(createTemplateFromDocxParamsFieldFolderName)
 }
@@ -1069,17 +1069,17 @@ type CreateTemplateFromHTMLParams struct {
 	// HTML template with field tags.
 	HTML string `json:"html" url:"-"`
 	// HTML template of the header to be displayed on every page.
-	HTMLHeader *string `json:"html_header,omitempty" url:"-"`
+	HTMLHeader string `json:"html_header,omitempty" url:"-"`
 	// HTML template of the footer to be displayed on every page.
-	HTMLFooter *string `json:"html_footer,omitempty" url:"-"`
+	HTMLFooter string `json:"html_footer,omitempty" url:"-"`
 	// Template name. Random uuid will be assigned when not specified.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
 	Size *CreateTemplateFromHTMLRequestSize `json:"size,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new HTML.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// The list of documents built from HTML. Can be used to create a template with multiple documents. Leave `documents` param empty when using a top-level `html` param for a template with a single document.
@@ -1105,21 +1105,21 @@ func (c *CreateTemplateFromHTMLParams) SetHTML(html string) {
 
 // SetHTMLHeader sets the HTMLHeader field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetHTMLHeader(htmlHeader *string) {
+func (c *CreateTemplateFromHTMLParams) SetHTMLHeader(htmlHeader string) {
 	c.HTMLHeader = htmlHeader
 	c.require(createTemplateFromHTMLParamsFieldHTMLHeader)
 }
 
 // SetHTMLFooter sets the HTMLFooter field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetHTMLFooter(htmlFooter *string) {
+func (c *CreateTemplateFromHTMLParams) SetHTMLFooter(htmlFooter string) {
 	c.HTMLFooter = htmlFooter
 	c.require(createTemplateFromHTMLParamsFieldHTMLFooter)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetName(name *string) {
+func (c *CreateTemplateFromHTMLParams) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromHTMLParamsFieldName)
 }
@@ -1133,14 +1133,14 @@ func (c *CreateTemplateFromHTMLParams) SetSize(size *CreateTemplateFromHTMLReque
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetExternalID(externalID *string) {
+func (c *CreateTemplateFromHTMLParams) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(createTemplateFromHTMLParamsFieldExternalID)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetFolderName(folderName *string) {
+func (c *CreateTemplateFromHTMLParams) SetFolderName(folderName string) {
 	c.FolderName = folderName
 	c.require(createTemplateFromHTMLParamsFieldFolderName)
 }
@@ -1192,11 +1192,11 @@ var (
 
 type CreateTemplateFromPdfParams struct {
 	// Name of the template.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// The folder's name in which the template should be created.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new PDF.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// An array of PDF documents to create a template.
@@ -1219,21 +1219,21 @@ func (c *CreateTemplateFromPdfParams) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfParams) SetName(name *string) {
+func (c *CreateTemplateFromPdfParams) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromPdfParamsFieldName)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfParams) SetFolderName(folderName *string) {
+func (c *CreateTemplateFromPdfParams) SetFolderName(folderName string) {
 	c.FolderName = folderName
 	c.require(createTemplateFromPdfParamsFieldFolderName)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfParams) SetExternalID(externalID *string) {
+func (c *CreateTemplateFromPdfParams) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(createTemplateFromPdfParamsFieldExternalID)
 }
@@ -1732,11 +1732,11 @@ type MergeTemplateParams struct {
 	// An array of template ids to merge into a new template.
 	TemplateIDs []int `json:"template_ids" url:"-"`
 	// Template name. Existing name with (Merged) suffix will be used if not specified.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// The name of the folder in which the merged template should be placed.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// An array of submitter role names to be used in the merged template.
@@ -1762,21 +1762,21 @@ func (m *MergeTemplateParams) SetTemplateIDs(templateIDs []int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MergeTemplateParams) SetName(name *string) {
+func (m *MergeTemplateParams) SetName(name string) {
 	m.Name = name
 	m.require(mergeTemplateParamsFieldName)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MergeTemplateParams) SetFolderName(folderName *string) {
+func (m *MergeTemplateParams) SetFolderName(folderName string) {
 	m.FolderName = folderName
 	m.require(mergeTemplateParamsFieldFolderName)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MergeTemplateParams) SetExternalID(externalID *string) {
+func (m *MergeTemplateParams) SetExternalID(externalID string) {
 	m.ExternalID = externalID
 	m.require(mergeTemplateParamsFieldExternalID)
 }
@@ -1827,11 +1827,11 @@ var (
 
 type AddDocumentToTemplateRequestDocument struct {
 	// Document name. Random uuid will be assigned when not specified.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
-	File *string `json:"file,omitempty" url:"file,omitempty"`
+	File string `json:"file,omitempty" url:"file,omitempty"`
 	// HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
-	HTML *string `json:"html,omitempty" url:"html,omitempty"`
+	HTML string `json:"html,omitempty" url:"html,omitempty"`
 	// Position of the document. By default will be added as the last document in the template.
 	Position *int `json:"position,omitempty" url:"position,omitempty"`
 	// Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
@@ -1846,23 +1846,23 @@ type AddDocumentToTemplateRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (a *AddDocumentToTemplateRequestDocument) GetName() *string {
+func (a *AddDocumentToTemplateRequestDocument) GetName() string {
 	if a == nil {
-		return nil
+		return ""
 	}
 	return a.Name
 }
 
-func (a *AddDocumentToTemplateRequestDocument) GetFile() *string {
+func (a *AddDocumentToTemplateRequestDocument) GetFile() string {
 	if a == nil {
-		return nil
+		return ""
 	}
 	return a.File
 }
 
-func (a *AddDocumentToTemplateRequestDocument) GetHTML() *string {
+func (a *AddDocumentToTemplateRequestDocument) GetHTML() string {
 	if a == nil {
-		return nil
+		return ""
 	}
 	return a.HTML
 }
@@ -1904,21 +1904,21 @@ func (a *AddDocumentToTemplateRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetName(name *string) {
+func (a *AddDocumentToTemplateRequestDocument) SetName(name string) {
 	a.Name = name
 	a.require(addDocumentToTemplateRequestDocumentFieldName)
 }
 
 // SetFile sets the File field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetFile(file *string) {
+func (a *AddDocumentToTemplateRequestDocument) SetFile(file string) {
 	a.File = file
 	a.require(addDocumentToTemplateRequestDocumentFieldFile)
 }
 
 // SetHTML sets the HTML field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetHTML(html *string) {
+func (a *AddDocumentToTemplateRequestDocument) SetHTML(html string) {
 	a.HTML = html
 	a.require(addDocumentToTemplateRequestDocumentFieldHTML)
 }
@@ -2445,13 +2445,13 @@ var (
 
 type CreateSubmissionFromHTMLRequestDocument struct {
 	// Document name. Random uuid will be assigned when not specified.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// HTML document content with field tags.
 	HTML string `json:"html" url:"html"`
 	// HTML document content of the header to be displayed on every page.
-	HTMLHeader *string `json:"html_header,omitempty" url:"html_header,omitempty"`
+	HTMLHeader string `json:"html_header,omitempty" url:"html_header,omitempty"`
 	// HTML document content of the footer to be displayed on every page.
-	HTMLFooter *string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
+	HTMLFooter string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
 	Size *CreateSubmissionFromHTMLRequestDocumentSize `json:"size,omitempty" url:"size,omitempty"`
 	// Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
@@ -2464,9 +2464,9 @@ type CreateSubmissionFromHTMLRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetName() *string {
+func (c *CreateSubmissionFromHTMLRequestDocument) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -2478,16 +2478,16 @@ func (c *CreateSubmissionFromHTMLRequestDocument) GetHTML() string {
 	return c.HTML
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLHeader() *string {
+func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLHeader() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.HTMLHeader
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLFooter() *string {
+func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLFooter() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.HTMLFooter
 }
@@ -2522,7 +2522,7 @@ func (c *CreateSubmissionFromHTMLRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetName(name *string) {
+func (c *CreateSubmissionFromHTMLRequestDocument) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromHTMLRequestDocumentFieldName)
 }
@@ -2536,14 +2536,14 @@ func (c *CreateSubmissionFromHTMLRequestDocument) SetHTML(html string) {
 
 // SetHTMLHeader sets the HTMLHeader field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLHeader(htmlHeader *string) {
+func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLHeader(htmlHeader string) {
 	c.HTMLHeader = htmlHeader
 	c.require(createSubmissionFromHTMLRequestDocumentFieldHTMLHeader)
 }
 
 // SetHTMLFooter sets the HTMLFooter field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLFooter(htmlFooter *string) {
+func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLFooter(htmlFooter string) {
 	c.HTMLFooter = htmlFooter
 	c.require(createSubmissionFromHTMLRequestDocumentFieldHTMLFooter)
 }
@@ -2826,17 +2826,17 @@ var (
 
 type CreateSubmissionFromPdfRequestDocumentField struct {
 	// Name of the field.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
 	Type *CreateSubmissionFromPdfRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
 	// Role name of the signer.
-	Role *string `json:"role,omitempty" url:"role,omitempty"`
+	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// Indicates if the field is required.
 	Required *bool `json:"required,omitempty" url:"required,omitempty"`
 	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty" url:"title,omitempty"`
+	Title string `json:"title,omitempty" url:"title,omitempty"`
 	// Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty" url:"description,omitempty"`
+	Description string `json:"description,omitempty" url:"description,omitempty"`
 	// List of areas where the field is located in the document.
 	Areas []*CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
 	// An array of option values for 'select' field type.
@@ -2849,9 +2849,9 @@ type CreateSubmissionFromPdfRequestDocumentField struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetName() *string {
+func (c *CreateSubmissionFromPdfRequestDocumentField) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -2863,9 +2863,9 @@ func (c *CreateSubmissionFromPdfRequestDocumentField) GetType() *CreateSubmissio
 	return c.Type
 }
 
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetRole() *string {
+func (c *CreateSubmissionFromPdfRequestDocumentField) GetRole() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Role
 }
@@ -2877,16 +2877,16 @@ func (c *CreateSubmissionFromPdfRequestDocumentField) GetRequired() *bool {
 	return c.Required
 }
 
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetTitle() *string {
+func (c *CreateSubmissionFromPdfRequestDocumentField) GetTitle() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Title
 }
 
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetDescription() *string {
+func (c *CreateSubmissionFromPdfRequestDocumentField) GetDescription() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Description
 }
@@ -2921,7 +2921,7 @@ func (c *CreateSubmissionFromPdfRequestDocumentField) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetName(name *string) {
+func (c *CreateSubmissionFromPdfRequestDocumentField) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromPdfRequestDocumentFieldFieldName)
 }
@@ -2935,7 +2935,7 @@ func (c *CreateSubmissionFromPdfRequestDocumentField) SetType(type_ *CreateSubmi
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetRole(role *string) {
+func (c *CreateSubmissionFromPdfRequestDocumentField) SetRole(role string) {
 	c.Role = role
 	c.require(createSubmissionFromPdfRequestDocumentFieldFieldRole)
 }
@@ -2949,14 +2949,14 @@ func (c *CreateSubmissionFromPdfRequestDocumentField) SetRequired(required *bool
 
 // SetTitle sets the Title field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetTitle(title *string) {
+func (c *CreateSubmissionFromPdfRequestDocumentField) SetTitle(title string) {
 	c.Title = title
 	c.require(createSubmissionFromPdfRequestDocumentFieldFieldTitle)
 }
 
 // SetDescription sets the Description field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetDescription(description *string) {
+func (c *CreateSubmissionFromPdfRequestDocumentField) SetDescription(description string) {
 	c.Description = description
 	c.require(createSubmissionFromPdfRequestDocumentFieldFieldDescription)
 }
@@ -3038,7 +3038,7 @@ type CreateSubmissionFromPdfRequestDocumentFieldArea struct {
 	// Page number of the field area. Starts from 1.
 	Page int `json:"page" url:"page"`
 	// Option string value for 'radio' and 'multiple' select field types.
-	Option *string `json:"option,omitempty" url:"option,omitempty"`
+	Option string `json:"option,omitempty" url:"option,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -3082,9 +3082,9 @@ func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetPage() int {
 	return c.Page
 }
 
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetOption() *string {
+func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetOption() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Option
 }
@@ -3140,7 +3140,7 @@ func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetPage(page int) {
 
 // SetOption sets the Option field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetOption(option *string) {
+func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetOption(option string) {
 	c.Option = option
 	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldOption)
 }
@@ -3269,9 +3269,9 @@ var (
 
 type CreateSubmissionFromPdfRequestMessage struct {
 	// Custom signature request email subject.
-	Subject *string `json:"subject,omitempty" url:"subject,omitempty"`
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
 	// Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty" url:"body,omitempty"`
+	Body string `json:"body,omitempty" url:"body,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -3280,16 +3280,16 @@ type CreateSubmissionFromPdfRequestMessage struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfRequestMessage) GetSubject() *string {
+func (c *CreateSubmissionFromPdfRequestMessage) GetSubject() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Subject
 }
 
-func (c *CreateSubmissionFromPdfRequestMessage) GetBody() *string {
+func (c *CreateSubmissionFromPdfRequestMessage) GetBody() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Body
 }
@@ -3310,14 +3310,14 @@ func (c *CreateSubmissionFromPdfRequestMessage) require(field *big.Int) {
 
 // SetSubject sets the Subject field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestMessage) SetSubject(subject *string) {
+func (c *CreateSubmissionFromPdfRequestMessage) SetSubject(subject string) {
 	c.Subject = subject
 	c.require(createSubmissionFromPdfRequestMessageFieldSubject)
 }
 
 // SetBody sets the Body field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestMessage) SetBody(body *string) {
+func (c *CreateSubmissionFromPdfRequestMessage) SetBody(body string) {
 	c.Body = body
 	c.require(createSubmissionFromPdfRequestMessageFieldBody)
 }
@@ -3410,17 +3410,17 @@ var (
 
 type CreateSubmissionFromPdfRequestSubmitter struct {
 	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// The role name or title of the submitter.
-	Role *string `json:"role,omitempty" url:"role,omitempty"`
+	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	Email string `json:"email,omitempty" url:"email,omitempty"`
 	// The phone number of the submitter, formatted according to the E.164 standard.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	Phone string `json:"phone,omitempty" url:"phone,omitempty"`
 	// An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
 	Values map[string]any `json:"values,omitempty" url:"values,omitempty"`
 	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	ExternalID string `json:"external_id,omitempty" url:"external_id,omitempty"`
 	// Pass `true` to mark submitter as completed and auto-signed via API.
 	Completed *bool `json:"completed,omitempty" url:"completed,omitempty"`
 	// Metadata object with additional submitter information.
@@ -3430,9 +3430,9 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	// Set `true` to send signature request via phone number and SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"send_sms,omitempty"`
 	// Specify Reply-To address to use in the notification emails for this submitter.
-	ReplyTo *string `json:"reply_to,omitempty" url:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty" url:"reply_to,omitempty"`
 	// Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"completed_redirect_url,omitempty"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"completed_redirect_url,omitempty"`
 	// The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
 	Order *int `json:"order,omitempty" url:"order,omitempty"`
 	// Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
@@ -3440,7 +3440,7 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	// Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
 	RequireEmail2Fa *bool `json:"require_email_2fa,omitempty" url:"require_email_2fa,omitempty"`
 	// Set the role name of the previous party that should invite this party via email.
-	InviteBy *string `json:"invite_by,omitempty" url:"invite_by,omitempty"`
+	InviteBy string `json:"invite_by,omitempty" url:"invite_by,omitempty"`
 	// A list of configurations for document form fields.
 	Fields []*CreateSubmissionFromPdfRequestSubmitterField `json:"fields,omitempty" url:"fields,omitempty"`
 	// A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
@@ -3453,30 +3453,30 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetName() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetRole() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetRole() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Role
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetEmail() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetEmail() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Email
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetPhone() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetPhone() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Phone
 }
@@ -3488,9 +3488,9 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) GetValues() map[string]any {
 	return c.Values
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetExternalID() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetExternalID() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.ExternalID
 }
@@ -3523,16 +3523,16 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) GetSendSms() *bool {
 	return c.SendSms
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetReplyTo() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetReplyTo() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.ReplyTo
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetCompletedRedirectURL() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetCompletedRedirectURL() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.CompletedRedirectURL
 }
@@ -3558,9 +3558,9 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) GetRequireEmail2Fa() *bool {
 	return c.RequireEmail2Fa
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetInviteBy() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitter) GetInviteBy() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.InviteBy
 }
@@ -3595,28 +3595,28 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetName(name *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromPdfRequestSubmitterFieldName)
 }
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetRole(role *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetRole(role string) {
 	c.Role = role
 	c.require(createSubmissionFromPdfRequestSubmitterFieldRole)
 }
 
 // SetEmail sets the Email field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetEmail(email *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetEmail(email string) {
 	c.Email = email
 	c.require(createSubmissionFromPdfRequestSubmitterFieldEmail)
 }
 
 // SetPhone sets the Phone field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetPhone(phone *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetPhone(phone string) {
 	c.Phone = phone
 	c.require(createSubmissionFromPdfRequestSubmitterFieldPhone)
 }
@@ -3630,7 +3630,7 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) SetValues(values map[string]an
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetExternalID(externalID *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(createSubmissionFromPdfRequestSubmitterFieldExternalID)
 }
@@ -3665,14 +3665,14 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) SetSendSms(sendSms *bool) {
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionFromPdfRequestSubmitterFieldReplyTo)
 }
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionFromPdfRequestSubmitterFieldCompletedRedirectURL)
 }
@@ -3700,7 +3700,7 @@ func (c *CreateSubmissionFromPdfRequestSubmitter) SetRequireEmail2Fa(requireEmai
 
 // SetInviteBy sets the InviteBy field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetInviteBy(inviteBy *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitter) SetInviteBy(inviteBy string) {
 	c.InviteBy = inviteBy
 	c.require(createSubmissionFromPdfRequestSubmitterFieldInviteBy)
 }
@@ -3782,9 +3782,9 @@ type CreateSubmissionFromPdfRequestSubmitterField struct {
 	// Set `true` to make the field required.
 	Required *bool `json:"required,omitempty" url:"required,omitempty"`
 	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty" url:"title,omitempty"`
+	Title string `json:"title,omitempty" url:"title,omitempty"`
 	// Field description displayed on the signing form. Supports Markdown.
-	Description *string           `json:"description,omitempty" url:"description,omitempty"`
+	Description string            `json:"description,omitempty" url:"description,omitempty"`
 	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
 	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
 
@@ -3823,16 +3823,16 @@ func (c *CreateSubmissionFromPdfRequestSubmitterField) GetRequired() *bool {
 	return c.Required
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetTitle() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitterField) GetTitle() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Title
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetDescription() *string {
+func (c *CreateSubmissionFromPdfRequestSubmitterField) GetDescription() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Description
 }
@@ -3895,14 +3895,14 @@ func (c *CreateSubmissionFromPdfRequestSubmitterField) SetRequired(required *boo
 
 // SetTitle sets the Title field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetTitle(title *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitterField) SetTitle(title string) {
 	c.Title = title
 	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldTitle)
 }
 
 // SetDescription sets the Description field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetDescription(description *string) {
+func (c *CreateSubmissionFromPdfRequestSubmitterField) SetDescription(description string) {
 	c.Description = description
 	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldDescription)
 }
@@ -4168,7 +4168,7 @@ type CreateSubmissionFromPdfResponse struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Submission name.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// The list of submitters.
 	Submitters []*CreateSubmissionFromPdfResponseSubmitter `json:"submitters" url:"submitters"`
 	// The source of the submission.
@@ -4200,9 +4200,9 @@ func (c *CreateSubmissionFromPdfResponse) GetID() int {
 	return c.ID
 }
 
-func (c *CreateSubmissionFromPdfResponse) GetName() *string {
+func (c *CreateSubmissionFromPdfResponse) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -4286,7 +4286,7 @@ func (c *CreateSubmissionFromPdfResponse) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetName(name *string) {
+func (c *CreateSubmissionFromPdfResponse) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromPdfResponseFieldName)
 }
@@ -4396,9 +4396,9 @@ var (
 
 type CreateSubmissionFromPdfResponseSchemaDocument struct {
 	// The attachment UUID.
-	AttachmentUUID *string `json:"attachment_uuid,omitempty" url:"attachment_uuid,omitempty"`
+	AttachmentUUID string `json:"attachment_uuid,omitempty" url:"attachment_uuid,omitempty"`
 	// The attachment name.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -4407,16 +4407,16 @@ type CreateSubmissionFromPdfResponseSchemaDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetAttachmentUUID() *string {
+func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetAttachmentUUID() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.AttachmentUUID
 }
 
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetName() *string {
+func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -4437,14 +4437,14 @@ func (c *CreateSubmissionFromPdfResponseSchemaDocument) require(field *big.Int) 
 
 // SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetAttachmentUUID(attachmentUUID *string) {
+func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetAttachmentUUID(attachmentUUID string) {
 	c.AttachmentUUID = attachmentUUID
 	c.require(createSubmissionFromPdfResponseSchemaDocumentFieldAttachmentUUID)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetName(name *string) {
+func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionFromPdfResponseSchemaDocumentFieldName)
 }
@@ -4612,7 +4612,7 @@ type CreateSubmissionFromPdfResponseSubmitter struct {
 	// Submitter preferences.
 	Preferences map[string]any `json:"preferences" url:"preferences"`
 	// The `src` URL value to embed the signing form or sign via a link.
-	EmbedSrc *string `json:"embed_src,omitempty" url:"embed_src,omitempty"`
+	EmbedSrc string `json:"embed_src,omitempty" url:"embed_src,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -4747,9 +4747,9 @@ func (c *CreateSubmissionFromPdfResponseSubmitter) GetPreferences() map[string]a
 	return c.Preferences
 }
 
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetEmbedSrc() *string {
+func (c *CreateSubmissionFromPdfResponseSubmitter) GetEmbedSrc() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.EmbedSrc
 }
@@ -4896,7 +4896,7 @@ func (c *CreateSubmissionFromPdfResponseSubmitter) SetPreferences(preferences ma
 
 // SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetEmbedSrc(embedSrc *string) {
+func (c *CreateSubmissionFromPdfResponseSubmitter) SetEmbedSrc(embedSrc string) {
 	c.EmbedSrc = embedSrc
 	c.require(createSubmissionFromPdfResponseSubmitterFieldEmbedSrc)
 }
@@ -5044,17 +5044,17 @@ var (
 
 type CreateSubmissionRequestSubmitter struct {
 	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// The role name or title of the submitter.
-	Role *string `json:"role,omitempty" url:"role,omitempty"`
+	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	Email string `json:"email,omitempty" url:"email,omitempty"`
 	// The phone number of the submitter, formatted according to the E.164 standard.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	Phone string `json:"phone,omitempty" url:"phone,omitempty"`
 	// An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
 	Values map[string]any `json:"values,omitempty" url:"values,omitempty"`
 	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	ExternalID string `json:"external_id,omitempty" url:"external_id,omitempty"`
 	// Pass `true` to mark submitter as completed and auto-signed via API.
 	Completed *bool `json:"completed,omitempty" url:"completed,omitempty"`
 	// Metadata object with additional submitter information.
@@ -5064,9 +5064,9 @@ type CreateSubmissionRequestSubmitter struct {
 	// Set `true` to send signature request via phone number and SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"send_sms,omitempty"`
 	// Specify Reply-To address to use in the notification emails for this submitter.
-	ReplyTo *string `json:"reply_to,omitempty" url:"reply_to,omitempty"`
+	ReplyTo string `json:"reply_to,omitempty" url:"reply_to,omitempty"`
 	// Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"completed_redirect_url,omitempty"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"completed_redirect_url,omitempty"`
 	// The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
 	Order *int `json:"order,omitempty" url:"order,omitempty"`
 	// Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
@@ -5086,30 +5086,30 @@ type CreateSubmissionRequestSubmitter struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetName() *string {
+func (c *CreateSubmissionRequestSubmitter) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetRole() *string {
+func (c *CreateSubmissionRequestSubmitter) GetRole() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Role
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetEmail() *string {
+func (c *CreateSubmissionRequestSubmitter) GetEmail() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Email
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetPhone() *string {
+func (c *CreateSubmissionRequestSubmitter) GetPhone() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Phone
 }
@@ -5121,9 +5121,9 @@ func (c *CreateSubmissionRequestSubmitter) GetValues() map[string]any {
 	return c.Values
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetExternalID() *string {
+func (c *CreateSubmissionRequestSubmitter) GetExternalID() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.ExternalID
 }
@@ -5156,16 +5156,16 @@ func (c *CreateSubmissionRequestSubmitter) GetSendSms() *bool {
 	return c.SendSms
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetReplyTo() *string {
+func (c *CreateSubmissionRequestSubmitter) GetReplyTo() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.ReplyTo
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetCompletedRedirectURL() *string {
+func (c *CreateSubmissionRequestSubmitter) GetCompletedRedirectURL() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.CompletedRedirectURL
 }
@@ -5228,28 +5228,28 @@ func (c *CreateSubmissionRequestSubmitter) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetName(name *string) {
+func (c *CreateSubmissionRequestSubmitter) SetName(name string) {
 	c.Name = name
 	c.require(createSubmissionRequestSubmitterFieldName)
 }
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetRole(role *string) {
+func (c *CreateSubmissionRequestSubmitter) SetRole(role string) {
 	c.Role = role
 	c.require(createSubmissionRequestSubmitterFieldRole)
 }
 
 // SetEmail sets the Email field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetEmail(email *string) {
+func (c *CreateSubmissionRequestSubmitter) SetEmail(email string) {
 	c.Email = email
 	c.require(createSubmissionRequestSubmitterFieldEmail)
 }
 
 // SetPhone sets the Phone field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetPhone(phone *string) {
+func (c *CreateSubmissionRequestSubmitter) SetPhone(phone string) {
 	c.Phone = phone
 	c.require(createSubmissionRequestSubmitterFieldPhone)
 }
@@ -5263,7 +5263,7 @@ func (c *CreateSubmissionRequestSubmitter) SetValues(values map[string]any) {
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetExternalID(externalID *string) {
+func (c *CreateSubmissionRequestSubmitter) SetExternalID(externalID string) {
 	c.ExternalID = externalID
 	c.require(createSubmissionRequestSubmitterFieldExternalID)
 }
@@ -5298,14 +5298,14 @@ func (c *CreateSubmissionRequestSubmitter) SetSendSms(sendSms *bool) {
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetReplyTo(replyTo *string) {
+func (c *CreateSubmissionRequestSubmitter) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
 	c.require(createSubmissionRequestSubmitterFieldReplyTo)
 }
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (c *CreateSubmissionRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
 	c.require(createSubmissionRequestSubmitterFieldCompletedRedirectURL)
 }
@@ -5415,9 +5415,9 @@ type CreateSubmissionRequestSubmitterField struct {
 	// Set `true` to make the field required.
 	Required *bool `json:"required,omitempty" url:"required,omitempty"`
 	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty" url:"title,omitempty"`
+	Title string `json:"title,omitempty" url:"title,omitempty"`
 	// Field description displayed on the signing form. Supports Markdown.
-	Description *string           `json:"description,omitempty" url:"description,omitempty"`
+	Description string            `json:"description,omitempty" url:"description,omitempty"`
 	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
 	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
 
@@ -5456,16 +5456,16 @@ func (c *CreateSubmissionRequestSubmitterField) GetRequired() *bool {
 	return c.Required
 }
 
-func (c *CreateSubmissionRequestSubmitterField) GetTitle() *string {
+func (c *CreateSubmissionRequestSubmitterField) GetTitle() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Title
 }
 
-func (c *CreateSubmissionRequestSubmitterField) GetDescription() *string {
+func (c *CreateSubmissionRequestSubmitterField) GetDescription() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Description
 }
@@ -5528,14 +5528,14 @@ func (c *CreateSubmissionRequestSubmitterField) SetRequired(required *bool) {
 
 // SetTitle sets the Title field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetTitle(title *string) {
+func (c *CreateSubmissionRequestSubmitterField) SetTitle(title string) {
 	c.Title = title
 	c.require(createSubmissionRequestSubmitterFieldFieldTitle)
 }
 
 // SetDescription sets the Description field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetDescription(description *string) {
+func (c *CreateSubmissionRequestSubmitterField) SetDescription(description string) {
 	c.Description = description
 	c.require(createSubmissionRequestSubmitterFieldFieldDescription)
 }
@@ -5792,9 +5792,9 @@ var (
 
 type CreateSubmissionRequestSubmitterMessage struct {
 	// Custom signature request email subject for the submitter.
-	Subject *string `json:"subject,omitempty" url:"subject,omitempty"`
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
 	// Custom signature request email body for the submitter. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty" url:"body,omitempty"`
+	Body string `json:"body,omitempty" url:"body,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -5803,16 +5803,16 @@ type CreateSubmissionRequestSubmitterMessage struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionRequestSubmitterMessage) GetSubject() *string {
+func (c *CreateSubmissionRequestSubmitterMessage) GetSubject() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Subject
 }
 
-func (c *CreateSubmissionRequestSubmitterMessage) GetBody() *string {
+func (c *CreateSubmissionRequestSubmitterMessage) GetBody() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Body
 }
@@ -5833,14 +5833,14 @@ func (c *CreateSubmissionRequestSubmitterMessage) require(field *big.Int) {
 
 // SetSubject sets the Subject field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterMessage) SetSubject(subject *string) {
+func (c *CreateSubmissionRequestSubmitterMessage) SetSubject(subject string) {
 	c.Subject = subject
 	c.require(createSubmissionRequestSubmitterMessageFieldSubject)
 }
 
 // SetBody sets the Body field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterMessage) SetBody(body *string) {
+func (c *CreateSubmissionRequestSubmitterMessage) SetBody(body string) {
 	c.Body = body
 	c.require(createSubmissionRequestSubmitterMessageFieldBody)
 }
@@ -6030,9 +6030,9 @@ var (
 
 type CreateSubmissionsFromEmailsRequestMessage struct {
 	// Custom signature request email subject.
-	Subject *string `json:"subject,omitempty" url:"subject,omitempty"`
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
 	// Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body *string `json:"body,omitempty" url:"body,omitempty"`
+	Body string `json:"body,omitempty" url:"body,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -6041,16 +6041,16 @@ type CreateSubmissionsFromEmailsRequestMessage struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionsFromEmailsRequestMessage) GetSubject() *string {
+func (c *CreateSubmissionsFromEmailsRequestMessage) GetSubject() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Subject
 }
 
-func (c *CreateSubmissionsFromEmailsRequestMessage) GetBody() *string {
+func (c *CreateSubmissionsFromEmailsRequestMessage) GetBody() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Body
 }
@@ -6071,14 +6071,14 @@ func (c *CreateSubmissionsFromEmailsRequestMessage) require(field *big.Int) {
 
 // SetSubject sets the Subject field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsRequestMessage) SetSubject(subject *string) {
+func (c *CreateSubmissionsFromEmailsRequestMessage) SetSubject(subject string) {
 	c.Subject = subject
 	c.require(createSubmissionsFromEmailsRequestMessageFieldSubject)
 }
 
 // SetBody sets the Body field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsRequestMessage) SetBody(body *string) {
+func (c *CreateSubmissionsFromEmailsRequestMessage) SetBody(body string) {
 	c.Body = body
 	c.require(createSubmissionsFromEmailsRequestMessageFieldBody)
 }
@@ -6820,17 +6820,17 @@ var (
 
 type CreateTemplateFromDocxRequestDocumentField struct {
 	// Name of the field.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
 	Type *CreateTemplateFromDocxRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
 	// Role name of the signer.
-	Role *string `json:"role,omitempty" url:"role,omitempty"`
+	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// Indicates if the field is required.
 	Required *bool `json:"required,omitempty" url:"required,omitempty"`
 	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty" url:"title,omitempty"`
+	Title string `json:"title,omitempty" url:"title,omitempty"`
 	// Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty" url:"description,omitempty"`
+	Description string `json:"description,omitempty" url:"description,omitempty"`
 	// List of areas where the field is located in the document.
 	Areas []*CreateTemplateFromDocxRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
 	// An array of option values for 'select' field type.
@@ -6845,9 +6845,9 @@ type CreateTemplateFromDocxRequestDocumentField struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentField) GetName() *string {
+func (c *CreateTemplateFromDocxRequestDocumentField) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -6859,9 +6859,9 @@ func (c *CreateTemplateFromDocxRequestDocumentField) GetType() *CreateTemplateFr
 	return c.Type
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentField) GetRole() *string {
+func (c *CreateTemplateFromDocxRequestDocumentField) GetRole() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Role
 }
@@ -6873,16 +6873,16 @@ func (c *CreateTemplateFromDocxRequestDocumentField) GetRequired() *bool {
 	return c.Required
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentField) GetTitle() *string {
+func (c *CreateTemplateFromDocxRequestDocumentField) GetTitle() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Title
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentField) GetDescription() *string {
+func (c *CreateTemplateFromDocxRequestDocumentField) GetDescription() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Description
 }
@@ -6931,7 +6931,7 @@ func (c *CreateTemplateFromDocxRequestDocumentField) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetName(name *string) {
+func (c *CreateTemplateFromDocxRequestDocumentField) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromDocxRequestDocumentFieldFieldName)
 }
@@ -6945,7 +6945,7 @@ func (c *CreateTemplateFromDocxRequestDocumentField) SetType(type_ *CreateTempla
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetRole(role *string) {
+func (c *CreateTemplateFromDocxRequestDocumentField) SetRole(role string) {
 	c.Role = role
 	c.require(createTemplateFromDocxRequestDocumentFieldFieldRole)
 }
@@ -6959,14 +6959,14 @@ func (c *CreateTemplateFromDocxRequestDocumentField) SetRequired(required *bool)
 
 // SetTitle sets the Title field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetTitle(title *string) {
+func (c *CreateTemplateFromDocxRequestDocumentField) SetTitle(title string) {
 	c.Title = title
 	c.require(createTemplateFromDocxRequestDocumentFieldFieldTitle)
 }
 
 // SetDescription sets the Description field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetDescription(description *string) {
+func (c *CreateTemplateFromDocxRequestDocumentField) SetDescription(description string) {
 	c.Description = description
 	c.require(createTemplateFromDocxRequestDocumentFieldFieldDescription)
 }
@@ -7062,7 +7062,7 @@ type CreateTemplateFromDocxRequestDocumentFieldArea struct {
 	// Page number of the field area. Starts from 1.
 	Page *int `json:"page,omitempty" url:"page,omitempty"`
 	// Option string value for 'radio' and 'multiple' select field types.
-	Option *string `json:"option,omitempty" url:"option,omitempty"`
+	Option string `json:"option,omitempty" url:"option,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -7106,9 +7106,9 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetPage() *int {
 	return c.Page
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetOption() *string {
+func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetOption() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Option
 }
@@ -7164,7 +7164,7 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetPage(page *int) {
 
 // SetOption sets the Option field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetOption(option *string) {
+func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetOption(option string) {
 	c.Option = option
 	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldOption)
 }
@@ -7294,7 +7294,7 @@ type CreateTemplateFromHTMLRequestDocument struct {
 	// HTML template with field tags.
 	HTML string `json:"html" url:"html"`
 	// Document name. Random uuid will be assigned when not specified.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -7310,9 +7310,9 @@ func (c *CreateTemplateFromHTMLRequestDocument) GetHTML() string {
 	return c.HTML
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) GetName() *string {
+func (c *CreateTemplateFromHTMLRequestDocument) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -7340,7 +7340,7 @@ func (c *CreateTemplateFromHTMLRequestDocument) SetHTML(html string) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLRequestDocument) SetName(name *string) {
+func (c *CreateTemplateFromHTMLRequestDocument) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromHTMLRequestDocumentFieldName)
 }
@@ -7571,17 +7571,17 @@ var (
 
 type CreateTemplateFromPdfRequestDocumentField struct {
 	// Name of the field.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
 	Type *CreateTemplateFromPdfRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
 	// Role name of the signer.
-	Role *string `json:"role,omitempty" url:"role,omitempty"`
+	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// Indicates if the field is required.
 	Required *bool `json:"required,omitempty" url:"required,omitempty"`
 	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title *string `json:"title,omitempty" url:"title,omitempty"`
+	Title string `json:"title,omitempty" url:"title,omitempty"`
 	// Field description displayed on the signing form. Supports Markdown.
-	Description *string `json:"description,omitempty" url:"description,omitempty"`
+	Description string `json:"description,omitempty" url:"description,omitempty"`
 	// List of areas where the field is located in the document.
 	Areas []*CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
 	// An array of option values for 'select' field type.
@@ -7596,9 +7596,9 @@ type CreateTemplateFromPdfRequestDocumentField struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetName() *string {
+func (c *CreateTemplateFromPdfRequestDocumentField) GetName() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Name
 }
@@ -7610,9 +7610,9 @@ func (c *CreateTemplateFromPdfRequestDocumentField) GetType() *CreateTemplateFro
 	return c.Type
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetRole() *string {
+func (c *CreateTemplateFromPdfRequestDocumentField) GetRole() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Role
 }
@@ -7624,16 +7624,16 @@ func (c *CreateTemplateFromPdfRequestDocumentField) GetRequired() *bool {
 	return c.Required
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetTitle() *string {
+func (c *CreateTemplateFromPdfRequestDocumentField) GetTitle() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Title
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetDescription() *string {
+func (c *CreateTemplateFromPdfRequestDocumentField) GetDescription() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Description
 }
@@ -7682,7 +7682,7 @@ func (c *CreateTemplateFromPdfRequestDocumentField) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetName(name *string) {
+func (c *CreateTemplateFromPdfRequestDocumentField) SetName(name string) {
 	c.Name = name
 	c.require(createTemplateFromPdfRequestDocumentFieldFieldName)
 }
@@ -7696,7 +7696,7 @@ func (c *CreateTemplateFromPdfRequestDocumentField) SetType(type_ *CreateTemplat
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetRole(role *string) {
+func (c *CreateTemplateFromPdfRequestDocumentField) SetRole(role string) {
 	c.Role = role
 	c.require(createTemplateFromPdfRequestDocumentFieldFieldRole)
 }
@@ -7710,14 +7710,14 @@ func (c *CreateTemplateFromPdfRequestDocumentField) SetRequired(required *bool) 
 
 // SetTitle sets the Title field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetTitle(title *string) {
+func (c *CreateTemplateFromPdfRequestDocumentField) SetTitle(title string) {
 	c.Title = title
 	c.require(createTemplateFromPdfRequestDocumentFieldFieldTitle)
 }
 
 // SetDescription sets the Description field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetDescription(description *string) {
+func (c *CreateTemplateFromPdfRequestDocumentField) SetDescription(description string) {
 	c.Description = description
 	c.require(createTemplateFromPdfRequestDocumentFieldFieldDescription)
 }
@@ -7898,7 +7898,7 @@ type FieldPreferences struct {
 	// Vertical alignment of the field text value.
 	Valign *FieldPreferencesValign `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
-	Format *string `json:"format,omitempty" url:"format,omitempty"`
+	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
@@ -7964,9 +7964,9 @@ func (f *FieldPreferences) GetValign() *FieldPreferencesValign {
 	return f.Valign
 }
 
-func (f *FieldPreferences) GetFormat() *string {
+func (f *FieldPreferences) GetFormat() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Format
 }
@@ -8064,7 +8064,7 @@ func (f *FieldPreferences) SetValign(valign *FieldPreferencesValign) {
 
 // SetFormat sets the Format field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFormat(format *string) {
+func (f *FieldPreferences) SetFormat(format string) {
 	f.Format = format
 	f.require(fieldPreferencesFieldFormat)
 }
@@ -8401,9 +8401,9 @@ var (
 
 type FieldValidation struct {
 	// HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-	Pattern *string `json:"pattern,omitempty" url:"pattern,omitempty"`
+	Pattern string `json:"pattern,omitempty" url:"pattern,omitempty"`
 	// A custom error message to display on validation failure.
-	Message *string `json:"message,omitempty" url:"message,omitempty"`
+	Message string `json:"message,omitempty" url:"message,omitempty"`
 	// Minimum allowed number value or date depending on field type.
 	Min *FieldValidationMin `json:"min,omitempty" url:"min,omitempty"`
 	// Maximum allowed number value or date depending on field type.
@@ -8418,16 +8418,16 @@ type FieldValidation struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FieldValidation) GetPattern() *string {
+func (f *FieldValidation) GetPattern() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Pattern
 }
 
-func (f *FieldValidation) GetMessage() *string {
+func (f *FieldValidation) GetMessage() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Message
 }
@@ -8469,14 +8469,14 @@ func (f *FieldValidation) require(field *big.Int) {
 
 // SetPattern sets the Pattern field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetPattern(pattern *string) {
+func (f *FieldValidation) SetPattern(pattern string) {
 	f.Pattern = pattern
 	f.require(fieldValidationFieldPattern)
 }
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetMessage(message *string) {
+func (f *FieldValidation) SetMessage(message string) {
 	f.Message = message
 	f.require(fieldValidationFieldMessage)
 }
@@ -8797,7 +8797,7 @@ type GetSubmissionResponse struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Name of the document submission.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Unique slug of the submission.
 	Slug string `json:"slug" url:"slug"`
 	// The source of the submission.
@@ -8843,9 +8843,9 @@ func (g *GetSubmissionResponse) GetID() int {
 	return g.ID
 }
 
-func (g *GetSubmissionResponse) GetName() *string {
+func (g *GetSubmissionResponse) GetName() string {
 	if g == nil {
-		return nil
+		return ""
 	}
 	return g.Name
 }
@@ -8985,7 +8985,7 @@ func (g *GetSubmissionResponse) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetName(name *string) {
+func (g *GetSubmissionResponse) SetName(name string) {
 	g.Name = name
 	g.require(getSubmissionResponseFieldName)
 }
@@ -9784,7 +9784,7 @@ type GetSubmissionsResponseSubmission struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Name of the document submission.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// The source of the submission.
 	Source GetSubmissionsResponseSubmissionSource `json:"source" url:"source"`
 	// Unique slug of the submission.
@@ -9824,9 +9824,9 @@ func (g *GetSubmissionsResponseSubmission) GetID() int {
 	return g.ID
 }
 
-func (g *GetSubmissionsResponseSubmission) GetName() *string {
+func (g *GetSubmissionsResponseSubmission) GetName() string {
 	if g == nil {
-		return nil
+		return ""
 	}
 	return g.Name
 }
@@ -9945,7 +9945,7 @@ func (g *GetSubmissionsResponseSubmission) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetName(name *string) {
+func (g *GetSubmissionsResponseSubmission) SetName(name string) {
 	g.Name = name
 	g.require(getSubmissionsResponseSubmissionFieldName)
 }
@@ -13975,23 +13975,23 @@ type TemplateFieldPreferences struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType *string `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType string `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font *string `json:"font,omitempty" url:"font,omitempty"`
+	Font string `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color *string `json:"color,omitempty" url:"color,omitempty"`
+	Color string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background *string `json:"background,omitempty" url:"background,omitempty"`
+	Background string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align *string `json:"align,omitempty" url:"align,omitempty"`
+	Align string `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign *string `json:"valign,omitempty" url:"valign,omitempty"`
+	Valign string `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.
-	Format *string `json:"format,omitempty" url:"format,omitempty"`
+	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency *string `json:"currency,omitempty" url:"currency,omitempty"`
+	Currency string `json:"currency,omitempty" url:"currency,omitempty"`
 	// Indicates if the field is masked on the document.
 	Mask *bool `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
@@ -14011,51 +14011,51 @@ func (t *TemplateFieldPreferences) GetFontSize() *int {
 	return t.FontSize
 }
 
-func (t *TemplateFieldPreferences) GetFontType() *string {
+func (t *TemplateFieldPreferences) GetFontType() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.FontType
 }
 
-func (t *TemplateFieldPreferences) GetFont() *string {
+func (t *TemplateFieldPreferences) GetFont() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Font
 }
 
-func (t *TemplateFieldPreferences) GetColor() *string {
+func (t *TemplateFieldPreferences) GetColor() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Color
 }
 
-func (t *TemplateFieldPreferences) GetBackground() *string {
+func (t *TemplateFieldPreferences) GetBackground() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Background
 }
 
-func (t *TemplateFieldPreferences) GetAlign() *string {
+func (t *TemplateFieldPreferences) GetAlign() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Align
 }
 
-func (t *TemplateFieldPreferences) GetValign() *string {
+func (t *TemplateFieldPreferences) GetValign() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Valign
 }
 
-func (t *TemplateFieldPreferences) GetFormat() *string {
+func (t *TemplateFieldPreferences) GetFormat() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Format
 }
@@ -14067,9 +14067,9 @@ func (t *TemplateFieldPreferences) GetPrice() *float64 {
 	return t.Price
 }
 
-func (t *TemplateFieldPreferences) GetCurrency() *string {
+func (t *TemplateFieldPreferences) GetCurrency() string {
 	if t == nil {
-		return nil
+		return ""
 	}
 	return t.Currency
 }
@@ -14111,49 +14111,49 @@ func (t *TemplateFieldPreferences) SetFontSize(fontSize *int) {
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFontType(fontType *string) {
+func (t *TemplateFieldPreferences) SetFontType(fontType string) {
 	t.FontType = fontType
 	t.require(templateFieldPreferencesFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFont(font *string) {
+func (t *TemplateFieldPreferences) SetFont(font string) {
 	t.Font = font
 	t.require(templateFieldPreferencesFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetColor(color *string) {
+func (t *TemplateFieldPreferences) SetColor(color string) {
 	t.Color = color
 	t.require(templateFieldPreferencesFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetBackground(background *string) {
+func (t *TemplateFieldPreferences) SetBackground(background string) {
 	t.Background = background
 	t.require(templateFieldPreferencesFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetAlign(align *string) {
+func (t *TemplateFieldPreferences) SetAlign(align string) {
 	t.Align = align
 	t.require(templateFieldPreferencesFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetValign(valign *string) {
+func (t *TemplateFieldPreferences) SetValign(valign string) {
 	t.Valign = valign
 	t.require(templateFieldPreferencesFieldValign)
 }
 
 // SetFormat sets the Format field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFormat(format *string) {
+func (t *TemplateFieldPreferences) SetFormat(format string) {
 	t.Format = format
 	t.require(templateFieldPreferencesFieldFormat)
 }
@@ -14167,7 +14167,7 @@ func (t *TemplateFieldPreferences) SetPrice(price *float64) {
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetCurrency(currency *string) {
+func (t *TemplateFieldPreferences) SetCurrency(currency string) {
 	t.Currency = currency
 	t.require(templateFieldPreferencesFieldCurrency)
 }
@@ -15563,27 +15563,27 @@ type UpdateSubmitterParams struct {
 	// The unique identifier of the submitter.
 	ID int `json:"-" url:"-"`
 	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"-"`
+	Email string `json:"email,omitempty" url:"-"`
 	// The phone number of the submitter, formatted according to the E.164 standard.
-	Phone *string `json:"phone,omitempty" url:"-"`
+	Phone string `json:"phone,omitempty" url:"-"`
 	// An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
 	Values map[string]any `json:"values,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"-"`
+	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// Set `true` to re-send signature request emails.
 	SendEmail *bool `json:"send_email,omitempty" url:"-"`
 	// Set `true` to re-send signature request via phone number SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"-"`
 	// Specify Reply-To address to use in the notification emails.
-	ReplyTo *string `json:"reply_to,omitempty" url:"-"`
+	ReplyTo string `json:"reply_to,omitempty" url:"-"`
 	// Pass `true` to mark submitter as completed and auto-signed via API.
 	Completed *bool `json:"completed,omitempty" url:"-"`
 	// Metadata object with additional submitter information.
 	Metadata map[string]any `json:"metadata,omitempty" url:"-"`
 	// Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectURL *string `json:"completed_redirect_url,omitempty" url:"-"`
+	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
 	RequirePhone2Fa *bool `json:"require_phone_2fa,omitempty" url:"-"`
 	// Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
@@ -15612,21 +15612,21 @@ func (u *UpdateSubmitterParams) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetName(name *string) {
+func (u *UpdateSubmitterParams) SetName(name string) {
 	u.Name = name
 	u.require(updateSubmitterParamsFieldName)
 }
 
 // SetEmail sets the Email field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetEmail(email *string) {
+func (u *UpdateSubmitterParams) SetEmail(email string) {
 	u.Email = email
 	u.require(updateSubmitterParamsFieldEmail)
 }
 
 // SetPhone sets the Phone field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetPhone(phone *string) {
+func (u *UpdateSubmitterParams) SetPhone(phone string) {
 	u.Phone = phone
 	u.require(updateSubmitterParamsFieldPhone)
 }
@@ -15640,7 +15640,7 @@ func (u *UpdateSubmitterParams) SetValues(values map[string]any) {
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetExternalID(externalID *string) {
+func (u *UpdateSubmitterParams) SetExternalID(externalID string) {
 	u.ExternalID = externalID
 	u.require(updateSubmitterParamsFieldExternalID)
 }
@@ -15661,7 +15661,7 @@ func (u *UpdateSubmitterParams) SetSendSms(sendSms *bool) {
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetReplyTo(replyTo *string) {
+func (u *UpdateSubmitterParams) SetReplyTo(replyTo string) {
 	u.ReplyTo = replyTo
 	u.require(updateSubmitterParamsFieldReplyTo)
 }
@@ -15682,7 +15682,7 @@ func (u *UpdateSubmitterParams) SetMetadata(metadata map[string]any) {
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetCompletedRedirectURL(completedRedirectURL *string) {
+func (u *UpdateSubmitterParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	u.CompletedRedirectURL = completedRedirectURL
 	u.require(updateSubmitterParamsFieldCompletedRedirectURL)
 }
@@ -15748,9 +15748,9 @@ type UpdateTemplateParams struct {
 	// The unique identifier of the document template.
 	ID int `json:"-" url:"-"`
 	// The name of the template.
-	Name *string `json:"name,omitempty" url:"-"`
+	Name string `json:"name,omitempty" url:"-"`
 	// The folder's name to which the template should be moved.
-	FolderName *string `json:"folder_name,omitempty" url:"-"`
+	FolderName string `json:"folder_name,omitempty" url:"-"`
 	// An array of submitter role names to update the template with.
 	Roles []string `json:"roles,omitempty" url:"-"`
 	// Set `false` to unarchive template.
@@ -15776,14 +15776,14 @@ func (u *UpdateTemplateParams) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateParams) SetName(name *string) {
+func (u *UpdateTemplateParams) SetName(name string) {
 	u.Name = name
 	u.require(updateTemplateParamsFieldName)
 }
 
 // SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateParams) SetFolderName(folderName *string) {
+func (u *UpdateTemplateParams) SetFolderName(folderName string) {
 	u.FolderName = folderName
 	u.require(updateTemplateParamsFieldFolderName)
 }

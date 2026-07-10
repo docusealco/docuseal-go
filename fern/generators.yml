@@ -7,11 +7,12 @@ groups:
   local:
     generators:
       - name: fernapi/fern-go-sdk
-        version: 1.46.5
+        version: 1.47.0
         output:
           location: local-file-system
           path: ../.fern-out
         config:
           packageName: docuseal
+          optionalsAsValues: true
           module:
             path: github.com/docusealco/docuseal-go

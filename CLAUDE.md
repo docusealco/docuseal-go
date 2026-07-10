@@ -22,9 +22,19 @@ replaced an oapi-codegen types + hand-client hybrid.
   `<OperationId>Params` naming. It also strips Fern's bundled tests
   (wiremock/, *_test.go) and meta docs, then runs `go mod tidy` so testify
   does not leak into go.mod.
-- Models: required fields are plain values, optional are pointers; each
-  struct carries a private explicitFields bitmask + Set* methods (Fern's
-  explicit-null mechanism) - literal construction works fine.
+- Models: required fields and optional strings are plain values
+  (`optionalsAsValues` option from the docusealco/fern generator fork);
+  optional booleans, numbers, dates, nullable fields and nested objects are
+  pointers (`docuseal.Bool(false)` - a plain false would be dropped by
+  omitempty). Each struct carries a private explicitFields bitmask + Set*
+  methods (Fern's explicit-value mechanism): `SetName("")` sends an explicit
+  empty string. Literal construction is the norm; never mix literals with
+  Set* on the same struct and never copy a struct after calling Set*.
+- The generator image (fernapi/fern-go-sdk:1.47.0-docuseal) is built locally
+  from https://github.com/docusealco/fern by generate-types.sh on first run
+  (requires pnpm). Replacing only the Go binary in the upstream image is NOT
+  enough - the bundled go-v2 node CLI validates config with a zod schema and
+  rejects unknown keys, so the full image must be built from the fork.
 
 ## Source of truth
 

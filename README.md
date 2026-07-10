@@ -62,8 +62,8 @@ submission, err := c.CreateSubmission(ctx, &docuseal.CreateSubmissionParams{
 	TemplateID: 1000001,
 	Submitters: []*docuseal.CreateSubmissionRequestSubmitter{
 		{
-			Role:  docuseal.String("First Party"),
-			Email: docuseal.String("signer@example.com"),
+			Role:  "First Party",
+			Email: "signer@example.com",
 		},
 	},
 })
@@ -109,7 +109,11 @@ The SDK is generated from the DocuSeal OpenAPI specification by
 ./generate-types.sh
 ```
 
-Requires Node.js (`npx`), Docker and `ruby`.
+Requires Node.js (`npx`), `pnpm`, Docker and `ruby`. The Go generator is
+built from the [docusealco/fern](https://github.com/docusealco/fern) fork
+(adds the `optionalsAsValues` option: optional string properties are plain
+Go values instead of pointers); the script builds the generator image
+automatically on first run.
 
 ## Documentation
 
