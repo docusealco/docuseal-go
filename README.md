@@ -432,7 +432,7 @@ template, err := c.UpdateTemplate(context.Background(), 1000001, &docuseal.Updat
 })
 ```
 
-### AddDocumentToTemplate(id, data)
+### UpdateTemplateDocuments(id, data)
 
 [Documentation](https://www.docuseal.com/docs/api?lang=go#update-template-documents)
 
@@ -440,8 +440,8 @@ Allows you to add, remove or replace documents in the template with provided PDF
 
 
 ```go
-template, err := c.AddDocumentToTemplate(context.Background(), 1000001, &docuseal.AddDocumentToTemplateParams{
-	Documents: []*docuseal.AddDocumentToTemplateRequestDocument{
+template, err := c.UpdateTemplateDocuments(context.Background(), 1000001, &docuseal.UpdateTemplateDocumentsParams{
+	Documents: []*docuseal.UpdateTemplateDocumentsRequestDocument{
 		{
 			File: "string",
 		},

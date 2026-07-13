@@ -40,7 +40,7 @@ func (c *Client) GetTemplates(
 	ctx context.Context,
 	request *docuseal.GetTemplatesParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplatesResponse, error) {
+) (*docuseal.TemplateList, error) {
 	response, err := c.WithRawResponse.GetTemplates(
 		ctx,
 		request,
@@ -58,7 +58,7 @@ func (c *Client) GetTemplate(
 	// The unique identifier of the document template.
 	id int,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.GetTemplate(
 		ctx,
 		id,
@@ -77,7 +77,7 @@ func (c *Client) UpdateTemplate(
 	id int,
 	request *docuseal.UpdateTemplateParams,
 	opts ...option.RequestOption,
-) (*docuseal.UpdateTemplateResponse, error) {
+) (*docuseal.TemplateUpdateResult, error) {
 	response, err := c.WithRawResponse.UpdateTemplate(
 		ctx,
 		id,
@@ -96,7 +96,7 @@ func (c *Client) ArchiveTemplate(
 	// The unique identifier of the document template.
 	id int,
 	opts ...option.RequestOption,
-) (*docuseal.ArchiveTemplateResponse, error) {
+) (*docuseal.TemplateArchiveResult, error) {
 	response, err := c.WithRawResponse.ArchiveTemplate(
 		ctx,
 		id,
@@ -113,7 +113,7 @@ func (c *Client) GetSubmissions(
 	ctx context.Context,
 	request *docuseal.GetSubmissionsParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetSubmissionsResponse, error) {
+) (*docuseal.SubmissionList, error) {
 	response, err := c.WithRawResponse.GetSubmissions(
 		ctx,
 		request,
@@ -131,7 +131,7 @@ func (c *Client) GetSubmission(
 	// The unique identifier of the submission.
 	id int,
 	opts ...option.RequestOption,
-) (*docuseal.GetSubmissionResponse, error) {
+) (*docuseal.Submission, error) {
 	response, err := c.WithRawResponse.GetSubmission(
 		ctx,
 		id,
@@ -150,7 +150,7 @@ func (c *Client) UpdateSubmission(
 	id int,
 	request *docuseal.UpdateSubmissionParams,
 	opts ...option.RequestOption,
-) (*docuseal.UpdateSubmissionResponse, error) {
+) (*docuseal.SubmissionUpdateResult, error) {
 	response, err := c.WithRawResponse.UpdateSubmission(
 		ctx,
 		id,
@@ -169,7 +169,7 @@ func (c *Client) ArchiveSubmission(
 	// The unique identifier of the submission.
 	id int,
 	opts ...option.RequestOption,
-) (*docuseal.ArchiveSubmissionResponse, error) {
+) (*docuseal.SubmissionArchiveResult, error) {
 	response, err := c.WithRawResponse.ArchiveSubmission(
 		ctx,
 		id,
@@ -188,27 +188,10 @@ func (c *Client) GetSubmissionDocuments(
 	id int,
 	request *docuseal.GetSubmissionDocumentsParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetSubmissionDocumentsResponse, error) {
+) (*docuseal.SubmissionDocuments, error) {
 	response, err := c.WithRawResponse.GetSubmissionDocuments(
 		ctx,
 		id,
-		request,
-		opts...,
-	)
-	if err != nil {
-		return nil, err
-	}
-	return response.Body, nil
-}
-
-// This API endpoint allows you to create submissions for a document template and send them to the specified email addresses. This is a simplified version of the POST /submissions API to be used with Zapier or other automation tools.
-func (c *Client) CreateSubmissionsFromEmails(
-	ctx context.Context,
-	request *docuseal.CreateSubmissionsFromEmailsParams,
-	opts ...option.RequestOption,
-) (docuseal.CreateSubmissionsFromEmailsResponse, error) {
-	response, err := c.WithRawResponse.CreateSubmissionsFromEmails(
-		ctx,
 		request,
 		opts...,
 	)
@@ -223,7 +206,7 @@ func (c *Client) CreateSubmissionFromPdf(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromPdfParams,
 	opts ...option.RequestOption,
-) (*docuseal.CreateSubmissionFromPdfResponse, error) {
+) (*docuseal.SubmissionCreateResult, error) {
 	response, err := c.WithRawResponse.CreateSubmissionFromPdf(
 		ctx,
 		request,
@@ -240,7 +223,7 @@ func (c *Client) CreateSubmissionFromDocx(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromDocxParams,
 	opts ...option.RequestOption,
-) (*docuseal.CreateSubmissionFromPdfResponse, error) {
+) (*docuseal.SubmissionCreateResult, error) {
 	response, err := c.WithRawResponse.CreateSubmissionFromDocx(
 		ctx,
 		request,
@@ -257,7 +240,7 @@ func (c *Client) CreateSubmissionFromHTML(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromHTMLParams,
 	opts ...option.RequestOption,
-) (*docuseal.CreateSubmissionFromPdfResponse, error) {
+) (*docuseal.SubmissionCreateResult, error) {
 	response, err := c.WithRawResponse.CreateSubmissionFromHTML(
 		ctx,
 		request,
@@ -275,7 +258,7 @@ func (c *Client) GetSubmitter(
 	// The unique identifier of the submitter.
 	id int,
 	opts ...option.RequestOption,
-) (*docuseal.GetSubmitterResponse, error) {
+) (*docuseal.Submitter, error) {
 	response, err := c.WithRawResponse.GetSubmitter(
 		ctx,
 		id,
@@ -294,7 +277,7 @@ func (c *Client) UpdateSubmitter(
 	id int,
 	request *docuseal.UpdateSubmitterParams,
 	opts ...option.RequestOption,
-) (*docuseal.UpdateSubmitterResponse, error) {
+) (*docuseal.SubmitterUpdateResult, error) {
 	response, err := c.WithRawResponse.UpdateSubmitter(
 		ctx,
 		id,
@@ -312,7 +295,7 @@ func (c *Client) GetSubmitters(
 	ctx context.Context,
 	request *docuseal.GetSubmittersParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetSubmittersResponse, error) {
+) (*docuseal.SubmitterList, error) {
 	response, err := c.WithRawResponse.GetSubmitters(
 		ctx,
 		request,
@@ -325,14 +308,14 @@ func (c *Client) GetSubmitters(
 }
 
 // The API endpoint allows you to add, remove or replace documents in the template with provided PDF/DOCX file or HTML content.
-func (c *Client) AddDocumentToTemplate(
+func (c *Client) UpdateTemplateDocuments(
 	ctx context.Context,
 	// The unique identifier of the document template.
 	id int,
-	request *docuseal.AddDocumentToTemplateParams,
+	request *docuseal.UpdateTemplateDocumentsParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
-	response, err := c.WithRawResponse.AddDocumentToTemplate(
+) (*docuseal.Template, error) {
+	response, err := c.WithRawResponse.UpdateTemplateDocuments(
 		ctx,
 		id,
 		request,
@@ -351,7 +334,7 @@ func (c *Client) CloneTemplate(
 	id int,
 	request *docuseal.CloneTemplateParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.CloneTemplate(
 		ctx,
 		id,
@@ -369,7 +352,7 @@ func (c *Client) CreateTemplateFromHTML(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromHTMLParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.CreateTemplateFromHTML(
 		ctx,
 		request,
@@ -386,7 +369,7 @@ func (c *Client) CreateTemplateFromDocx(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromDocxParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.CreateTemplateFromDocx(
 		ctx,
 		request,
@@ -403,7 +386,7 @@ func (c *Client) CreateTemplateFromPdf(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromPdfParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.CreateTemplateFromPdf(
 		ctx,
 		request,
@@ -420,7 +403,7 @@ func (c *Client) MergeTemplate(
 	ctx context.Context,
 	request *docuseal.MergeTemplateParams,
 	opts ...option.RequestOption,
-) (*docuseal.GetTemplateResponse, error) {
+) (*docuseal.Template, error) {
 	response, err := c.WithRawResponse.MergeTemplate(
 		ctx,
 		request,
@@ -437,7 +420,7 @@ func (c *Client) CreateSubmission(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionParams,
 	opts ...option.RequestOption,
-) (*docuseal.CreateSubmissionResponse, error) {
+) (*docuseal.CreateSubmissionResult, error) {
 	response, err := c.WithRawResponse.CreateSubmission(
 		ctx,
 		request,

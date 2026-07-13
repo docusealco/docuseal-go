@@ -36,7 +36,7 @@ func (r *RawClient) GetTemplates(
 	ctx context.Context,
 	request *docuseal.GetTemplatesParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplatesResponse], error) {
+) (*core.Response[*docuseal.TemplateList], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -55,7 +55,7 @@ func (r *RawClient) GetTemplates(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetTemplatesResponse
+	var response *docuseal.TemplateList
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -73,7 +73,7 @@ func (r *RawClient) GetTemplates(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplatesResponse]{
+	return &core.Response[*docuseal.TemplateList]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -85,7 +85,7 @@ func (r *RawClient) GetTemplate(
 	// The unique identifier of the document template.
 	id int,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -100,7 +100,7 @@ func (r *RawClient) GetTemplate(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -118,7 +118,7 @@ func (r *RawClient) GetTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -131,7 +131,7 @@ func (r *RawClient) UpdateTemplate(
 	id int,
 	request *docuseal.UpdateTemplateParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.UpdateTemplateResponse], error) {
+) (*core.Response[*docuseal.TemplateUpdateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -147,7 +147,7 @@ func (r *RawClient) UpdateTemplate(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.UpdateTemplateResponse
+	var response *docuseal.TemplateUpdateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -166,7 +166,7 @@ func (r *RawClient) UpdateTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.UpdateTemplateResponse]{
+	return &core.Response[*docuseal.TemplateUpdateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -178,7 +178,7 @@ func (r *RawClient) ArchiveTemplate(
 	// The unique identifier of the document template.
 	id int,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.ArchiveTemplateResponse], error) {
+) (*core.Response[*docuseal.TemplateArchiveResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -193,7 +193,7 @@ func (r *RawClient) ArchiveTemplate(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.ArchiveTemplateResponse
+	var response *docuseal.TemplateArchiveResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -211,7 +211,7 @@ func (r *RawClient) ArchiveTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.ArchiveTemplateResponse]{
+	return &core.Response[*docuseal.TemplateArchiveResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -222,7 +222,7 @@ func (r *RawClient) GetSubmissions(
 	ctx context.Context,
 	request *docuseal.GetSubmissionsParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetSubmissionsResponse], error) {
+) (*core.Response[*docuseal.SubmissionList], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -241,7 +241,7 @@ func (r *RawClient) GetSubmissions(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetSubmissionsResponse
+	var response *docuseal.SubmissionList
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -259,7 +259,7 @@ func (r *RawClient) GetSubmissions(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetSubmissionsResponse]{
+	return &core.Response[*docuseal.SubmissionList]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -271,7 +271,7 @@ func (r *RawClient) GetSubmission(
 	// The unique identifier of the submission.
 	id int,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetSubmissionResponse], error) {
+) (*core.Response[*docuseal.Submission], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -286,7 +286,7 @@ func (r *RawClient) GetSubmission(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetSubmissionResponse
+	var response *docuseal.Submission
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -304,7 +304,7 @@ func (r *RawClient) GetSubmission(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetSubmissionResponse]{
+	return &core.Response[*docuseal.Submission]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -317,7 +317,7 @@ func (r *RawClient) UpdateSubmission(
 	id int,
 	request *docuseal.UpdateSubmissionParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.UpdateSubmissionResponse], error) {
+) (*core.Response[*docuseal.SubmissionUpdateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -333,7 +333,7 @@ func (r *RawClient) UpdateSubmission(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.UpdateSubmissionResponse
+	var response *docuseal.SubmissionUpdateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -352,7 +352,7 @@ func (r *RawClient) UpdateSubmission(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.UpdateSubmissionResponse]{
+	return &core.Response[*docuseal.SubmissionUpdateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -364,7 +364,7 @@ func (r *RawClient) ArchiveSubmission(
 	// The unique identifier of the submission.
 	id int,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.ArchiveSubmissionResponse], error) {
+) (*core.Response[*docuseal.SubmissionArchiveResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -379,7 +379,7 @@ func (r *RawClient) ArchiveSubmission(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.ArchiveSubmissionResponse
+	var response *docuseal.SubmissionArchiveResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -397,7 +397,7 @@ func (r *RawClient) ArchiveSubmission(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.ArchiveSubmissionResponse]{
+	return &core.Response[*docuseal.SubmissionArchiveResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -410,7 +410,7 @@ func (r *RawClient) GetSubmissionDocuments(
 	id int,
 	request *docuseal.GetSubmissionDocumentsParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetSubmissionDocumentsResponse], error) {
+) (*core.Response[*docuseal.SubmissionDocuments], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -432,7 +432,7 @@ func (r *RawClient) GetSubmissionDocuments(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetSubmissionDocumentsResponse
+	var response *docuseal.SubmissionDocuments
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -450,50 +450,7 @@ func (r *RawClient) GetSubmissionDocuments(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetSubmissionDocumentsResponse]{
-		StatusCode: raw.StatusCode,
-		Header:     raw.Header,
-		Body:       response,
-	}, nil
-}
-
-func (r *RawClient) CreateSubmissionsFromEmails(
-	ctx context.Context,
-	request *docuseal.CreateSubmissionsFromEmailsParams,
-	opts ...option.RequestOption,
-) (*core.Response[docuseal.CreateSubmissionsFromEmailsResponse], error) {
-	options := core.NewRequestOptions(opts...)
-	baseURL := internal.ResolveBaseURL(
-		options.BaseURL,
-		r.baseURL,
-		"https://api.docuseal.com",
-	)
-	endpointURL := baseURL + "/submissions/emails"
-	headers := internal.MergeHeaders(
-		r.options.ToHeader(),
-		options.ToHeader(),
-	)
-	headers.Add("Content-Type", "application/json")
-	var response docuseal.CreateSubmissionsFromEmailsResponse
-	raw, err := r.caller.Call(
-		ctx,
-		&internal.CallParams{
-			URL:             endpointURL,
-			Method:          http.MethodPost,
-			Headers:         headers,
-			MaxAttempts:     options.MaxAttempts,
-			DisableRetries:  options.DisableRetries,
-			BodyProperties:  options.BodyProperties,
-			QueryParameters: options.QueryParameters,
-			Client:          options.HTTPClient,
-			Request:         request,
-			Response:        &response,
-		},
-	)
-	if err != nil {
-		return nil, err
-	}
-	return &core.Response[docuseal.CreateSubmissionsFromEmailsResponse]{
+	return &core.Response[*docuseal.SubmissionDocuments]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -504,7 +461,7 @@ func (r *RawClient) CreateSubmissionFromPdf(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromPdfParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.CreateSubmissionFromPdfResponse], error) {
+) (*core.Response[*docuseal.SubmissionCreateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -517,7 +474,7 @@ func (r *RawClient) CreateSubmissionFromPdf(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.CreateSubmissionFromPdfResponse
+	var response *docuseal.SubmissionCreateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -536,7 +493,7 @@ func (r *RawClient) CreateSubmissionFromPdf(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.CreateSubmissionFromPdfResponse]{
+	return &core.Response[*docuseal.SubmissionCreateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -547,7 +504,7 @@ func (r *RawClient) CreateSubmissionFromDocx(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromDocxParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.CreateSubmissionFromPdfResponse], error) {
+) (*core.Response[*docuseal.SubmissionCreateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -560,7 +517,7 @@ func (r *RawClient) CreateSubmissionFromDocx(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.CreateSubmissionFromPdfResponse
+	var response *docuseal.SubmissionCreateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -579,7 +536,7 @@ func (r *RawClient) CreateSubmissionFromDocx(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.CreateSubmissionFromPdfResponse]{
+	return &core.Response[*docuseal.SubmissionCreateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -590,7 +547,7 @@ func (r *RawClient) CreateSubmissionFromHTML(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromHTMLParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.CreateSubmissionFromPdfResponse], error) {
+) (*core.Response[*docuseal.SubmissionCreateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -603,7 +560,7 @@ func (r *RawClient) CreateSubmissionFromHTML(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.CreateSubmissionFromPdfResponse
+	var response *docuseal.SubmissionCreateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -622,7 +579,7 @@ func (r *RawClient) CreateSubmissionFromHTML(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.CreateSubmissionFromPdfResponse]{
+	return &core.Response[*docuseal.SubmissionCreateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -634,7 +591,7 @@ func (r *RawClient) GetSubmitter(
 	// The unique identifier of the submitter.
 	id int,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetSubmitterResponse], error) {
+) (*core.Response[*docuseal.Submitter], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -649,7 +606,7 @@ func (r *RawClient) GetSubmitter(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetSubmitterResponse
+	var response *docuseal.Submitter
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -667,7 +624,7 @@ func (r *RawClient) GetSubmitter(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetSubmitterResponse]{
+	return &core.Response[*docuseal.Submitter]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -680,7 +637,7 @@ func (r *RawClient) UpdateSubmitter(
 	id int,
 	request *docuseal.UpdateSubmitterParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.UpdateSubmitterResponse], error) {
+) (*core.Response[*docuseal.SubmitterUpdateResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -696,7 +653,7 @@ func (r *RawClient) UpdateSubmitter(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.UpdateSubmitterResponse
+	var response *docuseal.SubmitterUpdateResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -715,7 +672,7 @@ func (r *RawClient) UpdateSubmitter(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.UpdateSubmitterResponse]{
+	return &core.Response[*docuseal.SubmitterUpdateResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -726,7 +683,7 @@ func (r *RawClient) GetSubmitters(
 	ctx context.Context,
 	request *docuseal.GetSubmittersParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetSubmittersResponse], error) {
+) (*core.Response[*docuseal.SubmitterList], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -745,7 +702,7 @@ func (r *RawClient) GetSubmitters(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *docuseal.GetSubmittersResponse
+	var response *docuseal.SubmitterList
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -763,20 +720,20 @@ func (r *RawClient) GetSubmitters(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetSubmittersResponse]{
+	return &core.Response[*docuseal.SubmitterList]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
 	}, nil
 }
 
-func (r *RawClient) AddDocumentToTemplate(
+func (r *RawClient) UpdateTemplateDocuments(
 	ctx context.Context,
 	// The unique identifier of the document template.
 	id int,
-	request *docuseal.AddDocumentToTemplateParams,
+	request *docuseal.UpdateTemplateDocumentsParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -792,7 +749,7 @@ func (r *RawClient) AddDocumentToTemplate(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -811,7 +768,7 @@ func (r *RawClient) AddDocumentToTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -824,7 +781,7 @@ func (r *RawClient) CloneTemplate(
 	id int,
 	request *docuseal.CloneTemplateParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -840,7 +797,7 @@ func (r *RawClient) CloneTemplate(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -859,7 +816,7 @@ func (r *RawClient) CloneTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -870,7 +827,7 @@ func (r *RawClient) CreateTemplateFromHTML(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromHTMLParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -883,7 +840,7 @@ func (r *RawClient) CreateTemplateFromHTML(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -902,7 +859,7 @@ func (r *RawClient) CreateTemplateFromHTML(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -913,7 +870,7 @@ func (r *RawClient) CreateTemplateFromDocx(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromDocxParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -926,7 +883,7 @@ func (r *RawClient) CreateTemplateFromDocx(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -945,7 +902,7 @@ func (r *RawClient) CreateTemplateFromDocx(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -956,7 +913,7 @@ func (r *RawClient) CreateTemplateFromPdf(
 	ctx context.Context,
 	request *docuseal.CreateTemplateFromPdfParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -969,7 +926,7 @@ func (r *RawClient) CreateTemplateFromPdf(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -988,7 +945,7 @@ func (r *RawClient) CreateTemplateFromPdf(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -999,7 +956,7 @@ func (r *RawClient) MergeTemplate(
 	ctx context.Context,
 	request *docuseal.MergeTemplateParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.GetTemplateResponse], error) {
+) (*core.Response[*docuseal.Template], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -1012,7 +969,7 @@ func (r *RawClient) MergeTemplate(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.GetTemplateResponse
+	var response *docuseal.Template
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -1031,7 +988,7 @@ func (r *RawClient) MergeTemplate(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.GetTemplateResponse]{
+	return &core.Response[*docuseal.Template]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -1042,7 +999,7 @@ func (r *RawClient) CreateSubmission(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.CreateSubmissionResponse], error) {
+) (*core.Response[*docuseal.CreateSubmissionResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -1055,7 +1012,7 @@ func (r *RawClient) CreateSubmission(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.CreateSubmissionResponse
+	var response *docuseal.CreateSubmissionResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -1074,7 +1031,7 @@ func (r *RawClient) CreateSubmission(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.CreateSubmissionResponse]{
+	return &core.Response[*docuseal.CreateSubmissionResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

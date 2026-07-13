@@ -11,63 +11,6 @@ import (
 )
 
 var (
-	addDocumentToTemplateParamsFieldDocuments = big.NewInt(1 << 0)
-	addDocumentToTemplateParamsFieldMerge     = big.NewInt(1 << 1)
-)
-
-type AddDocumentToTemplateParams struct {
-	// The list of documents to add or replace in the template.
-	Documents []*AddDocumentToTemplateRequestDocument `json:"documents,omitempty" url:"-"`
-	// Set to `true` to merge all existing and new documents into a single PDF document in the template.
-	Merge *bool `json:"merge,omitempty" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (a *AddDocumentToTemplateParams) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateParams) SetDocuments(documents []*AddDocumentToTemplateRequestDocument) {
-	a.Documents = documents
-	a.require(addDocumentToTemplateParamsFieldDocuments)
-}
-
-// SetMerge sets the Merge field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateParams) SetMerge(merge *bool) {
-	a.Merge = merge
-	a.require(addDocumentToTemplateParamsFieldMerge)
-}
-
-func (a *AddDocumentToTemplateParams) UnmarshalJSON(data []byte) error {
-	type unmarshaler AddDocumentToTemplateParams
-	var body unmarshaler
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	*a = AddDocumentToTemplateParams(body)
-	return nil
-}
-
-func (a *AddDocumentToTemplateParams) MarshalJSON() ([]byte, error) {
-	type embed AddDocumentToTemplateParams
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*a),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-var (
 	cloneTemplateParamsFieldName       = big.NewInt(1 << 0)
 	cloneTemplateParamsFieldFolderName = big.NewInt(1 << 1)
 	cloneTemplateParamsFieldExternalID = big.NewInt(1 << 2)
@@ -166,10 +109,10 @@ type CreateSubmissionParams struct {
 	// Specify the expiration date and time after which the submission becomes unavailable for signature.
 	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// Dynamic content variables object. Variable values can be strings, numbers, arrays, objects, or HTML content used to generate styled text, paragraphs, and tables in dynamic template documents.
-	Variables map[string]any                             `json:"variables,omitempty" url:"-"`
-	Message   *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty" url:"-"`
+	Variables map[string]any                 `json:"variables,omitempty" url:"-"`
+	Message   *CreateSubmissionMessageParams `json:"message,omitempty" url:"-"`
 	// The list of submitters for the submission.
-	Submitters []*CreateSubmissionRequestSubmitter `json:"submitters" url:"-"`
+	Submitters []*CreateSubmissionSubmitterParams `json:"submitters" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -247,14 +190,14 @@ func (c *CreateSubmissionParams) SetVariables(variables map[string]any) {
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetMessage(message *CreateSubmissionsFromEmailsRequestMessage) {
+func (c *CreateSubmissionParams) SetMessage(message *CreateSubmissionMessageParams) {
 	c.Message = message
 	c.require(createSubmissionParamsFieldMessage)
 }
 
 // SetSubmitters sets the Submitters field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetSubmitters(submitters []*CreateSubmissionRequestSubmitter) {
+func (c *CreateSubmissionParams) SetSubmitters(submitters []*CreateSubmissionSubmitterParams) {
 	c.Submitters = submitters
 	c.require(createSubmissionParamsFieldSubmitters)
 }
@@ -320,10 +263,10 @@ type CreateSubmissionFromDocxParams struct {
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// An array of DOCX documents to create a submission.
-	Documents []*CreateSubmissionFromDocxRequestDocument `json:"documents" url:"-"`
+	Documents []*CreateSubmissionFromDocxDocumentParams `json:"documents" url:"-"`
 	// The list of submitters for the submission.
-	Submitters []*CreateSubmissionFromPdfRequestSubmitter `json:"submitters" url:"-"`
-	Message    *CreateSubmissionFromPdfRequestMessage     `json:"message,omitempty" url:"-"`
+	Submitters []*CreateSubmissionSubmitterParams `json:"submitters" url:"-"`
+	Message    *CreateSubmissionMessageParams     `json:"message,omitempty" url:"-"`
 	// Set `true` to merge the documents into a single PDF file.
 	MergeDocuments *bool `json:"merge_documents,omitempty" url:"-"`
 	// Pass `false` to disable the removal of {{text}} tags from the document. This can be used along with transparent text tags for faster and more robust document processing.
@@ -412,21 +355,21 @@ func (c *CreateSubmissionFromDocxParams) SetTemplateIDs(templateIDs []int) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetDocuments(documents []*CreateSubmissionFromDocxRequestDocument) {
+func (c *CreateSubmissionFromDocxParams) SetDocuments(documents []*CreateSubmissionFromDocxDocumentParams) {
 	c.Documents = documents
 	c.require(createSubmissionFromDocxParamsFieldDocuments)
 }
 
 // SetSubmitters sets the Submitters field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetSubmitters(submitters []*CreateSubmissionFromPdfRequestSubmitter) {
+func (c *CreateSubmissionFromDocxParams) SetSubmitters(submitters []*CreateSubmissionSubmitterParams) {
 	c.Submitters = submitters
 	c.require(createSubmissionFromDocxParamsFieldSubmitters)
 }
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetMessage(message *CreateSubmissionFromPdfRequestMessage) {
+func (c *CreateSubmissionFromDocxParams) SetMessage(message *CreateSubmissionMessageParams) {
 	c.Message = message
 	c.require(createSubmissionFromDocxParamsFieldMessage)
 }
@@ -502,10 +445,10 @@ type CreateSubmissionFromHTMLParams struct {
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// The list of documents built from HTML. Can be used to create a submission with multiple documents.
-	Documents []*CreateSubmissionFromHTMLRequestDocument `json:"documents" url:"-"`
+	Documents []*CreateSubmissionFromHTMLDocumentParams `json:"documents" url:"-"`
 	// The list of submitters for the submission.
-	Submitters []*CreateSubmissionFromPdfRequestSubmitter `json:"submitters" url:"-"`
-	Message    *CreateSubmissionFromPdfRequestMessage     `json:"message,omitempty" url:"-"`
+	Submitters []*CreateSubmissionSubmitterParams `json:"submitters" url:"-"`
+	Message    *CreateSubmissionMessageParams     `json:"message,omitempty" url:"-"`
 	// Set `true` to merge the documents into a single PDF file.
 	MergeDocuments *bool `json:"merge_documents,omitempty" url:"-"`
 
@@ -585,21 +528,21 @@ func (c *CreateSubmissionFromHTMLParams) SetTemplateIDs(templateIDs []int) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetDocuments(documents []*CreateSubmissionFromHTMLRequestDocument) {
+func (c *CreateSubmissionFromHTMLParams) SetDocuments(documents []*CreateSubmissionFromHTMLDocumentParams) {
 	c.Documents = documents
 	c.require(createSubmissionFromHTMLParamsFieldDocuments)
 }
 
 // SetSubmitters sets the Submitters field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetSubmitters(submitters []*CreateSubmissionFromPdfRequestSubmitter) {
+func (c *CreateSubmissionFromHTMLParams) SetSubmitters(submitters []*CreateSubmissionSubmitterParams) {
 	c.Submitters = submitters
 	c.require(createSubmissionFromHTMLParamsFieldSubmitters)
 }
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetMessage(message *CreateSubmissionFromPdfRequestMessage) {
+func (c *CreateSubmissionFromHTMLParams) SetMessage(message *CreateSubmissionMessageParams) {
 	c.Message = message
 	c.require(createSubmissionFromHTMLParamsFieldMessage)
 }
@@ -670,10 +613,10 @@ type CreateSubmissionFromPdfParams struct {
 	// An optional array of template IDs to use in the submission along with the provided documents. This can be used to create multi-document submissions when some of the required documents exist within templates.
 	TemplateIDs []int `json:"template_ids,omitempty" url:"-"`
 	// An array of PDF documents to create a submission.
-	Documents []*CreateSubmissionFromPdfRequestDocument `json:"documents" url:"-"`
+	Documents []*CreateSubmissionFromPdfDocumentParams `json:"documents" url:"-"`
 	// The list of submitters for the submission.
-	Submitters []*CreateSubmissionFromPdfRequestSubmitter `json:"submitters" url:"-"`
-	Message    *CreateSubmissionFromPdfRequestMessage     `json:"message,omitempty" url:"-"`
+	Submitters []*CreateSubmissionSubmitterParams `json:"submitters" url:"-"`
+	Message    *CreateSubmissionMessageParams     `json:"message,omitempty" url:"-"`
 	// Remove PDF form fields from the documents.
 	Flatten *bool `json:"flatten,omitempty" url:"-"`
 	// Set `true` to merge the documents into a single PDF file.
@@ -757,21 +700,21 @@ func (c *CreateSubmissionFromPdfParams) SetTemplateIDs(templateIDs []int) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetDocuments(documents []*CreateSubmissionFromPdfRequestDocument) {
+func (c *CreateSubmissionFromPdfParams) SetDocuments(documents []*CreateSubmissionFromPdfDocumentParams) {
 	c.Documents = documents
 	c.require(createSubmissionFromPdfParamsFieldDocuments)
 }
 
 // SetSubmitters sets the Submitters field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetSubmitters(submitters []*CreateSubmissionFromPdfRequestSubmitter) {
+func (c *CreateSubmissionFromPdfParams) SetSubmitters(submitters []*CreateSubmissionSubmitterParams) {
 	c.Submitters = submitters
 	c.require(createSubmissionFromPdfParamsFieldSubmitters)
 }
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetMessage(message *CreateSubmissionFromPdfRequestMessage) {
+func (c *CreateSubmissionFromPdfParams) SetMessage(message *CreateSubmissionMessageParams) {
 	c.Message = message
 	c.require(createSubmissionFromPdfParamsFieldMessage)
 }
@@ -819,82 +762,6 @@ func (c *CreateSubmissionFromPdfParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	createSubmissionsFromEmailsParamsFieldTemplateID = big.NewInt(1 << 0)
-	createSubmissionsFromEmailsParamsFieldEmails     = big.NewInt(1 << 1)
-	createSubmissionsFromEmailsParamsFieldSendEmail  = big.NewInt(1 << 2)
-	createSubmissionsFromEmailsParamsFieldMessage    = big.NewInt(1 << 3)
-)
-
-type CreateSubmissionsFromEmailsParams struct {
-	// The unique identifier of the template.
-	TemplateID int `json:"template_id" url:"-"`
-	// A comma-separated list of email addresses to send the submission to.
-	Emails string `json:"emails" url:"-"`
-	// Set `false` to disable signature request emails sending.
-	SendEmail *bool                                      `json:"send_email,omitempty" url:"-"`
-	Message   *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (c *CreateSubmissionsFromEmailsParams) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetTemplateID sets the TemplateID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsParams) SetTemplateID(templateID int) {
-	c.TemplateID = templateID
-	c.require(createSubmissionsFromEmailsParamsFieldTemplateID)
-}
-
-// SetEmails sets the Emails field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsParams) SetEmails(emails string) {
-	c.Emails = emails
-	c.require(createSubmissionsFromEmailsParamsFieldEmails)
-}
-
-// SetSendEmail sets the SendEmail field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsParams) SetSendEmail(sendEmail *bool) {
-	c.SendEmail = sendEmail
-	c.require(createSubmissionsFromEmailsParamsFieldSendEmail)
-}
-
-// SetMessage sets the Message field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsParams) SetMessage(message *CreateSubmissionsFromEmailsRequestMessage) {
-	c.Message = message
-	c.require(createSubmissionsFromEmailsParamsFieldMessage)
-}
-
-func (c *CreateSubmissionsFromEmailsParams) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionsFromEmailsParams
-	var body unmarshaler
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	*c = CreateSubmissionsFromEmailsParams(body)
-	return nil
-}
-
-func (c *CreateSubmissionsFromEmailsParams) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionsFromEmailsParams
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-var (
 	createTemplateFromDocxParamsFieldName       = big.NewInt(1 << 0)
 	createTemplateFromDocxParamsFieldExternalID = big.NewInt(1 << 1)
 	createTemplateFromDocxParamsFieldFolderName = big.NewInt(1 << 2)
@@ -912,7 +779,7 @@ type CreateTemplateFromDocxParams struct {
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// An array of DOCX documents to create a template.
-	Documents []*CreateTemplateFromDocxRequestDocument `json:"documents" url:"-"`
+	Documents []*CreateTemplateFromDocxDocumentParams `json:"documents" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -955,7 +822,7 @@ func (c *CreateTemplateFromDocxParams) SetSharedLink(sharedLink *bool) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxParams) SetDocuments(documents []*CreateTemplateFromDocxRequestDocument) {
+func (c *CreateTemplateFromDocxParams) SetDocuments(documents []*CreateTemplateFromDocxDocumentParams) {
 	c.Documents = documents
 	c.require(createTemplateFromDocxParamsFieldDocuments)
 }
@@ -995,7 +862,7 @@ var (
 
 type CreateTemplateFromHTMLParams struct {
 	// HTML template with field tags.
-	HTML string `json:"html" url:"-"`
+	HTML string `json:"html,omitempty" url:"-"`
 	// HTML template of the header to be displayed on every page.
 	HTMLHeader string `json:"html_header,omitempty" url:"-"`
 	// HTML template of the footer to be displayed on every page.
@@ -1011,7 +878,7 @@ type CreateTemplateFromHTMLParams struct {
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// The list of documents built from HTML. Can be used to create a template with multiple documents. Leave `documents` param empty when using a top-level `html` param for a template with a single document.
-	Documents []*CreateTemplateFromHTMLRequestDocument `json:"documents,omitempty" url:"-"`
+	Documents []*CreateTemplateFromHTMLDocumentParams `json:"documents,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1082,7 +949,7 @@ func (c *CreateTemplateFromHTMLParams) SetSharedLink(sharedLink *bool) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetDocuments(documents []*CreateTemplateFromHTMLRequestDocument) {
+func (c *CreateTemplateFromHTMLParams) SetDocuments(documents []*CreateTemplateFromHTMLDocumentParams) {
 	c.Documents = documents
 	c.require(createTemplateFromHTMLParamsFieldDocuments)
 }
@@ -1128,7 +995,7 @@ type CreateTemplateFromPdfParams struct {
 	// Set to `true` to make the template available via a shared link. This will allow anyone with the link to create a submission from this template.
 	SharedLink *bool `json:"shared_link,omitempty" url:"-"`
 	// An array of PDF documents to create a template.
-	Documents []*CreateTemplateFromPdfRequestDocument `json:"documents" url:"-"`
+	Documents []*CreateTemplateFromPdfDocumentParams `json:"documents" url:"-"`
 	// Remove PDF form fields from the documents.
 	Flatten *bool `json:"flatten,omitempty" url:"-"`
 	// Pass `false` to disable the removal of {{text}} tags from the PDF. This can be used along with transparent text tags for faster and more robust PDF processing.
@@ -1175,7 +1042,7 @@ func (c *CreateTemplateFromPdfParams) SetSharedLink(sharedLink *bool) {
 
 // SetDocuments sets the Documents field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfParams) SetDocuments(documents []*CreateTemplateFromPdfRequestDocument) {
+func (c *CreateTemplateFromPdfParams) SetDocuments(documents []*CreateTemplateFromPdfDocumentParams) {
 	c.Documents = documents
 	c.require(createTemplateFromPdfParamsFieldDocuments)
 }
@@ -1657,27 +1524,27 @@ func (m *MergeTemplateParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	addDocumentToTemplateRequestDocumentFieldName     = big.NewInt(1 << 0)
-	addDocumentToTemplateRequestDocumentFieldFile     = big.NewInt(1 << 1)
-	addDocumentToTemplateRequestDocumentFieldHTML     = big.NewInt(1 << 2)
-	addDocumentToTemplateRequestDocumentFieldPosition = big.NewInt(1 << 3)
-	addDocumentToTemplateRequestDocumentFieldReplace  = big.NewInt(1 << 4)
-	addDocumentToTemplateRequestDocumentFieldRemove   = big.NewInt(1 << 5)
+	createSubmissionDocumentFieldAreaParamsFieldX      = big.NewInt(1 << 0)
+	createSubmissionDocumentFieldAreaParamsFieldY      = big.NewInt(1 << 1)
+	createSubmissionDocumentFieldAreaParamsFieldW      = big.NewInt(1 << 2)
+	createSubmissionDocumentFieldAreaParamsFieldH      = big.NewInt(1 << 3)
+	createSubmissionDocumentFieldAreaParamsFieldPage   = big.NewInt(1 << 4)
+	createSubmissionDocumentFieldAreaParamsFieldOption = big.NewInt(1 << 5)
 )
 
-type AddDocumentToTemplateRequestDocument struct {
-	// Document name. Random uuid will be assigned when not specified.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
-	File string `json:"file,omitempty" url:"file,omitempty"`
-	// HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
-	HTML string `json:"html,omitempty" url:"html,omitempty"`
-	// Position of the document. By default will be added as the last document in the template.
-	Position *int `json:"position,omitempty" url:"position,omitempty"`
-	// Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
-	Replace *bool `json:"replace,omitempty" url:"replace,omitempty"`
-	// Set to `true` to remove existing document at given `position` or with given `name`.
-	Remove *bool `json:"remove,omitempty" url:"remove,omitempty"`
+type CreateSubmissionDocumentFieldAreaParams struct {
+	// X-coordinate of the field area.
+	X float64 `json:"x" url:"x"`
+	// Y-coordinate of the field area.
+	Y float64 `json:"y" url:"y"`
+	// Width of the field area.
+	W float64 `json:"w" url:"w"`
+	// Height of the field area.
+	H float64 `json:"h" url:"h"`
+	// Page number of the field area. Starts from 1.
+	Page int `json:"page" url:"page"`
+	// Option string value for 'radio' and 'multiple' select field types.
+	Option string `json:"option,omitempty" url:"option,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1686,417 +1553,111 @@ type AddDocumentToTemplateRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (a *AddDocumentToTemplateRequestDocument) GetName() string {
-	if a == nil {
-		return ""
-	}
-	return a.Name
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetFile() string {
-	if a == nil {
-		return ""
-	}
-	return a.File
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetHTML() string {
-	if a == nil {
-		return ""
-	}
-	return a.HTML
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetPosition() *int {
-	if a == nil {
-		return nil
-	}
-	return a.Position
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetReplace() *bool {
-	if a == nil {
-		return nil
-	}
-	return a.Replace
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetRemove() *bool {
-	if a == nil {
-		return nil
-	}
-	return a.Remove
-}
-
-func (a *AddDocumentToTemplateRequestDocument) GetExtraProperties() map[string]interface{} {
-	if a == nil {
-		return nil
-	}
-	return a.extraProperties
-}
-
-func (a *AddDocumentToTemplateRequestDocument) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetName(name string) {
-	a.Name = name
-	a.require(addDocumentToTemplateRequestDocumentFieldName)
-}
-
-// SetFile sets the File field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetFile(file string) {
-	a.File = file
-	a.require(addDocumentToTemplateRequestDocumentFieldFile)
-}
-
-// SetHTML sets the HTML field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetHTML(html string) {
-	a.HTML = html
-	a.require(addDocumentToTemplateRequestDocumentFieldHTML)
-}
-
-// SetPosition sets the Position field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetPosition(position *int) {
-	a.Position = position
-	a.require(addDocumentToTemplateRequestDocumentFieldPosition)
-}
-
-// SetReplace sets the Replace field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetReplace(replace *bool) {
-	a.Replace = replace
-	a.require(addDocumentToTemplateRequestDocumentFieldReplace)
-}
-
-// SetRemove sets the Remove field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *AddDocumentToTemplateRequestDocument) SetRemove(remove *bool) {
-	a.Remove = remove
-	a.require(addDocumentToTemplateRequestDocumentFieldRemove)
-}
-
-func (a *AddDocumentToTemplateRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler AddDocumentToTemplateRequestDocument
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*a = AddDocumentToTemplateRequestDocument(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *a)
-	if err != nil {
-		return err
-	}
-	a.extraProperties = extraProperties
-	a.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (a *AddDocumentToTemplateRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed AddDocumentToTemplateRequestDocument
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*a),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (a *AddDocumentToTemplateRequestDocument) String() string {
-	if a == nil {
-		return "<nil>"
-	}
-	if len(a.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(a); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", a)
-}
-
-var (
-	archiveSubmissionResponseFieldID         = big.NewInt(1 << 0)
-	archiveSubmissionResponseFieldArchivedAt = big.NewInt(1 << 1)
-)
-
-type ArchiveSubmissionResponse struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// Date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (a *ArchiveSubmissionResponse) GetID() int {
-	if a == nil {
+func (c *CreateSubmissionDocumentFieldAreaParams) GetX() float64 {
+	if c == nil {
 		return 0
 	}
-	return a.ID
+	return c.X
 }
 
-func (a *ArchiveSubmissionResponse) GetArchivedAt() *string {
-	if a == nil {
-		return nil
-	}
-	return a.ArchivedAt
-}
-
-func (a *ArchiveSubmissionResponse) GetExtraProperties() map[string]interface{} {
-	if a == nil {
-		return nil
-	}
-	return a.extraProperties
-}
-
-func (a *ArchiveSubmissionResponse) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
-	}
-	a.explicitFields.Or(a.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveSubmissionResponse) SetID(id int) {
-	a.ID = id
-	a.require(archiveSubmissionResponseFieldID)
-}
-
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveSubmissionResponse) SetArchivedAt(archivedAt *string) {
-	a.ArchivedAt = archivedAt
-	a.require(archiveSubmissionResponseFieldArchivedAt)
-}
-
-func (a *ArchiveSubmissionResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler ArchiveSubmissionResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*a = ArchiveSubmissionResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *a)
-	if err != nil {
-		return err
-	}
-	a.extraProperties = extraProperties
-	a.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (a *ArchiveSubmissionResponse) MarshalJSON() ([]byte, error) {
-	type embed ArchiveSubmissionResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*a),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (a *ArchiveSubmissionResponse) String() string {
-	if a == nil {
-		return "<nil>"
-	}
-	if len(a.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(a); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", a)
-}
-
-var (
-	archiveTemplateResponseFieldID         = big.NewInt(1 << 0)
-	archiveTemplateResponseFieldArchivedAt = big.NewInt(1 << 1)
-)
-
-type ArchiveTemplateResponse struct {
-	// Template unique ID number.
-	ID int `json:"id" url:"id"`
-	// Date and time when the template was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (a *ArchiveTemplateResponse) GetID() int {
-	if a == nil {
+func (c *CreateSubmissionDocumentFieldAreaParams) GetY() float64 {
+	if c == nil {
 		return 0
 	}
-	return a.ID
+	return c.Y
 }
 
-func (a *ArchiveTemplateResponse) GetArchivedAt() *string {
-	if a == nil {
-		return nil
+func (c *CreateSubmissionDocumentFieldAreaParams) GetW() float64 {
+	if c == nil {
+		return 0
 	}
-	return a.ArchivedAt
+	return c.W
 }
 
-func (a *ArchiveTemplateResponse) GetExtraProperties() map[string]interface{} {
-	if a == nil {
-		return nil
+func (c *CreateSubmissionDocumentFieldAreaParams) GetH() float64 {
+	if c == nil {
+		return 0
 	}
-	return a.extraProperties
+	return c.H
 }
 
-func (a *ArchiveTemplateResponse) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+func (c *CreateSubmissionDocumentFieldAreaParams) GetPage() int {
+	if c == nil {
+		return 0
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	return c.Page
 }
 
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveTemplateResponse) SetID(id int) {
-	a.ID = id
-	a.require(archiveTemplateResponseFieldID)
-}
-
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (a *ArchiveTemplateResponse) SetArchivedAt(archivedAt *string) {
-	a.ArchivedAt = archivedAt
-	a.require(archiveTemplateResponseFieldArchivedAt)
-}
-
-func (a *ArchiveTemplateResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler ArchiveTemplateResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*a = ArchiveTemplateResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *a)
-	if err != nil {
-		return err
-	}
-	a.extraProperties = extraProperties
-	a.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (a *ArchiveTemplateResponse) MarshalJSON() ([]byte, error) {
-	type embed ArchiveTemplateResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*a),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (a *ArchiveTemplateResponse) String() string {
-	if a == nil {
-		return "<nil>"
-	}
-	if len(a.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(a); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", a)
-}
-
-var (
-	completedDocumentFieldName = big.NewInt(1 << 0)
-	completedDocumentFieldURL  = big.NewInt(1 << 1)
-)
-
-type CompletedDocument struct {
-	// Document name.
-	Name string `json:"name" url:"name"`
-	// Document URL.
-	URL string `json:"url" url:"url"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CompletedDocument) GetName() string {
+func (c *CreateSubmissionDocumentFieldAreaParams) GetOption() string {
 	if c == nil {
 		return ""
 	}
-	return c.Name
+	return c.Option
 }
 
-func (c *CompletedDocument) GetURL() string {
-	if c == nil {
-		return ""
-	}
-	return c.URL
-}
-
-func (c *CompletedDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateSubmissionDocumentFieldAreaParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CompletedDocument) require(field *big.Int) {
+func (c *CreateSubmissionDocumentFieldAreaParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
 	c.explicitFields.Or(c.explicitFields, field)
 }
 
-// SetName sets the Name field and marks it as non-optional;
+// SetX sets the X field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CompletedDocument) SetName(name string) {
-	c.Name = name
-	c.require(completedDocumentFieldName)
+func (c *CreateSubmissionDocumentFieldAreaParams) SetX(x float64) {
+	c.X = x
+	c.require(createSubmissionDocumentFieldAreaParamsFieldX)
 }
 
-// SetURL sets the URL field and marks it as non-optional;
+// SetY sets the Y field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CompletedDocument) SetURL(url string) {
-	c.URL = url
-	c.require(completedDocumentFieldURL)
+func (c *CreateSubmissionDocumentFieldAreaParams) SetY(y float64) {
+	c.Y = y
+	c.require(createSubmissionDocumentFieldAreaParamsFieldY)
 }
 
-func (c *CompletedDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CompletedDocument
+// SetW sets the W field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldAreaParams) SetW(w float64) {
+	c.W = w
+	c.require(createSubmissionDocumentFieldAreaParamsFieldW)
+}
+
+// SetH sets the H field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldAreaParams) SetH(h float64) {
+	c.H = h
+	c.require(createSubmissionDocumentFieldAreaParamsFieldH)
+}
+
+// SetPage sets the Page field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldAreaParams) SetPage(page int) {
+	c.Page = page
+	c.require(createSubmissionDocumentFieldAreaParamsFieldPage)
+}
+
+// SetOption sets the Option field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldAreaParams) SetOption(option string) {
+	c.Option = option
+	c.require(createSubmissionDocumentFieldAreaParamsFieldOption)
+}
+
+func (c *CreateSubmissionDocumentFieldAreaParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionDocumentFieldAreaParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CompletedDocument(value)
+	*c = CreateSubmissionDocumentFieldAreaParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -2106,8 +1667,8 @@ func (c *CompletedDocument) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (c *CompletedDocument) MarshalJSON() ([]byte, error) {
-	type embed CompletedDocument
+func (c *CreateSubmissionDocumentFieldAreaParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionDocumentFieldAreaParams
 	var marshaler = struct {
 		embed
 	}{
@@ -2117,7 +1678,7 @@ func (c *CompletedDocument) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CompletedDocument) String() string {
+func (c *CreateSubmissionDocumentFieldAreaParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -2133,12 +1694,290 @@ func (c *CompletedDocument) String() string {
 }
 
 var (
-	createSubmissionFromDocxRequestDocumentFieldName     = big.NewInt(1 << 0)
-	createSubmissionFromDocxRequestDocumentFieldFile     = big.NewInt(1 << 1)
-	createSubmissionFromDocxRequestDocumentFieldPosition = big.NewInt(1 << 2)
+	createSubmissionDocumentFieldParamsFieldName        = big.NewInt(1 << 0)
+	createSubmissionDocumentFieldParamsFieldType        = big.NewInt(1 << 1)
+	createSubmissionDocumentFieldParamsFieldRole        = big.NewInt(1 << 2)
+	createSubmissionDocumentFieldParamsFieldRequired    = big.NewInt(1 << 3)
+	createSubmissionDocumentFieldParamsFieldTitle       = big.NewInt(1 << 4)
+	createSubmissionDocumentFieldParamsFieldDescription = big.NewInt(1 << 5)
+	createSubmissionDocumentFieldParamsFieldAreas       = big.NewInt(1 << 6)
+	createSubmissionDocumentFieldParamsFieldOptions     = big.NewInt(1 << 7)
 )
 
-type CreateSubmissionFromDocxRequestDocument struct {
+type CreateSubmissionDocumentFieldParams struct {
+	// Name of the field.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Type of the field (e.g., text, signature, date, initials).
+	Type *CreateSubmissionDocumentFieldParamsType `json:"type,omitempty" url:"type,omitempty"`
+	// Role name of the signer.
+	Role string `json:"role,omitempty" url:"role,omitempty"`
+	// Indicates if the field is required.
+	Required *bool `json:"required,omitempty" url:"required,omitempty"`
+	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title string `json:"title,omitempty" url:"title,omitempty"`
+	// Field description displayed on the signing form. Supports Markdown.
+	Description string `json:"description,omitempty" url:"description,omitempty"`
+	// List of areas where the field is located in the document.
+	Areas []*CreateSubmissionDocumentFieldAreaParams `json:"areas,omitempty" url:"areas,omitempty"`
+	// An array of option values for 'select' field type.
+	Options []string `json:"options,omitempty" url:"options,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetType() *CreateSubmissionDocumentFieldParamsType {
+	if c == nil {
+		return nil
+	}
+	return c.Type
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetRole() string {
+	if c == nil {
+		return ""
+	}
+	return c.Role
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetRequired() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Required
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetTitle() string {
+	if c == nil {
+		return ""
+	}
+	return c.Title
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetDescription() string {
+	if c == nil {
+		return ""
+	}
+	return c.Description
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetAreas() []*CreateSubmissionDocumentFieldAreaParams {
+	if c == nil {
+		return nil
+	}
+	return c.Areas
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetOptions() []string {
+	if c == nil {
+		return nil
+	}
+	return c.Options
+}
+
+func (c *CreateSubmissionDocumentFieldParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionDocumentFieldParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetName(name string) {
+	c.Name = name
+	c.require(createSubmissionDocumentFieldParamsFieldName)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetType(type_ *CreateSubmissionDocumentFieldParamsType) {
+	c.Type = type_
+	c.require(createSubmissionDocumentFieldParamsFieldType)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetRole(role string) {
+	c.Role = role
+	c.require(createSubmissionDocumentFieldParamsFieldRole)
+}
+
+// SetRequired sets the Required field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetRequired(required *bool) {
+	c.Required = required
+	c.require(createSubmissionDocumentFieldParamsFieldRequired)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetTitle(title string) {
+	c.Title = title
+	c.require(createSubmissionDocumentFieldParamsFieldTitle)
+}
+
+// SetDescription sets the Description field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetDescription(description string) {
+	c.Description = description
+	c.require(createSubmissionDocumentFieldParamsFieldDescription)
+}
+
+// SetAreas sets the Areas field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetAreas(areas []*CreateSubmissionDocumentFieldAreaParams) {
+	c.Areas = areas
+	c.require(createSubmissionDocumentFieldParamsFieldAreas)
+}
+
+// SetOptions sets the Options field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionDocumentFieldParams) SetOptions(options []string) {
+	c.Options = options
+	c.require(createSubmissionDocumentFieldParamsFieldOptions)
+}
+
+func (c *CreateSubmissionDocumentFieldParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionDocumentFieldParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionDocumentFieldParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionDocumentFieldParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionDocumentFieldParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionDocumentFieldParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Type of the field (e.g., text, signature, date, initials).
+type CreateSubmissionDocumentFieldParamsType string
+
+const (
+	CreateSubmissionDocumentFieldParamsTypeHeading       CreateSubmissionDocumentFieldParamsType = "heading"
+	CreateSubmissionDocumentFieldParamsTypeText          CreateSubmissionDocumentFieldParamsType = "text"
+	CreateSubmissionDocumentFieldParamsTypeSignature     CreateSubmissionDocumentFieldParamsType = "signature"
+	CreateSubmissionDocumentFieldParamsTypeInitials      CreateSubmissionDocumentFieldParamsType = "initials"
+	CreateSubmissionDocumentFieldParamsTypeDate          CreateSubmissionDocumentFieldParamsType = "date"
+	CreateSubmissionDocumentFieldParamsTypeNumber        CreateSubmissionDocumentFieldParamsType = "number"
+	CreateSubmissionDocumentFieldParamsTypeImage         CreateSubmissionDocumentFieldParamsType = "image"
+	CreateSubmissionDocumentFieldParamsTypeCheckbox      CreateSubmissionDocumentFieldParamsType = "checkbox"
+	CreateSubmissionDocumentFieldParamsTypeMultiple      CreateSubmissionDocumentFieldParamsType = "multiple"
+	CreateSubmissionDocumentFieldParamsTypeFile          CreateSubmissionDocumentFieldParamsType = "file"
+	CreateSubmissionDocumentFieldParamsTypeRadio         CreateSubmissionDocumentFieldParamsType = "radio"
+	CreateSubmissionDocumentFieldParamsTypeSelect        CreateSubmissionDocumentFieldParamsType = "select"
+	CreateSubmissionDocumentFieldParamsTypeCells         CreateSubmissionDocumentFieldParamsType = "cells"
+	CreateSubmissionDocumentFieldParamsTypeStamp         CreateSubmissionDocumentFieldParamsType = "stamp"
+	CreateSubmissionDocumentFieldParamsTypePayment       CreateSubmissionDocumentFieldParamsType = "payment"
+	CreateSubmissionDocumentFieldParamsTypePhone         CreateSubmissionDocumentFieldParamsType = "phone"
+	CreateSubmissionDocumentFieldParamsTypeVerification  CreateSubmissionDocumentFieldParamsType = "verification"
+	CreateSubmissionDocumentFieldParamsTypeKba           CreateSubmissionDocumentFieldParamsType = "kba"
+	CreateSubmissionDocumentFieldParamsTypeStrikethrough CreateSubmissionDocumentFieldParamsType = "strikethrough"
+)
+
+func NewCreateSubmissionDocumentFieldParamsTypeFromString(s string) (CreateSubmissionDocumentFieldParamsType, error) {
+	switch s {
+	case "heading":
+		return CreateSubmissionDocumentFieldParamsTypeHeading, nil
+	case "text":
+		return CreateSubmissionDocumentFieldParamsTypeText, nil
+	case "signature":
+		return CreateSubmissionDocumentFieldParamsTypeSignature, nil
+	case "initials":
+		return CreateSubmissionDocumentFieldParamsTypeInitials, nil
+	case "date":
+		return CreateSubmissionDocumentFieldParamsTypeDate, nil
+	case "number":
+		return CreateSubmissionDocumentFieldParamsTypeNumber, nil
+	case "image":
+		return CreateSubmissionDocumentFieldParamsTypeImage, nil
+	case "checkbox":
+		return CreateSubmissionDocumentFieldParamsTypeCheckbox, nil
+	case "multiple":
+		return CreateSubmissionDocumentFieldParamsTypeMultiple, nil
+	case "file":
+		return CreateSubmissionDocumentFieldParamsTypeFile, nil
+	case "radio":
+		return CreateSubmissionDocumentFieldParamsTypeRadio, nil
+	case "select":
+		return CreateSubmissionDocumentFieldParamsTypeSelect, nil
+	case "cells":
+		return CreateSubmissionDocumentFieldParamsTypeCells, nil
+	case "stamp":
+		return CreateSubmissionDocumentFieldParamsTypeStamp, nil
+	case "payment":
+		return CreateSubmissionDocumentFieldParamsTypePayment, nil
+	case "phone":
+		return CreateSubmissionDocumentFieldParamsTypePhone, nil
+	case "verification":
+		return CreateSubmissionDocumentFieldParamsTypeVerification, nil
+	case "kba":
+		return CreateSubmissionDocumentFieldParamsTypeKba, nil
+	case "strikethrough":
+		return CreateSubmissionDocumentFieldParamsTypeStrikethrough, nil
+	}
+	var t CreateSubmissionDocumentFieldParamsType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionDocumentFieldParamsType) Ptr() *CreateSubmissionDocumentFieldParamsType {
+	return &c
+}
+
+var (
+	createSubmissionFromDocxDocumentParamsFieldName     = big.NewInt(1 << 0)
+	createSubmissionFromDocxDocumentParamsFieldFile     = big.NewInt(1 << 1)
+	createSubmissionFromDocxDocumentParamsFieldPosition = big.NewInt(1 << 2)
+)
+
+type CreateSubmissionFromDocxDocumentParams struct {
 	// Name of the document.
 	Name string `json:"name" url:"name"`
 	// Base64-encoded content of the PDF or DOCX file or downloadable file URL.
@@ -2153,35 +1992,35 @@ type CreateSubmissionFromDocxRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) GetName() string {
+func (c *CreateSubmissionFromDocxDocumentParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) GetFile() string {
+func (c *CreateSubmissionFromDocxDocumentParams) GetFile() string {
 	if c == nil {
 		return ""
 	}
 	return c.File
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) GetPosition() *int {
+func (c *CreateSubmissionFromDocxDocumentParams) GetPosition() *int {
 	if c == nil {
 		return nil
 	}
 	return c.Position
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateSubmissionFromDocxDocumentParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) require(field *big.Int) {
+func (c *CreateSubmissionFromDocxDocumentParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -2190,32 +2029,32 @@ func (c *CreateSubmissionFromDocxRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxRequestDocument) SetName(name string) {
+func (c *CreateSubmissionFromDocxDocumentParams) SetName(name string) {
 	c.Name = name
-	c.require(createSubmissionFromDocxRequestDocumentFieldName)
+	c.require(createSubmissionFromDocxDocumentParamsFieldName)
 }
 
 // SetFile sets the File field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxRequestDocument) SetFile(file string) {
+func (c *CreateSubmissionFromDocxDocumentParams) SetFile(file string) {
 	c.File = file
-	c.require(createSubmissionFromDocxRequestDocumentFieldFile)
+	c.require(createSubmissionFromDocxDocumentParamsFieldFile)
 }
 
 // SetPosition sets the Position field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxRequestDocument) SetPosition(position *int) {
+func (c *CreateSubmissionFromDocxDocumentParams) SetPosition(position *int) {
 	c.Position = position
-	c.require(createSubmissionFromDocxRequestDocumentFieldPosition)
+	c.require(createSubmissionFromDocxDocumentParamsFieldPosition)
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromDocxRequestDocument
+func (c *CreateSubmissionFromDocxDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionFromDocxDocumentParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateSubmissionFromDocxRequestDocument(value)
+	*c = CreateSubmissionFromDocxDocumentParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -2225,8 +2064,8 @@ func (c *CreateSubmissionFromDocxRequestDocument) UnmarshalJSON(data []byte) err
 	return nil
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromDocxRequestDocument
+func (c *CreateSubmissionFromDocxDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionFromDocxDocumentParams
 	var marshaler = struct {
 		embed
 	}{
@@ -2236,7 +2075,7 @@ func (c *CreateSubmissionFromDocxRequestDocument) MarshalJSON() ([]byte, error) 
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateSubmissionFromDocxRequestDocument) String() string {
+func (c *CreateSubmissionFromDocxDocumentParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -2275,15 +2114,15 @@ func (c CreateSubmissionFromDocxRequestOrder) Ptr() *CreateSubmissionFromDocxReq
 }
 
 var (
-	createSubmissionFromHTMLRequestDocumentFieldName       = big.NewInt(1 << 0)
-	createSubmissionFromHTMLRequestDocumentFieldHTML       = big.NewInt(1 << 1)
-	createSubmissionFromHTMLRequestDocumentFieldHTMLHeader = big.NewInt(1 << 2)
-	createSubmissionFromHTMLRequestDocumentFieldHTMLFooter = big.NewInt(1 << 3)
-	createSubmissionFromHTMLRequestDocumentFieldSize       = big.NewInt(1 << 4)
-	createSubmissionFromHTMLRequestDocumentFieldPosition   = big.NewInt(1 << 5)
+	createSubmissionFromHTMLDocumentParamsFieldName       = big.NewInt(1 << 0)
+	createSubmissionFromHTMLDocumentParamsFieldHTML       = big.NewInt(1 << 1)
+	createSubmissionFromHTMLDocumentParamsFieldHTMLHeader = big.NewInt(1 << 2)
+	createSubmissionFromHTMLDocumentParamsFieldHTMLFooter = big.NewInt(1 << 3)
+	createSubmissionFromHTMLDocumentParamsFieldSize       = big.NewInt(1 << 4)
+	createSubmissionFromHTMLDocumentParamsFieldPosition   = big.NewInt(1 << 5)
 )
 
-type CreateSubmissionFromHTMLRequestDocument struct {
+type CreateSubmissionFromHTMLDocumentParams struct {
 	// Document name. Random uuid will be assigned when not specified.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// HTML document content with field tags.
@@ -2293,7 +2132,7 @@ type CreateSubmissionFromHTMLRequestDocument struct {
 	// HTML document content of the footer to be displayed on every page.
 	HTMLFooter string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
-	Size *CreateSubmissionFromHTMLRequestDocumentSize `json:"size,omitempty" url:"size,omitempty"`
+	Size *CreateSubmissionFromHTMLDocumentParamsSize `json:"size,omitempty" url:"size,omitempty"`
 	// Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
 	Position *int `json:"position,omitempty" url:"position,omitempty"`
 
@@ -2304,56 +2143,56 @@ type CreateSubmissionFromHTMLRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetName() string {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetHTML() string {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetHTML() string {
 	if c == nil {
 		return ""
 	}
 	return c.HTML
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLHeader() string {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetHTMLHeader() string {
 	if c == nil {
 		return ""
 	}
 	return c.HTMLHeader
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetHTMLFooter() string {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetHTMLFooter() string {
 	if c == nil {
 		return ""
 	}
 	return c.HTMLFooter
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetSize() *CreateSubmissionFromHTMLRequestDocumentSize {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetSize() *CreateSubmissionFromHTMLDocumentParamsSize {
 	if c == nil {
 		return nil
 	}
 	return c.Size
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetPosition() *int {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetPosition() *int {
 	if c == nil {
 		return nil
 	}
 	return c.Position
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) require(field *big.Int) {
+func (c *CreateSubmissionFromHTMLDocumentParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -2362,53 +2201,53 @@ func (c *CreateSubmissionFromHTMLRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetName(name string) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetName(name string) {
 	c.Name = name
-	c.require(createSubmissionFromHTMLRequestDocumentFieldName)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldName)
 }
 
 // SetHTML sets the HTML field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetHTML(html string) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetHTML(html string) {
 	c.HTML = html
-	c.require(createSubmissionFromHTMLRequestDocumentFieldHTML)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldHTML)
 }
 
 // SetHTMLHeader sets the HTMLHeader field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLHeader(htmlHeader string) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetHTMLHeader(htmlHeader string) {
 	c.HTMLHeader = htmlHeader
-	c.require(createSubmissionFromHTMLRequestDocumentFieldHTMLHeader)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldHTMLHeader)
 }
 
 // SetHTMLFooter sets the HTMLFooter field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetHTMLFooter(htmlFooter string) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetHTMLFooter(htmlFooter string) {
 	c.HTMLFooter = htmlFooter
-	c.require(createSubmissionFromHTMLRequestDocumentFieldHTMLFooter)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldHTMLFooter)
 }
 
 // SetSize sets the Size field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetSize(size *CreateSubmissionFromHTMLRequestDocumentSize) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetSize(size *CreateSubmissionFromHTMLDocumentParamsSize) {
 	c.Size = size
-	c.require(createSubmissionFromHTMLRequestDocumentFieldSize)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldSize)
 }
 
 // SetPosition sets the Position field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLRequestDocument) SetPosition(position *int) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetPosition(position *int) {
 	c.Position = position
-	c.require(createSubmissionFromHTMLRequestDocumentFieldPosition)
+	c.require(createSubmissionFromHTMLDocumentParamsFieldPosition)
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromHTMLRequestDocument
+func (c *CreateSubmissionFromHTMLDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionFromHTMLDocumentParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateSubmissionFromHTMLRequestDocument(value)
+	*c = CreateSubmissionFromHTMLDocumentParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -2418,8 +2257,8 @@ func (c *CreateSubmissionFromHTMLRequestDocument) UnmarshalJSON(data []byte) err
 	return nil
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromHTMLRequestDocument
+func (c *CreateSubmissionFromHTMLDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionFromHTMLDocumentParams
 	var marshaler = struct {
 		embed
 	}{
@@ -2429,7 +2268,7 @@ func (c *CreateSubmissionFromHTMLRequestDocument) MarshalJSON() ([]byte, error) 
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateSubmissionFromHTMLRequestDocument) String() string {
+func (c *CreateSubmissionFromHTMLDocumentParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -2445,52 +2284,52 @@ func (c *CreateSubmissionFromHTMLRequestDocument) String() string {
 }
 
 // Page size. Letter 8.5 x 11 will be assigned when not specified.
-type CreateSubmissionFromHTMLRequestDocumentSize string
+type CreateSubmissionFromHTMLDocumentParamsSize string
 
 const (
-	CreateSubmissionFromHTMLRequestDocumentSizeLetter  CreateSubmissionFromHTMLRequestDocumentSize = "Letter"
-	CreateSubmissionFromHTMLRequestDocumentSizeLegal   CreateSubmissionFromHTMLRequestDocumentSize = "Legal"
-	CreateSubmissionFromHTMLRequestDocumentSizeTabloid CreateSubmissionFromHTMLRequestDocumentSize = "Tabloid"
-	CreateSubmissionFromHTMLRequestDocumentSizeLedger  CreateSubmissionFromHTMLRequestDocumentSize = "Ledger"
-	CreateSubmissionFromHTMLRequestDocumentSizeA0      CreateSubmissionFromHTMLRequestDocumentSize = "A0"
-	CreateSubmissionFromHTMLRequestDocumentSizeA1      CreateSubmissionFromHTMLRequestDocumentSize = "A1"
-	CreateSubmissionFromHTMLRequestDocumentSizeA2      CreateSubmissionFromHTMLRequestDocumentSize = "A2"
-	CreateSubmissionFromHTMLRequestDocumentSizeA3      CreateSubmissionFromHTMLRequestDocumentSize = "A3"
-	CreateSubmissionFromHTMLRequestDocumentSizeA4      CreateSubmissionFromHTMLRequestDocumentSize = "A4"
-	CreateSubmissionFromHTMLRequestDocumentSizeA5      CreateSubmissionFromHTMLRequestDocumentSize = "A5"
-	CreateSubmissionFromHTMLRequestDocumentSizeA6      CreateSubmissionFromHTMLRequestDocumentSize = "A6"
+	CreateSubmissionFromHTMLDocumentParamsSizeLetter  CreateSubmissionFromHTMLDocumentParamsSize = "Letter"
+	CreateSubmissionFromHTMLDocumentParamsSizeLegal   CreateSubmissionFromHTMLDocumentParamsSize = "Legal"
+	CreateSubmissionFromHTMLDocumentParamsSizeTabloid CreateSubmissionFromHTMLDocumentParamsSize = "Tabloid"
+	CreateSubmissionFromHTMLDocumentParamsSizeLedger  CreateSubmissionFromHTMLDocumentParamsSize = "Ledger"
+	CreateSubmissionFromHTMLDocumentParamsSizeA0      CreateSubmissionFromHTMLDocumentParamsSize = "A0"
+	CreateSubmissionFromHTMLDocumentParamsSizeA1      CreateSubmissionFromHTMLDocumentParamsSize = "A1"
+	CreateSubmissionFromHTMLDocumentParamsSizeA2      CreateSubmissionFromHTMLDocumentParamsSize = "A2"
+	CreateSubmissionFromHTMLDocumentParamsSizeA3      CreateSubmissionFromHTMLDocumentParamsSize = "A3"
+	CreateSubmissionFromHTMLDocumentParamsSizeA4      CreateSubmissionFromHTMLDocumentParamsSize = "A4"
+	CreateSubmissionFromHTMLDocumentParamsSizeA5      CreateSubmissionFromHTMLDocumentParamsSize = "A5"
+	CreateSubmissionFromHTMLDocumentParamsSizeA6      CreateSubmissionFromHTMLDocumentParamsSize = "A6"
 )
 
-func NewCreateSubmissionFromHTMLRequestDocumentSizeFromString(s string) (CreateSubmissionFromHTMLRequestDocumentSize, error) {
+func NewCreateSubmissionFromHTMLDocumentParamsSizeFromString(s string) (CreateSubmissionFromHTMLDocumentParamsSize, error) {
 	switch s {
 	case "Letter":
-		return CreateSubmissionFromHTMLRequestDocumentSizeLetter, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeLetter, nil
 	case "Legal":
-		return CreateSubmissionFromHTMLRequestDocumentSizeLegal, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeLegal, nil
 	case "Tabloid":
-		return CreateSubmissionFromHTMLRequestDocumentSizeTabloid, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeTabloid, nil
 	case "Ledger":
-		return CreateSubmissionFromHTMLRequestDocumentSizeLedger, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeLedger, nil
 	case "A0":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA0, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA0, nil
 	case "A1":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA1, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA1, nil
 	case "A2":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA2, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA2, nil
 	case "A3":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA3, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA3, nil
 	case "A4":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA4, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA4, nil
 	case "A5":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA5, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA5, nil
 	case "A6":
-		return CreateSubmissionFromHTMLRequestDocumentSizeA6, nil
+		return CreateSubmissionFromHTMLDocumentParamsSizeA6, nil
 	}
-	var t CreateSubmissionFromHTMLRequestDocumentSize
+	var t CreateSubmissionFromHTMLDocumentParamsSize
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (c CreateSubmissionFromHTMLRequestDocumentSize) Ptr() *CreateSubmissionFromHTMLRequestDocumentSize {
+func (c CreateSubmissionFromHTMLDocumentParamsSize) Ptr() *CreateSubmissionFromHTMLDocumentParamsSize {
 	return &c
 }
 
@@ -2518,19 +2357,19 @@ func (c CreateSubmissionFromHTMLRequestOrder) Ptr() *CreateSubmissionFromHTMLReq
 }
 
 var (
-	createSubmissionFromPdfRequestDocumentFieldName     = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestDocumentFieldFile     = big.NewInt(1 << 1)
-	createSubmissionFromPdfRequestDocumentFieldFields   = big.NewInt(1 << 2)
-	createSubmissionFromPdfRequestDocumentFieldPosition = big.NewInt(1 << 3)
+	createSubmissionFromPdfDocumentParamsFieldName     = big.NewInt(1 << 0)
+	createSubmissionFromPdfDocumentParamsFieldFile     = big.NewInt(1 << 1)
+	createSubmissionFromPdfDocumentParamsFieldFields   = big.NewInt(1 << 2)
+	createSubmissionFromPdfDocumentParamsFieldPosition = big.NewInt(1 << 3)
 )
 
-type CreateSubmissionFromPdfRequestDocument struct {
+type CreateSubmissionFromPdfDocumentParams struct {
 	// Name of the document.
 	Name string `json:"name" url:"name"`
 	// Base64-encoded content of the PDF file or downloadable file URL.
 	File string `json:"file" url:"file"`
 	// Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields []*CreateSubmissionFromPdfRequestDocumentField `json:"fields,omitempty" url:"fields,omitempty"`
+	Fields []*CreateSubmissionDocumentFieldParams `json:"fields,omitempty" url:"fields,omitempty"`
 	// Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
 	Position *int `json:"position,omitempty" url:"position,omitempty"`
 
@@ -2541,42 +2380,42 @@ type CreateSubmissionFromPdfRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) GetName() string {
+func (c *CreateSubmissionFromPdfDocumentParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) GetFile() string {
+func (c *CreateSubmissionFromPdfDocumentParams) GetFile() string {
 	if c == nil {
 		return ""
 	}
 	return c.File
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) GetFields() []*CreateSubmissionFromPdfRequestDocumentField {
+func (c *CreateSubmissionFromPdfDocumentParams) GetFields() []*CreateSubmissionDocumentFieldParams {
 	if c == nil {
 		return nil
 	}
 	return c.Fields
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) GetPosition() *int {
+func (c *CreateSubmissionFromPdfDocumentParams) GetPosition() *int {
 	if c == nil {
 		return nil
 	}
 	return c.Position
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateSubmissionFromPdfDocumentParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) require(field *big.Int) {
+func (c *CreateSubmissionFromPdfDocumentParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -2585,39 +2424,39 @@ func (c *CreateSubmissionFromPdfRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocument) SetName(name string) {
+func (c *CreateSubmissionFromPdfDocumentParams) SetName(name string) {
 	c.Name = name
-	c.require(createSubmissionFromPdfRequestDocumentFieldName)
+	c.require(createSubmissionFromPdfDocumentParamsFieldName)
 }
 
 // SetFile sets the File field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocument) SetFile(file string) {
+func (c *CreateSubmissionFromPdfDocumentParams) SetFile(file string) {
 	c.File = file
-	c.require(createSubmissionFromPdfRequestDocumentFieldFile)
+	c.require(createSubmissionFromPdfDocumentParamsFieldFile)
 }
 
 // SetFields sets the Fields field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocument) SetFields(fields []*CreateSubmissionFromPdfRequestDocumentField) {
+func (c *CreateSubmissionFromPdfDocumentParams) SetFields(fields []*CreateSubmissionDocumentFieldParams) {
 	c.Fields = fields
-	c.require(createSubmissionFromPdfRequestDocumentFieldFields)
+	c.require(createSubmissionFromPdfDocumentParamsFieldFields)
 }
 
 // SetPosition sets the Position field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocument) SetPosition(position *int) {
+func (c *CreateSubmissionFromPdfDocumentParams) SetPosition(position *int) {
 	c.Position = position
-	c.require(createSubmissionFromPdfRequestDocumentFieldPosition)
+	c.require(createSubmissionFromPdfDocumentParamsFieldPosition)
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestDocument
+func (c *CreateSubmissionFromPdfDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionFromPdfDocumentParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateSubmissionFromPdfRequestDocument(value)
+	*c = CreateSubmissionFromPdfDocumentParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -2627,8 +2466,8 @@ func (c *CreateSubmissionFromPdfRequestDocument) UnmarshalJSON(data []byte) erro
 	return nil
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestDocument
+func (c *CreateSubmissionFromPdfDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionFromPdfDocumentParams
 	var marshaler = struct {
 		embed
 	}{
@@ -2638,558 +2477,7 @@ func (c *CreateSubmissionFromPdfRequestDocument) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateSubmissionFromPdfRequestDocument) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createSubmissionFromPdfRequestDocumentFieldFieldName        = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestDocumentFieldFieldType        = big.NewInt(1 << 1)
-	createSubmissionFromPdfRequestDocumentFieldFieldRole        = big.NewInt(1 << 2)
-	createSubmissionFromPdfRequestDocumentFieldFieldRequired    = big.NewInt(1 << 3)
-	createSubmissionFromPdfRequestDocumentFieldFieldTitle       = big.NewInt(1 << 4)
-	createSubmissionFromPdfRequestDocumentFieldFieldDescription = big.NewInt(1 << 5)
-	createSubmissionFromPdfRequestDocumentFieldFieldAreas       = big.NewInt(1 << 6)
-	createSubmissionFromPdfRequestDocumentFieldFieldOptions     = big.NewInt(1 << 7)
-)
-
-type CreateSubmissionFromPdfRequestDocumentField struct {
-	// Name of the field.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Type of the field (e.g., text, signature, date, initials).
-	Type *CreateSubmissionFromPdfRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
-	// Role name of the signer.
-	Role string `json:"role,omitempty" url:"role,omitempty"`
-	// Indicates if the field is required.
-	Required *bool `json:"required,omitempty" url:"required,omitempty"`
-	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title string `json:"title,omitempty" url:"title,omitempty"`
-	// Field description displayed on the signing form. Supports Markdown.
-	Description string `json:"description,omitempty" url:"description,omitempty"`
-	// List of areas where the field is located in the document.
-	Areas []*CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
-	// An array of option values for 'select' field type.
-	Options []string `json:"options,omitempty" url:"options,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetType() *CreateSubmissionFromPdfRequestDocumentFieldType {
-	if c == nil {
-		return nil
-	}
-	return c.Type
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetRole() string {
-	if c == nil {
-		return ""
-	}
-	return c.Role
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetRequired() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Required
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetTitle() string {
-	if c == nil {
-		return ""
-	}
-	return c.Title
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetDescription() string {
-	if c == nil {
-		return ""
-	}
-	return c.Description
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetAreas() []*CreateSubmissionFromPdfRequestDocumentFieldArea {
-	if c == nil {
-		return nil
-	}
-	return c.Areas
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetOptions() []string {
-	if c == nil {
-		return nil
-	}
-	return c.Options
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldName)
-}
-
-// SetType sets the Type field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetType(type_ *CreateSubmissionFromPdfRequestDocumentFieldType) {
-	c.Type = type_
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldType)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetRole(role string) {
-	c.Role = role
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldRole)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetRequired(required *bool) {
-	c.Required = required
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldRequired)
-}
-
-// SetTitle sets the Title field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetTitle(title string) {
-	c.Title = title
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldTitle)
-}
-
-// SetDescription sets the Description field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetDescription(description string) {
-	c.Description = description
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldDescription)
-}
-
-// SetAreas sets the Areas field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetAreas(areas []*CreateSubmissionFromPdfRequestDocumentFieldArea) {
-	c.Areas = areas
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldAreas)
-}
-
-// SetOptions sets the Options field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentField) SetOptions(options []string) {
-	c.Options = options
-	c.require(createSubmissionFromPdfRequestDocumentFieldFieldOptions)
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestDocumentField
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfRequestDocumentField(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestDocumentField
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentField) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldX      = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldY      = big.NewInt(1 << 1)
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldW      = big.NewInt(1 << 2)
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldH      = big.NewInt(1 << 3)
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldPage   = big.NewInt(1 << 4)
-	createSubmissionFromPdfRequestDocumentFieldAreaFieldOption = big.NewInt(1 << 5)
-)
-
-type CreateSubmissionFromPdfRequestDocumentFieldArea struct {
-	// X-coordinate of the field area.
-	X float64 `json:"x" url:"x"`
-	// Y-coordinate of the field area.
-	Y float64 `json:"y" url:"y"`
-	// Width of the field area.
-	W float64 `json:"w" url:"w"`
-	// Height of the field area.
-	H float64 `json:"h" url:"h"`
-	// Page number of the field area. Starts from 1.
-	Page int `json:"page" url:"page"`
-	// Option string value for 'radio' and 'multiple' select field types.
-	Option string `json:"option,omitempty" url:"option,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetX() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.X
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetY() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Y
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetW() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.W
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetH() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.H
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetPage() int {
-	if c == nil {
-		return 0
-	}
-	return c.Page
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetOption() string {
-	if c == nil {
-		return ""
-	}
-	return c.Option
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetX sets the X field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetX(x float64) {
-	c.X = x
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldX)
-}
-
-// SetY sets the Y field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetY(y float64) {
-	c.Y = y
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldY)
-}
-
-// SetW sets the W field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetW(w float64) {
-	c.W = w
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldW)
-}
-
-// SetH sets the H field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetH(h float64) {
-	c.H = h
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldH)
-}
-
-// SetPage sets the Page field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetPage(page int) {
-	c.Page = page
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldPage)
-}
-
-// SetOption sets the Option field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) SetOption(option string) {
-	c.Option = option
-	c.require(createSubmissionFromPdfRequestDocumentFieldAreaFieldOption)
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestDocumentFieldArea
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfRequestDocumentFieldArea(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestDocumentFieldArea
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfRequestDocumentFieldArea) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Type of the field (e.g., text, signature, date, initials).
-type CreateSubmissionFromPdfRequestDocumentFieldType string
-
-const (
-	CreateSubmissionFromPdfRequestDocumentFieldTypeHeading       CreateSubmissionFromPdfRequestDocumentFieldType = "heading"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeText          CreateSubmissionFromPdfRequestDocumentFieldType = "text"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeSignature     CreateSubmissionFromPdfRequestDocumentFieldType = "signature"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeInitials      CreateSubmissionFromPdfRequestDocumentFieldType = "initials"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeDate          CreateSubmissionFromPdfRequestDocumentFieldType = "date"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeNumber        CreateSubmissionFromPdfRequestDocumentFieldType = "number"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeImage         CreateSubmissionFromPdfRequestDocumentFieldType = "image"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeCheckbox      CreateSubmissionFromPdfRequestDocumentFieldType = "checkbox"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeMultiple      CreateSubmissionFromPdfRequestDocumentFieldType = "multiple"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeFile          CreateSubmissionFromPdfRequestDocumentFieldType = "file"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeRadio         CreateSubmissionFromPdfRequestDocumentFieldType = "radio"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeSelect        CreateSubmissionFromPdfRequestDocumentFieldType = "select"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeCells         CreateSubmissionFromPdfRequestDocumentFieldType = "cells"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeStamp         CreateSubmissionFromPdfRequestDocumentFieldType = "stamp"
-	CreateSubmissionFromPdfRequestDocumentFieldTypePayment       CreateSubmissionFromPdfRequestDocumentFieldType = "payment"
-	CreateSubmissionFromPdfRequestDocumentFieldTypePhone         CreateSubmissionFromPdfRequestDocumentFieldType = "phone"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeVerification  CreateSubmissionFromPdfRequestDocumentFieldType = "verification"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeKba           CreateSubmissionFromPdfRequestDocumentFieldType = "kba"
-	CreateSubmissionFromPdfRequestDocumentFieldTypeStrikethrough CreateSubmissionFromPdfRequestDocumentFieldType = "strikethrough"
-)
-
-func NewCreateSubmissionFromPdfRequestDocumentFieldTypeFromString(s string) (CreateSubmissionFromPdfRequestDocumentFieldType, error) {
-	switch s {
-	case "heading":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeHeading, nil
-	case "text":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeText, nil
-	case "signature":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeSignature, nil
-	case "initials":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeInitials, nil
-	case "date":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeDate, nil
-	case "number":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeNumber, nil
-	case "image":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeImage, nil
-	case "checkbox":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeCheckbox, nil
-	case "multiple":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeMultiple, nil
-	case "file":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeFile, nil
-	case "radio":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeRadio, nil
-	case "select":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeSelect, nil
-	case "cells":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeCells, nil
-	case "stamp":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeStamp, nil
-	case "payment":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypePayment, nil
-	case "phone":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypePhone, nil
-	case "verification":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeVerification, nil
-	case "kba":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeKba, nil
-	case "strikethrough":
-		return CreateSubmissionFromPdfRequestDocumentFieldTypeStrikethrough, nil
-	}
-	var t CreateSubmissionFromPdfRequestDocumentFieldType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfRequestDocumentFieldType) Ptr() *CreateSubmissionFromPdfRequestDocumentFieldType {
-	return &c
-}
-
-// Custom signature request email message.
-var (
-	createSubmissionFromPdfRequestMessageFieldSubject = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestMessageFieldBody    = big.NewInt(1 << 1)
-)
-
-type CreateSubmissionFromPdfRequestMessage struct {
-	// Custom signature request email subject.
-	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
-	// Custom signature request email body. Can include the following variables: {{submission.name}}, {{submitter.link}}, {{account.name}}.
-	Body string `json:"body,omitempty" url:"body,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) GetSubject() string {
-	if c == nil {
-		return ""
-	}
-	return c.Subject
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) GetBody() string {
-	if c == nil {
-		return ""
-	}
-	return c.Body
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetSubject sets the Subject field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestMessage) SetSubject(subject string) {
-	c.Subject = subject
-	c.require(createSubmissionFromPdfRequestMessageFieldSubject)
-}
-
-// SetBody sets the Body field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestMessage) SetBody(body string) {
-	c.Body = body
-	c.require(createSubmissionFromPdfRequestMessageFieldBody)
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestMessage
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfRequestMessage(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestMessage
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfRequestMessage) String() string {
+func (c *CreateSubmissionFromPdfDocumentParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -3227,28 +2515,1588 @@ func (c CreateSubmissionFromPdfRequestOrder) Ptr() *CreateSubmissionFromPdfReque
 	return &c
 }
 
+// Custom signature request email message.
 var (
-	createSubmissionFromPdfRequestSubmitterFieldName                 = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestSubmitterFieldRole                 = big.NewInt(1 << 1)
-	createSubmissionFromPdfRequestSubmitterFieldEmail                = big.NewInt(1 << 2)
-	createSubmissionFromPdfRequestSubmitterFieldPhone                = big.NewInt(1 << 3)
-	createSubmissionFromPdfRequestSubmitterFieldValues               = big.NewInt(1 << 4)
-	createSubmissionFromPdfRequestSubmitterFieldExternalID           = big.NewInt(1 << 5)
-	createSubmissionFromPdfRequestSubmitterFieldCompleted            = big.NewInt(1 << 6)
-	createSubmissionFromPdfRequestSubmitterFieldMetadata             = big.NewInt(1 << 7)
-	createSubmissionFromPdfRequestSubmitterFieldSendEmail            = big.NewInt(1 << 8)
-	createSubmissionFromPdfRequestSubmitterFieldSendSms              = big.NewInt(1 << 9)
-	createSubmissionFromPdfRequestSubmitterFieldReplyTo              = big.NewInt(1 << 10)
-	createSubmissionFromPdfRequestSubmitterFieldCompletedRedirectURL = big.NewInt(1 << 11)
-	createSubmissionFromPdfRequestSubmitterFieldOrder                = big.NewInt(1 << 12)
-	createSubmissionFromPdfRequestSubmitterFieldRequirePhone2Fa      = big.NewInt(1 << 13)
-	createSubmissionFromPdfRequestSubmitterFieldRequireEmail2Fa      = big.NewInt(1 << 14)
-	createSubmissionFromPdfRequestSubmitterFieldInviteBy             = big.NewInt(1 << 15)
-	createSubmissionFromPdfRequestSubmitterFieldFields               = big.NewInt(1 << 16)
-	createSubmissionFromPdfRequestSubmitterFieldRoles                = big.NewInt(1 << 17)
+	createSubmissionMessageParamsFieldSubject = big.NewInt(1 << 0)
+	createSubmissionMessageParamsFieldBody    = big.NewInt(1 << 1)
 )
 
-type CreateSubmissionFromPdfRequestSubmitter struct {
+type CreateSubmissionMessageParams struct {
+	// Custom signature request email subject.
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
+	// Custom signature request email body. Can include variables such as {{template.name}}, {{submission.name}}, {{submitter.link}}, {{account.name}}.
+	Body string `json:"body,omitempty" url:"body,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionMessageParams) GetSubject() string {
+	if c == nil {
+		return ""
+	}
+	return c.Subject
+}
+
+func (c *CreateSubmissionMessageParams) GetBody() string {
+	if c == nil {
+		return ""
+	}
+	return c.Body
+}
+
+func (c *CreateSubmissionMessageParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionMessageParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetSubject sets the Subject field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionMessageParams) SetSubject(subject string) {
+	c.Subject = subject
+	c.require(createSubmissionMessageParamsFieldSubject)
+}
+
+// SetBody sets the Body field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionMessageParams) SetBody(body string) {
+	c.Body = body
+	c.require(createSubmissionMessageParamsFieldBody)
+}
+
+func (c *CreateSubmissionMessageParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionMessageParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionMessageParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionMessageParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionMessageParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionMessageParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
+type CreateSubmissionRequestOrder string
+
+const (
+	CreateSubmissionRequestOrderPreserved CreateSubmissionRequestOrder = "preserved"
+	CreateSubmissionRequestOrderRandom    CreateSubmissionRequestOrder = "random"
+)
+
+func NewCreateSubmissionRequestOrderFromString(s string) (CreateSubmissionRequestOrder, error) {
+	switch s {
+	case "preserved":
+		return CreateSubmissionRequestOrderPreserved, nil
+	case "random":
+		return CreateSubmissionRequestOrderRandom, nil
+	}
+	var t CreateSubmissionRequestOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionRequestOrder) Ptr() *CreateSubmissionRequestOrder {
+	return &c
+}
+
+var (
+	createSubmissionResultFieldID         = big.NewInt(1 << 0)
+	createSubmissionResultFieldSubmitters = big.NewInt(1 << 1)
+	createSubmissionResultFieldExpireAt   = big.NewInt(1 << 2)
+	createSubmissionResultFieldCreatedAt  = big.NewInt(1 << 3)
+)
+
+type CreateSubmissionResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// The list of created submitters.
+	Submitters []*SubmitterCreateResult `json:"submitters" url:"submitters"`
+	// The date and time when the submission expires.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionResult) GetID() int {
+	if c == nil {
+		return 0
+	}
+	return c.ID
+}
+
+func (c *CreateSubmissionResult) GetSubmitters() []*SubmitterCreateResult {
+	if c == nil {
+		return nil
+	}
+	return c.Submitters
+}
+
+func (c *CreateSubmissionResult) GetExpireAt() *string {
+	if c == nil {
+		return nil
+	}
+	return c.ExpireAt
+}
+
+func (c *CreateSubmissionResult) GetCreatedAt() string {
+	if c == nil {
+		return ""
+	}
+	return c.CreatedAt
+}
+
+func (c *CreateSubmissionResult) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionResult) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionResult) SetID(id int) {
+	c.ID = id
+	c.require(createSubmissionResultFieldID)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionResult) SetSubmitters(submitters []*SubmitterCreateResult) {
+	c.Submitters = submitters
+	c.require(createSubmissionResultFieldSubmitters)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionResult) SetExpireAt(expireAt *string) {
+	c.ExpireAt = expireAt
+	c.require(createSubmissionResultFieldExpireAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionResult) SetCreatedAt(createdAt string) {
+	c.CreatedAt = createdAt
+	c.require(createSubmissionResultFieldCreatedAt)
+}
+
+func (c *CreateSubmissionResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionResult) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionResult) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	createSubmissionSubmitterFieldParamsFieldName         = big.NewInt(1 << 0)
+	createSubmissionSubmitterFieldParamsFieldDefaultValue = big.NewInt(1 << 1)
+	createSubmissionSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 2)
+	createSubmissionSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 3)
+	createSubmissionSubmitterFieldParamsFieldTitle        = big.NewInt(1 << 4)
+	createSubmissionSubmitterFieldParamsFieldDescription  = big.NewInt(1 << 5)
+	createSubmissionSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 6)
+	createSubmissionSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 7)
+)
+
+type CreateSubmissionSubmitterFieldParams struct {
+	// Document template field name.
+	Name string `json:"name" url:"name"`
+	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+	DefaultValue *CreateSubmissionSubmitterFieldParamsDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	// Set `true` to make it impossible for the submitter to edit predefined field value.
+	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
+	// Set `true` to make the field required.
+	Required *bool `json:"required,omitempty" url:"required,omitempty"`
+	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title string `json:"title,omitempty" url:"title,omitempty"`
+	// Field description displayed on the signing form. Supports Markdown.
+	Description string                                           `json:"description,omitempty" url:"description,omitempty"`
+	Validation  *CreateSubmissionSubmitterFieldValidationParams  `json:"validation,omitempty" url:"validation,omitempty"`
+	Preferences *CreateSubmissionSubmitterFieldPreferencesParams `json:"preferences,omitempty" url:"preferences,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetDefaultValue() *CreateSubmissionSubmitterFieldParamsDefaultValue {
+	if c == nil {
+		return nil
+	}
+	return c.DefaultValue
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetReadonly() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Readonly
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetRequired() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Required
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetTitle() string {
+	if c == nil {
+		return ""
+	}
+	return c.Title
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetDescription() string {
+	if c == nil {
+		return ""
+	}
+	return c.Description
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetValidation() *CreateSubmissionSubmitterFieldValidationParams {
+	if c == nil {
+		return nil
+	}
+	return c.Validation
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetPreferences() *CreateSubmissionSubmitterFieldPreferencesParams {
+	if c == nil {
+		return nil
+	}
+	return c.Preferences
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetName(name string) {
+	c.Name = name
+	c.require(createSubmissionSubmitterFieldParamsFieldName)
+}
+
+// SetDefaultValue sets the DefaultValue field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetDefaultValue(defaultValue *CreateSubmissionSubmitterFieldParamsDefaultValue) {
+	c.DefaultValue = defaultValue
+	c.require(createSubmissionSubmitterFieldParamsFieldDefaultValue)
+}
+
+// SetReadonly sets the Readonly field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetReadonly(readonly *bool) {
+	c.Readonly = readonly
+	c.require(createSubmissionSubmitterFieldParamsFieldReadonly)
+}
+
+// SetRequired sets the Required field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetRequired(required *bool) {
+	c.Required = required
+	c.require(createSubmissionSubmitterFieldParamsFieldRequired)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetTitle(title string) {
+	c.Title = title
+	c.require(createSubmissionSubmitterFieldParamsFieldTitle)
+}
+
+// SetDescription sets the Description field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetDescription(description string) {
+	c.Description = description
+	c.require(createSubmissionSubmitterFieldParamsFieldDescription)
+}
+
+// SetValidation sets the Validation field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetValidation(validation *CreateSubmissionSubmitterFieldValidationParams) {
+	c.Validation = validation
+	c.require(createSubmissionSubmitterFieldParamsFieldValidation)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetPreferences(preferences *CreateSubmissionSubmitterFieldPreferencesParams) {
+	c.Preferences = preferences
+	c.require(createSubmissionSubmitterFieldParamsFieldPreferences)
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionSubmitterFieldParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionSubmitterFieldParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionSubmitterFieldParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+type CreateSubmissionSubmitterFieldParamsDefaultValue struct {
+	String                                                        string
+	Double                                                        float64
+	Boolean                                                       bool
+	CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem
+
+	typ string
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetBoolean() bool {
+	if c == nil {
+		return false
+	}
+	return c.Boolean
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList() []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem {
+	if c == nil {
+		return nil
+	}
+	return c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		c.typ = "Boolean"
+		c.Boolean = valueBoolean
+		return nil
+	}
+	var valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem
+	if err := json.Unmarshal(data, &valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList); err == nil {
+		c.typ = "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList"
+		c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList = valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateSubmissionSubmitterFieldParamsDefaultValue) MarshalJSON() ([]byte, error) {
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return json.Marshal(c.Boolean)
+	}
+	if c.typ == "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList" || c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList != nil {
+		return json.Marshal(c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldParamsDefaultValueVisitor interface {
+	VisitString(string) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+	VisitCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList([]*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) error
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) Accept(visitor CreateSubmissionSubmitterFieldParamsDefaultValueVisitor) error {
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return visitor.VisitBoolean(c.Boolean)
+	}
+	if c.typ == "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList" || c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList != nil {
+		return visitor.VisitCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList(c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem struct {
+	String  string
+	Double  float64
+	Boolean bool
+
+	typ string
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetBoolean() bool {
+	if c == nil {
+		return false
+	}
+	return c.Boolean
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		c.typ = "Boolean"
+		c.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return json.Marshal(c.Boolean)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemVisitor interface {
+	VisitString(string) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+}
+
+func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) Accept(visitor CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemVisitor) error {
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return visitor.VisitBoolean(c.Boolean)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Field display preferences.
+var (
+	createSubmissionSubmitterFieldPreferencesParamsFieldFontSize   = big.NewInt(1 << 0)
+	createSubmissionSubmitterFieldPreferencesParamsFieldFontType   = big.NewInt(1 << 1)
+	createSubmissionSubmitterFieldPreferencesParamsFieldFont       = big.NewInt(1 << 2)
+	createSubmissionSubmitterFieldPreferencesParamsFieldColor      = big.NewInt(1 << 3)
+	createSubmissionSubmitterFieldPreferencesParamsFieldBackground = big.NewInt(1 << 4)
+	createSubmissionSubmitterFieldPreferencesParamsFieldAlign      = big.NewInt(1 << 5)
+	createSubmissionSubmitterFieldPreferencesParamsFieldValign     = big.NewInt(1 << 6)
+	createSubmissionSubmitterFieldPreferencesParamsFieldFormat     = big.NewInt(1 << 7)
+	createSubmissionSubmitterFieldPreferencesParamsFieldPrice      = big.NewInt(1 << 8)
+	createSubmissionSubmitterFieldPreferencesParamsFieldCurrency   = big.NewInt(1 << 9)
+	createSubmissionSubmitterFieldPreferencesParamsFieldMask       = big.NewInt(1 << 10)
+	createSubmissionSubmitterFieldPreferencesParamsFieldReasons    = big.NewInt(1 << 11)
+)
+
+type CreateSubmissionSubmitterFieldPreferencesParams struct {
+	// Font size of the field value in pixels.
+	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
+	// Font type of the field value.
+	FontType *CreateSubmissionSubmitterFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	// Font family of the field value.
+	Font *CreateSubmissionSubmitterFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	// Font color of the field value.
+	Color *CreateSubmissionSubmitterFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	// Field box background color.
+	Background *CreateSubmissionSubmitterFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	// Horizontal alignment of the field text value.
+	Align *CreateSubmissionSubmitterFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	// Vertical alignment of the field text value.
+	Valign *CreateSubmissionSubmitterFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
+	Format string `json:"format,omitempty" url:"format,omitempty"`
+	// Price value of the payment field. Only for payment fields.
+	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
+	// Currency value of the payment field. Only for payment fields.
+	Currency *CreateSubmissionSubmitterFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	// Set `true` to make sensitive data masked on the document.
+	Mask *CreateSubmissionSubmitterFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
+	// An array of signature reasons to choose from.
+	Reasons []string `json:"reasons,omitempty" url:"reasons,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFontSize() *int {
+	if c == nil {
+		return nil
+	}
+	return c.FontSize
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFontType() *CreateSubmissionSubmitterFieldPreferencesParamsFontType {
+	if c == nil {
+		return nil
+	}
+	return c.FontType
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFont() *CreateSubmissionSubmitterFieldPreferencesParamsFont {
+	if c == nil {
+		return nil
+	}
+	return c.Font
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetColor() *CreateSubmissionSubmitterFieldPreferencesParamsColor {
+	if c == nil {
+		return nil
+	}
+	return c.Color
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetBackground() *CreateSubmissionSubmitterFieldPreferencesParamsBackground {
+	if c == nil {
+		return nil
+	}
+	return c.Background
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetAlign() *CreateSubmissionSubmitterFieldPreferencesParamsAlign {
+	if c == nil {
+		return nil
+	}
+	return c.Align
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetValign() *CreateSubmissionSubmitterFieldPreferencesParamsValign {
+	if c == nil {
+		return nil
+	}
+	return c.Valign
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFormat() string {
+	if c == nil {
+		return ""
+	}
+	return c.Format
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetPrice() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Price
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetCurrency() *CreateSubmissionSubmitterFieldPreferencesParamsCurrency {
+	if c == nil {
+		return nil
+	}
+	return c.Currency
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetMask() *CreateSubmissionSubmitterFieldPreferencesParamsMask {
+	if c == nil {
+		return nil
+	}
+	return c.Mask
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetReasons() []string {
+	if c == nil {
+		return nil
+	}
+	return c.Reasons
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetFontSize sets the FontSize field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFontSize(fontSize *int) {
+	c.FontSize = fontSize
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFontSize)
+}
+
+// SetFontType sets the FontType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFontType(fontType *CreateSubmissionSubmitterFieldPreferencesParamsFontType) {
+	c.FontType = fontType
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFontType)
+}
+
+// SetFont sets the Font field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFont(font *CreateSubmissionSubmitterFieldPreferencesParamsFont) {
+	c.Font = font
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFont)
+}
+
+// SetColor sets the Color field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetColor(color *CreateSubmissionSubmitterFieldPreferencesParamsColor) {
+	c.Color = color
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldColor)
+}
+
+// SetBackground sets the Background field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetBackground(background *CreateSubmissionSubmitterFieldPreferencesParamsBackground) {
+	c.Background = background
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldBackground)
+}
+
+// SetAlign sets the Align field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetAlign(align *CreateSubmissionSubmitterFieldPreferencesParamsAlign) {
+	c.Align = align
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldAlign)
+}
+
+// SetValign sets the Valign field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetValign(valign *CreateSubmissionSubmitterFieldPreferencesParamsValign) {
+	c.Valign = valign
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldValign)
+}
+
+// SetFormat sets the Format field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFormat(format string) {
+	c.Format = format
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFormat)
+}
+
+// SetPrice sets the Price field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetPrice(price *float64) {
+	c.Price = price
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldPrice)
+}
+
+// SetCurrency sets the Currency field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetCurrency(currency *CreateSubmissionSubmitterFieldPreferencesParamsCurrency) {
+	c.Currency = currency
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldCurrency)
+}
+
+// SetMask sets the Mask field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetMask(mask *CreateSubmissionSubmitterFieldPreferencesParamsMask) {
+	c.Mask = mask
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldMask)
+}
+
+// SetReasons sets the Reasons field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetReasons(reasons []string) {
+	c.Reasons = reasons
+	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldReasons)
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionSubmitterFieldPreferencesParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionSubmitterFieldPreferencesParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionSubmitterFieldPreferencesParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Horizontal alignment of the field text value.
+type CreateSubmissionSubmitterFieldPreferencesParamsAlign string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsAlignLeft   CreateSubmissionSubmitterFieldPreferencesParamsAlign = "left"
+	CreateSubmissionSubmitterFieldPreferencesParamsAlignCenter CreateSubmissionSubmitterFieldPreferencesParamsAlign = "center"
+	CreateSubmissionSubmitterFieldPreferencesParamsAlignRight  CreateSubmissionSubmitterFieldPreferencesParamsAlign = "right"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsAlignFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsAlign, error) {
+	switch s {
+	case "left":
+		return CreateSubmissionSubmitterFieldPreferencesParamsAlignLeft, nil
+	case "center":
+		return CreateSubmissionSubmitterFieldPreferencesParamsAlignCenter, nil
+	case "right":
+		return CreateSubmissionSubmitterFieldPreferencesParamsAlignRight, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsAlign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsAlign) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsAlign {
+	return &c
+}
+
+// Field box background color.
+type CreateSubmissionSubmitterFieldPreferencesParamsBackground string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlack CreateSubmissionSubmitterFieldPreferencesParamsBackground = "black"
+	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundWhite CreateSubmissionSubmitterFieldPreferencesParamsBackground = "white"
+	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlue  CreateSubmissionSubmitterFieldPreferencesParamsBackground = "blue"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsBackgroundFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsBackground, error) {
+	switch s {
+	case "black":
+		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlack, nil
+	case "white":
+		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundWhite, nil
+	case "blue":
+		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlue, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsBackground
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsBackground) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsBackground {
+	return &c
+}
+
+// Font color of the field value.
+type CreateSubmissionSubmitterFieldPreferencesParamsColor string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsColorBlack CreateSubmissionSubmitterFieldPreferencesParamsColor = "black"
+	CreateSubmissionSubmitterFieldPreferencesParamsColorWhite CreateSubmissionSubmitterFieldPreferencesParamsColor = "white"
+	CreateSubmissionSubmitterFieldPreferencesParamsColorBlue  CreateSubmissionSubmitterFieldPreferencesParamsColor = "blue"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsColorFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsColor, error) {
+	switch s {
+	case "black":
+		return CreateSubmissionSubmitterFieldPreferencesParamsColorBlack, nil
+	case "white":
+		return CreateSubmissionSubmitterFieldPreferencesParamsColorWhite, nil
+	case "blue":
+		return CreateSubmissionSubmitterFieldPreferencesParamsColorBlue, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsColor
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsColor) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsColor {
+	return &c
+}
+
+// Currency value of the payment field. Only for payment fields.
+type CreateSubmissionSubmitterFieldPreferencesParamsCurrency string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyUsd CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "USD"
+	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyEur CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "EUR"
+	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyGbp CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "GBP"
+	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyCad CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "CAD"
+	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyAud CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "AUD"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsCurrencyFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsCurrency, error) {
+	switch s {
+	case "USD":
+		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyUsd, nil
+	case "EUR":
+		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyEur, nil
+	case "GBP":
+		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyGbp, nil
+	case "CAD":
+		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyCad, nil
+	case "AUD":
+		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyAud, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsCurrency
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsCurrency) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsCurrency {
+	return &c
+}
+
+// Font family of the field value.
+type CreateSubmissionSubmitterFieldPreferencesParamsFont string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsFontTimes     CreateSubmissionSubmitterFieldPreferencesParamsFont = "Times"
+	CreateSubmissionSubmitterFieldPreferencesParamsFontHelvetica CreateSubmissionSubmitterFieldPreferencesParamsFont = "Helvetica"
+	CreateSubmissionSubmitterFieldPreferencesParamsFontCourier   CreateSubmissionSubmitterFieldPreferencesParamsFont = "Courier"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsFontFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsFont, error) {
+	switch s {
+	case "Times":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontTimes, nil
+	case "Helvetica":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontHelvetica, nil
+	case "Courier":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontCourier, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsFont
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsFont) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsFont {
+	return &c
+}
+
+// Font type of the field value.
+type CreateSubmissionSubmitterFieldPreferencesParamsFontType string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBold       CreateSubmissionSubmitterFieldPreferencesParamsFontType = "bold"
+	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeItalic     CreateSubmissionSubmitterFieldPreferencesParamsFontType = "italic"
+	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBoldItalic CreateSubmissionSubmitterFieldPreferencesParamsFontType = "bold_italic"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsFontTypeFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsFontType, error) {
+	switch s {
+	case "bold":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBold, nil
+	case "italic":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeItalic, nil
+	case "bold_italic":
+		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBoldItalic, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsFontType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsFontType) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsFontType {
+	return &c
+}
+
+// Set `true` to make sensitive data masked on the document.
+type CreateSubmissionSubmitterFieldPreferencesParamsMask struct {
+	Integer int
+	Boolean bool
+
+	typ string
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParamsMask) GetInteger() int {
+	if c == nil {
+		return 0
+	}
+	return c.Integer
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParamsMask) GetBoolean() bool {
+	if c == nil {
+		return false
+	}
+	return c.Boolean
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParamsMask) UnmarshalJSON(data []byte) error {
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		c.typ = "Integer"
+		c.Integer = valueInteger
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		c.typ = "Boolean"
+		c.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsMask) MarshalJSON() ([]byte, error) {
+	if c.typ == "Integer" || c.Integer != 0 {
+		return json.Marshal(c.Integer)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return json.Marshal(c.Boolean)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldPreferencesParamsMaskVisitor interface {
+	VisitInteger(int) error
+	VisitBoolean(bool) error
+}
+
+func (c *CreateSubmissionSubmitterFieldPreferencesParamsMask) Accept(visitor CreateSubmissionSubmitterFieldPreferencesParamsMaskVisitor) error {
+	if c.typ == "Integer" || c.Integer != 0 {
+		return visitor.VisitInteger(c.Integer)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return visitor.VisitBoolean(c.Boolean)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Vertical alignment of the field text value.
+type CreateSubmissionSubmitterFieldPreferencesParamsValign string
+
+const (
+	CreateSubmissionSubmitterFieldPreferencesParamsValignTop    CreateSubmissionSubmitterFieldPreferencesParamsValign = "top"
+	CreateSubmissionSubmitterFieldPreferencesParamsValignCenter CreateSubmissionSubmitterFieldPreferencesParamsValign = "center"
+	CreateSubmissionSubmitterFieldPreferencesParamsValignBottom CreateSubmissionSubmitterFieldPreferencesParamsValign = "bottom"
+)
+
+func NewCreateSubmissionSubmitterFieldPreferencesParamsValignFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsValign, error) {
+	switch s {
+	case "top":
+		return CreateSubmissionSubmitterFieldPreferencesParamsValignTop, nil
+	case "center":
+		return CreateSubmissionSubmitterFieldPreferencesParamsValignCenter, nil
+	case "bottom":
+		return CreateSubmissionSubmitterFieldPreferencesParamsValignBottom, nil
+	}
+	var t CreateSubmissionSubmitterFieldPreferencesParamsValign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateSubmissionSubmitterFieldPreferencesParamsValign) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsValign {
+	return &c
+}
+
+// Field validation rules.
+var (
+	createSubmissionSubmitterFieldValidationParamsFieldPattern = big.NewInt(1 << 0)
+	createSubmissionSubmitterFieldValidationParamsFieldMessage = big.NewInt(1 << 1)
+	createSubmissionSubmitterFieldValidationParamsFieldMin     = big.NewInt(1 << 2)
+	createSubmissionSubmitterFieldValidationParamsFieldMax     = big.NewInt(1 << 3)
+	createSubmissionSubmitterFieldValidationParamsFieldStep    = big.NewInt(1 << 4)
+)
+
+type CreateSubmissionSubmitterFieldValidationParams struct {
+	// HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
+	Pattern string `json:"pattern,omitempty" url:"pattern,omitempty"`
+	// A custom error message to display on validation failure.
+	Message string `json:"message,omitempty" url:"message,omitempty"`
+	// Minimum allowed number value or date depending on field type.
+	Min *CreateSubmissionSubmitterFieldValidationParamsMin `json:"min,omitempty" url:"min,omitempty"`
+	// Maximum allowed number value or date depending on field type.
+	Max *CreateSubmissionSubmitterFieldValidationParamsMax `json:"max,omitempty" url:"max,omitempty"`
+	// Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
+	Step *float64 `json:"step,omitempty" url:"step,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetPattern() string {
+	if c == nil {
+		return ""
+	}
+	return c.Pattern
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetMessage() string {
+	if c == nil {
+		return ""
+	}
+	return c.Message
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetMin() *CreateSubmissionSubmitterFieldValidationParamsMin {
+	if c == nil {
+		return nil
+	}
+	return c.Min
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetMax() *CreateSubmissionSubmitterFieldValidationParamsMax {
+	if c == nil {
+		return nil
+	}
+	return c.Max
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetStep() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Step
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetPattern sets the Pattern field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldValidationParams) SetPattern(pattern string) {
+	c.Pattern = pattern
+	c.require(createSubmissionSubmitterFieldValidationParamsFieldPattern)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldValidationParams) SetMessage(message string) {
+	c.Message = message
+	c.require(createSubmissionSubmitterFieldValidationParamsFieldMessage)
+}
+
+// SetMin sets the Min field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldValidationParams) SetMin(min *CreateSubmissionSubmitterFieldValidationParamsMin) {
+	c.Min = min
+	c.require(createSubmissionSubmitterFieldValidationParamsFieldMin)
+}
+
+// SetMax sets the Max field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldValidationParams) SetMax(max *CreateSubmissionSubmitterFieldValidationParamsMax) {
+	c.Max = max
+	c.require(createSubmissionSubmitterFieldValidationParamsFieldMax)
+}
+
+// SetStep sets the Step field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldValidationParams) SetStep(step *float64) {
+	c.Step = step
+	c.require(createSubmissionSubmitterFieldValidationParamsFieldStep)
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionSubmitterFieldValidationParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionSubmitterFieldValidationParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionSubmitterFieldValidationParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Maximum allowed number value or date depending on field type.
+type CreateSubmissionSubmitterFieldValidationParamsMax struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMax) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMax) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMax) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateSubmissionSubmitterFieldValidationParamsMax) MarshalJSON() ([]byte, error) {
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldValidationParamsMaxVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMax) Accept(visitor CreateSubmissionSubmitterFieldValidationParamsMaxVisitor) error {
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Minimum allowed number value or date depending on field type.
+type CreateSubmissionSubmitterFieldValidationParamsMin struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMin) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMin) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMin) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateSubmissionSubmitterFieldValidationParamsMin) MarshalJSON() ([]byte, error) {
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateSubmissionSubmitterFieldValidationParamsMinVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (c *CreateSubmissionSubmitterFieldValidationParamsMin) Accept(visitor CreateSubmissionSubmitterFieldValidationParamsMinVisitor) error {
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Custom signature request email message for the submitter.
+var (
+	createSubmissionSubmitterMessageParamsFieldSubject = big.NewInt(1 << 0)
+	createSubmissionSubmitterMessageParamsFieldBody    = big.NewInt(1 << 1)
+)
+
+type CreateSubmissionSubmitterMessageParams struct {
+	// Custom signature request email subject for the submitter.
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
+	// Custom signature request email body for the submitter. Can include variables such as {{template.name}}, {{submission.name}}, {{submitter.link}}, {{account.name}}.
+	Body string `json:"body,omitempty" url:"body,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) GetSubject() string {
+	if c == nil {
+		return ""
+	}
+	return c.Subject
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) GetBody() string {
+	if c == nil {
+		return ""
+	}
+	return c.Body
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetSubject sets the Subject field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterMessageParams) SetSubject(subject string) {
+	c.Subject = subject
+	c.require(createSubmissionSubmitterMessageParamsFieldSubject)
+}
+
+// SetBody sets the Body field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterMessageParams) SetBody(body string) {
+	c.Body = body
+	c.require(createSubmissionSubmitterMessageParamsFieldBody)
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionSubmitterMessageParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateSubmissionSubmitterMessageParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionSubmitterMessageParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateSubmissionSubmitterMessageParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	createSubmissionSubmitterParamsFieldName                 = big.NewInt(1 << 0)
+	createSubmissionSubmitterParamsFieldRole                 = big.NewInt(1 << 1)
+	createSubmissionSubmitterParamsFieldEmail                = big.NewInt(1 << 2)
+	createSubmissionSubmitterParamsFieldPhone                = big.NewInt(1 << 3)
+	createSubmissionSubmitterParamsFieldValues               = big.NewInt(1 << 4)
+	createSubmissionSubmitterParamsFieldExternalID           = big.NewInt(1 << 5)
+	createSubmissionSubmitterParamsFieldCompleted            = big.NewInt(1 << 6)
+	createSubmissionSubmitterParamsFieldMetadata             = big.NewInt(1 << 7)
+	createSubmissionSubmitterParamsFieldSendEmail            = big.NewInt(1 << 8)
+	createSubmissionSubmitterParamsFieldSendSms              = big.NewInt(1 << 9)
+	createSubmissionSubmitterParamsFieldReplyTo              = big.NewInt(1 << 10)
+	createSubmissionSubmitterParamsFieldCompletedRedirectURL = big.NewInt(1 << 11)
+	createSubmissionSubmitterParamsFieldOrder                = big.NewInt(1 << 12)
+	createSubmissionSubmitterParamsFieldRequirePhone2Fa      = big.NewInt(1 << 13)
+	createSubmissionSubmitterParamsFieldRequireEmail2Fa      = big.NewInt(1 << 14)
+	createSubmissionSubmitterParamsFieldInviteBy             = big.NewInt(1 << 15)
+	createSubmissionSubmitterParamsFieldMessage              = big.NewInt(1 << 16)
+	createSubmissionSubmitterParamsFieldFields               = big.NewInt(1 << 17)
+	createSubmissionSubmitterParamsFieldRoles                = big.NewInt(1 << 18)
+)
+
+type CreateSubmissionSubmitterParams struct {
 	// The name of the submitter.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// The role name or title of the submitter.
@@ -3280,9 +4128,10 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	// Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
 	RequireEmail2Fa *bool `json:"require_email_2fa,omitempty" url:"require_email_2fa,omitempty"`
 	// Set the role name of the previous party that should invite this party via email.
-	InviteBy string `json:"invite_by,omitempty" url:"invite_by,omitempty"`
-	// A list of configurations for document form fields.
-	Fields []*CreateSubmissionFromPdfRequestSubmitterField `json:"fields,omitempty" url:"fields,omitempty"`
+	InviteBy string                                  `json:"invite_by,omitempty" url:"invite_by,omitempty"`
+	Message  *CreateSubmissionSubmitterMessageParams `json:"message,omitempty" url:"message,omitempty"`
+	// A list of configurations for template document form fields.
+	Fields []*CreateSubmissionSubmitterFieldParams `json:"fields,omitempty" url:"fields,omitempty"`
 	// A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
 	Roles []string `json:"roles,omitempty" url:"roles,omitempty"`
 
@@ -3293,1773 +4142,147 @@ type CreateSubmissionFromPdfRequestSubmitter struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetName() string {
+func (c *CreateSubmissionSubmitterParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetRole() string {
+func (c *CreateSubmissionSubmitterParams) GetRole() string {
 	if c == nil {
 		return ""
 	}
 	return c.Role
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetEmail() string {
+func (c *CreateSubmissionSubmitterParams) GetEmail() string {
 	if c == nil {
 		return ""
 	}
 	return c.Email
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetPhone() string {
+func (c *CreateSubmissionSubmitterParams) GetPhone() string {
 	if c == nil {
 		return ""
 	}
 	return c.Phone
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetValues() map[string]any {
+func (c *CreateSubmissionSubmitterParams) GetValues() map[string]any {
 	if c == nil {
 		return nil
 	}
 	return c.Values
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetExternalID() string {
+func (c *CreateSubmissionSubmitterParams) GetExternalID() string {
 	if c == nil {
 		return ""
 	}
 	return c.ExternalID
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetCompleted() *bool {
+func (c *CreateSubmissionSubmitterParams) GetCompleted() *bool {
 	if c == nil {
 		return nil
 	}
 	return c.Completed
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetMetadata() map[string]any {
+func (c *CreateSubmissionSubmitterParams) GetMetadata() map[string]any {
 	if c == nil {
 		return nil
 	}
 	return c.Metadata
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetSendEmail() *bool {
+func (c *CreateSubmissionSubmitterParams) GetSendEmail() *bool {
 	if c == nil {
 		return nil
 	}
 	return c.SendEmail
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetSendSms() *bool {
+func (c *CreateSubmissionSubmitterParams) GetSendSms() *bool {
 	if c == nil {
 		return nil
 	}
 	return c.SendSms
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetReplyTo() string {
+func (c *CreateSubmissionSubmitterParams) GetReplyTo() string {
 	if c == nil {
 		return ""
 	}
 	return c.ReplyTo
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetCompletedRedirectURL() string {
+func (c *CreateSubmissionSubmitterParams) GetCompletedRedirectURL() string {
 	if c == nil {
 		return ""
 	}
 	return c.CompletedRedirectURL
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetOrder() *int {
+func (c *CreateSubmissionSubmitterParams) GetOrder() *int {
 	if c == nil {
 		return nil
 	}
 	return c.Order
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetRequirePhone2Fa() *bool {
+func (c *CreateSubmissionSubmitterParams) GetRequirePhone2Fa() *bool {
 	if c == nil {
 		return nil
 	}
 	return c.RequirePhone2Fa
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetRequireEmail2Fa() *bool {
+func (c *CreateSubmissionSubmitterParams) GetRequireEmail2Fa() *bool {
 	if c == nil {
 		return nil
 	}
 	return c.RequireEmail2Fa
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetInviteBy() string {
+func (c *CreateSubmissionSubmitterParams) GetInviteBy() string {
 	if c == nil {
 		return ""
 	}
 	return c.InviteBy
 }
 
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetFields() []*CreateSubmissionFromPdfRequestSubmitterField {
-	if c == nil {
-		return nil
-	}
-	return c.Fields
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetRoles() []string {
-	if c == nil {
-		return nil
-	}
-	return c.Roles
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfRequestSubmitterFieldName)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetRole(role string) {
-	c.Role = role
-	c.require(createSubmissionFromPdfRequestSubmitterFieldRole)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetEmail(email string) {
-	c.Email = email
-	c.require(createSubmissionFromPdfRequestSubmitterFieldEmail)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetPhone(phone string) {
-	c.Phone = phone
-	c.require(createSubmissionFromPdfRequestSubmitterFieldPhone)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetValues(values map[string]any) {
-	c.Values = values
-	c.require(createSubmissionFromPdfRequestSubmitterFieldValues)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetExternalID(externalID string) {
-	c.ExternalID = externalID
-	c.require(createSubmissionFromPdfRequestSubmitterFieldExternalID)
-}
-
-// SetCompleted sets the Completed field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetCompleted(completed *bool) {
-	c.Completed = completed
-	c.require(createSubmissionFromPdfRequestSubmitterFieldCompleted)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetMetadata(metadata map[string]any) {
-	c.Metadata = metadata
-	c.require(createSubmissionFromPdfRequestSubmitterFieldMetadata)
-}
-
-// SetSendEmail sets the SendEmail field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetSendEmail(sendEmail *bool) {
-	c.SendEmail = sendEmail
-	c.require(createSubmissionFromPdfRequestSubmitterFieldSendEmail)
-}
-
-// SetSendSms sets the SendSms field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetSendSms(sendSms *bool) {
-	c.SendSms = sendSms
-	c.require(createSubmissionFromPdfRequestSubmitterFieldSendSms)
-}
-
-// SetReplyTo sets the ReplyTo field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetReplyTo(replyTo string) {
-	c.ReplyTo = replyTo
-	c.require(createSubmissionFromPdfRequestSubmitterFieldReplyTo)
-}
-
-// SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL string) {
-	c.CompletedRedirectURL = completedRedirectURL
-	c.require(createSubmissionFromPdfRequestSubmitterFieldCompletedRedirectURL)
-}
-
-// SetOrder sets the Order field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetOrder(order *int) {
-	c.Order = order
-	c.require(createSubmissionFromPdfRequestSubmitterFieldOrder)
-}
-
-// SetRequirePhone2Fa sets the RequirePhone2Fa field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetRequirePhone2Fa(requirePhone2Fa *bool) {
-	c.RequirePhone2Fa = requirePhone2Fa
-	c.require(createSubmissionFromPdfRequestSubmitterFieldRequirePhone2Fa)
-}
-
-// SetRequireEmail2Fa sets the RequireEmail2Fa field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetRequireEmail2Fa(requireEmail2Fa *bool) {
-	c.RequireEmail2Fa = requireEmail2Fa
-	c.require(createSubmissionFromPdfRequestSubmitterFieldRequireEmail2Fa)
-}
-
-// SetInviteBy sets the InviteBy field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetInviteBy(inviteBy string) {
-	c.InviteBy = inviteBy
-	c.require(createSubmissionFromPdfRequestSubmitterFieldInviteBy)
-}
-
-// SetFields sets the Fields field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetFields(fields []*CreateSubmissionFromPdfRequestSubmitterField) {
-	c.Fields = fields
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFields)
-}
-
-// SetRoles sets the Roles field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitter) SetRoles(roles []string) {
-	c.Roles = roles
-	c.require(createSubmissionFromPdfRequestSubmitterFieldRoles)
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfRequestSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitter) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createSubmissionFromPdfRequestSubmitterFieldFieldName         = big.NewInt(1 << 0)
-	createSubmissionFromPdfRequestSubmitterFieldFieldDefaultValue = big.NewInt(1 << 1)
-	createSubmissionFromPdfRequestSubmitterFieldFieldReadonly     = big.NewInt(1 << 2)
-	createSubmissionFromPdfRequestSubmitterFieldFieldRequired     = big.NewInt(1 << 3)
-	createSubmissionFromPdfRequestSubmitterFieldFieldTitle        = big.NewInt(1 << 4)
-	createSubmissionFromPdfRequestSubmitterFieldFieldDescription  = big.NewInt(1 << 5)
-	createSubmissionFromPdfRequestSubmitterFieldFieldValidation   = big.NewInt(1 << 6)
-	createSubmissionFromPdfRequestSubmitterFieldFieldPreferences  = big.NewInt(1 << 7)
-)
-
-type CreateSubmissionFromPdfRequestSubmitterField struct {
-	// Document field name.
-	Name string `json:"name" url:"name"`
-	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-	DefaultValue *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
-	// Set `true` to make it impossible for the submitter to edit predefined field value.
-	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
-	// Set `true` to make the field required.
-	Required *bool `json:"required,omitempty" url:"required,omitempty"`
-	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title string `json:"title,omitempty" url:"title,omitempty"`
-	// Field description displayed on the signing form. Supports Markdown.
-	Description string            `json:"description,omitempty" url:"description,omitempty"`
-	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
-	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetDefaultValue() *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue {
-	if c == nil {
-		return nil
-	}
-	return c.DefaultValue
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetReadonly() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Readonly
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetRequired() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Required
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetTitle() string {
-	if c == nil {
-		return ""
-	}
-	return c.Title
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetDescription() string {
-	if c == nil {
-		return ""
-	}
-	return c.Description
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetValidation() *FieldValidation {
-	if c == nil {
-		return nil
-	}
-	return c.Validation
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetPreferences() *FieldPreferences {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldName)
-}
-
-// SetDefaultValue sets the DefaultValue field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetDefaultValue(defaultValue *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) {
-	c.DefaultValue = defaultValue
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldDefaultValue)
-}
-
-// SetReadonly sets the Readonly field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetReadonly(readonly *bool) {
-	c.Readonly = readonly
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldReadonly)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetRequired(required *bool) {
-	c.Required = required
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldRequired)
-}
-
-// SetTitle sets the Title field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetTitle(title string) {
-	c.Title = title
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldTitle)
-}
-
-// SetDescription sets the Description field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetDescription(description string) {
-	c.Description = description
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldDescription)
-}
-
-// SetValidation sets the Validation field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetValidation(validation *FieldValidation) {
-	c.Validation = validation
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldValidation)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfRequestSubmitterField) SetPreferences(preferences *FieldPreferences) {
-	c.Preferences = preferences
-	c.require(createSubmissionFromPdfRequestSubmitterFieldFieldPreferences)
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfRequestSubmitterField
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfRequestSubmitterField(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfRequestSubmitterField
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterField) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue struct {
-	String                                                                string
-	Double                                                                float64
-	Boolean                                                               bool
-	CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList []*CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem
-
-	typ string
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) GetCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList() []*CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem {
-	if c == nil {
-		return nil
-	}
-	return c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	var valueCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList []*CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem
-	if err := json.Unmarshal(data, &valueCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList); err == nil {
-		c.typ = "CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList"
-		c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList = valueCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList" || c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList != nil {
-		return json.Marshal(c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-	VisitCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList([]*CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) error
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValue) Accept(visitor CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList" || c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList != nil {
-		return visitor.VisitCreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList(c.CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem struct {
-	String  string
-	Double  float64
-	Boolean bool
-
-	typ string
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-}
-
-func (c *CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItem) Accept(visitor CreateSubmissionFromPdfRequestSubmitterFieldDefaultValueThreeItemVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-var (
-	createSubmissionFromPdfResponseFieldID              = big.NewInt(1 << 0)
-	createSubmissionFromPdfResponseFieldName            = big.NewInt(1 << 1)
-	createSubmissionFromPdfResponseFieldSubmitters      = big.NewInt(1 << 2)
-	createSubmissionFromPdfResponseFieldSource          = big.NewInt(1 << 3)
-	createSubmissionFromPdfResponseFieldSubmittersOrder = big.NewInt(1 << 4)
-	createSubmissionFromPdfResponseFieldStatus          = big.NewInt(1 << 5)
-	createSubmissionFromPdfResponseFieldSchema          = big.NewInt(1 << 6)
-	createSubmissionFromPdfResponseFieldFields          = big.NewInt(1 << 7)
-	createSubmissionFromPdfResponseFieldExpireAt        = big.NewInt(1 << 8)
-	createSubmissionFromPdfResponseFieldCreatedAt       = big.NewInt(1 << 9)
-)
-
-type CreateSubmissionFromPdfResponse struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission name.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// The list of submitters.
-	Submitters []*CreateSubmissionFromPdfResponseSubmitter `json:"submitters" url:"submitters"`
-	// The source of the submission.
-	Source CreateSubmissionFromPdfResponseSource `json:"source" url:"source"`
-	// The order of submitters.
-	SubmittersOrder CreateSubmissionFromPdfResponseSubmittersOrder `json:"submitters_order" url:"submitters_order"`
-	// The status of the submission.
-	Status CreateSubmissionFromPdfResponseStatus `json:"status" url:"status"`
-	// The one-off submission document files.
-	Schema []*CreateSubmissionFromPdfResponseSchemaDocument `json:"schema,omitempty" url:"schema,omitempty"`
-	// List of fields to be filled in the one-off submission.
-	Fields []*TemplateField `json:"fields,omitempty" url:"fields,omitempty"`
-	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt string `json:"expire_at" url:"expire_at"`
-	// The date and time when the submission was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetID() int {
-	if c == nil {
-		return 0
-	}
-	return c.ID
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetSubmitters() []*CreateSubmissionFromPdfResponseSubmitter {
-	if c == nil {
-		return nil
-	}
-	return c.Submitters
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetSource() CreateSubmissionFromPdfResponseSource {
-	if c == nil {
-		return ""
-	}
-	return c.Source
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetSubmittersOrder() CreateSubmissionFromPdfResponseSubmittersOrder {
-	if c == nil {
-		return ""
-	}
-	return c.SubmittersOrder
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetStatus() CreateSubmissionFromPdfResponseStatus {
-	if c == nil {
-		return ""
-	}
-	return c.Status
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetSchema() []*CreateSubmissionFromPdfResponseSchemaDocument {
-	if c == nil {
-		return nil
-	}
-	return c.Schema
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetFields() []*TemplateField {
-	if c == nil {
-		return nil
-	}
-	return c.Fields
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetExpireAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.ExpireAt
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetCreatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.CreatedAt
-}
-
-func (c *CreateSubmissionFromPdfResponse) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfResponse) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetID(id int) {
-	c.ID = id
-	c.require(createSubmissionFromPdfResponseFieldID)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfResponseFieldName)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetSubmitters(submitters []*CreateSubmissionFromPdfResponseSubmitter) {
-	c.Submitters = submitters
-	c.require(createSubmissionFromPdfResponseFieldSubmitters)
-}
-
-// SetSource sets the Source field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetSource(source CreateSubmissionFromPdfResponseSource) {
-	c.Source = source
-	c.require(createSubmissionFromPdfResponseFieldSource)
-}
-
-// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetSubmittersOrder(submittersOrder CreateSubmissionFromPdfResponseSubmittersOrder) {
-	c.SubmittersOrder = submittersOrder
-	c.require(createSubmissionFromPdfResponseFieldSubmittersOrder)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetStatus(status CreateSubmissionFromPdfResponseStatus) {
-	c.Status = status
-	c.require(createSubmissionFromPdfResponseFieldStatus)
-}
-
-// SetSchema sets the Schema field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetSchema(schema []*CreateSubmissionFromPdfResponseSchemaDocument) {
-	c.Schema = schema
-	c.require(createSubmissionFromPdfResponseFieldSchema)
-}
-
-// SetFields sets the Fields field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetFields(fields []*TemplateField) {
-	c.Fields = fields
-	c.require(createSubmissionFromPdfResponseFieldFields)
-}
-
-// SetExpireAt sets the ExpireAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetExpireAt(expireAt string) {
-	c.ExpireAt = expireAt
-	c.require(createSubmissionFromPdfResponseFieldExpireAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponse) SetCreatedAt(createdAt string) {
-	c.CreatedAt = createdAt
-	c.require(createSubmissionFromPdfResponseFieldCreatedAt)
-}
-
-func (c *CreateSubmissionFromPdfResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfResponse) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfResponse) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createSubmissionFromPdfResponseSchemaDocumentFieldAttachmentUUID = big.NewInt(1 << 0)
-	createSubmissionFromPdfResponseSchemaDocumentFieldName           = big.NewInt(1 << 1)
-)
-
-type CreateSubmissionFromPdfResponseSchemaDocument struct {
-	// The attachment UUID.
-	AttachmentUUID string `json:"attachment_uuid,omitempty" url:"attachment_uuid,omitempty"`
-	// The attachment name.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetAttachmentUUID() string {
-	if c == nil {
-		return ""
-	}
-	return c.AttachmentUUID
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetAttachmentUUID(attachmentUUID string) {
-	c.AttachmentUUID = attachmentUUID
-	c.require(createSubmissionFromPdfResponseSchemaDocumentFieldAttachmentUUID)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfResponseSchemaDocumentFieldName)
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfResponseSchemaDocument
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfResponseSchemaDocument(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfResponseSchemaDocument
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfResponseSchemaDocument) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// The source of the submission.
-type CreateSubmissionFromPdfResponseSource string
-
-const (
-	CreateSubmissionFromPdfResponseSourceInvite CreateSubmissionFromPdfResponseSource = "invite"
-	CreateSubmissionFromPdfResponseSourceBulk   CreateSubmissionFromPdfResponseSource = "bulk"
-	CreateSubmissionFromPdfResponseSourceAPI    CreateSubmissionFromPdfResponseSource = "api"
-	CreateSubmissionFromPdfResponseSourceEmbed  CreateSubmissionFromPdfResponseSource = "embed"
-	CreateSubmissionFromPdfResponseSourceLink   CreateSubmissionFromPdfResponseSource = "link"
-)
-
-func NewCreateSubmissionFromPdfResponseSourceFromString(s string) (CreateSubmissionFromPdfResponseSource, error) {
-	switch s {
-	case "invite":
-		return CreateSubmissionFromPdfResponseSourceInvite, nil
-	case "bulk":
-		return CreateSubmissionFromPdfResponseSourceBulk, nil
-	case "api":
-		return CreateSubmissionFromPdfResponseSourceAPI, nil
-	case "embed":
-		return CreateSubmissionFromPdfResponseSourceEmbed, nil
-	case "link":
-		return CreateSubmissionFromPdfResponseSourceLink, nil
-	}
-	var t CreateSubmissionFromPdfResponseSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfResponseSource) Ptr() *CreateSubmissionFromPdfResponseSource {
-	return &c
-}
-
-// The status of the submission.
-type CreateSubmissionFromPdfResponseStatus string
-
-const (
-	CreateSubmissionFromPdfResponseStatusCompleted CreateSubmissionFromPdfResponseStatus = "completed"
-	CreateSubmissionFromPdfResponseStatusDeclined  CreateSubmissionFromPdfResponseStatus = "declined"
-	CreateSubmissionFromPdfResponseStatusExpired   CreateSubmissionFromPdfResponseStatus = "expired"
-	CreateSubmissionFromPdfResponseStatusPending   CreateSubmissionFromPdfResponseStatus = "pending"
-)
-
-func NewCreateSubmissionFromPdfResponseStatusFromString(s string) (CreateSubmissionFromPdfResponseStatus, error) {
-	switch s {
-	case "completed":
-		return CreateSubmissionFromPdfResponseStatusCompleted, nil
-	case "declined":
-		return CreateSubmissionFromPdfResponseStatusDeclined, nil
-	case "expired":
-		return CreateSubmissionFromPdfResponseStatusExpired, nil
-	case "pending":
-		return CreateSubmissionFromPdfResponseStatusPending, nil
-	}
-	var t CreateSubmissionFromPdfResponseStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfResponseStatus) Ptr() *CreateSubmissionFromPdfResponseStatus {
-	return &c
-}
-
-var (
-	createSubmissionFromPdfResponseSubmitterFieldID          = big.NewInt(1 << 0)
-	createSubmissionFromPdfResponseSubmitterFieldUUID        = big.NewInt(1 << 1)
-	createSubmissionFromPdfResponseSubmitterFieldEmail       = big.NewInt(1 << 2)
-	createSubmissionFromPdfResponseSubmitterFieldSlug        = big.NewInt(1 << 3)
-	createSubmissionFromPdfResponseSubmitterFieldSentAt      = big.NewInt(1 << 4)
-	createSubmissionFromPdfResponseSubmitterFieldOpenedAt    = big.NewInt(1 << 5)
-	createSubmissionFromPdfResponseSubmitterFieldCompletedAt = big.NewInt(1 << 6)
-	createSubmissionFromPdfResponseSubmitterFieldDeclinedAt  = big.NewInt(1 << 7)
-	createSubmissionFromPdfResponseSubmitterFieldCreatedAt   = big.NewInt(1 << 8)
-	createSubmissionFromPdfResponseSubmitterFieldUpdatedAt   = big.NewInt(1 << 9)
-	createSubmissionFromPdfResponseSubmitterFieldName        = big.NewInt(1 << 10)
-	createSubmissionFromPdfResponseSubmitterFieldPhone       = big.NewInt(1 << 11)
-	createSubmissionFromPdfResponseSubmitterFieldExternalID  = big.NewInt(1 << 12)
-	createSubmissionFromPdfResponseSubmitterFieldStatus      = big.NewInt(1 << 13)
-	createSubmissionFromPdfResponseSubmitterFieldValues      = big.NewInt(1 << 14)
-	createSubmissionFromPdfResponseSubmitterFieldRole        = big.NewInt(1 << 15)
-	createSubmissionFromPdfResponseSubmitterFieldMetadata    = big.NewInt(1 << 16)
-	createSubmissionFromPdfResponseSubmitterFieldPreferences = big.NewInt(1 << 17)
-	createSubmissionFromPdfResponseSubmitterFieldEmbedSrc    = big.NewInt(1 << 18)
-)
-
-type CreateSubmissionFromPdfResponseSubmitter struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// The status of signing request for the submitter.
-	Status CreateSubmissionFromPdfResponseSubmitterStatus `json:"status" url:"status"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values,omitempty" url:"values,omitempty"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// Submitter preferences.
-	Preferences map[string]any `json:"preferences" url:"preferences"`
-	// The `src` URL value to embed the signing form or sign via a link.
-	EmbedSrc string `json:"embed_src,omitempty" url:"embed_src,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetID() int {
-	if c == nil {
-		return 0
-	}
-	return c.ID
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetUUID() string {
-	if c == nil {
-		return ""
-	}
-	return c.UUID
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetEmail() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Email
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetSlug() string {
-	if c == nil {
-		return ""
-	}
-	return c.Slug
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetSentAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.SentAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetOpenedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.OpenedAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetCompletedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.CompletedAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetDeclinedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.DeclinedAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetCreatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.CreatedAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetUpdatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.UpdatedAt
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetName() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetPhone() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Phone
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetExternalID() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ExternalID
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetStatus() CreateSubmissionFromPdfResponseSubmitterStatus {
-	if c == nil {
-		return ""
-	}
-	return c.Status
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetValues() []*SubmitterValue {
-	if c == nil {
-		return nil
-	}
-	return c.Values
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetRole() string {
-	if c == nil {
-		return ""
-	}
-	return c.Role
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetMetadata() map[string]any {
-	if c == nil {
-		return nil
-	}
-	return c.Metadata
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetPreferences() map[string]any {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetEmbedSrc() string {
-	if c == nil {
-		return ""
-	}
-	return c.EmbedSrc
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetID(id int) {
-	c.ID = id
-	c.require(createSubmissionFromPdfResponseSubmitterFieldID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetUUID(uuid string) {
-	c.UUID = uuid
-	c.require(createSubmissionFromPdfResponseSubmitterFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetEmail(email *string) {
-	c.Email = email
-	c.require(createSubmissionFromPdfResponseSubmitterFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetSlug(slug string) {
-	c.Slug = slug
-	c.require(createSubmissionFromPdfResponseSubmitterFieldSlug)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetSentAt(sentAt *string) {
-	c.SentAt = sentAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetOpenedAt(openedAt *string) {
-	c.OpenedAt = openedAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetCompletedAt(completedAt *string) {
-	c.CompletedAt = completedAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetDeclinedAt(declinedAt *string) {
-	c.DeclinedAt = declinedAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetCreatedAt(createdAt string) {
-	c.CreatedAt = createdAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetUpdatedAt(updatedAt string) {
-	c.UpdatedAt = updatedAt
-	c.require(createSubmissionFromPdfResponseSubmitterFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetName(name *string) {
-	c.Name = name
-	c.require(createSubmissionFromPdfResponseSubmitterFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetPhone(phone *string) {
-	c.Phone = phone
-	c.require(createSubmissionFromPdfResponseSubmitterFieldPhone)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetExternalID(externalID *string) {
-	c.ExternalID = externalID
-	c.require(createSubmissionFromPdfResponseSubmitterFieldExternalID)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetStatus(status CreateSubmissionFromPdfResponseSubmitterStatus) {
-	c.Status = status
-	c.require(createSubmissionFromPdfResponseSubmitterFieldStatus)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetValues(values []*SubmitterValue) {
-	c.Values = values
-	c.require(createSubmissionFromPdfResponseSubmitterFieldValues)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetRole(role string) {
-	c.Role = role
-	c.require(createSubmissionFromPdfResponseSubmitterFieldRole)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetMetadata(metadata map[string]any) {
-	c.Metadata = metadata
-	c.require(createSubmissionFromPdfResponseSubmitterFieldMetadata)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetPreferences(preferences map[string]any) {
-	c.Preferences = preferences
-	c.require(createSubmissionFromPdfResponseSubmitterFieldPreferences)
-}
-
-// SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfResponseSubmitter) SetEmbedSrc(embedSrc string) {
-	c.EmbedSrc = embedSrc
-	c.require(createSubmissionFromPdfResponseSubmitterFieldEmbedSrc)
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionFromPdfResponseSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionFromPdfResponseSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionFromPdfResponseSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionFromPdfResponseSubmitter) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// The status of signing request for the submitter.
-type CreateSubmissionFromPdfResponseSubmitterStatus string
-
-const (
-	CreateSubmissionFromPdfResponseSubmitterStatusCompleted CreateSubmissionFromPdfResponseSubmitterStatus = "completed"
-	CreateSubmissionFromPdfResponseSubmitterStatusDeclined  CreateSubmissionFromPdfResponseSubmitterStatus = "declined"
-	CreateSubmissionFromPdfResponseSubmitterStatusOpened    CreateSubmissionFromPdfResponseSubmitterStatus = "opened"
-	CreateSubmissionFromPdfResponseSubmitterStatusSent      CreateSubmissionFromPdfResponseSubmitterStatus = "sent"
-	CreateSubmissionFromPdfResponseSubmitterStatusAwaiting  CreateSubmissionFromPdfResponseSubmitterStatus = "awaiting"
-)
-
-func NewCreateSubmissionFromPdfResponseSubmitterStatusFromString(s string) (CreateSubmissionFromPdfResponseSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return CreateSubmissionFromPdfResponseSubmitterStatusCompleted, nil
-	case "declined":
-		return CreateSubmissionFromPdfResponseSubmitterStatusDeclined, nil
-	case "opened":
-		return CreateSubmissionFromPdfResponseSubmitterStatusOpened, nil
-	case "sent":
-		return CreateSubmissionFromPdfResponseSubmitterStatusSent, nil
-	case "awaiting":
-		return CreateSubmissionFromPdfResponseSubmitterStatusAwaiting, nil
-	}
-	var t CreateSubmissionFromPdfResponseSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfResponseSubmitterStatus) Ptr() *CreateSubmissionFromPdfResponseSubmitterStatus {
-	return &c
-}
-
-// The order of submitters.
-type CreateSubmissionFromPdfResponseSubmittersOrder string
-
-const (
-	CreateSubmissionFromPdfResponseSubmittersOrderRandom    CreateSubmissionFromPdfResponseSubmittersOrder = "random"
-	CreateSubmissionFromPdfResponseSubmittersOrderPreserved CreateSubmissionFromPdfResponseSubmittersOrder = "preserved"
-)
-
-func NewCreateSubmissionFromPdfResponseSubmittersOrderFromString(s string) (CreateSubmissionFromPdfResponseSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return CreateSubmissionFromPdfResponseSubmittersOrderRandom, nil
-	case "preserved":
-		return CreateSubmissionFromPdfResponseSubmittersOrderPreserved, nil
-	}
-	var t CreateSubmissionFromPdfResponseSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfResponseSubmittersOrder) Ptr() *CreateSubmissionFromPdfResponseSubmittersOrder {
-	return &c
-}
-
-// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-type CreateSubmissionRequestOrder string
-
-const (
-	CreateSubmissionRequestOrderPreserved CreateSubmissionRequestOrder = "preserved"
-	CreateSubmissionRequestOrderRandom    CreateSubmissionRequestOrder = "random"
-)
-
-func NewCreateSubmissionRequestOrderFromString(s string) (CreateSubmissionRequestOrder, error) {
-	switch s {
-	case "preserved":
-		return CreateSubmissionRequestOrderPreserved, nil
-	case "random":
-		return CreateSubmissionRequestOrderRandom, nil
-	}
-	var t CreateSubmissionRequestOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionRequestOrder) Ptr() *CreateSubmissionRequestOrder {
-	return &c
-}
-
-var (
-	createSubmissionRequestSubmitterFieldName                 = big.NewInt(1 << 0)
-	createSubmissionRequestSubmitterFieldRole                 = big.NewInt(1 << 1)
-	createSubmissionRequestSubmitterFieldEmail                = big.NewInt(1 << 2)
-	createSubmissionRequestSubmitterFieldPhone                = big.NewInt(1 << 3)
-	createSubmissionRequestSubmitterFieldValues               = big.NewInt(1 << 4)
-	createSubmissionRequestSubmitterFieldExternalID           = big.NewInt(1 << 5)
-	createSubmissionRequestSubmitterFieldCompleted            = big.NewInt(1 << 6)
-	createSubmissionRequestSubmitterFieldMetadata             = big.NewInt(1 << 7)
-	createSubmissionRequestSubmitterFieldSendEmail            = big.NewInt(1 << 8)
-	createSubmissionRequestSubmitterFieldSendSms              = big.NewInt(1 << 9)
-	createSubmissionRequestSubmitterFieldReplyTo              = big.NewInt(1 << 10)
-	createSubmissionRequestSubmitterFieldCompletedRedirectURL = big.NewInt(1 << 11)
-	createSubmissionRequestSubmitterFieldOrder                = big.NewInt(1 << 12)
-	createSubmissionRequestSubmitterFieldRequirePhone2Fa      = big.NewInt(1 << 13)
-	createSubmissionRequestSubmitterFieldRequireEmail2Fa      = big.NewInt(1 << 14)
-	createSubmissionRequestSubmitterFieldMessage              = big.NewInt(1 << 15)
-	createSubmissionRequestSubmitterFieldFields               = big.NewInt(1 << 16)
-	createSubmissionRequestSubmitterFieldRoles                = big.NewInt(1 << 17)
-)
-
-type CreateSubmissionRequestSubmitter struct {
-	// The name of the submitter.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// The role name or title of the submitter.
-	Role string `json:"role,omitempty" url:"role,omitempty"`
-	// The email address of the submitter.
-	Email string `json:"email,omitempty" url:"email,omitempty"`
-	// The phone number of the submitter, formatted according to the E.164 standard.
-	Phone string `json:"phone,omitempty" url:"phone,omitempty"`
-	// An object with pre-filled values for the submission. Use field names for keys of the object. For more configurations see `fields` param.
-	Values map[string]any `json:"values,omitempty" url:"values,omitempty"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Pass `true` to mark submitter as completed and auto-signed via API.
-	Completed *bool `json:"completed,omitempty" url:"completed,omitempty"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata,omitempty" url:"metadata,omitempty"`
-	// Set `false` to disable signature request emails sending only for this submitter.
-	SendEmail *bool `json:"send_email,omitempty" url:"send_email,omitempty"`
-	// Set `true` to send signature request via phone number and SMS.
-	SendSms *bool `json:"send_sms,omitempty" url:"send_sms,omitempty"`
-	// Specify Reply-To address to use in the notification emails for this submitter.
-	ReplyTo string `json:"reply_to,omitempty" url:"reply_to,omitempty"`
-	// Submitter specific URL to redirect to after the submission completion.
-	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"completed_redirect_url,omitempty"`
-	// The order of the submitter in the workflow (e.g., 0 for the first signer, 1 for the second, etc.). Use the same order number to create order groups. By default, submitters are ordered as in the submitters array.
-	Order *int `json:"order,omitempty" url:"order,omitempty"`
-	// Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
-	RequirePhone2Fa *bool `json:"require_phone_2fa,omitempty" url:"require_phone_2fa,omitempty"`
-	// Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-	RequireEmail2Fa *bool                                    `json:"require_email_2fa,omitempty" url:"require_email_2fa,omitempty"`
-	Message         *CreateSubmissionRequestSubmitterMessage `json:"message,omitempty" url:"message,omitempty"`
-	// A list of configurations for template document form fields.
-	Fields []*CreateSubmissionRequestSubmitterField `json:"fields,omitempty" url:"fields,omitempty"`
-	// A list of roles for the submitter. Use this param to merge multiple roles into one submitter.
-	Roles []string `json:"roles,omitempty" url:"roles,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetRole() string {
-	if c == nil {
-		return ""
-	}
-	return c.Role
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetEmail() string {
-	if c == nil {
-		return ""
-	}
-	return c.Email
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetPhone() string {
-	if c == nil {
-		return ""
-	}
-	return c.Phone
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetValues() map[string]any {
-	if c == nil {
-		return nil
-	}
-	return c.Values
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetExternalID() string {
-	if c == nil {
-		return ""
-	}
-	return c.ExternalID
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetCompleted() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Completed
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetMetadata() map[string]any {
-	if c == nil {
-		return nil
-	}
-	return c.Metadata
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetSendEmail() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.SendEmail
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetSendSms() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.SendSms
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetReplyTo() string {
-	if c == nil {
-		return ""
-	}
-	return c.ReplyTo
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetCompletedRedirectURL() string {
-	if c == nil {
-		return ""
-	}
-	return c.CompletedRedirectURL
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetOrder() *int {
-	if c == nil {
-		return nil
-	}
-	return c.Order
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetRequirePhone2Fa() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.RequirePhone2Fa
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetRequireEmail2Fa() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.RequireEmail2Fa
-}
-
-func (c *CreateSubmissionRequestSubmitter) GetMessage() *CreateSubmissionRequestSubmitterMessage {
+func (c *CreateSubmissionSubmitterParams) GetMessage() *CreateSubmissionSubmitterMessageParams {
 	if c == nil {
 		return nil
 	}
 	return c.Message
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetFields() []*CreateSubmissionRequestSubmitterField {
+func (c *CreateSubmissionSubmitterParams) GetFields() []*CreateSubmissionSubmitterFieldParams {
 	if c == nil {
 		return nil
 	}
 	return c.Fields
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetRoles() []string {
+func (c *CreateSubmissionSubmitterParams) GetRoles() []string {
 	if c == nil {
 		return nil
 	}
 	return c.Roles
 }
 
-func (c *CreateSubmissionRequestSubmitter) GetExtraProperties() map[string]interface{} {
+func (c *CreateSubmissionSubmitterParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateSubmissionRequestSubmitter) require(field *big.Int) {
+func (c *CreateSubmissionSubmitterParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -5068,137 +4291,144 @@ func (c *CreateSubmissionRequestSubmitter) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetName(name string) {
+func (c *CreateSubmissionSubmitterParams) SetName(name string) {
 	c.Name = name
-	c.require(createSubmissionRequestSubmitterFieldName)
+	c.require(createSubmissionSubmitterParamsFieldName)
 }
 
 // SetRole sets the Role field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetRole(role string) {
+func (c *CreateSubmissionSubmitterParams) SetRole(role string) {
 	c.Role = role
-	c.require(createSubmissionRequestSubmitterFieldRole)
+	c.require(createSubmissionSubmitterParamsFieldRole)
 }
 
 // SetEmail sets the Email field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetEmail(email string) {
+func (c *CreateSubmissionSubmitterParams) SetEmail(email string) {
 	c.Email = email
-	c.require(createSubmissionRequestSubmitterFieldEmail)
+	c.require(createSubmissionSubmitterParamsFieldEmail)
 }
 
 // SetPhone sets the Phone field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetPhone(phone string) {
+func (c *CreateSubmissionSubmitterParams) SetPhone(phone string) {
 	c.Phone = phone
-	c.require(createSubmissionRequestSubmitterFieldPhone)
+	c.require(createSubmissionSubmitterParamsFieldPhone)
 }
 
 // SetValues sets the Values field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetValues(values map[string]any) {
+func (c *CreateSubmissionSubmitterParams) SetValues(values map[string]any) {
 	c.Values = values
-	c.require(createSubmissionRequestSubmitterFieldValues)
+	c.require(createSubmissionSubmitterParamsFieldValues)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetExternalID(externalID string) {
+func (c *CreateSubmissionSubmitterParams) SetExternalID(externalID string) {
 	c.ExternalID = externalID
-	c.require(createSubmissionRequestSubmitterFieldExternalID)
+	c.require(createSubmissionSubmitterParamsFieldExternalID)
 }
 
 // SetCompleted sets the Completed field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetCompleted(completed *bool) {
+func (c *CreateSubmissionSubmitterParams) SetCompleted(completed *bool) {
 	c.Completed = completed
-	c.require(createSubmissionRequestSubmitterFieldCompleted)
+	c.require(createSubmissionSubmitterParamsFieldCompleted)
 }
 
 // SetMetadata sets the Metadata field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetMetadata(metadata map[string]any) {
+func (c *CreateSubmissionSubmitterParams) SetMetadata(metadata map[string]any) {
 	c.Metadata = metadata
-	c.require(createSubmissionRequestSubmitterFieldMetadata)
+	c.require(createSubmissionSubmitterParamsFieldMetadata)
 }
 
 // SetSendEmail sets the SendEmail field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetSendEmail(sendEmail *bool) {
+func (c *CreateSubmissionSubmitterParams) SetSendEmail(sendEmail *bool) {
 	c.SendEmail = sendEmail
-	c.require(createSubmissionRequestSubmitterFieldSendEmail)
+	c.require(createSubmissionSubmitterParamsFieldSendEmail)
 }
 
 // SetSendSms sets the SendSms field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetSendSms(sendSms *bool) {
+func (c *CreateSubmissionSubmitterParams) SetSendSms(sendSms *bool) {
 	c.SendSms = sendSms
-	c.require(createSubmissionRequestSubmitterFieldSendSms)
+	c.require(createSubmissionSubmitterParamsFieldSendSms)
 }
 
 // SetReplyTo sets the ReplyTo field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetReplyTo(replyTo string) {
+func (c *CreateSubmissionSubmitterParams) SetReplyTo(replyTo string) {
 	c.ReplyTo = replyTo
-	c.require(createSubmissionRequestSubmitterFieldReplyTo)
+	c.require(createSubmissionSubmitterParamsFieldReplyTo)
 }
 
 // SetCompletedRedirectURL sets the CompletedRedirectURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetCompletedRedirectURL(completedRedirectURL string) {
+func (c *CreateSubmissionSubmitterParams) SetCompletedRedirectURL(completedRedirectURL string) {
 	c.CompletedRedirectURL = completedRedirectURL
-	c.require(createSubmissionRequestSubmitterFieldCompletedRedirectURL)
+	c.require(createSubmissionSubmitterParamsFieldCompletedRedirectURL)
 }
 
 // SetOrder sets the Order field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetOrder(order *int) {
+func (c *CreateSubmissionSubmitterParams) SetOrder(order *int) {
 	c.Order = order
-	c.require(createSubmissionRequestSubmitterFieldOrder)
+	c.require(createSubmissionSubmitterParamsFieldOrder)
 }
 
 // SetRequirePhone2Fa sets the RequirePhone2Fa field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetRequirePhone2Fa(requirePhone2Fa *bool) {
+func (c *CreateSubmissionSubmitterParams) SetRequirePhone2Fa(requirePhone2Fa *bool) {
 	c.RequirePhone2Fa = requirePhone2Fa
-	c.require(createSubmissionRequestSubmitterFieldRequirePhone2Fa)
+	c.require(createSubmissionSubmitterParamsFieldRequirePhone2Fa)
 }
 
 // SetRequireEmail2Fa sets the RequireEmail2Fa field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetRequireEmail2Fa(requireEmail2Fa *bool) {
+func (c *CreateSubmissionSubmitterParams) SetRequireEmail2Fa(requireEmail2Fa *bool) {
 	c.RequireEmail2Fa = requireEmail2Fa
-	c.require(createSubmissionRequestSubmitterFieldRequireEmail2Fa)
+	c.require(createSubmissionSubmitterParamsFieldRequireEmail2Fa)
+}
+
+// SetInviteBy sets the InviteBy field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterParams) SetInviteBy(inviteBy string) {
+	c.InviteBy = inviteBy
+	c.require(createSubmissionSubmitterParamsFieldInviteBy)
 }
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetMessage(message *CreateSubmissionRequestSubmitterMessage) {
+func (c *CreateSubmissionSubmitterParams) SetMessage(message *CreateSubmissionSubmitterMessageParams) {
 	c.Message = message
-	c.require(createSubmissionRequestSubmitterFieldMessage)
+	c.require(createSubmissionSubmitterParamsFieldMessage)
 }
 
 // SetFields sets the Fields field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetFields(fields []*CreateSubmissionRequestSubmitterField) {
+func (c *CreateSubmissionSubmitterParams) SetFields(fields []*CreateSubmissionSubmitterFieldParams) {
 	c.Fields = fields
-	c.require(createSubmissionRequestSubmitterFieldFields)
+	c.require(createSubmissionSubmitterParamsFieldFields)
 }
 
 // SetRoles sets the Roles field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitter) SetRoles(roles []string) {
+func (c *CreateSubmissionSubmitterParams) SetRoles(roles []string) {
 	c.Roles = roles
-	c.require(createSubmissionRequestSubmitterFieldRoles)
+	c.require(createSubmissionSubmitterParamsFieldRoles)
 }
 
-func (c *CreateSubmissionRequestSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionRequestSubmitter
+func (c *CreateSubmissionSubmitterParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateSubmissionSubmitterParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateSubmissionRequestSubmitter(value)
+	*c = CreateSubmissionSubmitterParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -5208,8 +4438,8 @@ func (c *CreateSubmissionRequestSubmitter) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (c *CreateSubmissionRequestSubmitter) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionRequestSubmitter
+func (c *CreateSubmissionSubmitterParams) MarshalJSON() ([]byte, error) {
+	type embed CreateSubmissionSubmitterParams
 	var marshaler = struct {
 		embed
 	}{
@@ -5219,7 +4449,7 @@ func (c *CreateSubmissionRequestSubmitter) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateSubmissionRequestSubmitter) String() string {
+func (c *CreateSubmissionSubmitterParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -5235,1672 +4465,25 @@ func (c *CreateSubmissionRequestSubmitter) String() string {
 }
 
 var (
-	createSubmissionRequestSubmitterFieldFieldName         = big.NewInt(1 << 0)
-	createSubmissionRequestSubmitterFieldFieldDefaultValue = big.NewInt(1 << 1)
-	createSubmissionRequestSubmitterFieldFieldReadonly     = big.NewInt(1 << 2)
-	createSubmissionRequestSubmitterFieldFieldRequired     = big.NewInt(1 << 3)
-	createSubmissionRequestSubmitterFieldFieldTitle        = big.NewInt(1 << 4)
-	createSubmissionRequestSubmitterFieldFieldDescription  = big.NewInt(1 << 5)
-	createSubmissionRequestSubmitterFieldFieldValidation   = big.NewInt(1 << 6)
-	createSubmissionRequestSubmitterFieldFieldPreferences  = big.NewInt(1 << 7)
+	createTemplateDocumentFieldAreaParamsFieldX      = big.NewInt(1 << 0)
+	createTemplateDocumentFieldAreaParamsFieldY      = big.NewInt(1 << 1)
+	createTemplateDocumentFieldAreaParamsFieldW      = big.NewInt(1 << 2)
+	createTemplateDocumentFieldAreaParamsFieldH      = big.NewInt(1 << 3)
+	createTemplateDocumentFieldAreaParamsFieldPage   = big.NewInt(1 << 4)
+	createTemplateDocumentFieldAreaParamsFieldOption = big.NewInt(1 << 5)
 )
 
-type CreateSubmissionRequestSubmitterField struct {
-	// Document template field name.
-	Name string `json:"name" url:"name"`
-	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-	DefaultValue *CreateSubmissionRequestSubmitterFieldDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
-	// Set `true` to make it impossible for the submitter to edit predefined field value.
-	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
-	// Set `true` to make the field required.
-	Required *bool `json:"required,omitempty" url:"required,omitempty"`
-	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title string `json:"title,omitempty" url:"title,omitempty"`
-	// Field description displayed on the signing form. Supports Markdown.
-	Description string            `json:"description,omitempty" url:"description,omitempty"`
-	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
-	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetDefaultValue() *CreateSubmissionRequestSubmitterFieldDefaultValue {
-	if c == nil {
-		return nil
-	}
-	return c.DefaultValue
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetReadonly() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Readonly
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetRequired() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Required
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetTitle() string {
-	if c == nil {
-		return ""
-	}
-	return c.Title
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetDescription() string {
-	if c == nil {
-		return ""
-	}
-	return c.Description
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetValidation() *FieldValidation {
-	if c == nil {
-		return nil
-	}
-	return c.Validation
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetPreferences() *FieldPreferences {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateSubmissionRequestSubmitterField) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionRequestSubmitterField) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetName(name string) {
-	c.Name = name
-	c.require(createSubmissionRequestSubmitterFieldFieldName)
-}
-
-// SetDefaultValue sets the DefaultValue field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetDefaultValue(defaultValue *CreateSubmissionRequestSubmitterFieldDefaultValue) {
-	c.DefaultValue = defaultValue
-	c.require(createSubmissionRequestSubmitterFieldFieldDefaultValue)
-}
-
-// SetReadonly sets the Readonly field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetReadonly(readonly *bool) {
-	c.Readonly = readonly
-	c.require(createSubmissionRequestSubmitterFieldFieldReadonly)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetRequired(required *bool) {
-	c.Required = required
-	c.require(createSubmissionRequestSubmitterFieldFieldRequired)
-}
-
-// SetTitle sets the Title field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetTitle(title string) {
-	c.Title = title
-	c.require(createSubmissionRequestSubmitterFieldFieldTitle)
-}
-
-// SetDescription sets the Description field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetDescription(description string) {
-	c.Description = description
-	c.require(createSubmissionRequestSubmitterFieldFieldDescription)
-}
-
-// SetValidation sets the Validation field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetValidation(validation *FieldValidation) {
-	c.Validation = validation
-	c.require(createSubmissionRequestSubmitterFieldFieldValidation)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterField) SetPreferences(preferences *FieldPreferences) {
-	c.Preferences = preferences
-	c.require(createSubmissionRequestSubmitterFieldFieldPreferences)
-}
-
-func (c *CreateSubmissionRequestSubmitterField) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionRequestSubmitterField
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionRequestSubmitterField(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionRequestSubmitterField) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionRequestSubmitterField
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionRequestSubmitterField) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-type CreateSubmissionRequestSubmitterFieldDefaultValue struct {
-	String                                                         string
-	Double                                                         float64
-	Boolean                                                        bool
-	CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList []*CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem
-
-	typ string
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) GetCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList() []*CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem {
-	if c == nil {
-		return nil
-	}
-	return c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	var valueCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList []*CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem
-	if err := json.Unmarshal(data, &valueCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList); err == nil {
-		c.typ = "CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList"
-		c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList = valueCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionRequestSubmitterFieldDefaultValue) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList" || c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList != nil {
-		return json.Marshal(c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionRequestSubmitterFieldDefaultValueVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-	VisitCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList([]*CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) error
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValue) Accept(visitor CreateSubmissionRequestSubmitterFieldDefaultValueVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList" || c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList != nil {
-		return visitor.VisitCreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList(c.CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem struct {
-	String  string
-	Double  float64
-	Boolean bool
-
-	typ string
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-}
-
-func (c *CreateSubmissionRequestSubmitterFieldDefaultValueThreeItem) Accept(visitor CreateSubmissionRequestSubmitterFieldDefaultValueThreeItemVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-// Custom signature request email message for the submitter.
-var (
-	createSubmissionRequestSubmitterMessageFieldSubject = big.NewInt(1 << 0)
-	createSubmissionRequestSubmitterMessageFieldBody    = big.NewInt(1 << 1)
-)
-
-type CreateSubmissionRequestSubmitterMessage struct {
-	// Custom signature request email subject for the submitter.
-	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
-	// Custom signature request email body for the submitter. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body string `json:"body,omitempty" url:"body,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) GetSubject() string {
-	if c == nil {
-		return ""
-	}
-	return c.Subject
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) GetBody() string {
-	if c == nil {
-		return ""
-	}
-	return c.Body
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetSubject sets the Subject field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterMessage) SetSubject(subject string) {
-	c.Subject = subject
-	c.require(createSubmissionRequestSubmitterMessageFieldSubject)
-}
-
-// SetBody sets the Body field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionRequestSubmitterMessage) SetBody(body string) {
-	c.Body = body
-	c.require(createSubmissionRequestSubmitterMessageFieldBody)
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionRequestSubmitterMessage
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionRequestSubmitterMessage(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionRequestSubmitterMessage
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionRequestSubmitterMessage) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createSubmissionResponseFieldID         = big.NewInt(1 << 0)
-	createSubmissionResponseFieldSubmitters = big.NewInt(1 << 1)
-	createSubmissionResponseFieldExpiredAt  = big.NewInt(1 << 2)
-	createSubmissionResponseFieldCreatedAt  = big.NewInt(1 << 3)
-)
-
-type CreateSubmissionResponse struct {
-	// Submission unique ID number.
-	ID         int                                 `json:"id" url:"id"`
-	Submitters CreateSubmissionsFromEmailsResponse `json:"submitters" url:"submitters"`
-	// The date and time when the submission expires.
-	ExpiredAt *string `json:"expired_at,omitempty" url:"expired_at,omitempty"`
-	// The date and time when the submission was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionResponse) GetID() int {
-	if c == nil {
-		return 0
-	}
-	return c.ID
-}
-
-func (c *CreateSubmissionResponse) GetSubmitters() CreateSubmissionsFromEmailsResponse {
-	if c == nil {
-		return nil
-	}
-	return c.Submitters
-}
-
-func (c *CreateSubmissionResponse) GetExpiredAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ExpiredAt
-}
-
-func (c *CreateSubmissionResponse) GetCreatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.CreatedAt
-}
-
-func (c *CreateSubmissionResponse) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionResponse) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResponse) SetID(id int) {
-	c.ID = id
-	c.require(createSubmissionResponseFieldID)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResponse) SetSubmitters(submitters CreateSubmissionsFromEmailsResponse) {
-	c.Submitters = submitters
-	c.require(createSubmissionResponseFieldSubmitters)
-}
-
-// SetExpiredAt sets the ExpiredAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResponse) SetExpiredAt(expiredAt *string) {
-	c.ExpiredAt = expiredAt
-	c.require(createSubmissionResponseFieldExpiredAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResponse) SetCreatedAt(createdAt string) {
-	c.CreatedAt = createdAt
-	c.require(createSubmissionResponseFieldCreatedAt)
-}
-
-func (c *CreateSubmissionResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionResponse) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionResponse) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Custom signature request email message.
-var (
-	createSubmissionsFromEmailsRequestMessageFieldSubject = big.NewInt(1 << 0)
-	createSubmissionsFromEmailsRequestMessageFieldBody    = big.NewInt(1 << 1)
-)
-
-type CreateSubmissionsFromEmailsRequestMessage struct {
-	// Custom signature request email subject.
-	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
-	// Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
-	Body string `json:"body,omitempty" url:"body,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) GetSubject() string {
-	if c == nil {
-		return ""
-	}
-	return c.Subject
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) GetBody() string {
-	if c == nil {
-		return ""
-	}
-	return c.Body
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetSubject sets the Subject field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsRequestMessage) SetSubject(subject string) {
-	c.Subject = subject
-	c.require(createSubmissionsFromEmailsRequestMessageFieldSubject)
-}
-
-// SetBody sets the Body field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsRequestMessage) SetBody(body string) {
-	c.Body = body
-	c.require(createSubmissionsFromEmailsRequestMessageFieldBody)
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionsFromEmailsRequestMessage
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionsFromEmailsRequestMessage(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionsFromEmailsRequestMessage
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionsFromEmailsRequestMessage) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-type CreateSubmissionsFromEmailsResponse = []*CreateSubmissionsFromEmailsResponseSubmitter
-
-var (
-	createSubmissionsFromEmailsResponseSubmitterFieldID           = big.NewInt(1 << 0)
-	createSubmissionsFromEmailsResponseSubmitterFieldSubmissionID = big.NewInt(1 << 1)
-	createSubmissionsFromEmailsResponseSubmitterFieldUUID         = big.NewInt(1 << 2)
-	createSubmissionsFromEmailsResponseSubmitterFieldEmail        = big.NewInt(1 << 3)
-	createSubmissionsFromEmailsResponseSubmitterFieldSlug         = big.NewInt(1 << 4)
-	createSubmissionsFromEmailsResponseSubmitterFieldStatus       = big.NewInt(1 << 5)
-	createSubmissionsFromEmailsResponseSubmitterFieldValues       = big.NewInt(1 << 6)
-	createSubmissionsFromEmailsResponseSubmitterFieldMetadata     = big.NewInt(1 << 7)
-	createSubmissionsFromEmailsResponseSubmitterFieldSentAt       = big.NewInt(1 << 8)
-	createSubmissionsFromEmailsResponseSubmitterFieldOpenedAt     = big.NewInt(1 << 9)
-	createSubmissionsFromEmailsResponseSubmitterFieldCompletedAt  = big.NewInt(1 << 10)
-	createSubmissionsFromEmailsResponseSubmitterFieldDeclinedAt   = big.NewInt(1 << 11)
-	createSubmissionsFromEmailsResponseSubmitterFieldCreatedAt    = big.NewInt(1 << 12)
-	createSubmissionsFromEmailsResponseSubmitterFieldUpdatedAt    = big.NewInt(1 << 13)
-	createSubmissionsFromEmailsResponseSubmitterFieldName         = big.NewInt(1 << 14)
-	createSubmissionsFromEmailsResponseSubmitterFieldPhone        = big.NewInt(1 << 15)
-	createSubmissionsFromEmailsResponseSubmitterFieldExternalID   = big.NewInt(1 << 16)
-	createSubmissionsFromEmailsResponseSubmitterFieldPreferences  = big.NewInt(1 << 17)
-	createSubmissionsFromEmailsResponseSubmitterFieldRole         = big.NewInt(1 << 18)
-	createSubmissionsFromEmailsResponseSubmitterFieldEmbedSrc     = big.NewInt(1 << 19)
-)
-
-type CreateSubmissionsFromEmailsResponseSubmitter struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The status of signing request for the submitter.
-	Status CreateSubmissionsFromEmailsResponseSubmitterStatus `json:"status" url:"status"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values" url:"values"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID  *string                                                  `json:"external_id,omitempty" url:"external_id,omitempty"`
-	Preferences *CreateSubmissionsFromEmailsResponseSubmitterPreferences `json:"preferences" url:"preferences"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-	// The `src` URL value to embed the signing form or sign via a link.
-	EmbedSrc string `json:"embed_src" url:"embed_src"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetID() int {
-	if c == nil {
-		return 0
-	}
-	return c.ID
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetSubmissionID() int {
-	if c == nil {
-		return 0
-	}
-	return c.SubmissionID
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetUUID() string {
-	if c == nil {
-		return ""
-	}
-	return c.UUID
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetEmail() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Email
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetSlug() string {
-	if c == nil {
-		return ""
-	}
-	return c.Slug
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetStatus() CreateSubmissionsFromEmailsResponseSubmitterStatus {
-	if c == nil {
-		return ""
-	}
-	return c.Status
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetValues() []*SubmitterValue {
-	if c == nil {
-		return nil
-	}
-	return c.Values
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetMetadata() map[string]any {
-	if c == nil {
-		return nil
-	}
-	return c.Metadata
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetSentAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.SentAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetOpenedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.OpenedAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetCompletedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.CompletedAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetDeclinedAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.DeclinedAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetCreatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.CreatedAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetUpdatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.UpdatedAt
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetName() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Name
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetPhone() *string {
-	if c == nil {
-		return nil
-	}
-	return c.Phone
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetExternalID() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ExternalID
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetPreferences() *CreateSubmissionsFromEmailsResponseSubmitterPreferences {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetRole() string {
-	if c == nil {
-		return ""
-	}
-	return c.Role
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetEmbedSrc() string {
-	if c == nil {
-		return ""
-	}
-	return c.EmbedSrc
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetID(id int) {
-	c.ID = id
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldID)
-}
-
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetSubmissionID(submissionID int) {
-	c.SubmissionID = submissionID
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldSubmissionID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetUUID(uuid string) {
-	c.UUID = uuid
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetEmail(email *string) {
-	c.Email = email
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetSlug(slug string) {
-	c.Slug = slug
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldSlug)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetStatus(status CreateSubmissionsFromEmailsResponseSubmitterStatus) {
-	c.Status = status
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldStatus)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetValues(values []*SubmitterValue) {
-	c.Values = values
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldValues)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetMetadata(metadata map[string]any) {
-	c.Metadata = metadata
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldMetadata)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetSentAt(sentAt *string) {
-	c.SentAt = sentAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetOpenedAt(openedAt *string) {
-	c.OpenedAt = openedAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetCompletedAt(completedAt *string) {
-	c.CompletedAt = completedAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetDeclinedAt(declinedAt *string) {
-	c.DeclinedAt = declinedAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetCreatedAt(createdAt string) {
-	c.CreatedAt = createdAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetUpdatedAt(updatedAt string) {
-	c.UpdatedAt = updatedAt
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetName(name *string) {
-	c.Name = name
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetPhone(phone *string) {
-	c.Phone = phone
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldPhone)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetExternalID(externalID *string) {
-	c.ExternalID = externalID
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldExternalID)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetPreferences(preferences *CreateSubmissionsFromEmailsResponseSubmitterPreferences) {
-	c.Preferences = preferences
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldPreferences)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetRole(role string) {
-	c.Role = role
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldRole)
-}
-
-// SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) SetEmbedSrc(embedSrc string) {
-	c.EmbedSrc = embedSrc
-	c.require(createSubmissionsFromEmailsResponseSubmitterFieldEmbedSrc)
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionsFromEmailsResponseSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionsFromEmailsResponseSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionsFromEmailsResponseSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitter) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Submitter preferences.
-var (
-	createSubmissionsFromEmailsResponseSubmitterPreferencesFieldSendEmail = big.NewInt(1 << 0)
-	createSubmissionsFromEmailsResponseSubmitterPreferencesFieldSendSms   = big.NewInt(1 << 1)
-)
-
-type CreateSubmissionsFromEmailsResponseSubmitterPreferences struct {
-	// Indicates whether the signature request email should be sent.
-	SendEmail *bool `json:"send_email,omitempty" url:"send_email,omitempty"`
-	// Indicates whether the signature request should be sent via SMS.
-	SendSms *bool `json:"send_sms,omitempty" url:"send_sms,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) GetSendEmail() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.SendEmail
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) GetSendSms() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.SendSms
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetSendEmail sets the SendEmail field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) SetSendEmail(sendEmail *bool) {
-	c.SendEmail = sendEmail
-	c.require(createSubmissionsFromEmailsResponseSubmitterPreferencesFieldSendEmail)
-}
-
-// SetSendSms sets the SendSms field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) SetSendSms(sendSms *bool) {
-	c.SendSms = sendSms
-	c.require(createSubmissionsFromEmailsResponseSubmitterPreferencesFieldSendSms)
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionsFromEmailsResponseSubmitterPreferences
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionsFromEmailsResponseSubmitterPreferences(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionsFromEmailsResponseSubmitterPreferences
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionsFromEmailsResponseSubmitterPreferences) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// The status of signing request for the submitter.
-type CreateSubmissionsFromEmailsResponseSubmitterStatus string
-
-const (
-	CreateSubmissionsFromEmailsResponseSubmitterStatusCompleted CreateSubmissionsFromEmailsResponseSubmitterStatus = "completed"
-	CreateSubmissionsFromEmailsResponseSubmitterStatusDeclined  CreateSubmissionsFromEmailsResponseSubmitterStatus = "declined"
-	CreateSubmissionsFromEmailsResponseSubmitterStatusOpened    CreateSubmissionsFromEmailsResponseSubmitterStatus = "opened"
-	CreateSubmissionsFromEmailsResponseSubmitterStatusSent      CreateSubmissionsFromEmailsResponseSubmitterStatus = "sent"
-	CreateSubmissionsFromEmailsResponseSubmitterStatusAwaiting  CreateSubmissionsFromEmailsResponseSubmitterStatus = "awaiting"
-)
-
-func NewCreateSubmissionsFromEmailsResponseSubmitterStatusFromString(s string) (CreateSubmissionsFromEmailsResponseSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return CreateSubmissionsFromEmailsResponseSubmitterStatusCompleted, nil
-	case "declined":
-		return CreateSubmissionsFromEmailsResponseSubmitterStatusDeclined, nil
-	case "opened":
-		return CreateSubmissionsFromEmailsResponseSubmitterStatusOpened, nil
-	case "sent":
-		return CreateSubmissionsFromEmailsResponseSubmitterStatusSent, nil
-	case "awaiting":
-		return CreateSubmissionsFromEmailsResponseSubmitterStatusAwaiting, nil
-	}
-	var t CreateSubmissionsFromEmailsResponseSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionsFromEmailsResponseSubmitterStatus) Ptr() *CreateSubmissionsFromEmailsResponseSubmitterStatus {
-	return &c
-}
-
-var (
-	createTemplateFromDocxRequestDocumentFieldName    = big.NewInt(1 << 0)
-	createTemplateFromDocxRequestDocumentFieldFile    = big.NewInt(1 << 1)
-	createTemplateFromDocxRequestDocumentFieldDynamic = big.NewInt(1 << 2)
-	createTemplateFromDocxRequestDocumentFieldFields  = big.NewInt(1 << 3)
-)
-
-type CreateTemplateFromDocxRequestDocument struct {
-	// Name of the document.
-	Name string `json:"name" url:"name"`
-	// Base64-encoded content of the DOCX file or downloadable file URL.
-	File string `json:"file" url:"file"`
-	// Set to `true` to make the document dynamic. When enabled, the DOCX document content can be edited or use [[variables]] in the template editor.
-	Dynamic *bool `json:"dynamic,omitempty" url:"dynamic,omitempty"`
-	// Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields []*CreateTemplateFromDocxRequestDocumentField `json:"fields,omitempty" url:"fields,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) GetFile() string {
-	if c == nil {
-		return ""
-	}
-	return c.File
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) GetDynamic() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Dynamic
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) GetFields() []*CreateTemplateFromDocxRequestDocumentField {
-	if c == nil {
-		return nil
-	}
-	return c.Fields
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocument) SetName(name string) {
-	c.Name = name
-	c.require(createTemplateFromDocxRequestDocumentFieldName)
-}
-
-// SetFile sets the File field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocument) SetFile(file string) {
-	c.File = file
-	c.require(createTemplateFromDocxRequestDocumentFieldFile)
-}
-
-// SetDynamic sets the Dynamic field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocument) SetDynamic(dynamic *bool) {
-	c.Dynamic = dynamic
-	c.require(createTemplateFromDocxRequestDocumentFieldDynamic)
-}
-
-// SetFields sets the Fields field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocument) SetFields(fields []*CreateTemplateFromDocxRequestDocumentField) {
-	c.Fields = fields
-	c.require(createTemplateFromDocxRequestDocumentFieldFields)
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromDocxRequestDocument
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateTemplateFromDocxRequestDocument(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromDocxRequestDocument
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateTemplateFromDocxRequestDocument) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createTemplateFromDocxRequestDocumentFieldFieldName        = big.NewInt(1 << 0)
-	createTemplateFromDocxRequestDocumentFieldFieldType        = big.NewInt(1 << 1)
-	createTemplateFromDocxRequestDocumentFieldFieldRole        = big.NewInt(1 << 2)
-	createTemplateFromDocxRequestDocumentFieldFieldRequired    = big.NewInt(1 << 3)
-	createTemplateFromDocxRequestDocumentFieldFieldTitle       = big.NewInt(1 << 4)
-	createTemplateFromDocxRequestDocumentFieldFieldDescription = big.NewInt(1 << 5)
-	createTemplateFromDocxRequestDocumentFieldFieldAreas       = big.NewInt(1 << 6)
-	createTemplateFromDocxRequestDocumentFieldFieldOptions     = big.NewInt(1 << 7)
-	createTemplateFromDocxRequestDocumentFieldFieldValidation  = big.NewInt(1 << 8)
-	createTemplateFromDocxRequestDocumentFieldFieldPreferences = big.NewInt(1 << 9)
-)
-
-type CreateTemplateFromDocxRequestDocumentField struct {
-	// Name of the field.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Type of the field (e.g., text, signature, date, initials).
-	Type *CreateTemplateFromDocxRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
-	// Role name of the signer.
-	Role string `json:"role,omitempty" url:"role,omitempty"`
-	// Indicates if the field is required.
-	Required *bool `json:"required,omitempty" url:"required,omitempty"`
-	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title string `json:"title,omitempty" url:"title,omitempty"`
-	// Field description displayed on the signing form. Supports Markdown.
-	Description string `json:"description,omitempty" url:"description,omitempty"`
-	// List of areas where the field is located in the document.
-	Areas []*CreateTemplateFromDocxRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
-	// An array of option values for 'select' field type.
-	Options     []string          `json:"options,omitempty" url:"options,omitempty"`
-	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
-	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetName() string {
-	if c == nil {
-		return ""
-	}
-	return c.Name
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetType() *CreateTemplateFromDocxRequestDocumentFieldType {
-	if c == nil {
-		return nil
-	}
-	return c.Type
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetRole() string {
-	if c == nil {
-		return ""
-	}
-	return c.Role
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetRequired() *bool {
-	if c == nil {
-		return nil
-	}
-	return c.Required
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetTitle() string {
-	if c == nil {
-		return ""
-	}
-	return c.Title
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetDescription() string {
-	if c == nil {
-		return ""
-	}
-	return c.Description
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetAreas() []*CreateTemplateFromDocxRequestDocumentFieldArea {
-	if c == nil {
-		return nil
-	}
-	return c.Areas
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetOptions() []string {
-	if c == nil {
-		return nil
-	}
-	return c.Options
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetValidation() *FieldValidation {
-	if c == nil {
-		return nil
-	}
-	return c.Validation
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetPreferences() *FieldPreferences {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetName(name string) {
-	c.Name = name
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldName)
-}
-
-// SetType sets the Type field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetType(type_ *CreateTemplateFromDocxRequestDocumentFieldType) {
-	c.Type = type_
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldType)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetRole(role string) {
-	c.Role = role
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldRole)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetRequired(required *bool) {
-	c.Required = required
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldRequired)
-}
-
-// SetTitle sets the Title field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetTitle(title string) {
-	c.Title = title
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldTitle)
-}
-
-// SetDescription sets the Description field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetDescription(description string) {
-	c.Description = description
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldDescription)
-}
-
-// SetAreas sets the Areas field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetAreas(areas []*CreateTemplateFromDocxRequestDocumentFieldArea) {
-	c.Areas = areas
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldAreas)
-}
-
-// SetOptions sets the Options field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetOptions(options []string) {
-	c.Options = options
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldOptions)
-}
-
-// SetValidation sets the Validation field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetValidation(validation *FieldValidation) {
-	c.Validation = validation
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldValidation)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentField) SetPreferences(preferences *FieldPreferences) {
-	c.Preferences = preferences
-	c.require(createTemplateFromDocxRequestDocumentFieldFieldPreferences)
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromDocxRequestDocumentField
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateTemplateFromDocxRequestDocumentField(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromDocxRequestDocumentField
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateTemplateFromDocxRequestDocumentField) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-var (
-	createTemplateFromDocxRequestDocumentFieldAreaFieldX      = big.NewInt(1 << 0)
-	createTemplateFromDocxRequestDocumentFieldAreaFieldY      = big.NewInt(1 << 1)
-	createTemplateFromDocxRequestDocumentFieldAreaFieldW      = big.NewInt(1 << 2)
-	createTemplateFromDocxRequestDocumentFieldAreaFieldH      = big.NewInt(1 << 3)
-	createTemplateFromDocxRequestDocumentFieldAreaFieldPage   = big.NewInt(1 << 4)
-	createTemplateFromDocxRequestDocumentFieldAreaFieldOption = big.NewInt(1 << 5)
-)
-
-type CreateTemplateFromDocxRequestDocumentFieldArea struct {
+type CreateTemplateDocumentFieldAreaParams struct {
 	// X-coordinate of the field area.
-	X *float64 `json:"x,omitempty" url:"x,omitempty"`
+	X float64 `json:"x" url:"x"`
 	// Y-coordinate of the field area.
-	Y *float64 `json:"y,omitempty" url:"y,omitempty"`
+	Y float64 `json:"y" url:"y"`
 	// Width of the field area.
-	W *float64 `json:"w,omitempty" url:"w,omitempty"`
+	W float64 `json:"w" url:"w"`
 	// Height of the field area.
-	H *float64 `json:"h,omitempty" url:"h,omitempty"`
+	H float64 `json:"h" url:"h"`
 	// Page number of the field area. Starts from 1.
-	Page *int `json:"page,omitempty" url:"page,omitempty"`
+	Page int `json:"page" url:"page"`
 	// Option string value for 'radio' and 'multiple' select field types.
 	Option string `json:"option,omitempty" url:"option,omitempty"`
 
@@ -6911,56 +4494,56 @@ type CreateTemplateFromDocxRequestDocumentFieldArea struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetX() *float64 {
+func (c *CreateTemplateDocumentFieldAreaParams) GetX() float64 {
 	if c == nil {
-		return nil
+		return 0
 	}
 	return c.X
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetY() *float64 {
+func (c *CreateTemplateDocumentFieldAreaParams) GetY() float64 {
 	if c == nil {
-		return nil
+		return 0
 	}
 	return c.Y
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetW() *float64 {
+func (c *CreateTemplateDocumentFieldAreaParams) GetW() float64 {
 	if c == nil {
-		return nil
+		return 0
 	}
 	return c.W
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetH() *float64 {
+func (c *CreateTemplateDocumentFieldAreaParams) GetH() float64 {
 	if c == nil {
-		return nil
+		return 0
 	}
 	return c.H
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetPage() *int {
+func (c *CreateTemplateDocumentFieldAreaParams) GetPage() int {
 	if c == nil {
-		return nil
+		return 0
 	}
 	return c.Page
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetOption() string {
+func (c *CreateTemplateDocumentFieldAreaParams) GetOption() string {
 	if c == nil {
 		return ""
 	}
 	return c.Option
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) GetExtraProperties() map[string]interface{} {
+func (c *CreateTemplateDocumentFieldAreaParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) require(field *big.Int) {
+func (c *CreateTemplateDocumentFieldAreaParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -6969,53 +4552,53 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) require(field *big.Int)
 
 // SetX sets the X field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetX(x *float64) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetX(x float64) {
 	c.X = x
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldX)
+	c.require(createTemplateDocumentFieldAreaParamsFieldX)
 }
 
 // SetY sets the Y field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetY(y *float64) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetY(y float64) {
 	c.Y = y
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldY)
+	c.require(createTemplateDocumentFieldAreaParamsFieldY)
 }
 
 // SetW sets the W field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetW(w *float64) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetW(w float64) {
 	c.W = w
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldW)
+	c.require(createTemplateDocumentFieldAreaParamsFieldW)
 }
 
 // SetH sets the H field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetH(h *float64) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetH(h float64) {
 	c.H = h
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldH)
+	c.require(createTemplateDocumentFieldAreaParamsFieldH)
 }
 
 // SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetPage(page *int) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetPage(page int) {
 	c.Page = page
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldPage)
+	c.require(createTemplateDocumentFieldAreaParamsFieldPage)
 }
 
 // SetOption sets the Option field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) SetOption(option string) {
+func (c *CreateTemplateDocumentFieldAreaParams) SetOption(option string) {
 	c.Option = option
-	c.require(createTemplateFromDocxRequestDocumentFieldAreaFieldOption)
+	c.require(createTemplateDocumentFieldAreaParamsFieldOption)
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromDocxRequestDocumentFieldArea
+func (c *CreateTemplateDocumentFieldAreaParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateDocumentFieldAreaParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateTemplateFromDocxRequestDocumentFieldArea(value)
+	*c = CreateTemplateDocumentFieldAreaParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -7025,8 +4608,8 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) UnmarshalJSON(data []by
 	return nil
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromDocxRequestDocumentFieldArea
+func (c *CreateTemplateDocumentFieldAreaParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateDocumentFieldAreaParams
 	var marshaler = struct {
 		embed
 	}{
@@ -7036,7 +4619,243 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) MarshalJSON() ([]byte, 
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateTemplateFromDocxRequestDocumentFieldArea) String() string {
+func (c *CreateTemplateDocumentFieldAreaParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	createTemplateDocumentFieldParamsFieldName        = big.NewInt(1 << 0)
+	createTemplateDocumentFieldParamsFieldType        = big.NewInt(1 << 1)
+	createTemplateDocumentFieldParamsFieldRole        = big.NewInt(1 << 2)
+	createTemplateDocumentFieldParamsFieldRequired    = big.NewInt(1 << 3)
+	createTemplateDocumentFieldParamsFieldTitle       = big.NewInt(1 << 4)
+	createTemplateDocumentFieldParamsFieldDescription = big.NewInt(1 << 5)
+	createTemplateDocumentFieldParamsFieldAreas       = big.NewInt(1 << 6)
+	createTemplateDocumentFieldParamsFieldOptions     = big.NewInt(1 << 7)
+	createTemplateDocumentFieldParamsFieldValidation  = big.NewInt(1 << 8)
+	createTemplateDocumentFieldParamsFieldPreferences = big.NewInt(1 << 9)
+)
+
+type CreateTemplateDocumentFieldParams struct {
+	// Name of the field.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Type of the field (e.g., text, signature, date, initials).
+	Type *CreateTemplateDocumentFieldParamsType `json:"type,omitempty" url:"type,omitempty"`
+	// Role name of the signer.
+	Role string `json:"role,omitempty" url:"role,omitempty"`
+	// Indicates if the field is required.
+	Required *bool `json:"required,omitempty" url:"required,omitempty"`
+	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
+	Title string `json:"title,omitempty" url:"title,omitempty"`
+	// Field description displayed on the signing form. Supports Markdown.
+	Description string `json:"description,omitempty" url:"description,omitempty"`
+	// List of areas where the field is located in the document.
+	Areas []*CreateTemplateDocumentFieldAreaParams `json:"areas,omitempty" url:"areas,omitempty"`
+	// An array of option values for 'select' field type.
+	Options     []string                                      `json:"options,omitempty" url:"options,omitempty"`
+	Validation  *CreateTemplateDocumentFieldValidationParams  `json:"validation,omitempty" url:"validation,omitempty"`
+	Preferences *CreateTemplateDocumentFieldPreferencesParams `json:"preferences,omitempty" url:"preferences,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetType() *CreateTemplateDocumentFieldParamsType {
+	if c == nil {
+		return nil
+	}
+	return c.Type
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetRole() string {
+	if c == nil {
+		return ""
+	}
+	return c.Role
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetRequired() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Required
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetTitle() string {
+	if c == nil {
+		return ""
+	}
+	return c.Title
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetDescription() string {
+	if c == nil {
+		return ""
+	}
+	return c.Description
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetAreas() []*CreateTemplateDocumentFieldAreaParams {
+	if c == nil {
+		return nil
+	}
+	return c.Areas
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetOptions() []string {
+	if c == nil {
+		return nil
+	}
+	return c.Options
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetValidation() *CreateTemplateDocumentFieldValidationParams {
+	if c == nil {
+		return nil
+	}
+	return c.Validation
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetPreferences() *CreateTemplateDocumentFieldPreferencesParams {
+	if c == nil {
+		return nil
+	}
+	return c.Preferences
+}
+
+func (c *CreateTemplateDocumentFieldParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateTemplateDocumentFieldParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetName(name string) {
+	c.Name = name
+	c.require(createTemplateDocumentFieldParamsFieldName)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetType(type_ *CreateTemplateDocumentFieldParamsType) {
+	c.Type = type_
+	c.require(createTemplateDocumentFieldParamsFieldType)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetRole(role string) {
+	c.Role = role
+	c.require(createTemplateDocumentFieldParamsFieldRole)
+}
+
+// SetRequired sets the Required field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetRequired(required *bool) {
+	c.Required = required
+	c.require(createTemplateDocumentFieldParamsFieldRequired)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetTitle(title string) {
+	c.Title = title
+	c.require(createTemplateDocumentFieldParamsFieldTitle)
+}
+
+// SetDescription sets the Description field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetDescription(description string) {
+	c.Description = description
+	c.require(createTemplateDocumentFieldParamsFieldDescription)
+}
+
+// SetAreas sets the Areas field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetAreas(areas []*CreateTemplateDocumentFieldAreaParams) {
+	c.Areas = areas
+	c.require(createTemplateDocumentFieldParamsFieldAreas)
+}
+
+// SetOptions sets the Options field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetOptions(options []string) {
+	c.Options = options
+	c.require(createTemplateDocumentFieldParamsFieldOptions)
+}
+
+// SetValidation sets the Validation field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetValidation(validation *CreateTemplateDocumentFieldValidationParams) {
+	c.Validation = validation
+	c.require(createTemplateDocumentFieldParamsFieldValidation)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldParams) SetPreferences(preferences *CreateTemplateDocumentFieldPreferencesParams) {
+	c.Preferences = preferences
+	c.require(createTemplateDocumentFieldParamsFieldPreferences)
+}
+
+func (c *CreateTemplateDocumentFieldParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateDocumentFieldParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateTemplateDocumentFieldParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateTemplateDocumentFieldParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateDocumentFieldParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateTemplateDocumentFieldParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -7052,85 +4871,1025 @@ func (c *CreateTemplateFromDocxRequestDocumentFieldArea) String() string {
 }
 
 // Type of the field (e.g., text, signature, date, initials).
-type CreateTemplateFromDocxRequestDocumentFieldType string
+type CreateTemplateDocumentFieldParamsType string
 
 const (
-	CreateTemplateFromDocxRequestDocumentFieldTypeHeading       CreateTemplateFromDocxRequestDocumentFieldType = "heading"
-	CreateTemplateFromDocxRequestDocumentFieldTypeText          CreateTemplateFromDocxRequestDocumentFieldType = "text"
-	CreateTemplateFromDocxRequestDocumentFieldTypeSignature     CreateTemplateFromDocxRequestDocumentFieldType = "signature"
-	CreateTemplateFromDocxRequestDocumentFieldTypeInitials      CreateTemplateFromDocxRequestDocumentFieldType = "initials"
-	CreateTemplateFromDocxRequestDocumentFieldTypeDate          CreateTemplateFromDocxRequestDocumentFieldType = "date"
-	CreateTemplateFromDocxRequestDocumentFieldTypeNumber        CreateTemplateFromDocxRequestDocumentFieldType = "number"
-	CreateTemplateFromDocxRequestDocumentFieldTypeImage         CreateTemplateFromDocxRequestDocumentFieldType = "image"
-	CreateTemplateFromDocxRequestDocumentFieldTypeCheckbox      CreateTemplateFromDocxRequestDocumentFieldType = "checkbox"
-	CreateTemplateFromDocxRequestDocumentFieldTypeMultiple      CreateTemplateFromDocxRequestDocumentFieldType = "multiple"
-	CreateTemplateFromDocxRequestDocumentFieldTypeFile          CreateTemplateFromDocxRequestDocumentFieldType = "file"
-	CreateTemplateFromDocxRequestDocumentFieldTypeRadio         CreateTemplateFromDocxRequestDocumentFieldType = "radio"
-	CreateTemplateFromDocxRequestDocumentFieldTypeSelect        CreateTemplateFromDocxRequestDocumentFieldType = "select"
-	CreateTemplateFromDocxRequestDocumentFieldTypeCells         CreateTemplateFromDocxRequestDocumentFieldType = "cells"
-	CreateTemplateFromDocxRequestDocumentFieldTypeStamp         CreateTemplateFromDocxRequestDocumentFieldType = "stamp"
-	CreateTemplateFromDocxRequestDocumentFieldTypePayment       CreateTemplateFromDocxRequestDocumentFieldType = "payment"
-	CreateTemplateFromDocxRequestDocumentFieldTypePhone         CreateTemplateFromDocxRequestDocumentFieldType = "phone"
-	CreateTemplateFromDocxRequestDocumentFieldTypeVerification  CreateTemplateFromDocxRequestDocumentFieldType = "verification"
-	CreateTemplateFromDocxRequestDocumentFieldTypeKba           CreateTemplateFromDocxRequestDocumentFieldType = "kba"
-	CreateTemplateFromDocxRequestDocumentFieldTypeStrikethrough CreateTemplateFromDocxRequestDocumentFieldType = "strikethrough"
+	CreateTemplateDocumentFieldParamsTypeHeading       CreateTemplateDocumentFieldParamsType = "heading"
+	CreateTemplateDocumentFieldParamsTypeText          CreateTemplateDocumentFieldParamsType = "text"
+	CreateTemplateDocumentFieldParamsTypeSignature     CreateTemplateDocumentFieldParamsType = "signature"
+	CreateTemplateDocumentFieldParamsTypeInitials      CreateTemplateDocumentFieldParamsType = "initials"
+	CreateTemplateDocumentFieldParamsTypeDate          CreateTemplateDocumentFieldParamsType = "date"
+	CreateTemplateDocumentFieldParamsTypeNumber        CreateTemplateDocumentFieldParamsType = "number"
+	CreateTemplateDocumentFieldParamsTypeImage         CreateTemplateDocumentFieldParamsType = "image"
+	CreateTemplateDocumentFieldParamsTypeCheckbox      CreateTemplateDocumentFieldParamsType = "checkbox"
+	CreateTemplateDocumentFieldParamsTypeMultiple      CreateTemplateDocumentFieldParamsType = "multiple"
+	CreateTemplateDocumentFieldParamsTypeFile          CreateTemplateDocumentFieldParamsType = "file"
+	CreateTemplateDocumentFieldParamsTypeRadio         CreateTemplateDocumentFieldParamsType = "radio"
+	CreateTemplateDocumentFieldParamsTypeSelect        CreateTemplateDocumentFieldParamsType = "select"
+	CreateTemplateDocumentFieldParamsTypeCells         CreateTemplateDocumentFieldParamsType = "cells"
+	CreateTemplateDocumentFieldParamsTypeStamp         CreateTemplateDocumentFieldParamsType = "stamp"
+	CreateTemplateDocumentFieldParamsTypePayment       CreateTemplateDocumentFieldParamsType = "payment"
+	CreateTemplateDocumentFieldParamsTypePhone         CreateTemplateDocumentFieldParamsType = "phone"
+	CreateTemplateDocumentFieldParamsTypeVerification  CreateTemplateDocumentFieldParamsType = "verification"
+	CreateTemplateDocumentFieldParamsTypeKba           CreateTemplateDocumentFieldParamsType = "kba"
+	CreateTemplateDocumentFieldParamsTypeStrikethrough CreateTemplateDocumentFieldParamsType = "strikethrough"
 )
 
-func NewCreateTemplateFromDocxRequestDocumentFieldTypeFromString(s string) (CreateTemplateFromDocxRequestDocumentFieldType, error) {
+func NewCreateTemplateDocumentFieldParamsTypeFromString(s string) (CreateTemplateDocumentFieldParamsType, error) {
 	switch s {
 	case "heading":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeHeading, nil
+		return CreateTemplateDocumentFieldParamsTypeHeading, nil
 	case "text":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeText, nil
+		return CreateTemplateDocumentFieldParamsTypeText, nil
 	case "signature":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeSignature, nil
+		return CreateTemplateDocumentFieldParamsTypeSignature, nil
 	case "initials":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeInitials, nil
+		return CreateTemplateDocumentFieldParamsTypeInitials, nil
 	case "date":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeDate, nil
+		return CreateTemplateDocumentFieldParamsTypeDate, nil
 	case "number":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeNumber, nil
+		return CreateTemplateDocumentFieldParamsTypeNumber, nil
 	case "image":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeImage, nil
+		return CreateTemplateDocumentFieldParamsTypeImage, nil
 	case "checkbox":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeCheckbox, nil
+		return CreateTemplateDocumentFieldParamsTypeCheckbox, nil
 	case "multiple":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeMultiple, nil
+		return CreateTemplateDocumentFieldParamsTypeMultiple, nil
 	case "file":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeFile, nil
+		return CreateTemplateDocumentFieldParamsTypeFile, nil
 	case "radio":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeRadio, nil
+		return CreateTemplateDocumentFieldParamsTypeRadio, nil
 	case "select":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeSelect, nil
+		return CreateTemplateDocumentFieldParamsTypeSelect, nil
 	case "cells":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeCells, nil
+		return CreateTemplateDocumentFieldParamsTypeCells, nil
 	case "stamp":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeStamp, nil
+		return CreateTemplateDocumentFieldParamsTypeStamp, nil
 	case "payment":
-		return CreateTemplateFromDocxRequestDocumentFieldTypePayment, nil
+		return CreateTemplateDocumentFieldParamsTypePayment, nil
 	case "phone":
-		return CreateTemplateFromDocxRequestDocumentFieldTypePhone, nil
+		return CreateTemplateDocumentFieldParamsTypePhone, nil
 	case "verification":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeVerification, nil
+		return CreateTemplateDocumentFieldParamsTypeVerification, nil
 	case "kba":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeKba, nil
+		return CreateTemplateDocumentFieldParamsTypeKba, nil
 	case "strikethrough":
-		return CreateTemplateFromDocxRequestDocumentFieldTypeStrikethrough, nil
+		return CreateTemplateDocumentFieldParamsTypeStrikethrough, nil
 	}
-	var t CreateTemplateFromDocxRequestDocumentFieldType
+	var t CreateTemplateDocumentFieldParamsType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (c CreateTemplateFromDocxRequestDocumentFieldType) Ptr() *CreateTemplateFromDocxRequestDocumentFieldType {
+func (c CreateTemplateDocumentFieldParamsType) Ptr() *CreateTemplateDocumentFieldParamsType {
 	return &c
 }
 
+// Field display preferences.
 var (
-	createTemplateFromHTMLRequestDocumentFieldHTML = big.NewInt(1 << 0)
-	createTemplateFromHTMLRequestDocumentFieldName = big.NewInt(1 << 1)
+	createTemplateDocumentFieldPreferencesParamsFieldFontSize   = big.NewInt(1 << 0)
+	createTemplateDocumentFieldPreferencesParamsFieldFontType   = big.NewInt(1 << 1)
+	createTemplateDocumentFieldPreferencesParamsFieldFont       = big.NewInt(1 << 2)
+	createTemplateDocumentFieldPreferencesParamsFieldColor      = big.NewInt(1 << 3)
+	createTemplateDocumentFieldPreferencesParamsFieldBackground = big.NewInt(1 << 4)
+	createTemplateDocumentFieldPreferencesParamsFieldAlign      = big.NewInt(1 << 5)
+	createTemplateDocumentFieldPreferencesParamsFieldValign     = big.NewInt(1 << 6)
+	createTemplateDocumentFieldPreferencesParamsFieldFormat     = big.NewInt(1 << 7)
+	createTemplateDocumentFieldPreferencesParamsFieldPrice      = big.NewInt(1 << 8)
+	createTemplateDocumentFieldPreferencesParamsFieldCurrency   = big.NewInt(1 << 9)
+	createTemplateDocumentFieldPreferencesParamsFieldMask       = big.NewInt(1 << 10)
+	createTemplateDocumentFieldPreferencesParamsFieldReasons    = big.NewInt(1 << 11)
 )
 
-type CreateTemplateFromHTMLRequestDocument struct {
+type CreateTemplateDocumentFieldPreferencesParams struct {
+	// Font size of the field value in pixels.
+	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
+	// Font type of the field value.
+	FontType *CreateTemplateDocumentFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	// Font family of the field value.
+	Font *CreateTemplateDocumentFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	// Font color of the field value.
+	Color *CreateTemplateDocumentFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	// Field box background color.
+	Background *CreateTemplateDocumentFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	// Horizontal alignment of the field text value.
+	Align *CreateTemplateDocumentFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	// Vertical alignment of the field text value.
+	Valign *CreateTemplateDocumentFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
+	Format string `json:"format,omitempty" url:"format,omitempty"`
+	// Price value of the payment field. Only for payment fields.
+	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
+	// Currency value of the payment field. Only for payment fields.
+	Currency *CreateTemplateDocumentFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	// Set `true` to make sensitive data masked on the document.
+	Mask *CreateTemplateDocumentFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
+	// An array of signature reasons to choose from.
+	Reasons []string `json:"reasons,omitempty" url:"reasons,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFontSize() *int {
+	if c == nil {
+		return nil
+	}
+	return c.FontSize
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFontType() *CreateTemplateDocumentFieldPreferencesParamsFontType {
+	if c == nil {
+		return nil
+	}
+	return c.FontType
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFont() *CreateTemplateDocumentFieldPreferencesParamsFont {
+	if c == nil {
+		return nil
+	}
+	return c.Font
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetColor() *CreateTemplateDocumentFieldPreferencesParamsColor {
+	if c == nil {
+		return nil
+	}
+	return c.Color
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetBackground() *CreateTemplateDocumentFieldPreferencesParamsBackground {
+	if c == nil {
+		return nil
+	}
+	return c.Background
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetAlign() *CreateTemplateDocumentFieldPreferencesParamsAlign {
+	if c == nil {
+		return nil
+	}
+	return c.Align
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetValign() *CreateTemplateDocumentFieldPreferencesParamsValign {
+	if c == nil {
+		return nil
+	}
+	return c.Valign
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFormat() string {
+	if c == nil {
+		return ""
+	}
+	return c.Format
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetPrice() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Price
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetCurrency() *CreateTemplateDocumentFieldPreferencesParamsCurrency {
+	if c == nil {
+		return nil
+	}
+	return c.Currency
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetMask() *CreateTemplateDocumentFieldPreferencesParamsMask {
+	if c == nil {
+		return nil
+	}
+	return c.Mask
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetReasons() []string {
+	if c == nil {
+		return nil
+	}
+	return c.Reasons
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetFontSize sets the FontSize field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFontSize(fontSize *int) {
+	c.FontSize = fontSize
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldFontSize)
+}
+
+// SetFontType sets the FontType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFontType(fontType *CreateTemplateDocumentFieldPreferencesParamsFontType) {
+	c.FontType = fontType
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldFontType)
+}
+
+// SetFont sets the Font field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFont(font *CreateTemplateDocumentFieldPreferencesParamsFont) {
+	c.Font = font
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldFont)
+}
+
+// SetColor sets the Color field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetColor(color *CreateTemplateDocumentFieldPreferencesParamsColor) {
+	c.Color = color
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldColor)
+}
+
+// SetBackground sets the Background field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetBackground(background *CreateTemplateDocumentFieldPreferencesParamsBackground) {
+	c.Background = background
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldBackground)
+}
+
+// SetAlign sets the Align field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetAlign(align *CreateTemplateDocumentFieldPreferencesParamsAlign) {
+	c.Align = align
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldAlign)
+}
+
+// SetValign sets the Valign field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetValign(valign *CreateTemplateDocumentFieldPreferencesParamsValign) {
+	c.Valign = valign
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldValign)
+}
+
+// SetFormat sets the Format field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFormat(format string) {
+	c.Format = format
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldFormat)
+}
+
+// SetPrice sets the Price field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetPrice(price *float64) {
+	c.Price = price
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldPrice)
+}
+
+// SetCurrency sets the Currency field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetCurrency(currency *CreateTemplateDocumentFieldPreferencesParamsCurrency) {
+	c.Currency = currency
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldCurrency)
+}
+
+// SetMask sets the Mask field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetMask(mask *CreateTemplateDocumentFieldPreferencesParamsMask) {
+	c.Mask = mask
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldMask)
+}
+
+// SetReasons sets the Reasons field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetReasons(reasons []string) {
+	c.Reasons = reasons
+	c.require(createTemplateDocumentFieldPreferencesParamsFieldReasons)
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateDocumentFieldPreferencesParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateTemplateDocumentFieldPreferencesParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateDocumentFieldPreferencesParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Horizontal alignment of the field text value.
+type CreateTemplateDocumentFieldPreferencesParamsAlign string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsAlignLeft   CreateTemplateDocumentFieldPreferencesParamsAlign = "left"
+	CreateTemplateDocumentFieldPreferencesParamsAlignCenter CreateTemplateDocumentFieldPreferencesParamsAlign = "center"
+	CreateTemplateDocumentFieldPreferencesParamsAlignRight  CreateTemplateDocumentFieldPreferencesParamsAlign = "right"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsAlignFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsAlign, error) {
+	switch s {
+	case "left":
+		return CreateTemplateDocumentFieldPreferencesParamsAlignLeft, nil
+	case "center":
+		return CreateTemplateDocumentFieldPreferencesParamsAlignCenter, nil
+	case "right":
+		return CreateTemplateDocumentFieldPreferencesParamsAlignRight, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsAlign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsAlign) Ptr() *CreateTemplateDocumentFieldPreferencesParamsAlign {
+	return &c
+}
+
+// Field box background color.
+type CreateTemplateDocumentFieldPreferencesParamsBackground string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsBackgroundBlack CreateTemplateDocumentFieldPreferencesParamsBackground = "black"
+	CreateTemplateDocumentFieldPreferencesParamsBackgroundWhite CreateTemplateDocumentFieldPreferencesParamsBackground = "white"
+	CreateTemplateDocumentFieldPreferencesParamsBackgroundBlue  CreateTemplateDocumentFieldPreferencesParamsBackground = "blue"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsBackgroundFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsBackground, error) {
+	switch s {
+	case "black":
+		return CreateTemplateDocumentFieldPreferencesParamsBackgroundBlack, nil
+	case "white":
+		return CreateTemplateDocumentFieldPreferencesParamsBackgroundWhite, nil
+	case "blue":
+		return CreateTemplateDocumentFieldPreferencesParamsBackgroundBlue, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsBackground
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsBackground) Ptr() *CreateTemplateDocumentFieldPreferencesParamsBackground {
+	return &c
+}
+
+// Font color of the field value.
+type CreateTemplateDocumentFieldPreferencesParamsColor string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsColorBlack CreateTemplateDocumentFieldPreferencesParamsColor = "black"
+	CreateTemplateDocumentFieldPreferencesParamsColorWhite CreateTemplateDocumentFieldPreferencesParamsColor = "white"
+	CreateTemplateDocumentFieldPreferencesParamsColorBlue  CreateTemplateDocumentFieldPreferencesParamsColor = "blue"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsColorFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsColor, error) {
+	switch s {
+	case "black":
+		return CreateTemplateDocumentFieldPreferencesParamsColorBlack, nil
+	case "white":
+		return CreateTemplateDocumentFieldPreferencesParamsColorWhite, nil
+	case "blue":
+		return CreateTemplateDocumentFieldPreferencesParamsColorBlue, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsColor
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsColor) Ptr() *CreateTemplateDocumentFieldPreferencesParamsColor {
+	return &c
+}
+
+// Currency value of the payment field. Only for payment fields.
+type CreateTemplateDocumentFieldPreferencesParamsCurrency string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsCurrencyUsd CreateTemplateDocumentFieldPreferencesParamsCurrency = "USD"
+	CreateTemplateDocumentFieldPreferencesParamsCurrencyEur CreateTemplateDocumentFieldPreferencesParamsCurrency = "EUR"
+	CreateTemplateDocumentFieldPreferencesParamsCurrencyGbp CreateTemplateDocumentFieldPreferencesParamsCurrency = "GBP"
+	CreateTemplateDocumentFieldPreferencesParamsCurrencyCad CreateTemplateDocumentFieldPreferencesParamsCurrency = "CAD"
+	CreateTemplateDocumentFieldPreferencesParamsCurrencyAud CreateTemplateDocumentFieldPreferencesParamsCurrency = "AUD"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsCurrencyFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsCurrency, error) {
+	switch s {
+	case "USD":
+		return CreateTemplateDocumentFieldPreferencesParamsCurrencyUsd, nil
+	case "EUR":
+		return CreateTemplateDocumentFieldPreferencesParamsCurrencyEur, nil
+	case "GBP":
+		return CreateTemplateDocumentFieldPreferencesParamsCurrencyGbp, nil
+	case "CAD":
+		return CreateTemplateDocumentFieldPreferencesParamsCurrencyCad, nil
+	case "AUD":
+		return CreateTemplateDocumentFieldPreferencesParamsCurrencyAud, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsCurrency
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsCurrency) Ptr() *CreateTemplateDocumentFieldPreferencesParamsCurrency {
+	return &c
+}
+
+// Font family of the field value.
+type CreateTemplateDocumentFieldPreferencesParamsFont string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsFontTimes     CreateTemplateDocumentFieldPreferencesParamsFont = "Times"
+	CreateTemplateDocumentFieldPreferencesParamsFontHelvetica CreateTemplateDocumentFieldPreferencesParamsFont = "Helvetica"
+	CreateTemplateDocumentFieldPreferencesParamsFontCourier   CreateTemplateDocumentFieldPreferencesParamsFont = "Courier"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsFontFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsFont, error) {
+	switch s {
+	case "Times":
+		return CreateTemplateDocumentFieldPreferencesParamsFontTimes, nil
+	case "Helvetica":
+		return CreateTemplateDocumentFieldPreferencesParamsFontHelvetica, nil
+	case "Courier":
+		return CreateTemplateDocumentFieldPreferencesParamsFontCourier, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsFont
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsFont) Ptr() *CreateTemplateDocumentFieldPreferencesParamsFont {
+	return &c
+}
+
+// Font type of the field value.
+type CreateTemplateDocumentFieldPreferencesParamsFontType string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsFontTypeBold       CreateTemplateDocumentFieldPreferencesParamsFontType = "bold"
+	CreateTemplateDocumentFieldPreferencesParamsFontTypeItalic     CreateTemplateDocumentFieldPreferencesParamsFontType = "italic"
+	CreateTemplateDocumentFieldPreferencesParamsFontTypeBoldItalic CreateTemplateDocumentFieldPreferencesParamsFontType = "bold_italic"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsFontTypeFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsFontType, error) {
+	switch s {
+	case "bold":
+		return CreateTemplateDocumentFieldPreferencesParamsFontTypeBold, nil
+	case "italic":
+		return CreateTemplateDocumentFieldPreferencesParamsFontTypeItalic, nil
+	case "bold_italic":
+		return CreateTemplateDocumentFieldPreferencesParamsFontTypeBoldItalic, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsFontType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsFontType) Ptr() *CreateTemplateDocumentFieldPreferencesParamsFontType {
+	return &c
+}
+
+// Set `true` to make sensitive data masked on the document.
+type CreateTemplateDocumentFieldPreferencesParamsMask struct {
+	Integer int
+	Boolean bool
+
+	typ string
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParamsMask) GetInteger() int {
+	if c == nil {
+		return 0
+	}
+	return c.Integer
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParamsMask) GetBoolean() bool {
+	if c == nil {
+		return false
+	}
+	return c.Boolean
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParamsMask) UnmarshalJSON(data []byte) error {
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		c.typ = "Integer"
+		c.Integer = valueInteger
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		c.typ = "Boolean"
+		c.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsMask) MarshalJSON() ([]byte, error) {
+	if c.typ == "Integer" || c.Integer != 0 {
+		return json.Marshal(c.Integer)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return json.Marshal(c.Boolean)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateTemplateDocumentFieldPreferencesParamsMaskVisitor interface {
+	VisitInteger(int) error
+	VisitBoolean(bool) error
+}
+
+func (c *CreateTemplateDocumentFieldPreferencesParamsMask) Accept(visitor CreateTemplateDocumentFieldPreferencesParamsMaskVisitor) error {
+	if c.typ == "Integer" || c.Integer != 0 {
+		return visitor.VisitInteger(c.Integer)
+	}
+	if c.typ == "Boolean" || c.Boolean != false {
+		return visitor.VisitBoolean(c.Boolean)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Vertical alignment of the field text value.
+type CreateTemplateDocumentFieldPreferencesParamsValign string
+
+const (
+	CreateTemplateDocumentFieldPreferencesParamsValignTop    CreateTemplateDocumentFieldPreferencesParamsValign = "top"
+	CreateTemplateDocumentFieldPreferencesParamsValignCenter CreateTemplateDocumentFieldPreferencesParamsValign = "center"
+	CreateTemplateDocumentFieldPreferencesParamsValignBottom CreateTemplateDocumentFieldPreferencesParamsValign = "bottom"
+)
+
+func NewCreateTemplateDocumentFieldPreferencesParamsValignFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsValign, error) {
+	switch s {
+	case "top":
+		return CreateTemplateDocumentFieldPreferencesParamsValignTop, nil
+	case "center":
+		return CreateTemplateDocumentFieldPreferencesParamsValignCenter, nil
+	case "bottom":
+		return CreateTemplateDocumentFieldPreferencesParamsValignBottom, nil
+	}
+	var t CreateTemplateDocumentFieldPreferencesParamsValign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateTemplateDocumentFieldPreferencesParamsValign) Ptr() *CreateTemplateDocumentFieldPreferencesParamsValign {
+	return &c
+}
+
+// Field validation rules.
+var (
+	createTemplateDocumentFieldValidationParamsFieldPattern = big.NewInt(1 << 0)
+	createTemplateDocumentFieldValidationParamsFieldMessage = big.NewInt(1 << 1)
+	createTemplateDocumentFieldValidationParamsFieldMin     = big.NewInt(1 << 2)
+	createTemplateDocumentFieldValidationParamsFieldMax     = big.NewInt(1 << 3)
+	createTemplateDocumentFieldValidationParamsFieldStep    = big.NewInt(1 << 4)
+)
+
+type CreateTemplateDocumentFieldValidationParams struct {
+	// HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
+	Pattern string `json:"pattern,omitempty" url:"pattern,omitempty"`
+	// A custom error message to display on validation failure.
+	Message string `json:"message,omitempty" url:"message,omitempty"`
+	// Minimum allowed number value or date depending on field type.
+	Min *CreateTemplateDocumentFieldValidationParamsMin `json:"min,omitempty" url:"min,omitempty"`
+	// Maximum allowed number value or date depending on field type.
+	Max *CreateTemplateDocumentFieldValidationParamsMax `json:"max,omitempty" url:"max,omitempty"`
+	// Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
+	Step *float64 `json:"step,omitempty" url:"step,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetPattern() string {
+	if c == nil {
+		return ""
+	}
+	return c.Pattern
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetMessage() string {
+	if c == nil {
+		return ""
+	}
+	return c.Message
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetMin() *CreateTemplateDocumentFieldValidationParamsMin {
+	if c == nil {
+		return nil
+	}
+	return c.Min
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetMax() *CreateTemplateDocumentFieldValidationParamsMax {
+	if c == nil {
+		return nil
+	}
+	return c.Max
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetStep() *float64 {
+	if c == nil {
+		return nil
+	}
+	return c.Step
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetPattern sets the Pattern field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldValidationParams) SetPattern(pattern string) {
+	c.Pattern = pattern
+	c.require(createTemplateDocumentFieldValidationParamsFieldPattern)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldValidationParams) SetMessage(message string) {
+	c.Message = message
+	c.require(createTemplateDocumentFieldValidationParamsFieldMessage)
+}
+
+// SetMin sets the Min field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldValidationParams) SetMin(min *CreateTemplateDocumentFieldValidationParamsMin) {
+	c.Min = min
+	c.require(createTemplateDocumentFieldValidationParamsFieldMin)
+}
+
+// SetMax sets the Max field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldValidationParams) SetMax(max *CreateTemplateDocumentFieldValidationParamsMax) {
+	c.Max = max
+	c.require(createTemplateDocumentFieldValidationParamsFieldMax)
+}
+
+// SetStep sets the Step field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateDocumentFieldValidationParams) SetStep(step *float64) {
+	c.Step = step
+	c.require(createTemplateDocumentFieldValidationParamsFieldStep)
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateDocumentFieldValidationParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateTemplateDocumentFieldValidationParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateDocumentFieldValidationParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateTemplateDocumentFieldValidationParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+// Maximum allowed number value or date depending on field type.
+type CreateTemplateDocumentFieldValidationParamsMax struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMax) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMax) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMax) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateTemplateDocumentFieldValidationParamsMax) MarshalJSON() ([]byte, error) {
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateTemplateDocumentFieldValidationParamsMaxVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMax) Accept(visitor CreateTemplateDocumentFieldValidationParamsMaxVisitor) error {
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+// Minimum allowed number value or date depending on field type.
+type CreateTemplateDocumentFieldValidationParamsMin struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMin) GetDouble() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Double
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMin) GetString() string {
+	if c == nil {
+		return ""
+	}
+	return c.String
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMin) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		c.typ = "Double"
+		c.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		c.typ = "String"
+		c.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
+}
+
+func (c CreateTemplateDocumentFieldValidationParamsMin) MarshalJSON() ([]byte, error) {
+	if c.typ == "Double" || c.Double != 0 {
+		return json.Marshal(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return json.Marshal(c.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+type CreateTemplateDocumentFieldValidationParamsMinVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (c *CreateTemplateDocumentFieldValidationParamsMin) Accept(visitor CreateTemplateDocumentFieldValidationParamsMinVisitor) error {
+	if c.typ == "Double" || c.Double != 0 {
+		return visitor.VisitDouble(c.Double)
+	}
+	if c.typ == "String" || c.String != "" {
+		return visitor.VisitString(c.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", c)
+}
+
+var (
+	createTemplateFromDocxDocumentParamsFieldName    = big.NewInt(1 << 0)
+	createTemplateFromDocxDocumentParamsFieldFile    = big.NewInt(1 << 1)
+	createTemplateFromDocxDocumentParamsFieldDynamic = big.NewInt(1 << 2)
+	createTemplateFromDocxDocumentParamsFieldFields  = big.NewInt(1 << 3)
+)
+
+type CreateTemplateFromDocxDocumentParams struct {
+	// Name of the document.
+	Name string `json:"name" url:"name"`
+	// Base64-encoded content of the DOCX file or downloadable file URL.
+	File string `json:"file" url:"file"`
+	// Set to `true` to make the document dynamic. When enabled, the DOCX document content can be edited or use [[variables]] in the template editor.
+	Dynamic *bool `json:"dynamic,omitempty" url:"dynamic,omitempty"`
+	// Fields are optional if you use {{...}} text tags to define fields in the document.
+	Fields []*CreateTemplateDocumentFieldParams `json:"fields,omitempty" url:"fields,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) GetFile() string {
+	if c == nil {
+		return ""
+	}
+	return c.File
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) GetDynamic() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Dynamic
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) GetFields() []*CreateTemplateDocumentFieldParams {
+	if c == nil {
+		return nil
+	}
+	return c.Fields
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateFromDocxDocumentParams) SetName(name string) {
+	c.Name = name
+	c.require(createTemplateFromDocxDocumentParamsFieldName)
+}
+
+// SetFile sets the File field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateFromDocxDocumentParams) SetFile(file string) {
+	c.File = file
+	c.require(createTemplateFromDocxDocumentParamsFieldFile)
+}
+
+// SetDynamic sets the Dynamic field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateFromDocxDocumentParams) SetDynamic(dynamic *bool) {
+	c.Dynamic = dynamic
+	c.require(createTemplateFromDocxDocumentParamsFieldDynamic)
+}
+
+// SetFields sets the Fields field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateTemplateFromDocxDocumentParams) SetFields(fields []*CreateTemplateDocumentFieldParams) {
+	c.Fields = fields
+	c.require(createTemplateFromDocxDocumentParamsFieldFields)
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateFromDocxDocumentParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CreateTemplateFromDocxDocumentParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateFromDocxDocumentParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateTemplateFromDocxDocumentParams) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	createTemplateFromHTMLDocumentParamsFieldHTML = big.NewInt(1 << 0)
+	createTemplateFromHTMLDocumentParamsFieldName = big.NewInt(1 << 1)
+)
+
+type CreateTemplateFromHTMLDocumentParams struct {
 	// HTML template with field tags.
 	HTML string `json:"html" url:"html"`
 	// Document name. Random uuid will be assigned when not specified.
@@ -7143,28 +5902,28 @@ type CreateTemplateFromHTMLRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) GetHTML() string {
+func (c *CreateTemplateFromHTMLDocumentParams) GetHTML() string {
 	if c == nil {
 		return ""
 	}
 	return c.HTML
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) GetName() string {
+func (c *CreateTemplateFromHTMLDocumentParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateTemplateFromHTMLDocumentParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) require(field *big.Int) {
+func (c *CreateTemplateFromHTMLDocumentParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -7173,25 +5932,25 @@ func (c *CreateTemplateFromHTMLRequestDocument) require(field *big.Int) {
 
 // SetHTML sets the HTML field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLRequestDocument) SetHTML(html string) {
+func (c *CreateTemplateFromHTMLDocumentParams) SetHTML(html string) {
 	c.HTML = html
-	c.require(createTemplateFromHTMLRequestDocumentFieldHTML)
+	c.require(createTemplateFromHTMLDocumentParamsFieldHTML)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLRequestDocument) SetName(name string) {
+func (c *CreateTemplateFromHTMLDocumentParams) SetName(name string) {
 	c.Name = name
-	c.require(createTemplateFromHTMLRequestDocumentFieldName)
+	c.require(createTemplateFromHTMLDocumentParamsFieldName)
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromHTMLRequestDocument
+func (c *CreateTemplateFromHTMLDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateFromHTMLDocumentParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateTemplateFromHTMLRequestDocument(value)
+	*c = CreateTemplateFromHTMLDocumentParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -7201,8 +5960,8 @@ func (c *CreateTemplateFromHTMLRequestDocument) UnmarshalJSON(data []byte) error
 	return nil
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromHTMLRequestDocument
+func (c *CreateTemplateFromHTMLDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateFromHTMLDocumentParams
 	var marshaler = struct {
 		embed
 	}{
@@ -7212,7 +5971,7 @@ func (c *CreateTemplateFromHTMLRequestDocument) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateTemplateFromHTMLRequestDocument) String() string {
+func (c *CreateTemplateFromHTMLDocumentParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -7278,18 +6037,18 @@ func (c CreateTemplateFromHTMLRequestSize) Ptr() *CreateTemplateFromHTMLRequestS
 }
 
 var (
-	createTemplateFromPdfRequestDocumentFieldName   = big.NewInt(1 << 0)
-	createTemplateFromPdfRequestDocumentFieldFile   = big.NewInt(1 << 1)
-	createTemplateFromPdfRequestDocumentFieldFields = big.NewInt(1 << 2)
+	createTemplateFromPdfDocumentParamsFieldName   = big.NewInt(1 << 0)
+	createTemplateFromPdfDocumentParamsFieldFile   = big.NewInt(1 << 1)
+	createTemplateFromPdfDocumentParamsFieldFields = big.NewInt(1 << 2)
 )
 
-type CreateTemplateFromPdfRequestDocument struct {
+type CreateTemplateFromPdfDocumentParams struct {
 	// Name of the document.
 	Name string `json:"name" url:"name"`
 	// Base64-encoded content of the PDF file or downloadable file URL.
 	File string `json:"file" url:"file"`
 	// Fields are optional if you use {{...}} text tags to define fields in the document.
-	Fields []*CreateTemplateFromPdfRequestDocumentField `json:"fields,omitempty" url:"fields,omitempty"`
+	Fields []*CreateTemplateDocumentFieldParams `json:"fields,omitempty" url:"fields,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -7298,35 +6057,35 @@ type CreateTemplateFromPdfRequestDocument struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) GetName() string {
+func (c *CreateTemplateFromPdfDocumentParams) GetName() string {
 	if c == nil {
 		return ""
 	}
 	return c.Name
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) GetFile() string {
+func (c *CreateTemplateFromPdfDocumentParams) GetFile() string {
 	if c == nil {
 		return ""
 	}
 	return c.File
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) GetFields() []*CreateTemplateFromPdfRequestDocumentField {
+func (c *CreateTemplateFromPdfDocumentParams) GetFields() []*CreateTemplateDocumentFieldParams {
 	if c == nil {
 		return nil
 	}
 	return c.Fields
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) GetExtraProperties() map[string]interface{} {
+func (c *CreateTemplateFromPdfDocumentParams) GetExtraProperties() map[string]interface{} {
 	if c == nil {
 		return nil
 	}
 	return c.extraProperties
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) require(field *big.Int) {
+func (c *CreateTemplateFromPdfDocumentParams) require(field *big.Int) {
 	if c.explicitFields == nil {
 		c.explicitFields = big.NewInt(0)
 	}
@@ -7335,32 +6094,32 @@ func (c *CreateTemplateFromPdfRequestDocument) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocument) SetName(name string) {
+func (c *CreateTemplateFromPdfDocumentParams) SetName(name string) {
 	c.Name = name
-	c.require(createTemplateFromPdfRequestDocumentFieldName)
+	c.require(createTemplateFromPdfDocumentParamsFieldName)
 }
 
 // SetFile sets the File field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocument) SetFile(file string) {
+func (c *CreateTemplateFromPdfDocumentParams) SetFile(file string) {
 	c.File = file
-	c.require(createTemplateFromPdfRequestDocumentFieldFile)
+	c.require(createTemplateFromPdfDocumentParamsFieldFile)
 }
 
 // SetFields sets the Fields field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocument) SetFields(fields []*CreateTemplateFromPdfRequestDocumentField) {
+func (c *CreateTemplateFromPdfDocumentParams) SetFields(fields []*CreateTemplateDocumentFieldParams) {
 	c.Fields = fields
-	c.require(createTemplateFromPdfRequestDocumentFieldFields)
+	c.require(createTemplateFromPdfDocumentParamsFieldFields)
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromPdfRequestDocument
+func (c *CreateTemplateFromPdfDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler CreateTemplateFromPdfDocumentParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateTemplateFromPdfRequestDocument(value)
+	*c = CreateTemplateFromPdfDocumentParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *c)
 	if err != nil {
 		return err
@@ -7370,8 +6129,8 @@ func (c *CreateTemplateFromPdfRequestDocument) UnmarshalJSON(data []byte) error 
 	return nil
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromPdfRequestDocument
+func (c *CreateTemplateFromPdfDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed CreateTemplateFromPdfDocumentParams
 	var marshaler = struct {
 		embed
 	}{
@@ -7381,7 +6140,7 @@ func (c *CreateTemplateFromPdfRequestDocument) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateTemplateFromPdfRequestDocument) String() string {
+func (c *CreateTemplateFromPdfDocumentParams) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -7397,37 +6156,15 @@ func (c *CreateTemplateFromPdfRequestDocument) String() string {
 }
 
 var (
-	createTemplateFromPdfRequestDocumentFieldFieldName        = big.NewInt(1 << 0)
-	createTemplateFromPdfRequestDocumentFieldFieldType        = big.NewInt(1 << 1)
-	createTemplateFromPdfRequestDocumentFieldFieldRole        = big.NewInt(1 << 2)
-	createTemplateFromPdfRequestDocumentFieldFieldRequired    = big.NewInt(1 << 3)
-	createTemplateFromPdfRequestDocumentFieldFieldTitle       = big.NewInt(1 << 4)
-	createTemplateFromPdfRequestDocumentFieldFieldDescription = big.NewInt(1 << 5)
-	createTemplateFromPdfRequestDocumentFieldFieldAreas       = big.NewInt(1 << 6)
-	createTemplateFromPdfRequestDocumentFieldFieldOptions     = big.NewInt(1 << 7)
-	createTemplateFromPdfRequestDocumentFieldFieldValidation  = big.NewInt(1 << 8)
-	createTemplateFromPdfRequestDocumentFieldFieldPreferences = big.NewInt(1 << 9)
+	documentFieldName = big.NewInt(1 << 0)
+	documentFieldURL  = big.NewInt(1 << 1)
 )
 
-type CreateTemplateFromPdfRequestDocumentField struct {
-	// Name of the field.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Type of the field (e.g., text, signature, date, initials).
-	Type *CreateTemplateFromPdfRequestDocumentFieldType `json:"type,omitempty" url:"type,omitempty"`
-	// Role name of the signer.
-	Role string `json:"role,omitempty" url:"role,omitempty"`
-	// Indicates if the field is required.
-	Required *bool `json:"required,omitempty" url:"required,omitempty"`
-	// Field title displayed to the user instead of the name, shown on the signing form. Supports Markdown.
-	Title string `json:"title,omitempty" url:"title,omitempty"`
-	// Field description displayed on the signing form. Supports Markdown.
-	Description string `json:"description,omitempty" url:"description,omitempty"`
-	// List of areas where the field is located in the document.
-	Areas []*CreateSubmissionFromPdfRequestDocumentFieldArea `json:"areas,omitempty" url:"areas,omitempty"`
-	// An array of option values for 'select' field type.
-	Options     []string          `json:"options,omitempty" url:"options,omitempty"`
-	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
-	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
+type Document struct {
+	// Document name.
+	Name string `json:"name" url:"name"`
+	// Document URL.
+	URL string `json:"url" url:"url"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -7436,274 +6173,444 @@ type CreateTemplateFromPdfRequestDocumentField struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetName() string {
-	if c == nil {
+func (d *Document) GetName() string {
+	if d == nil {
 		return ""
 	}
-	return c.Name
+	return d.Name
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetType() *CreateTemplateFromPdfRequestDocumentFieldType {
-	if c == nil {
-		return nil
-	}
-	return c.Type
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetRole() string {
-	if c == nil {
+func (d *Document) GetURL() string {
+	if d == nil {
 		return ""
 	}
-	return c.Role
+	return d.URL
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetRequired() *bool {
-	if c == nil {
+func (d *Document) GetExtraProperties() map[string]interface{} {
+	if d == nil {
 		return nil
 	}
-	return c.Required
+	return d.extraProperties
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) GetTitle() string {
-	if c == nil {
-		return ""
+func (d *Document) require(field *big.Int) {
+	if d.explicitFields == nil {
+		d.explicitFields = big.NewInt(0)
 	}
-	return c.Title
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetDescription() string {
-	if c == nil {
-		return ""
-	}
-	return c.Description
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetAreas() []*CreateSubmissionFromPdfRequestDocumentFieldArea {
-	if c == nil {
-		return nil
-	}
-	return c.Areas
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetOptions() []string {
-	if c == nil {
-		return nil
-	}
-	return c.Options
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetValidation() *FieldValidation {
-	if c == nil {
-		return nil
-	}
-	return c.Validation
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetPreferences() *FieldPreferences {
-	if c == nil {
-		return nil
-	}
-	return c.Preferences
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
+	d.explicitFields.Or(d.explicitFields, field)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetName(name string) {
-	c.Name = name
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldName)
+func (d *Document) SetName(name string) {
+	d.Name = name
+	d.require(documentFieldName)
 }
 
-// SetType sets the Type field and marks it as non-optional;
+// SetURL sets the URL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetType(type_ *CreateTemplateFromPdfRequestDocumentFieldType) {
-	c.Type = type_
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldType)
+func (d *Document) SetURL(url string) {
+	d.URL = url
+	d.require(documentFieldURL)
 }
 
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetRole(role string) {
-	c.Role = role
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldRole)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetRequired(required *bool) {
-	c.Required = required
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldRequired)
-}
-
-// SetTitle sets the Title field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetTitle(title string) {
-	c.Title = title
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldTitle)
-}
-
-// SetDescription sets the Description field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetDescription(description string) {
-	c.Description = description
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldDescription)
-}
-
-// SetAreas sets the Areas field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetAreas(areas []*CreateSubmissionFromPdfRequestDocumentFieldArea) {
-	c.Areas = areas
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldAreas)
-}
-
-// SetOptions sets the Options field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetOptions(options []string) {
-	c.Options = options
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldOptions)
-}
-
-// SetValidation sets the Validation field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetValidation(validation *FieldValidation) {
-	c.Validation = validation
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldValidation)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromPdfRequestDocumentField) SetPreferences(preferences *FieldPreferences) {
-	c.Preferences = preferences
-	c.require(createTemplateFromPdfRequestDocumentFieldFieldPreferences)
-}
-
-func (c *CreateTemplateFromPdfRequestDocumentField) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateTemplateFromPdfRequestDocumentField
+func (d *Document) UnmarshalJSON(data []byte) error {
+	type unmarshaler Document
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*c = CreateTemplateFromPdfRequestDocumentField(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	*d = Document(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
 	if err != nil {
 		return err
 	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
+	d.extraProperties = extraProperties
+	d.rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) MarshalJSON() ([]byte, error) {
-	type embed CreateTemplateFromPdfRequestDocumentField
+func (d *Document) MarshalJSON() ([]byte, error) {
+	type embed Document
 	var marshaler = struct {
 		embed
 	}{
-		embed: embed(*c),
+		embed: embed(*d),
 	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, d.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
-func (c *CreateTemplateFromPdfRequestDocumentField) String() string {
-	if c == nil {
+func (d *Document) String() string {
+	if d == nil {
 		return "<nil>"
 	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := internal.StringifyJSON(c); err == nil {
+	if value, err := internal.StringifyJSON(d); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", c)
+	return fmt.Sprintf("%#v", d)
 }
 
-// Type of the field (e.g., text, signature, date, initials).
-type CreateTemplateFromPdfRequestDocumentFieldType string
-
-const (
-	CreateTemplateFromPdfRequestDocumentFieldTypeHeading       CreateTemplateFromPdfRequestDocumentFieldType = "heading"
-	CreateTemplateFromPdfRequestDocumentFieldTypeText          CreateTemplateFromPdfRequestDocumentFieldType = "text"
-	CreateTemplateFromPdfRequestDocumentFieldTypeSignature     CreateTemplateFromPdfRequestDocumentFieldType = "signature"
-	CreateTemplateFromPdfRequestDocumentFieldTypeInitials      CreateTemplateFromPdfRequestDocumentFieldType = "initials"
-	CreateTemplateFromPdfRequestDocumentFieldTypeDate          CreateTemplateFromPdfRequestDocumentFieldType = "date"
-	CreateTemplateFromPdfRequestDocumentFieldTypeNumber        CreateTemplateFromPdfRequestDocumentFieldType = "number"
-	CreateTemplateFromPdfRequestDocumentFieldTypeImage         CreateTemplateFromPdfRequestDocumentFieldType = "image"
-	CreateTemplateFromPdfRequestDocumentFieldTypeCheckbox      CreateTemplateFromPdfRequestDocumentFieldType = "checkbox"
-	CreateTemplateFromPdfRequestDocumentFieldTypeMultiple      CreateTemplateFromPdfRequestDocumentFieldType = "multiple"
-	CreateTemplateFromPdfRequestDocumentFieldTypeFile          CreateTemplateFromPdfRequestDocumentFieldType = "file"
-	CreateTemplateFromPdfRequestDocumentFieldTypeRadio         CreateTemplateFromPdfRequestDocumentFieldType = "radio"
-	CreateTemplateFromPdfRequestDocumentFieldTypeSelect        CreateTemplateFromPdfRequestDocumentFieldType = "select"
-	CreateTemplateFromPdfRequestDocumentFieldTypeCells         CreateTemplateFromPdfRequestDocumentFieldType = "cells"
-	CreateTemplateFromPdfRequestDocumentFieldTypeStamp         CreateTemplateFromPdfRequestDocumentFieldType = "stamp"
-	CreateTemplateFromPdfRequestDocumentFieldTypePayment       CreateTemplateFromPdfRequestDocumentFieldType = "payment"
-	CreateTemplateFromPdfRequestDocumentFieldTypePhone         CreateTemplateFromPdfRequestDocumentFieldType = "phone"
-	CreateTemplateFromPdfRequestDocumentFieldTypeVerification  CreateTemplateFromPdfRequestDocumentFieldType = "verification"
-	CreateTemplateFromPdfRequestDocumentFieldTypeKba           CreateTemplateFromPdfRequestDocumentFieldType = "kba"
-	CreateTemplateFromPdfRequestDocumentFieldTypeStrikethrough CreateTemplateFromPdfRequestDocumentFieldType = "strikethrough"
+var (
+	fieldFieldUUID          = big.NewInt(1 << 0)
+	fieldFieldSubmitterUUID = big.NewInt(1 << 1)
+	fieldFieldName          = big.NewInt(1 << 2)
+	fieldFieldType          = big.NewInt(1 << 3)
+	fieldFieldRequired      = big.NewInt(1 << 4)
+	fieldFieldPreferences   = big.NewInt(1 << 5)
+	fieldFieldAreas         = big.NewInt(1 << 6)
 )
 
-func NewCreateTemplateFromPdfRequestDocumentFieldTypeFromString(s string) (CreateTemplateFromPdfRequestDocumentFieldType, error) {
-	switch s {
-	case "heading":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeHeading, nil
-	case "text":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeText, nil
-	case "signature":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeSignature, nil
-	case "initials":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeInitials, nil
-	case "date":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeDate, nil
-	case "number":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeNumber, nil
-	case "image":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeImage, nil
-	case "checkbox":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeCheckbox, nil
-	case "multiple":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeMultiple, nil
-	case "file":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeFile, nil
-	case "radio":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeRadio, nil
-	case "select":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeSelect, nil
-	case "cells":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeCells, nil
-	case "stamp":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeStamp, nil
-	case "payment":
-		return CreateTemplateFromPdfRequestDocumentFieldTypePayment, nil
-	case "phone":
-		return CreateTemplateFromPdfRequestDocumentFieldTypePhone, nil
-	case "verification":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeVerification, nil
-	case "kba":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeKba, nil
-	case "strikethrough":
-		return CreateTemplateFromPdfRequestDocumentFieldTypeStrikethrough, nil
-	}
-	var t CreateTemplateFromPdfRequestDocumentFieldType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
+type Field struct {
+	// Unique identifier of the field.
+	UUID string `json:"uuid" url:"uuid"`
+	// Unique identifier of the submitter that filled the field.
+	SubmitterUUID string `json:"submitter_uuid" url:"submitter_uuid"`
+	// Field name.
+	Name string `json:"name" url:"name"`
+	// Type of the field (e.g., text, signature, date, initials).
+	Type FieldType `json:"type" url:"type"`
+	// Indicates if the field is required.
+	Required    bool              `json:"required" url:"required"`
+	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
+	// List of areas where the field is located in the document.
+	Areas []*FieldArea `json:"areas" url:"areas"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
 }
 
-func (c CreateTemplateFromPdfRequestDocumentFieldType) Ptr() *CreateTemplateFromPdfRequestDocumentFieldType {
-	return &c
+func (f *Field) GetUUID() string {
+	if f == nil {
+		return ""
+	}
+	return f.UUID
+}
+
+func (f *Field) GetSubmitterUUID() string {
+	if f == nil {
+		return ""
+	}
+	return f.SubmitterUUID
+}
+
+func (f *Field) GetName() string {
+	if f == nil {
+		return ""
+	}
+	return f.Name
+}
+
+func (f *Field) GetType() FieldType {
+	if f == nil {
+		return ""
+	}
+	return f.Type
+}
+
+func (f *Field) GetRequired() bool {
+	if f == nil {
+		return false
+	}
+	return f.Required
+}
+
+func (f *Field) GetPreferences() *FieldPreferences {
+	if f == nil {
+		return nil
+	}
+	return f.Preferences
+}
+
+func (f *Field) GetAreas() []*FieldArea {
+	if f == nil {
+		return nil
+	}
+	return f.Areas
+}
+
+func (f *Field) GetExtraProperties() map[string]interface{} {
+	if f == nil {
+		return nil
+	}
+	return f.extraProperties
+}
+
+func (f *Field) require(field *big.Int) {
+	if f.explicitFields == nil {
+		f.explicitFields = big.NewInt(0)
+	}
+	f.explicitFields.Or(f.explicitFields, field)
+}
+
+// SetUUID sets the UUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetUUID(uuid string) {
+	f.UUID = uuid
+	f.require(fieldFieldUUID)
+}
+
+// SetSubmitterUUID sets the SubmitterUUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetSubmitterUUID(submitterUUID string) {
+	f.SubmitterUUID = submitterUUID
+	f.require(fieldFieldSubmitterUUID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetName(name string) {
+	f.Name = name
+	f.require(fieldFieldName)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetType(type_ FieldType) {
+	f.Type = type_
+	f.require(fieldFieldType)
+}
+
+// SetRequired sets the Required field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetRequired(required bool) {
+	f.Required = required
+	f.require(fieldFieldRequired)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetPreferences(preferences *FieldPreferences) {
+	f.Preferences = preferences
+	f.require(fieldFieldPreferences)
+}
+
+// SetAreas sets the Areas field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *Field) SetAreas(areas []*FieldArea) {
+	f.Areas = areas
+	f.require(fieldFieldAreas)
+}
+
+func (f *Field) UnmarshalJSON(data []byte) error {
+	type unmarshaler Field
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = Field(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+	f.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *Field) MarshalJSON() ([]byte, error) {
+	type embed Field
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*f),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, f.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (f *Field) String() string {
+	if f == nil {
+		return "<nil>"
+	}
+	if len(f.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(f.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
+}
+
+var (
+	fieldAreaFieldX              = big.NewInt(1 << 0)
+	fieldAreaFieldY              = big.NewInt(1 << 1)
+	fieldAreaFieldW              = big.NewInt(1 << 2)
+	fieldAreaFieldH              = big.NewInt(1 << 3)
+	fieldAreaFieldAttachmentUUID = big.NewInt(1 << 4)
+	fieldAreaFieldPage           = big.NewInt(1 << 5)
+)
+
+type FieldArea struct {
+	// X coordinate of the area where the field is located in the document.
+	X float64 `json:"x" url:"x"`
+	// Y coordinate of the area where the field is located in the document.
+	Y float64 `json:"y" url:"y"`
+	// Width of the area where the field is located in the document.
+	W float64 `json:"w" url:"w"`
+	// Height of the area where the field is located in the document.
+	H float64 `json:"h" url:"h"`
+	// Unique identifier of the attached document where the field is located.
+	AttachmentUUID string `json:"attachment_uuid" url:"attachment_uuid"`
+	// Page number of the attached document where the field is located.
+	Page int `json:"page" url:"page"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (f *FieldArea) GetX() float64 {
+	if f == nil {
+		return 0
+	}
+	return f.X
+}
+
+func (f *FieldArea) GetY() float64 {
+	if f == nil {
+		return 0
+	}
+	return f.Y
+}
+
+func (f *FieldArea) GetW() float64 {
+	if f == nil {
+		return 0
+	}
+	return f.W
+}
+
+func (f *FieldArea) GetH() float64 {
+	if f == nil {
+		return 0
+	}
+	return f.H
+}
+
+func (f *FieldArea) GetAttachmentUUID() string {
+	if f == nil {
+		return ""
+	}
+	return f.AttachmentUUID
+}
+
+func (f *FieldArea) GetPage() int {
+	if f == nil {
+		return 0
+	}
+	return f.Page
+}
+
+func (f *FieldArea) GetExtraProperties() map[string]interface{} {
+	if f == nil {
+		return nil
+	}
+	return f.extraProperties
+}
+
+func (f *FieldArea) require(field *big.Int) {
+	if f.explicitFields == nil {
+		f.explicitFields = big.NewInt(0)
+	}
+	f.explicitFields.Or(f.explicitFields, field)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetX(x float64) {
+	f.X = x
+	f.require(fieldAreaFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetY(y float64) {
+	f.Y = y
+	f.require(fieldAreaFieldY)
+}
+
+// SetW sets the W field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetW(w float64) {
+	f.W = w
+	f.require(fieldAreaFieldW)
+}
+
+// SetH sets the H field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetH(h float64) {
+	f.H = h
+	f.require(fieldAreaFieldH)
+}
+
+// SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetAttachmentUUID(attachmentUUID string) {
+	f.AttachmentUUID = attachmentUUID
+	f.require(fieldAreaFieldAttachmentUUID)
+}
+
+// SetPage sets the Page field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (f *FieldArea) SetPage(page int) {
+	f.Page = page
+	f.require(fieldAreaFieldPage)
+}
+
+func (f *FieldArea) UnmarshalJSON(data []byte) error {
+	type unmarshaler FieldArea
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*f = FieldArea(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *f)
+	if err != nil {
+		return err
+	}
+	f.extraProperties = extraProperties
+	f.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (f *FieldArea) MarshalJSON() ([]byte, error) {
+	type embed FieldArea
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*f),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, f.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (f *FieldArea) String() string {
+	if f == nil {
+		return "<nil>"
+	}
+	if len(f.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(f.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(f); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", f)
 }
 
 // Field display preferences.
@@ -7726,25 +6633,25 @@ type FieldPreferences struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType *FieldPreferencesFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType string `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font *FieldPreferencesFont `json:"font,omitempty" url:"font,omitempty"`
+	Font string `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color *FieldPreferencesColor `json:"color,omitempty" url:"color,omitempty"`
+	Color string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background *FieldPreferencesBackground `json:"background,omitempty" url:"background,omitempty"`
+	Background string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align *FieldPreferencesAlign `json:"align,omitempty" url:"align,omitempty"`
+	Align string `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign *FieldPreferencesValign `json:"valign,omitempty" url:"valign,omitempty"`
-	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
+	Valign string `json:"valign,omitempty" url:"valign,omitempty"`
+	// The data format for different field types.
 	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency *FieldPreferencesCurrency `json:"currency,omitempty" url:"currency,omitempty"`
-	// Set `true` to make sensitive data masked on the document.
-	Mask *FieldPreferencesMask `json:"mask,omitempty" url:"mask,omitempty"`
+	Currency string `json:"currency,omitempty" url:"currency,omitempty"`
+	// Indicates if the field is masked on the document.
+	Mask *bool `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
 	Reasons []string `json:"reasons,omitempty" url:"reasons,omitempty"`
 
@@ -7762,44 +6669,44 @@ func (f *FieldPreferences) GetFontSize() *int {
 	return f.FontSize
 }
 
-func (f *FieldPreferences) GetFontType() *FieldPreferencesFontType {
+func (f *FieldPreferences) GetFontType() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.FontType
 }
 
-func (f *FieldPreferences) GetFont() *FieldPreferencesFont {
+func (f *FieldPreferences) GetFont() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Font
 }
 
-func (f *FieldPreferences) GetColor() *FieldPreferencesColor {
+func (f *FieldPreferences) GetColor() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Color
 }
 
-func (f *FieldPreferences) GetBackground() *FieldPreferencesBackground {
+func (f *FieldPreferences) GetBackground() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Background
 }
 
-func (f *FieldPreferences) GetAlign() *FieldPreferencesAlign {
+func (f *FieldPreferences) GetAlign() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Align
 }
 
-func (f *FieldPreferences) GetValign() *FieldPreferencesValign {
+func (f *FieldPreferences) GetValign() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Valign
 }
@@ -7818,14 +6725,14 @@ func (f *FieldPreferences) GetPrice() *float64 {
 	return f.Price
 }
 
-func (f *FieldPreferences) GetCurrency() *FieldPreferencesCurrency {
+func (f *FieldPreferences) GetCurrency() string {
 	if f == nil {
-		return nil
+		return ""
 	}
 	return f.Currency
 }
 
-func (f *FieldPreferences) GetMask() *FieldPreferencesMask {
+func (f *FieldPreferences) GetMask() *bool {
 	if f == nil {
 		return nil
 	}
@@ -7862,42 +6769,42 @@ func (f *FieldPreferences) SetFontSize(fontSize *int) {
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFontType(fontType *FieldPreferencesFontType) {
+func (f *FieldPreferences) SetFontType(fontType string) {
 	f.FontType = fontType
 	f.require(fieldPreferencesFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFont(font *FieldPreferencesFont) {
+func (f *FieldPreferences) SetFont(font string) {
 	f.Font = font
 	f.require(fieldPreferencesFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetColor(color *FieldPreferencesColor) {
+func (f *FieldPreferences) SetColor(color string) {
 	f.Color = color
 	f.require(fieldPreferencesFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetBackground(background *FieldPreferencesBackground) {
+func (f *FieldPreferences) SetBackground(background string) {
 	f.Background = background
 	f.require(fieldPreferencesFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetAlign(align *FieldPreferencesAlign) {
+func (f *FieldPreferences) SetAlign(align string) {
 	f.Align = align
 	f.require(fieldPreferencesFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetValign(valign *FieldPreferencesValign) {
+func (f *FieldPreferences) SetValign(valign string) {
 	f.Valign = valign
 	f.require(fieldPreferencesFieldValign)
 }
@@ -7918,14 +6825,14 @@ func (f *FieldPreferences) SetPrice(price *float64) {
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetCurrency(currency *FieldPreferencesCurrency) {
+func (f *FieldPreferences) SetCurrency(currency string) {
 	f.Currency = currency
 	f.require(fieldPreferencesFieldCurrency)
 }
 
 // SetMask sets the Mask field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetMask(mask *FieldPreferencesMask) {
+func (f *FieldPreferences) SetMask(mask *bool) {
 	f.Mask = mask
 	f.require(fieldPreferencesFieldMask)
 }
@@ -7979,277 +6886,90 @@ func (f *FieldPreferences) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
-// Horizontal alignment of the field text value.
-type FieldPreferencesAlign string
+// Type of the field (e.g., text, signature, date, initials).
+type FieldType string
 
 const (
-	FieldPreferencesAlignLeft   FieldPreferencesAlign = "left"
-	FieldPreferencesAlignCenter FieldPreferencesAlign = "center"
-	FieldPreferencesAlignRight  FieldPreferencesAlign = "right"
+	FieldTypeHeading       FieldType = "heading"
+	FieldTypeText          FieldType = "text"
+	FieldTypeSignature     FieldType = "signature"
+	FieldTypeInitials      FieldType = "initials"
+	FieldTypeDate          FieldType = "date"
+	FieldTypeNumber        FieldType = "number"
+	FieldTypeImage         FieldType = "image"
+	FieldTypeCheckbox      FieldType = "checkbox"
+	FieldTypeMultiple      FieldType = "multiple"
+	FieldTypeFile          FieldType = "file"
+	FieldTypeRadio         FieldType = "radio"
+	FieldTypeSelect        FieldType = "select"
+	FieldTypeCells         FieldType = "cells"
+	FieldTypeStamp         FieldType = "stamp"
+	FieldTypePayment       FieldType = "payment"
+	FieldTypePhone         FieldType = "phone"
+	FieldTypeVerification  FieldType = "verification"
+	FieldTypeKba           FieldType = "kba"
+	FieldTypeStrikethrough FieldType = "strikethrough"
 )
 
-func NewFieldPreferencesAlignFromString(s string) (FieldPreferencesAlign, error) {
+func NewFieldTypeFromString(s string) (FieldType, error) {
 	switch s {
-	case "left":
-		return FieldPreferencesAlignLeft, nil
-	case "center":
-		return FieldPreferencesAlignCenter, nil
-	case "right":
-		return FieldPreferencesAlignRight, nil
+	case "heading":
+		return FieldTypeHeading, nil
+	case "text":
+		return FieldTypeText, nil
+	case "signature":
+		return FieldTypeSignature, nil
+	case "initials":
+		return FieldTypeInitials, nil
+	case "date":
+		return FieldTypeDate, nil
+	case "number":
+		return FieldTypeNumber, nil
+	case "image":
+		return FieldTypeImage, nil
+	case "checkbox":
+		return FieldTypeCheckbox, nil
+	case "multiple":
+		return FieldTypeMultiple, nil
+	case "file":
+		return FieldTypeFile, nil
+	case "radio":
+		return FieldTypeRadio, nil
+	case "select":
+		return FieldTypeSelect, nil
+	case "cells":
+		return FieldTypeCells, nil
+	case "stamp":
+		return FieldTypeStamp, nil
+	case "payment":
+		return FieldTypePayment, nil
+	case "phone":
+		return FieldTypePhone, nil
+	case "verification":
+		return FieldTypeVerification, nil
+	case "kba":
+		return FieldTypeKba, nil
+	case "strikethrough":
+		return FieldTypeStrikethrough, nil
 	}
-	var t FieldPreferencesAlign
+	var t FieldType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (f FieldPreferencesAlign) Ptr() *FieldPreferencesAlign {
+func (f FieldType) Ptr() *FieldType {
 	return &f
 }
 
-// Field box background color.
-type FieldPreferencesBackground string
-
-const (
-	FieldPreferencesBackgroundBlack FieldPreferencesBackground = "black"
-	FieldPreferencesBackgroundWhite FieldPreferencesBackground = "white"
-	FieldPreferencesBackgroundBlue  FieldPreferencesBackground = "blue"
-)
-
-func NewFieldPreferencesBackgroundFromString(s string) (FieldPreferencesBackground, error) {
-	switch s {
-	case "black":
-		return FieldPreferencesBackgroundBlack, nil
-	case "white":
-		return FieldPreferencesBackgroundWhite, nil
-	case "blue":
-		return FieldPreferencesBackgroundBlue, nil
-	}
-	var t FieldPreferencesBackground
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesBackground) Ptr() *FieldPreferencesBackground {
-	return &f
-}
-
-// Font color of the field value.
-type FieldPreferencesColor string
-
-const (
-	FieldPreferencesColorBlack FieldPreferencesColor = "black"
-	FieldPreferencesColorWhite FieldPreferencesColor = "white"
-	FieldPreferencesColorBlue  FieldPreferencesColor = "blue"
-)
-
-func NewFieldPreferencesColorFromString(s string) (FieldPreferencesColor, error) {
-	switch s {
-	case "black":
-		return FieldPreferencesColorBlack, nil
-	case "white":
-		return FieldPreferencesColorWhite, nil
-	case "blue":
-		return FieldPreferencesColorBlue, nil
-	}
-	var t FieldPreferencesColor
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesColor) Ptr() *FieldPreferencesColor {
-	return &f
-}
-
-// Currency value of the payment field. Only for payment fields.
-type FieldPreferencesCurrency string
-
-const (
-	FieldPreferencesCurrencyUsd FieldPreferencesCurrency = "USD"
-	FieldPreferencesCurrencyEur FieldPreferencesCurrency = "EUR"
-	FieldPreferencesCurrencyGbp FieldPreferencesCurrency = "GBP"
-	FieldPreferencesCurrencyCad FieldPreferencesCurrency = "CAD"
-	FieldPreferencesCurrencyAud FieldPreferencesCurrency = "AUD"
-)
-
-func NewFieldPreferencesCurrencyFromString(s string) (FieldPreferencesCurrency, error) {
-	switch s {
-	case "USD":
-		return FieldPreferencesCurrencyUsd, nil
-	case "EUR":
-		return FieldPreferencesCurrencyEur, nil
-	case "GBP":
-		return FieldPreferencesCurrencyGbp, nil
-	case "CAD":
-		return FieldPreferencesCurrencyCad, nil
-	case "AUD":
-		return FieldPreferencesCurrencyAud, nil
-	}
-	var t FieldPreferencesCurrency
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesCurrency) Ptr() *FieldPreferencesCurrency {
-	return &f
-}
-
-// Font family of the field value.
-type FieldPreferencesFont string
-
-const (
-	FieldPreferencesFontTimes     FieldPreferencesFont = "Times"
-	FieldPreferencesFontHelvetica FieldPreferencesFont = "Helvetica"
-	FieldPreferencesFontCourier   FieldPreferencesFont = "Courier"
-)
-
-func NewFieldPreferencesFontFromString(s string) (FieldPreferencesFont, error) {
-	switch s {
-	case "Times":
-		return FieldPreferencesFontTimes, nil
-	case "Helvetica":
-		return FieldPreferencesFontHelvetica, nil
-	case "Courier":
-		return FieldPreferencesFontCourier, nil
-	}
-	var t FieldPreferencesFont
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesFont) Ptr() *FieldPreferencesFont {
-	return &f
-}
-
-// Font type of the field value.
-type FieldPreferencesFontType string
-
-const (
-	FieldPreferencesFontTypeBold       FieldPreferencesFontType = "bold"
-	FieldPreferencesFontTypeItalic     FieldPreferencesFontType = "italic"
-	FieldPreferencesFontTypeBoldItalic FieldPreferencesFontType = "bold_italic"
-)
-
-func NewFieldPreferencesFontTypeFromString(s string) (FieldPreferencesFontType, error) {
-	switch s {
-	case "bold":
-		return FieldPreferencesFontTypeBold, nil
-	case "italic":
-		return FieldPreferencesFontTypeItalic, nil
-	case "bold_italic":
-		return FieldPreferencesFontTypeBoldItalic, nil
-	}
-	var t FieldPreferencesFontType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesFontType) Ptr() *FieldPreferencesFontType {
-	return &f
-}
-
-// Set `true` to make sensitive data masked on the document.
-type FieldPreferencesMask struct {
-	Integer int
-	Boolean bool
-
-	typ string
-}
-
-func (f *FieldPreferencesMask) GetInteger() int {
-	if f == nil {
-		return 0
-	}
-	return f.Integer
-}
-
-func (f *FieldPreferencesMask) GetBoolean() bool {
-	if f == nil {
-		return false
-	}
-	return f.Boolean
-}
-
-func (f *FieldPreferencesMask) UnmarshalJSON(data []byte) error {
-	var valueInteger int
-	if err := json.Unmarshal(data, &valueInteger); err == nil {
-		f.typ = "Integer"
-		f.Integer = valueInteger
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		f.typ = "Boolean"
-		f.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
-}
-
-func (f FieldPreferencesMask) MarshalJSON() ([]byte, error) {
-	if f.typ == "Integer" || f.Integer != 0 {
-		return json.Marshal(f.Integer)
-	}
-	if f.typ == "Boolean" || f.Boolean != false {
-		return json.Marshal(f.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
-}
-
-type FieldPreferencesMaskVisitor interface {
-	VisitInteger(int) error
-	VisitBoolean(bool) error
-}
-
-func (f *FieldPreferencesMask) Accept(visitor FieldPreferencesMaskVisitor) error {
-	if f.typ == "Integer" || f.Integer != 0 {
-		return visitor.VisitInteger(f.Integer)
-	}
-	if f.typ == "Boolean" || f.Boolean != false {
-		return visitor.VisitBoolean(f.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", f)
-}
-
-// Vertical alignment of the field text value.
-type FieldPreferencesValign string
-
-const (
-	FieldPreferencesValignTop    FieldPreferencesValign = "top"
-	FieldPreferencesValignCenter FieldPreferencesValign = "center"
-	FieldPreferencesValignBottom FieldPreferencesValign = "bottom"
-)
-
-func NewFieldPreferencesValignFromString(s string) (FieldPreferencesValign, error) {
-	switch s {
-	case "top":
-		return FieldPreferencesValignTop, nil
-	case "center":
-		return FieldPreferencesValignCenter, nil
-	case "bottom":
-		return FieldPreferencesValignBottom, nil
-	}
-	var t FieldPreferencesValign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (f FieldPreferencesValign) Ptr() *FieldPreferencesValign {
-	return &f
-}
-
-// Field validation rules.
 var (
-	fieldValidationFieldPattern = big.NewInt(1 << 0)
-	fieldValidationFieldMessage = big.NewInt(1 << 1)
-	fieldValidationFieldMin     = big.NewInt(1 << 2)
-	fieldValidationFieldMax     = big.NewInt(1 << 3)
-	fieldValidationFieldStep    = big.NewInt(1 << 4)
+	fieldValueFieldField = big.NewInt(1 << 0)
+	fieldValueFieldValue = big.NewInt(1 << 1)
 )
 
-type FieldValidation struct {
-	// HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
-	Pattern string `json:"pattern,omitempty" url:"pattern,omitempty"`
-	// A custom error message to display on validation failure.
-	Message string `json:"message,omitempty" url:"message,omitempty"`
-	// Minimum allowed number value or date depending on field type.
-	Min *FieldValidationMin `json:"min,omitempty" url:"min,omitempty"`
-	// Maximum allowed number value or date depending on field type.
-	Max *FieldValidationMax `json:"max,omitempty" url:"max,omitempty"`
-	// Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
-	Step *float64 `json:"step,omitempty" url:"step,omitempty"`
+type FieldValue struct {
+	// Document template field name.
+	Field string `json:"field" url:"field"`
+	// Pre-filled value of the field.
+	Value *FieldValueValue `json:"value" url:"value"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -8258,97 +6978,55 @@ type FieldValidation struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FieldValidation) GetPattern() string {
+func (f *FieldValue) GetField() string {
 	if f == nil {
 		return ""
 	}
-	return f.Pattern
+	return f.Field
 }
 
-func (f *FieldValidation) GetMessage() string {
-	if f == nil {
-		return ""
-	}
-	return f.Message
-}
-
-func (f *FieldValidation) GetMin() *FieldValidationMin {
+func (f *FieldValue) GetValue() *FieldValueValue {
 	if f == nil {
 		return nil
 	}
-	return f.Min
+	return f.Value
 }
 
-func (f *FieldValidation) GetMax() *FieldValidationMax {
-	if f == nil {
-		return nil
-	}
-	return f.Max
-}
-
-func (f *FieldValidation) GetStep() *float64 {
-	if f == nil {
-		return nil
-	}
-	return f.Step
-}
-
-func (f *FieldValidation) GetExtraProperties() map[string]interface{} {
+func (f *FieldValue) GetExtraProperties() map[string]interface{} {
 	if f == nil {
 		return nil
 	}
 	return f.extraProperties
 }
 
-func (f *FieldValidation) require(field *big.Int) {
+func (f *FieldValue) require(field *big.Int) {
 	if f.explicitFields == nil {
 		f.explicitFields = big.NewInt(0)
 	}
 	f.explicitFields.Or(f.explicitFields, field)
 }
 
-// SetPattern sets the Pattern field and marks it as non-optional;
+// SetField sets the Field field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetPattern(pattern string) {
-	f.Pattern = pattern
-	f.require(fieldValidationFieldPattern)
+func (f *FieldValue) SetField(field string) {
+	f.Field = field
+	f.require(fieldValueFieldField)
 }
 
-// SetMessage sets the Message field and marks it as non-optional;
+// SetValue sets the Value field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetMessage(message string) {
-	f.Message = message
-	f.require(fieldValidationFieldMessage)
+func (f *FieldValue) SetValue(value *FieldValueValue) {
+	f.Value = value
+	f.require(fieldValueFieldValue)
 }
 
-// SetMin sets the Min field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetMin(min *FieldValidationMin) {
-	f.Min = min
-	f.require(fieldValidationFieldMin)
-}
-
-// SetMax sets the Max field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetMax(max *FieldValidationMax) {
-	f.Max = max
-	f.require(fieldValidationFieldMax)
-}
-
-// SetStep sets the Step field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldValidation) SetStep(step *float64) {
-	f.Step = step
-	f.require(fieldValidationFieldStep)
-}
-
-func (f *FieldValidation) UnmarshalJSON(data []byte) error {
-	type unmarshaler FieldValidation
+func (f *FieldValue) UnmarshalJSON(data []byte) error {
+	type unmarshaler FieldValue
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*f = FieldValidation(value)
+	*f = FieldValue(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *f)
 	if err != nil {
 		return err
@@ -8358,8 +7036,8 @@ func (f *FieldValidation) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (f *FieldValidation) MarshalJSON() ([]byte, error) {
-	type embed FieldValidation
+func (f *FieldValue) MarshalJSON() ([]byte, error) {
+	type embed FieldValue
 	var marshaler = struct {
 		embed
 	}{
@@ -8369,7 +7047,7 @@ func (f *FieldValidation) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (f *FieldValidation) String() string {
+func (f *FieldValue) String() string {
 	if f == nil {
 		return "<nil>"
 	}
@@ -8384,1094 +7062,192 @@ func (f *FieldValidation) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
-// Maximum allowed number value or date depending on field type.
-type FieldValidationMax struct {
-	Double float64
-	String string
+// Pre-filled value of the field.
+type FieldValueValue struct {
+	String                       string
+	Double                       float64
+	Boolean                      bool
+	FieldValueValueThreeItemList []*FieldValueValueThreeItem
 
 	typ string
 }
 
-func (f *FieldValidationMax) GetDouble() float64 {
-	if f == nil {
-		return 0
-	}
-	return f.Double
-}
-
-func (f *FieldValidationMax) GetString() string {
+func (f *FieldValueValue) GetString() string {
 	if f == nil {
 		return ""
 	}
 	return f.String
 }
 
-func (f *FieldValidationMax) UnmarshalJSON(data []byte) error {
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		f.typ = "Double"
-		f.Double = valueDouble
-		return nil
-	}
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		f.typ = "String"
-		f.String = valueString
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
-}
-
-func (f FieldValidationMax) MarshalJSON() ([]byte, error) {
-	if f.typ == "Double" || f.Double != 0 {
-		return json.Marshal(f.Double)
-	}
-	if f.typ == "String" || f.String != "" {
-		return json.Marshal(f.String)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
-}
-
-type FieldValidationMaxVisitor interface {
-	VisitDouble(float64) error
-	VisitString(string) error
-}
-
-func (f *FieldValidationMax) Accept(visitor FieldValidationMaxVisitor) error {
-	if f.typ == "Double" || f.Double != 0 {
-		return visitor.VisitDouble(f.Double)
-	}
-	if f.typ == "String" || f.String != "" {
-		return visitor.VisitString(f.String)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", f)
-}
-
-// Minimum allowed number value or date depending on field type.
-type FieldValidationMin struct {
-	Double float64
-	String string
-
-	typ string
-}
-
-func (f *FieldValidationMin) GetDouble() float64 {
+func (f *FieldValueValue) GetDouble() float64 {
 	if f == nil {
 		return 0
 	}
 	return f.Double
 }
 
-func (f *FieldValidationMin) GetString() string {
+func (f *FieldValueValue) GetBoolean() bool {
 	if f == nil {
-		return ""
+		return false
 	}
-	return f.String
+	return f.Boolean
 }
 
-func (f *FieldValidationMin) UnmarshalJSON(data []byte) error {
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		f.typ = "Double"
-		f.Double = valueDouble
+func (f *FieldValueValue) GetFieldValueValueThreeItemList() []*FieldValueValueThreeItem {
+	if f == nil {
 		return nil
 	}
+	return f.FieldValueValueThreeItemList
+}
+
+func (f *FieldValueValue) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
 		f.typ = "String"
 		f.String = valueString
 		return nil
 	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		f.typ = "Double"
+		f.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		f.typ = "Boolean"
+		f.Boolean = valueBoolean
+		return nil
+	}
+	var valueFieldValueValueThreeItemList []*FieldValueValueThreeItem
+	if err := json.Unmarshal(data, &valueFieldValueValueThreeItemList); err == nil {
+		f.typ = "FieldValueValueThreeItemList"
+		f.FieldValueValueThreeItemList = valueFieldValueValueThreeItemList
+		return nil
+	}
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
 }
 
-func (f FieldValidationMin) MarshalJSON() ([]byte, error) {
+func (f FieldValueValue) MarshalJSON() ([]byte, error) {
+	if f.typ == "String" || f.String != "" {
+		return json.Marshal(f.String)
+	}
 	if f.typ == "Double" || f.Double != 0 {
 		return json.Marshal(f.Double)
 	}
-	if f.typ == "String" || f.String != "" {
-		return json.Marshal(f.String)
+	if f.typ == "Boolean" || f.Boolean != false {
+		return json.Marshal(f.Boolean)
+	}
+	if f.typ == "FieldValueValueThreeItemList" || f.FieldValueValueThreeItemList != nil {
+		return json.Marshal(f.FieldValueValueThreeItemList)
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-type FieldValidationMinVisitor interface {
-	VisitDouble(float64) error
+type FieldValueValueVisitor interface {
 	VisitString(string) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+	VisitFieldValueValueThreeItemList([]*FieldValueValueThreeItem) error
 }
 
-func (f *FieldValidationMin) Accept(visitor FieldValidationMinVisitor) error {
+func (f *FieldValueValue) Accept(visitor FieldValueValueVisitor) error {
+	if f.typ == "String" || f.String != "" {
+		return visitor.VisitString(f.String)
+	}
 	if f.typ == "Double" || f.Double != 0 {
 		return visitor.VisitDouble(f.Double)
 	}
-	if f.typ == "String" || f.String != "" {
-		return visitor.VisitString(f.String)
+	if f.typ == "Boolean" || f.Boolean != false {
+		return visitor.VisitBoolean(f.Boolean)
+	}
+	if f.typ == "FieldValueValueThreeItemList" || f.FieldValueValueThreeItemList != nil {
+		return visitor.VisitFieldValueValueThreeItemList(f.FieldValueValueThreeItemList)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-var (
-	getSubmissionDocumentsResponseFieldID        = big.NewInt(1 << 0)
-	getSubmissionDocumentsResponseFieldDocuments = big.NewInt(1 << 1)
-)
+type FieldValueValueThreeItem struct {
+	String  string
+	Double  float64
+	Boolean bool
 
-type GetSubmissionDocumentsResponse struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// An array of completed or signed documents of the submission.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
+	typ string
 }
 
-func (g *GetSubmissionDocumentsResponse) GetID() int {
-	if g == nil {
+func (f *FieldValueValueThreeItem) GetString() string {
+	if f == nil {
+		return ""
+	}
+	return f.String
+}
+
+func (f *FieldValueValueThreeItem) GetDouble() float64 {
+	if f == nil {
 		return 0
 	}
-	return g.ID
+	return f.Double
 }
 
-func (g *GetSubmissionDocumentsResponse) GetDocuments() []*CompletedDocument {
-	if g == nil {
+func (f *FieldValueValueThreeItem) GetBoolean() bool {
+	if f == nil {
+		return false
+	}
+	return f.Boolean
+}
+
+func (f *FieldValueValueThreeItem) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		f.typ = "String"
+		f.String = valueString
 		return nil
 	}
-	return g.Documents
-}
-
-func (g *GetSubmissionDocumentsResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		f.typ = "Double"
+		f.Double = valueDouble
 		return nil
 	}
-	return g.extraProperties
-}
-
-func (g *GetSubmissionDocumentsResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionDocumentsResponse) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionDocumentsResponseFieldID)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionDocumentsResponse) SetDocuments(documents []*CompletedDocument) {
-	g.Documents = documents
-	g.require(getSubmissionDocumentsResponseFieldDocuments)
-}
-
-func (g *GetSubmissionDocumentsResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionDocumentsResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmissionDocumentsResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmissionDocumentsResponse) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionDocumentsResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmissionDocumentsResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-var (
-	getSubmissionResponseFieldID                  = big.NewInt(1 << 0)
-	getSubmissionResponseFieldName                = big.NewInt(1 << 1)
-	getSubmissionResponseFieldSlug                = big.NewInt(1 << 2)
-	getSubmissionResponseFieldSource              = big.NewInt(1 << 3)
-	getSubmissionResponseFieldSubmittersOrder     = big.NewInt(1 << 4)
-	getSubmissionResponseFieldAuditLogURL         = big.NewInt(1 << 5)
-	getSubmissionResponseFieldCombinedDocumentURL = big.NewInt(1 << 6)
-	getSubmissionResponseFieldCreatedAt           = big.NewInt(1 << 7)
-	getSubmissionResponseFieldUpdatedAt           = big.NewInt(1 << 8)
-	getSubmissionResponseFieldArchivedAt          = big.NewInt(1 << 9)
-	getSubmissionResponseFieldSubmitters          = big.NewInt(1 << 10)
-	getSubmissionResponseFieldTemplate            = big.NewInt(1 << 11)
-	getSubmissionResponseFieldCreatedByUser       = big.NewInt(1 << 12)
-	getSubmissionResponseFieldSubmissionEvents    = big.NewInt(1 << 13)
-	getSubmissionResponseFieldDocuments           = big.NewInt(1 << 14)
-	getSubmissionResponseFieldStatus              = big.NewInt(1 << 15)
-	getSubmissionResponseFieldMetadata            = big.NewInt(1 << 16)
-	getSubmissionResponseFieldCompletedAt         = big.NewInt(1 << 17)
-)
-
-type GetSubmissionResponse struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Unique slug of the submission.
-	Slug string `json:"slug" url:"slug"`
-	// The source of the submission.
-	Source GetSubmissionResponseSource `json:"source" url:"source"`
-	// The order of submitters.
-	SubmittersOrder GetSubmissionResponseSubmittersOrder `json:"submitters_order" url:"submitters_order"`
-	// Audit log file URL.
-	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
-	// Combined PDF file URL with documents and Audit Log.
-	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
-	// The date and time when the submission was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submission was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-	// The list of submitters.
-	Submitters    []*GetSubmissionResponseSubmitter `json:"submitters" url:"submitters"`
-	Template      *SubmissionTemplate               `json:"template,omitempty" url:"template,omitempty"`
-	CreatedByUser *SubmissionCreatedByUser          `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
-	// An array of events related to the submission.
-	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
-	// An array of completed or signed documents of the submission.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The status of the submission.
-	Status GetSubmissionResponseStatus `json:"status" url:"status"`
-	// Object with custom metadata.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// The date and time when the submission was completed.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmissionResponse) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmissionResponse) GetName() string {
-	if g == nil {
-		return ""
-	}
-	return g.Name
-}
-
-func (g *GetSubmissionResponse) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmissionResponse) GetSource() GetSubmissionResponseSource {
-	if g == nil {
-		return ""
-	}
-	return g.Source
-}
-
-func (g *GetSubmissionResponse) GetSubmittersOrder() GetSubmissionResponseSubmittersOrder {
-	if g == nil {
-		return ""
-	}
-	return g.SubmittersOrder
-}
-
-func (g *GetSubmissionResponse) GetAuditLogURL() *string {
-	if g == nil {
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		f.typ = "Boolean"
+		f.Boolean = valueBoolean
 		return nil
 	}
-	return g.AuditLogURL
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
 }
 
-func (g *GetSubmissionResponse) GetCombinedDocumentURL() *string {
-	if g == nil {
-		return nil
+func (f FieldValueValueThreeItem) MarshalJSON() ([]byte, error) {
+	if f.typ == "String" || f.String != "" {
+		return json.Marshal(f.String)
 	}
-	return g.CombinedDocumentURL
-}
-
-func (g *GetSubmissionResponse) GetCreatedAt() string {
-	if g == nil {
-		return ""
+	if f.typ == "Double" || f.Double != 0 {
+		return json.Marshal(f.Double)
 	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmissionResponse) GetUpdatedAt() string {
-	if g == nil {
-		return ""
+	if f.typ == "Boolean" || f.Boolean != false {
+		return json.Marshal(f.Boolean)
 	}
-	return g.UpdatedAt
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-func (g *GetSubmissionResponse) GetArchivedAt() *string {
-	if g == nil {
-		return nil
+type FieldValueValueThreeItemVisitor interface {
+	VisitString(string) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+}
+
+func (f *FieldValueValueThreeItem) Accept(visitor FieldValueValueThreeItemVisitor) error {
+	if f.typ == "String" || f.String != "" {
+		return visitor.VisitString(f.String)
 	}
-	return g.ArchivedAt
-}
-
-func (g *GetSubmissionResponse) GetSubmitters() []*GetSubmissionResponseSubmitter {
-	if g == nil {
-		return nil
+	if f.typ == "Double" || f.Double != 0 {
+		return visitor.VisitDouble(f.Double)
 	}
-	return g.Submitters
-}
-
-func (g *GetSubmissionResponse) GetTemplate() *SubmissionTemplate {
-	if g == nil {
-		return nil
+	if f.typ == "Boolean" || f.Boolean != false {
+		return visitor.VisitBoolean(f.Boolean)
 	}
-	return g.Template
-}
-
-func (g *GetSubmissionResponse) GetCreatedByUser() *SubmissionCreatedByUser {
-	if g == nil {
-		return nil
-	}
-	return g.CreatedByUser
-}
-
-func (g *GetSubmissionResponse) GetSubmissionEvents() []*SubmissionEvent {
-	if g == nil {
-		return nil
-	}
-	return g.SubmissionEvents
-}
-
-func (g *GetSubmissionResponse) GetDocuments() []*CompletedDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Documents
-}
-
-func (g *GetSubmissionResponse) GetStatus() GetSubmissionResponseStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmissionResponse) GetMetadata() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Metadata
-}
-
-func (g *GetSubmissionResponse) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmissionResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmissionResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionResponseFieldID)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetName(name string) {
-	g.Name = name
-	g.require(getSubmissionResponseFieldName)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmissionResponseFieldSlug)
-}
-
-// SetSource sets the Source field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetSource(source GetSubmissionResponseSource) {
-	g.Source = source
-	g.require(getSubmissionResponseFieldSource)
-}
-
-// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetSubmittersOrder(submittersOrder GetSubmissionResponseSubmittersOrder) {
-	g.SubmittersOrder = submittersOrder
-	g.require(getSubmissionResponseFieldSubmittersOrder)
-}
-
-// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetAuditLogURL(auditLogURL *string) {
-	g.AuditLogURL = auditLogURL
-	g.require(getSubmissionResponseFieldAuditLogURL)
-}
-
-// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetCombinedDocumentURL(combinedDocumentURL *string) {
-	g.CombinedDocumentURL = combinedDocumentURL
-	g.require(getSubmissionResponseFieldCombinedDocumentURL)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmissionResponseFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmissionResponseFieldUpdatedAt)
-}
-
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetArchivedAt(archivedAt *string) {
-	g.ArchivedAt = archivedAt
-	g.require(getSubmissionResponseFieldArchivedAt)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetSubmitters(submitters []*GetSubmissionResponseSubmitter) {
-	g.Submitters = submitters
-	g.require(getSubmissionResponseFieldSubmitters)
-}
-
-// SetTemplate sets the Template field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetTemplate(template *SubmissionTemplate) {
-	g.Template = template
-	g.require(getSubmissionResponseFieldTemplate)
-}
-
-// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetCreatedByUser(createdByUser *SubmissionCreatedByUser) {
-	g.CreatedByUser = createdByUser
-	g.require(getSubmissionResponseFieldCreatedByUser)
-}
-
-// SetSubmissionEvents sets the SubmissionEvents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetSubmissionEvents(submissionEvents []*SubmissionEvent) {
-	g.SubmissionEvents = submissionEvents
-	g.require(getSubmissionResponseFieldSubmissionEvents)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetDocuments(documents []*CompletedDocument) {
-	g.Documents = documents
-	g.require(getSubmissionResponseFieldDocuments)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetStatus(status GetSubmissionResponseStatus) {
-	g.Status = status
-	g.require(getSubmissionResponseFieldStatus)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetMetadata(metadata map[string]any) {
-	g.Metadata = metadata
-	g.require(getSubmissionResponseFieldMetadata)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponse) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmissionResponseFieldCompletedAt)
-}
-
-func (g *GetSubmissionResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmissionResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmissionResponse) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmissionResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The source of the submission.
-type GetSubmissionResponseSource string
-
-const (
-	GetSubmissionResponseSourceInvite GetSubmissionResponseSource = "invite"
-	GetSubmissionResponseSourceBulk   GetSubmissionResponseSource = "bulk"
-	GetSubmissionResponseSourceAPI    GetSubmissionResponseSource = "api"
-	GetSubmissionResponseSourceEmbed  GetSubmissionResponseSource = "embed"
-	GetSubmissionResponseSourceLink   GetSubmissionResponseSource = "link"
-)
-
-func NewGetSubmissionResponseSourceFromString(s string) (GetSubmissionResponseSource, error) {
-	switch s {
-	case "invite":
-		return GetSubmissionResponseSourceInvite, nil
-	case "bulk":
-		return GetSubmissionResponseSourceBulk, nil
-	case "api":
-		return GetSubmissionResponseSourceAPI, nil
-	case "embed":
-		return GetSubmissionResponseSourceEmbed, nil
-	case "link":
-		return GetSubmissionResponseSourceLink, nil
-	}
-	var t GetSubmissionResponseSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionResponseSource) Ptr() *GetSubmissionResponseSource {
-	return &g
-}
-
-// The status of the submission.
-type GetSubmissionResponseStatus string
-
-const (
-	GetSubmissionResponseStatusCompleted GetSubmissionResponseStatus = "completed"
-	GetSubmissionResponseStatusDeclined  GetSubmissionResponseStatus = "declined"
-	GetSubmissionResponseStatusExpired   GetSubmissionResponseStatus = "expired"
-	GetSubmissionResponseStatusPending   GetSubmissionResponseStatus = "pending"
-)
-
-func NewGetSubmissionResponseStatusFromString(s string) (GetSubmissionResponseStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmissionResponseStatusCompleted, nil
-	case "declined":
-		return GetSubmissionResponseStatusDeclined, nil
-	case "expired":
-		return GetSubmissionResponseStatusExpired, nil
-	case "pending":
-		return GetSubmissionResponseStatusPending, nil
-	}
-	var t GetSubmissionResponseStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionResponseStatus) Ptr() *GetSubmissionResponseStatus {
-	return &g
-}
-
-var (
-	getSubmissionResponseSubmitterFieldID           = big.NewInt(1 << 0)
-	getSubmissionResponseSubmitterFieldSubmissionID = big.NewInt(1 << 1)
-	getSubmissionResponseSubmitterFieldUUID         = big.NewInt(1 << 2)
-	getSubmissionResponseSubmitterFieldEmail        = big.NewInt(1 << 3)
-	getSubmissionResponseSubmitterFieldSlug         = big.NewInt(1 << 4)
-	getSubmissionResponseSubmitterFieldSentAt       = big.NewInt(1 << 5)
-	getSubmissionResponseSubmitterFieldOpenedAt     = big.NewInt(1 << 6)
-	getSubmissionResponseSubmitterFieldCompletedAt  = big.NewInt(1 << 7)
-	getSubmissionResponseSubmitterFieldDeclinedAt   = big.NewInt(1 << 8)
-	getSubmissionResponseSubmitterFieldCreatedAt    = big.NewInt(1 << 9)
-	getSubmissionResponseSubmitterFieldUpdatedAt    = big.NewInt(1 << 10)
-	getSubmissionResponseSubmitterFieldName         = big.NewInt(1 << 11)
-	getSubmissionResponseSubmitterFieldPhone        = big.NewInt(1 << 12)
-	getSubmissionResponseSubmitterFieldExternalID   = big.NewInt(1 << 13)
-	getSubmissionResponseSubmitterFieldStatus       = big.NewInt(1 << 14)
-	getSubmissionResponseSubmitterFieldValues       = big.NewInt(1 << 15)
-	getSubmissionResponseSubmitterFieldDocuments    = big.NewInt(1 << 16)
-	getSubmissionResponseSubmitterFieldRole         = big.NewInt(1 << 17)
-)
-
-type GetSubmissionResponseSubmitter struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// The status of signing request for the submitter.
-	Status GetSubmissionResponseSubmitterStatus `json:"status" url:"status"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values" url:"values"`
-	// An array of completed or signed documents by the submitter.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmissionResponseSubmitter) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmissionResponseSubmitter) GetSubmissionID() int {
-	if g == nil {
-		return 0
-	}
-	return g.SubmissionID
-}
-
-func (g *GetSubmissionResponseSubmitter) GetUUID() string {
-	if g == nil {
-		return ""
-	}
-	return g.UUID
-}
-
-func (g *GetSubmissionResponseSubmitter) GetEmail() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Email
-}
-
-func (g *GetSubmissionResponseSubmitter) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmissionResponseSubmitter) GetSentAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.SentAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetOpenedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.OpenedAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetDeclinedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.DeclinedAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetSubmissionResponseSubmitter) GetName() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Name
-}
-
-func (g *GetSubmissionResponseSubmitter) GetPhone() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Phone
-}
-
-func (g *GetSubmissionResponseSubmitter) GetExternalID() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ExternalID
-}
-
-func (g *GetSubmissionResponseSubmitter) GetStatus() GetSubmissionResponseSubmitterStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmissionResponseSubmitter) GetValues() []*SubmitterValue {
-	if g == nil {
-		return nil
-	}
-	return g.Values
-}
-
-func (g *GetSubmissionResponseSubmitter) GetDocuments() []*CompletedDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Documents
-}
-
-func (g *GetSubmissionResponseSubmitter) GetRole() string {
-	if g == nil {
-		return ""
-	}
-	return g.Role
-}
-
-func (g *GetSubmissionResponseSubmitter) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmissionResponseSubmitter) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionResponseSubmitterFieldID)
-}
-
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetSubmissionID(submissionID int) {
-	g.SubmissionID = submissionID
-	g.require(getSubmissionResponseSubmitterFieldSubmissionID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetUUID(uuid string) {
-	g.UUID = uuid
-	g.require(getSubmissionResponseSubmitterFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetEmail(email *string) {
-	g.Email = email
-	g.require(getSubmissionResponseSubmitterFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmissionResponseSubmitterFieldSlug)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetSentAt(sentAt *string) {
-	g.SentAt = sentAt
-	g.require(getSubmissionResponseSubmitterFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetOpenedAt(openedAt *string) {
-	g.OpenedAt = openedAt
-	g.require(getSubmissionResponseSubmitterFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmissionResponseSubmitterFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetDeclinedAt(declinedAt *string) {
-	g.DeclinedAt = declinedAt
-	g.require(getSubmissionResponseSubmitterFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmissionResponseSubmitterFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmissionResponseSubmitterFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetName(name *string) {
-	g.Name = name
-	g.require(getSubmissionResponseSubmitterFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetPhone(phone *string) {
-	g.Phone = phone
-	g.require(getSubmissionResponseSubmitterFieldPhone)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetExternalID(externalID *string) {
-	g.ExternalID = externalID
-	g.require(getSubmissionResponseSubmitterFieldExternalID)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetStatus(status GetSubmissionResponseSubmitterStatus) {
-	g.Status = status
-	g.require(getSubmissionResponseSubmitterFieldStatus)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetValues(values []*SubmitterValue) {
-	g.Values = values
-	g.require(getSubmissionResponseSubmitterFieldValues)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetDocuments(documents []*CompletedDocument) {
-	g.Documents = documents
-	g.require(getSubmissionResponseSubmitterFieldDocuments)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionResponseSubmitter) SetRole(role string) {
-	g.Role = role
-	g.require(getSubmissionResponseSubmitterFieldRole)
-}
-
-func (g *GetSubmissionResponseSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionResponseSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmissionResponseSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmissionResponseSubmitter) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionResponseSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmissionResponseSubmitter) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The status of signing request for the submitter.
-type GetSubmissionResponseSubmitterStatus string
-
-const (
-	GetSubmissionResponseSubmitterStatusCompleted GetSubmissionResponseSubmitterStatus = "completed"
-	GetSubmissionResponseSubmitterStatusDeclined  GetSubmissionResponseSubmitterStatus = "declined"
-	GetSubmissionResponseSubmitterStatusOpened    GetSubmissionResponseSubmitterStatus = "opened"
-	GetSubmissionResponseSubmitterStatusSent      GetSubmissionResponseSubmitterStatus = "sent"
-	GetSubmissionResponseSubmitterStatusAwaiting  GetSubmissionResponseSubmitterStatus = "awaiting"
-)
-
-func NewGetSubmissionResponseSubmitterStatusFromString(s string) (GetSubmissionResponseSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmissionResponseSubmitterStatusCompleted, nil
-	case "declined":
-		return GetSubmissionResponseSubmitterStatusDeclined, nil
-	case "opened":
-		return GetSubmissionResponseSubmitterStatusOpened, nil
-	case "sent":
-		return GetSubmissionResponseSubmitterStatusSent, nil
-	case "awaiting":
-		return GetSubmissionResponseSubmitterStatusAwaiting, nil
-	}
-	var t GetSubmissionResponseSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionResponseSubmitterStatus) Ptr() *GetSubmissionResponseSubmitterStatus {
-	return &g
-}
-
-// The order of submitters.
-type GetSubmissionResponseSubmittersOrder string
-
-const (
-	GetSubmissionResponseSubmittersOrderRandom    GetSubmissionResponseSubmittersOrder = "random"
-	GetSubmissionResponseSubmittersOrderPreserved GetSubmissionResponseSubmittersOrder = "preserved"
-)
-
-func NewGetSubmissionResponseSubmittersOrderFromString(s string) (GetSubmissionResponseSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return GetSubmissionResponseSubmittersOrderRandom, nil
-	case "preserved":
-		return GetSubmissionResponseSubmittersOrderPreserved, nil
-	}
-	var t GetSubmissionResponseSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionResponseSubmittersOrder) Ptr() *GetSubmissionResponseSubmittersOrder {
-	return &g
+	return fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
 type GetSubmissionsRequestStatus string
@@ -9503,13 +7279,18 @@ func (g GetSubmissionsRequestStatus) Ptr() *GetSubmissionsRequestStatus {
 }
 
 var (
-	getSubmissionsResponseFieldData       = big.NewInt(1 << 0)
-	getSubmissionsResponseFieldPagination = big.NewInt(1 << 1)
+	paginationFieldCount = big.NewInt(1 << 0)
+	paginationFieldNext  = big.NewInt(1 << 1)
+	paginationFieldPrev  = big.NewInt(1 << 2)
 )
 
-type GetSubmissionsResponse struct {
-	Data       []*GetSubmissionsResponseSubmission `json:"data" url:"data"`
-	Pagination *SubmissionPagination               `json:"pagination" url:"pagination"`
+type Pagination struct {
+	// Items count.
+	Count int `json:"count" url:"count"`
+	// The ID of the item after which the next page starts.
+	Next *int `json:"next,omitempty" url:"next,omitempty"`
+	// The ID of the item before which the previous page ends.
+	Prev *int `json:"prev,omitempty" url:"prev,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -9518,1988 +7299,114 @@ type GetSubmissionsResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (g *GetSubmissionsResponse) GetData() []*GetSubmissionsResponseSubmission {
-	if g == nil {
+func (p *Pagination) GetCount() int {
+	if p == nil {
+		return 0
+	}
+	return p.Count
+}
+
+func (p *Pagination) GetNext() *int {
+	if p == nil {
 		return nil
 	}
-	return g.Data
+	return p.Next
 }
 
-func (g *GetSubmissionsResponse) GetPagination() *SubmissionPagination {
-	if g == nil {
+func (p *Pagination) GetPrev() *int {
+	if p == nil {
 		return nil
 	}
-	return g.Pagination
+	return p.Prev
 }
 
-func (g *GetSubmissionsResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
+func (p *Pagination) GetExtraProperties() map[string]interface{} {
+	if p == nil {
 		return nil
 	}
-	return g.extraProperties
+	return p.extraProperties
 }
 
-func (g *GetSubmissionsResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
+func (p *Pagination) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
 	}
-	g.explicitFields.Or(g.explicitFields, field)
+	p.explicitFields.Or(p.explicitFields, field)
 }
 
-// SetData sets the Data field and marks it as non-optional;
+// SetCount sets the Count field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponse) SetData(data []*GetSubmissionsResponseSubmission) {
-	g.Data = data
-	g.require(getSubmissionsResponseFieldData)
+func (p *Pagination) SetCount(count int) {
+	p.Count = count
+	p.require(paginationFieldCount)
 }
 
-// SetPagination sets the Pagination field and marks it as non-optional;
+// SetNext sets the Next field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponse) SetPagination(pagination *SubmissionPagination) {
-	g.Pagination = pagination
-	g.require(getSubmissionsResponseFieldPagination)
+func (p *Pagination) SetNext(next *int) {
+	p.Next = next
+	p.require(paginationFieldNext)
 }
 
-func (g *GetSubmissionsResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionsResponse
+// SetPrev sets the Prev field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *Pagination) SetPrev(prev *int) {
+	p.Prev = prev
+	p.require(paginationFieldPrev)
+}
+
+func (p *Pagination) UnmarshalJSON(data []byte) error {
+	type unmarshaler Pagination
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*g = GetSubmissionsResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	*p = Pagination(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (g *GetSubmissionsResponse) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionsResponse
+func (p *Pagination) MarshalJSON() ([]byte, error) {
+	type embed Pagination
 	var marshaler = struct {
 		embed
 	}{
-		embed: embed(*g),
+		embed: embed(*p),
 	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
-func (g *GetSubmissionsResponse) String() string {
-	if g == nil {
+func (p *Pagination) String() string {
+	if p == nil {
 		return "<nil>"
 	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := internal.StringifyJSON(g); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", g)
+	return fmt.Sprintf("%#v", p)
 }
 
 var (
-	getSubmissionsResponseSubmissionFieldID                  = big.NewInt(1 << 0)
-	getSubmissionsResponseSubmissionFieldName                = big.NewInt(1 << 1)
-	getSubmissionsResponseSubmissionFieldSource              = big.NewInt(1 << 2)
-	getSubmissionsResponseSubmissionFieldSlug                = big.NewInt(1 << 3)
-	getSubmissionsResponseSubmissionFieldStatus              = big.NewInt(1 << 4)
-	getSubmissionsResponseSubmissionFieldSubmittersOrder     = big.NewInt(1 << 5)
-	getSubmissionsResponseSubmissionFieldAuditLogURL         = big.NewInt(1 << 6)
-	getSubmissionsResponseSubmissionFieldCombinedDocumentURL = big.NewInt(1 << 7)
-	getSubmissionsResponseSubmissionFieldCompletedAt         = big.NewInt(1 << 8)
-	getSubmissionsResponseSubmissionFieldCreatedAt           = big.NewInt(1 << 9)
-	getSubmissionsResponseSubmissionFieldUpdatedAt           = big.NewInt(1 << 10)
-	getSubmissionsResponseSubmissionFieldArchivedAt          = big.NewInt(1 << 11)
-	getSubmissionsResponseSubmissionFieldSubmitters          = big.NewInt(1 << 12)
-	getSubmissionsResponseSubmissionFieldTemplate            = big.NewInt(1 << 13)
-	getSubmissionsResponseSubmissionFieldCreatedByUser       = big.NewInt(1 << 14)
+	schemaDocumentFieldAttachmentUUID = big.NewInt(1 << 0)
+	schemaDocumentFieldName           = big.NewInt(1 << 1)
 )
 
-type GetSubmissionsResponseSubmission struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// The source of the submission.
-	Source GetSubmissionsResponseSubmissionSource `json:"source" url:"source"`
-	// Unique slug of the submission.
-	Slug string `json:"slug" url:"slug"`
-	// The status of the submission.
-	Status GetSubmissionsResponseSubmissionStatus `json:"status" url:"status"`
-	// The order of submitters.
-	SubmittersOrder GetSubmissionsResponseSubmissionSubmittersOrder `json:"submitters_order" url:"submitters_order"`
-	// Audit log file URL.
-	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
-	// Combined PDF file URL with documents and Audit Log.
-	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
-	// The date and time when the submission was completed.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submission was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submission was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-	// The list of submitters.
-	Submitters    []*GetSubmissionsResponseSubmissionSubmitter `json:"submitters" url:"submitters"`
-	Template      *SubmissionTemplate                          `json:"template,omitempty" url:"template,omitempty"`
-	CreatedByUser *SubmissionCreatedByUser                     `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmissionsResponseSubmission) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmissionsResponseSubmission) GetName() string {
-	if g == nil {
-		return ""
-	}
-	return g.Name
-}
-
-func (g *GetSubmissionsResponseSubmission) GetSource() GetSubmissionsResponseSubmissionSource {
-	if g == nil {
-		return ""
-	}
-	return g.Source
-}
-
-func (g *GetSubmissionsResponseSubmission) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmissionsResponseSubmission) GetStatus() GetSubmissionsResponseSubmissionStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmissionsResponseSubmission) GetSubmittersOrder() GetSubmissionsResponseSubmissionSubmittersOrder {
-	if g == nil {
-		return ""
-	}
-	return g.SubmittersOrder
-}
-
-func (g *GetSubmissionsResponseSubmission) GetAuditLogURL() *string {
-	if g == nil {
-		return nil
-	}
-	return g.AuditLogURL
-}
-
-func (g *GetSubmissionsResponseSubmission) GetCombinedDocumentURL() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CombinedDocumentURL
-}
-
-func (g *GetSubmissionsResponseSubmission) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmissionsResponseSubmission) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmissionsResponseSubmission) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetSubmissionsResponseSubmission) GetArchivedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ArchivedAt
-}
-
-func (g *GetSubmissionsResponseSubmission) GetSubmitters() []*GetSubmissionsResponseSubmissionSubmitter {
-	if g == nil {
-		return nil
-	}
-	return g.Submitters
-}
-
-func (g *GetSubmissionsResponseSubmission) GetTemplate() *SubmissionTemplate {
-	if g == nil {
-		return nil
-	}
-	return g.Template
-}
-
-func (g *GetSubmissionsResponseSubmission) GetCreatedByUser() *SubmissionCreatedByUser {
-	if g == nil {
-		return nil
-	}
-	return g.CreatedByUser
-}
-
-func (g *GetSubmissionsResponseSubmission) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmissionsResponseSubmission) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionsResponseSubmissionFieldID)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetName(name string) {
-	g.Name = name
-	g.require(getSubmissionsResponseSubmissionFieldName)
-}
-
-// SetSource sets the Source field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetSource(source GetSubmissionsResponseSubmissionSource) {
-	g.Source = source
-	g.require(getSubmissionsResponseSubmissionFieldSource)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmissionsResponseSubmissionFieldSlug)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetStatus(status GetSubmissionsResponseSubmissionStatus) {
-	g.Status = status
-	g.require(getSubmissionsResponseSubmissionFieldStatus)
-}
-
-// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetSubmittersOrder(submittersOrder GetSubmissionsResponseSubmissionSubmittersOrder) {
-	g.SubmittersOrder = submittersOrder
-	g.require(getSubmissionsResponseSubmissionFieldSubmittersOrder)
-}
-
-// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetAuditLogURL(auditLogURL *string) {
-	g.AuditLogURL = auditLogURL
-	g.require(getSubmissionsResponseSubmissionFieldAuditLogURL)
-}
-
-// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetCombinedDocumentURL(combinedDocumentURL *string) {
-	g.CombinedDocumentURL = combinedDocumentURL
-	g.require(getSubmissionsResponseSubmissionFieldCombinedDocumentURL)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmissionsResponseSubmissionFieldCompletedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmissionsResponseSubmissionFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmissionsResponseSubmissionFieldUpdatedAt)
-}
-
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetArchivedAt(archivedAt *string) {
-	g.ArchivedAt = archivedAt
-	g.require(getSubmissionsResponseSubmissionFieldArchivedAt)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetSubmitters(submitters []*GetSubmissionsResponseSubmissionSubmitter) {
-	g.Submitters = submitters
-	g.require(getSubmissionsResponseSubmissionFieldSubmitters)
-}
-
-// SetTemplate sets the Template field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetTemplate(template *SubmissionTemplate) {
-	g.Template = template
-	g.require(getSubmissionsResponseSubmissionFieldTemplate)
-}
-
-// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmission) SetCreatedByUser(createdByUser *SubmissionCreatedByUser) {
-	g.CreatedByUser = createdByUser
-	g.require(getSubmissionsResponseSubmissionFieldCreatedByUser)
-}
-
-func (g *GetSubmissionsResponseSubmission) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionsResponseSubmission
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmissionsResponseSubmission(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmissionsResponseSubmission) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionsResponseSubmission
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmissionsResponseSubmission) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The source of the submission.
-type GetSubmissionsResponseSubmissionSource string
-
-const (
-	GetSubmissionsResponseSubmissionSourceInvite GetSubmissionsResponseSubmissionSource = "invite"
-	GetSubmissionsResponseSubmissionSourceBulk   GetSubmissionsResponseSubmissionSource = "bulk"
-	GetSubmissionsResponseSubmissionSourceAPI    GetSubmissionsResponseSubmissionSource = "api"
-	GetSubmissionsResponseSubmissionSourceEmbed  GetSubmissionsResponseSubmissionSource = "embed"
-	GetSubmissionsResponseSubmissionSourceLink   GetSubmissionsResponseSubmissionSource = "link"
-)
-
-func NewGetSubmissionsResponseSubmissionSourceFromString(s string) (GetSubmissionsResponseSubmissionSource, error) {
-	switch s {
-	case "invite":
-		return GetSubmissionsResponseSubmissionSourceInvite, nil
-	case "bulk":
-		return GetSubmissionsResponseSubmissionSourceBulk, nil
-	case "api":
-		return GetSubmissionsResponseSubmissionSourceAPI, nil
-	case "embed":
-		return GetSubmissionsResponseSubmissionSourceEmbed, nil
-	case "link":
-		return GetSubmissionsResponseSubmissionSourceLink, nil
-	}
-	var t GetSubmissionsResponseSubmissionSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionsResponseSubmissionSource) Ptr() *GetSubmissionsResponseSubmissionSource {
-	return &g
-}
-
-// The status of the submission.
-type GetSubmissionsResponseSubmissionStatus string
-
-const (
-	GetSubmissionsResponseSubmissionStatusCompleted GetSubmissionsResponseSubmissionStatus = "completed"
-	GetSubmissionsResponseSubmissionStatusDeclined  GetSubmissionsResponseSubmissionStatus = "declined"
-	GetSubmissionsResponseSubmissionStatusExpired   GetSubmissionsResponseSubmissionStatus = "expired"
-	GetSubmissionsResponseSubmissionStatusPending   GetSubmissionsResponseSubmissionStatus = "pending"
-)
-
-func NewGetSubmissionsResponseSubmissionStatusFromString(s string) (GetSubmissionsResponseSubmissionStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmissionsResponseSubmissionStatusCompleted, nil
-	case "declined":
-		return GetSubmissionsResponseSubmissionStatusDeclined, nil
-	case "expired":
-		return GetSubmissionsResponseSubmissionStatusExpired, nil
-	case "pending":
-		return GetSubmissionsResponseSubmissionStatusPending, nil
-	}
-	var t GetSubmissionsResponseSubmissionStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionsResponseSubmissionStatus) Ptr() *GetSubmissionsResponseSubmissionStatus {
-	return &g
-}
-
-var (
-	getSubmissionsResponseSubmissionSubmitterFieldID           = big.NewInt(1 << 0)
-	getSubmissionsResponseSubmissionSubmitterFieldSubmissionID = big.NewInt(1 << 1)
-	getSubmissionsResponseSubmissionSubmitterFieldUUID         = big.NewInt(1 << 2)
-	getSubmissionsResponseSubmissionSubmitterFieldEmail        = big.NewInt(1 << 3)
-	getSubmissionsResponseSubmissionSubmitterFieldSlug         = big.NewInt(1 << 4)
-	getSubmissionsResponseSubmissionSubmitterFieldSentAt       = big.NewInt(1 << 5)
-	getSubmissionsResponseSubmissionSubmitterFieldOpenedAt     = big.NewInt(1 << 6)
-	getSubmissionsResponseSubmissionSubmitterFieldCompletedAt  = big.NewInt(1 << 7)
-	getSubmissionsResponseSubmissionSubmitterFieldDeclinedAt   = big.NewInt(1 << 8)
-	getSubmissionsResponseSubmissionSubmitterFieldCreatedAt    = big.NewInt(1 << 9)
-	getSubmissionsResponseSubmissionSubmitterFieldUpdatedAt    = big.NewInt(1 << 10)
-	getSubmissionsResponseSubmissionSubmitterFieldName         = big.NewInt(1 << 11)
-	getSubmissionsResponseSubmissionSubmitterFieldPhone        = big.NewInt(1 << 12)
-	getSubmissionsResponseSubmissionSubmitterFieldExternalID   = big.NewInt(1 << 13)
-	getSubmissionsResponseSubmissionSubmitterFieldStatus       = big.NewInt(1 << 14)
-	getSubmissionsResponseSubmissionSubmitterFieldRole         = big.NewInt(1 << 15)
-	getSubmissionsResponseSubmissionSubmitterFieldMetadata     = big.NewInt(1 << 16)
-	getSubmissionsResponseSubmissionSubmitterFieldPreferences  = big.NewInt(1 << 17)
-)
-
-type GetSubmissionsResponseSubmissionSubmitter struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// The status of signing request for the submitter.
-	Status GetSubmissionsResponseSubmissionSubmitterStatus `json:"status" url:"status"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// Submitter preferences.
-	Preferences map[string]any `json:"preferences" url:"preferences"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetSubmissionID() int {
-	if g == nil {
-		return 0
-	}
-	return g.SubmissionID
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetUUID() string {
-	if g == nil {
-		return ""
-	}
-	return g.UUID
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetEmail() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Email
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetSentAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.SentAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetOpenedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.OpenedAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetDeclinedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.DeclinedAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetName() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Name
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetPhone() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Phone
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetExternalID() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ExternalID
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetStatus() GetSubmissionsResponseSubmissionSubmitterStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetRole() string {
-	if g == nil {
-		return ""
-	}
-	return g.Role
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetMetadata() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Metadata
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetPreferences() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Preferences
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetID(id int) {
-	g.ID = id
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldID)
-}
-
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetSubmissionID(submissionID int) {
-	g.SubmissionID = submissionID
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldSubmissionID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetUUID(uuid string) {
-	g.UUID = uuid
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetEmail(email *string) {
-	g.Email = email
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldSlug)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetSentAt(sentAt *string) {
-	g.SentAt = sentAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetOpenedAt(openedAt *string) {
-	g.OpenedAt = openedAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetDeclinedAt(declinedAt *string) {
-	g.DeclinedAt = declinedAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetName(name *string) {
-	g.Name = name
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetPhone(phone *string) {
-	g.Phone = phone
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldPhone)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetExternalID(externalID *string) {
-	g.ExternalID = externalID
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldExternalID)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetStatus(status GetSubmissionsResponseSubmissionSubmitterStatus) {
-	g.Status = status
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldStatus)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetRole(role string) {
-	g.Role = role
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldRole)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetMetadata(metadata map[string]any) {
-	g.Metadata = metadata
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldMetadata)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsResponseSubmissionSubmitter) SetPreferences(preferences map[string]any) {
-	g.Preferences = preferences
-	g.require(getSubmissionsResponseSubmissionSubmitterFieldPreferences)
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmissionsResponseSubmissionSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmissionsResponseSubmissionSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) MarshalJSON() ([]byte, error) {
-	type embed GetSubmissionsResponseSubmissionSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmissionsResponseSubmissionSubmitter) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The status of signing request for the submitter.
-type GetSubmissionsResponseSubmissionSubmitterStatus string
-
-const (
-	GetSubmissionsResponseSubmissionSubmitterStatusCompleted GetSubmissionsResponseSubmissionSubmitterStatus = "completed"
-	GetSubmissionsResponseSubmissionSubmitterStatusDeclined  GetSubmissionsResponseSubmissionSubmitterStatus = "declined"
-	GetSubmissionsResponseSubmissionSubmitterStatusOpened    GetSubmissionsResponseSubmissionSubmitterStatus = "opened"
-	GetSubmissionsResponseSubmissionSubmitterStatusSent      GetSubmissionsResponseSubmissionSubmitterStatus = "sent"
-	GetSubmissionsResponseSubmissionSubmitterStatusAwaiting  GetSubmissionsResponseSubmissionSubmitterStatus = "awaiting"
-)
-
-func NewGetSubmissionsResponseSubmissionSubmitterStatusFromString(s string) (GetSubmissionsResponseSubmissionSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmissionsResponseSubmissionSubmitterStatusCompleted, nil
-	case "declined":
-		return GetSubmissionsResponseSubmissionSubmitterStatusDeclined, nil
-	case "opened":
-		return GetSubmissionsResponseSubmissionSubmitterStatusOpened, nil
-	case "sent":
-		return GetSubmissionsResponseSubmissionSubmitterStatusSent, nil
-	case "awaiting":
-		return GetSubmissionsResponseSubmissionSubmitterStatusAwaiting, nil
-	}
-	var t GetSubmissionsResponseSubmissionSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionsResponseSubmissionSubmitterStatus) Ptr() *GetSubmissionsResponseSubmissionSubmitterStatus {
-	return &g
-}
-
-// The order of submitters.
-type GetSubmissionsResponseSubmissionSubmittersOrder string
-
-const (
-	GetSubmissionsResponseSubmissionSubmittersOrderRandom    GetSubmissionsResponseSubmissionSubmittersOrder = "random"
-	GetSubmissionsResponseSubmissionSubmittersOrderPreserved GetSubmissionsResponseSubmissionSubmittersOrder = "preserved"
-)
-
-func NewGetSubmissionsResponseSubmissionSubmittersOrderFromString(s string) (GetSubmissionsResponseSubmissionSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return GetSubmissionsResponseSubmissionSubmittersOrderRandom, nil
-	case "preserved":
-		return GetSubmissionsResponseSubmissionSubmittersOrderPreserved, nil
-	}
-	var t GetSubmissionsResponseSubmissionSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmissionsResponseSubmissionSubmittersOrder) Ptr() *GetSubmissionsResponseSubmissionSubmittersOrder {
-	return &g
-}
-
-var (
-	getSubmitterResponseFieldID               = big.NewInt(1 << 0)
-	getSubmitterResponseFieldSubmissionID     = big.NewInt(1 << 1)
-	getSubmitterResponseFieldUUID             = big.NewInt(1 << 2)
-	getSubmitterResponseFieldEmail            = big.NewInt(1 << 3)
-	getSubmitterResponseFieldSlug             = big.NewInt(1 << 4)
-	getSubmitterResponseFieldSentAt           = big.NewInt(1 << 5)
-	getSubmitterResponseFieldOpenedAt         = big.NewInt(1 << 6)
-	getSubmitterResponseFieldCompletedAt      = big.NewInt(1 << 7)
-	getSubmitterResponseFieldDeclinedAt       = big.NewInt(1 << 8)
-	getSubmitterResponseFieldCreatedAt        = big.NewInt(1 << 9)
-	getSubmitterResponseFieldUpdatedAt        = big.NewInt(1 << 10)
-	getSubmitterResponseFieldName             = big.NewInt(1 << 11)
-	getSubmitterResponseFieldPhone            = big.NewInt(1 << 12)
-	getSubmitterResponseFieldStatus           = big.NewInt(1 << 13)
-	getSubmitterResponseFieldExternalID       = big.NewInt(1 << 14)
-	getSubmitterResponseFieldMetadata         = big.NewInt(1 << 15)
-	getSubmitterResponseFieldPreferences      = big.NewInt(1 << 16)
-	getSubmitterResponseFieldTemplate         = big.NewInt(1 << 17)
-	getSubmitterResponseFieldSubmissionEvents = big.NewInt(1 << 18)
-	getSubmitterResponseFieldValues           = big.NewInt(1 << 19)
-	getSubmitterResponseFieldDocuments        = big.NewInt(1 << 20)
-	getSubmitterResponseFieldRole             = big.NewInt(1 << 21)
-)
-
-type GetSubmitterResponse struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// The status of signing request for the submitter.
-	Status GetSubmitterResponseStatus `json:"status" url:"status"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// Submitter preferences.
-	Preferences map[string]any     `json:"preferences" url:"preferences"`
-	Template    *SubmitterTemplate `json:"template" url:"template"`
-	// An array of events related to the submission.
-	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values" url:"values"`
-	// An array of completed or signed documents by the submitter.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmitterResponse) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmitterResponse) GetSubmissionID() int {
-	if g == nil {
-		return 0
-	}
-	return g.SubmissionID
-}
-
-func (g *GetSubmitterResponse) GetUUID() string {
-	if g == nil {
-		return ""
-	}
-	return g.UUID
-}
-
-func (g *GetSubmitterResponse) GetEmail() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Email
-}
-
-func (g *GetSubmitterResponse) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmitterResponse) GetSentAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.SentAt
-}
-
-func (g *GetSubmitterResponse) GetOpenedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.OpenedAt
-}
-
-func (g *GetSubmitterResponse) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmitterResponse) GetDeclinedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.DeclinedAt
-}
-
-func (g *GetSubmitterResponse) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmitterResponse) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetSubmitterResponse) GetName() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Name
-}
-
-func (g *GetSubmitterResponse) GetPhone() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Phone
-}
-
-func (g *GetSubmitterResponse) GetStatus() GetSubmitterResponseStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmitterResponse) GetExternalID() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ExternalID
-}
-
-func (g *GetSubmitterResponse) GetMetadata() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Metadata
-}
-
-func (g *GetSubmitterResponse) GetPreferences() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Preferences
-}
-
-func (g *GetSubmitterResponse) GetTemplate() *SubmitterTemplate {
-	if g == nil {
-		return nil
-	}
-	return g.Template
-}
-
-func (g *GetSubmitterResponse) GetSubmissionEvents() []*SubmissionEvent {
-	if g == nil {
-		return nil
-	}
-	return g.SubmissionEvents
-}
-
-func (g *GetSubmitterResponse) GetValues() []*SubmitterValue {
-	if g == nil {
-		return nil
-	}
-	return g.Values
-}
-
-func (g *GetSubmitterResponse) GetDocuments() []*CompletedDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Documents
-}
-
-func (g *GetSubmitterResponse) GetRole() string {
-	if g == nil {
-		return ""
-	}
-	return g.Role
-}
-
-func (g *GetSubmitterResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmitterResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetID(id int) {
-	g.ID = id
-	g.require(getSubmitterResponseFieldID)
-}
-
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetSubmissionID(submissionID int) {
-	g.SubmissionID = submissionID
-	g.require(getSubmitterResponseFieldSubmissionID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetUUID(uuid string) {
-	g.UUID = uuid
-	g.require(getSubmitterResponseFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetEmail(email *string) {
-	g.Email = email
-	g.require(getSubmitterResponseFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmitterResponseFieldSlug)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetSentAt(sentAt *string) {
-	g.SentAt = sentAt
-	g.require(getSubmitterResponseFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetOpenedAt(openedAt *string) {
-	g.OpenedAt = openedAt
-	g.require(getSubmitterResponseFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmitterResponseFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetDeclinedAt(declinedAt *string) {
-	g.DeclinedAt = declinedAt
-	g.require(getSubmitterResponseFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmitterResponseFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmitterResponseFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetName(name *string) {
-	g.Name = name
-	g.require(getSubmitterResponseFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetPhone(phone *string) {
-	g.Phone = phone
-	g.require(getSubmitterResponseFieldPhone)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetStatus(status GetSubmitterResponseStatus) {
-	g.Status = status
-	g.require(getSubmitterResponseFieldStatus)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetExternalID(externalID *string) {
-	g.ExternalID = externalID
-	g.require(getSubmitterResponseFieldExternalID)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetMetadata(metadata map[string]any) {
-	g.Metadata = metadata
-	g.require(getSubmitterResponseFieldMetadata)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetPreferences(preferences map[string]any) {
-	g.Preferences = preferences
-	g.require(getSubmitterResponseFieldPreferences)
-}
-
-// SetTemplate sets the Template field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetTemplate(template *SubmitterTemplate) {
-	g.Template = template
-	g.require(getSubmitterResponseFieldTemplate)
-}
-
-// SetSubmissionEvents sets the SubmissionEvents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetSubmissionEvents(submissionEvents []*SubmissionEvent) {
-	g.SubmissionEvents = submissionEvents
-	g.require(getSubmitterResponseFieldSubmissionEvents)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetValues(values []*SubmitterValue) {
-	g.Values = values
-	g.require(getSubmitterResponseFieldValues)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetDocuments(documents []*CompletedDocument) {
-	g.Documents = documents
-	g.require(getSubmitterResponseFieldDocuments)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmitterResponse) SetRole(role string) {
-	g.Role = role
-	g.require(getSubmitterResponseFieldRole)
-}
-
-func (g *GetSubmitterResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmitterResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmitterResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmitterResponse) MarshalJSON() ([]byte, error) {
-	type embed GetSubmitterResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmitterResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The status of signing request for the submitter.
-type GetSubmitterResponseStatus string
-
-const (
-	GetSubmitterResponseStatusCompleted GetSubmitterResponseStatus = "completed"
-	GetSubmitterResponseStatusDeclined  GetSubmitterResponseStatus = "declined"
-	GetSubmitterResponseStatusOpened    GetSubmitterResponseStatus = "opened"
-	GetSubmitterResponseStatusSent      GetSubmitterResponseStatus = "sent"
-	GetSubmitterResponseStatusAwaiting  GetSubmitterResponseStatus = "awaiting"
-)
-
-func NewGetSubmitterResponseStatusFromString(s string) (GetSubmitterResponseStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmitterResponseStatusCompleted, nil
-	case "declined":
-		return GetSubmitterResponseStatusDeclined, nil
-	case "opened":
-		return GetSubmitterResponseStatusOpened, nil
-	case "sent":
-		return GetSubmitterResponseStatusSent, nil
-	case "awaiting":
-		return GetSubmitterResponseStatusAwaiting, nil
-	}
-	var t GetSubmitterResponseStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmitterResponseStatus) Ptr() *GetSubmitterResponseStatus {
-	return &g
-}
-
-var (
-	getSubmittersResponseFieldData       = big.NewInt(1 << 0)
-	getSubmittersResponseFieldPagination = big.NewInt(1 << 1)
-)
-
-type GetSubmittersResponse struct {
-	Data       []*GetSubmittersResponseSubmitter `json:"data,omitempty" url:"data,omitempty"`
-	Pagination *SubmitterPagination              `json:"pagination,omitempty" url:"pagination,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmittersResponse) GetData() []*GetSubmittersResponseSubmitter {
-	if g == nil {
-		return nil
-	}
-	return g.Data
-}
-
-func (g *GetSubmittersResponse) GetPagination() *SubmitterPagination {
-	if g == nil {
-		return nil
-	}
-	return g.Pagination
-}
-
-func (g *GetSubmittersResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmittersResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetData sets the Data field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponse) SetData(data []*GetSubmittersResponseSubmitter) {
-	g.Data = data
-	g.require(getSubmittersResponseFieldData)
-}
-
-// SetPagination sets the Pagination field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponse) SetPagination(pagination *SubmitterPagination) {
-	g.Pagination = pagination
-	g.require(getSubmittersResponseFieldPagination)
-}
-
-func (g *GetSubmittersResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmittersResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmittersResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmittersResponse) MarshalJSON() ([]byte, error) {
-	type embed GetSubmittersResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmittersResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-var (
-	getSubmittersResponseSubmitterFieldID               = big.NewInt(1 << 0)
-	getSubmittersResponseSubmitterFieldSubmissionID     = big.NewInt(1 << 1)
-	getSubmittersResponseSubmitterFieldUUID             = big.NewInt(1 << 2)
-	getSubmittersResponseSubmitterFieldEmail            = big.NewInt(1 << 3)
-	getSubmittersResponseSubmitterFieldSlug             = big.NewInt(1 << 4)
-	getSubmittersResponseSubmitterFieldSentAt           = big.NewInt(1 << 5)
-	getSubmittersResponseSubmitterFieldOpenedAt         = big.NewInt(1 << 6)
-	getSubmittersResponseSubmitterFieldCompletedAt      = big.NewInt(1 << 7)
-	getSubmittersResponseSubmitterFieldDeclinedAt       = big.NewInt(1 << 8)
-	getSubmittersResponseSubmitterFieldCreatedAt        = big.NewInt(1 << 9)
-	getSubmittersResponseSubmitterFieldUpdatedAt        = big.NewInt(1 << 10)
-	getSubmittersResponseSubmitterFieldName             = big.NewInt(1 << 11)
-	getSubmittersResponseSubmitterFieldPhone            = big.NewInt(1 << 12)
-	getSubmittersResponseSubmitterFieldStatus           = big.NewInt(1 << 13)
-	getSubmittersResponseSubmitterFieldExternalID       = big.NewInt(1 << 14)
-	getSubmittersResponseSubmitterFieldPreferences      = big.NewInt(1 << 15)
-	getSubmittersResponseSubmitterFieldMetadata         = big.NewInt(1 << 16)
-	getSubmittersResponseSubmitterFieldSubmissionEvents = big.NewInt(1 << 17)
-	getSubmittersResponseSubmitterFieldValues           = big.NewInt(1 << 18)
-	getSubmittersResponseSubmitterFieldDocuments        = big.NewInt(1 << 19)
-	getSubmittersResponseSubmitterFieldRole             = big.NewInt(1 << 20)
-)
-
-type GetSubmittersResponseSubmitter struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email string `json:"email" url:"email"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// The status of signing request for the submitter.
-	Status GetSubmittersResponseSubmitterStatus `json:"status" url:"status"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Submitter preferences.
-	Preferences map[string]any `json:"preferences" url:"preferences"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// An array of events related to the submission.
-	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values" url:"values"`
-	// An array of completed or signed documents by the submitter.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetSubmittersResponseSubmitter) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetSubmittersResponseSubmitter) GetSubmissionID() int {
-	if g == nil {
-		return 0
-	}
-	return g.SubmissionID
-}
-
-func (g *GetSubmittersResponseSubmitter) GetUUID() string {
-	if g == nil {
-		return ""
-	}
-	return g.UUID
-}
-
-func (g *GetSubmittersResponseSubmitter) GetEmail() string {
-	if g == nil {
-		return ""
-	}
-	return g.Email
-}
-
-func (g *GetSubmittersResponseSubmitter) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetSubmittersResponseSubmitter) GetSentAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.SentAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetOpenedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.OpenedAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetCompletedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.CompletedAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetDeclinedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.DeclinedAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetSubmittersResponseSubmitter) GetName() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Name
-}
-
-func (g *GetSubmittersResponseSubmitter) GetPhone() *string {
-	if g == nil {
-		return nil
-	}
-	return g.Phone
-}
-
-func (g *GetSubmittersResponseSubmitter) GetStatus() GetSubmittersResponseSubmitterStatus {
-	if g == nil {
-		return ""
-	}
-	return g.Status
-}
-
-func (g *GetSubmittersResponseSubmitter) GetExternalID() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ExternalID
-}
-
-func (g *GetSubmittersResponseSubmitter) GetPreferences() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Preferences
-}
-
-func (g *GetSubmittersResponseSubmitter) GetMetadata() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Metadata
-}
-
-func (g *GetSubmittersResponseSubmitter) GetSubmissionEvents() []*SubmissionEvent {
-	if g == nil {
-		return nil
-	}
-	return g.SubmissionEvents
-}
-
-func (g *GetSubmittersResponseSubmitter) GetValues() []*SubmitterValue {
-	if g == nil {
-		return nil
-	}
-	return g.Values
-}
-
-func (g *GetSubmittersResponseSubmitter) GetDocuments() []*CompletedDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Documents
-}
-
-func (g *GetSubmittersResponseSubmitter) GetRole() string {
-	if g == nil {
-		return ""
-	}
-	return g.Role
-}
-
-func (g *GetSubmittersResponseSubmitter) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetSubmittersResponseSubmitter) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetID(id int) {
-	g.ID = id
-	g.require(getSubmittersResponseSubmitterFieldID)
-}
-
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetSubmissionID(submissionID int) {
-	g.SubmissionID = submissionID
-	g.require(getSubmittersResponseSubmitterFieldSubmissionID)
-}
-
-// SetUUID sets the UUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetUUID(uuid string) {
-	g.UUID = uuid
-	g.require(getSubmittersResponseSubmitterFieldUUID)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetEmail(email string) {
-	g.Email = email
-	g.require(getSubmittersResponseSubmitterFieldEmail)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getSubmittersResponseSubmitterFieldSlug)
-}
-
-// SetSentAt sets the SentAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetSentAt(sentAt *string) {
-	g.SentAt = sentAt
-	g.require(getSubmittersResponseSubmitterFieldSentAt)
-}
-
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetOpenedAt(openedAt *string) {
-	g.OpenedAt = openedAt
-	g.require(getSubmittersResponseSubmitterFieldOpenedAt)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetCompletedAt(completedAt *string) {
-	g.CompletedAt = completedAt
-	g.require(getSubmittersResponseSubmitterFieldCompletedAt)
-}
-
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetDeclinedAt(declinedAt *string) {
-	g.DeclinedAt = declinedAt
-	g.require(getSubmittersResponseSubmitterFieldDeclinedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getSubmittersResponseSubmitterFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getSubmittersResponseSubmitterFieldUpdatedAt)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetName(name *string) {
-	g.Name = name
-	g.require(getSubmittersResponseSubmitterFieldName)
-}
-
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetPhone(phone *string) {
-	g.Phone = phone
-	g.require(getSubmittersResponseSubmitterFieldPhone)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetStatus(status GetSubmittersResponseSubmitterStatus) {
-	g.Status = status
-	g.require(getSubmittersResponseSubmitterFieldStatus)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetExternalID(externalID *string) {
-	g.ExternalID = externalID
-	g.require(getSubmittersResponseSubmitterFieldExternalID)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetPreferences(preferences map[string]any) {
-	g.Preferences = preferences
-	g.require(getSubmittersResponseSubmitterFieldPreferences)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetMetadata(metadata map[string]any) {
-	g.Metadata = metadata
-	g.require(getSubmittersResponseSubmitterFieldMetadata)
-}
-
-// SetSubmissionEvents sets the SubmissionEvents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetSubmissionEvents(submissionEvents []*SubmissionEvent) {
-	g.SubmissionEvents = submissionEvents
-	g.require(getSubmittersResponseSubmitterFieldSubmissionEvents)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetValues(values []*SubmitterValue) {
-	g.Values = values
-	g.require(getSubmittersResponseSubmitterFieldValues)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetDocuments(documents []*CompletedDocument) {
-	g.Documents = documents
-	g.require(getSubmittersResponseSubmitterFieldDocuments)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersResponseSubmitter) SetRole(role string) {
-	g.Role = role
-	g.require(getSubmittersResponseSubmitterFieldRole)
-}
-
-func (g *GetSubmittersResponseSubmitter) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetSubmittersResponseSubmitter
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetSubmittersResponseSubmitter(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetSubmittersResponseSubmitter) MarshalJSON() ([]byte, error) {
-	type embed GetSubmittersResponseSubmitter
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetSubmittersResponseSubmitter) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// The status of signing request for the submitter.
-type GetSubmittersResponseSubmitterStatus string
-
-const (
-	GetSubmittersResponseSubmitterStatusCompleted GetSubmittersResponseSubmitterStatus = "completed"
-	GetSubmittersResponseSubmitterStatusDeclined  GetSubmittersResponseSubmitterStatus = "declined"
-	GetSubmittersResponseSubmitterStatusOpened    GetSubmittersResponseSubmitterStatus = "opened"
-	GetSubmittersResponseSubmitterStatusSent      GetSubmittersResponseSubmitterStatus = "sent"
-	GetSubmittersResponseSubmitterStatusAwaiting  GetSubmittersResponseSubmitterStatus = "awaiting"
-)
-
-func NewGetSubmittersResponseSubmitterStatusFromString(s string) (GetSubmittersResponseSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return GetSubmittersResponseSubmitterStatusCompleted, nil
-	case "declined":
-		return GetSubmittersResponseSubmitterStatusDeclined, nil
-	case "opened":
-		return GetSubmittersResponseSubmitterStatusOpened, nil
-	case "sent":
-		return GetSubmittersResponseSubmitterStatusSent, nil
-	case "awaiting":
-		return GetSubmittersResponseSubmitterStatusAwaiting, nil
-	}
-	var t GetSubmittersResponseSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetSubmittersResponseSubmitterStatus) Ptr() *GetSubmittersResponseSubmitterStatus {
-	return &g
-}
-
-var (
-	getTemplateResponseFieldID          = big.NewInt(1 << 0)
-	getTemplateResponseFieldSlug        = big.NewInt(1 << 1)
-	getTemplateResponseFieldName        = big.NewInt(1 << 2)
-	getTemplateResponseFieldPreferences = big.NewInt(1 << 3)
-	getTemplateResponseFieldSchema      = big.NewInt(1 << 4)
-	getTemplateResponseFieldFields      = big.NewInt(1 << 5)
-	getTemplateResponseFieldSubmitters  = big.NewInt(1 << 6)
-	getTemplateResponseFieldAuthorID    = big.NewInt(1 << 7)
-	getTemplateResponseFieldArchivedAt  = big.NewInt(1 << 8)
-	getTemplateResponseFieldCreatedAt   = big.NewInt(1 << 9)
-	getTemplateResponseFieldUpdatedAt   = big.NewInt(1 << 10)
-	getTemplateResponseFieldSource      = big.NewInt(1 << 11)
-	getTemplateResponseFieldExternalID  = big.NewInt(1 << 12)
-	getTemplateResponseFieldFolderID    = big.NewInt(1 << 13)
-	getTemplateResponseFieldFolderName  = big.NewInt(1 << 14)
-	getTemplateResponseFieldSharedLink  = big.NewInt(1 << 15)
-	getTemplateResponseFieldAuthor      = big.NewInt(1 << 16)
-	getTemplateResponseFieldDocuments   = big.NewInt(1 << 17)
-)
-
-type GetTemplateResponse struct {
-	// Unique identifier of the document template.
-	ID int `json:"id" url:"id"`
-	// Unique slug of the document template.
-	Slug string `json:"slug" url:"slug"`
-	// The name of the template.
+type SchemaDocument struct {
+	// Unique identifier of the attached document.
+	AttachmentUUID string `json:"attachment_uuid" url:"attachment_uuid"`
+	// Name of the attached document.
 	Name string `json:"name" url:"name"`
-	// Template preferences.
-	Preferences map[string]any `json:"preferences" url:"preferences"`
-	// List of documents attached to the template.
-	Schema []*TemplateSchemaDocument `json:"schema" url:"schema"`
-	// List of fields to be filled in the template.
-	Fields []*TemplateField `json:"fields" url:"fields"`
-	// The list of submitters for the template.
-	Submitters []*TemplateSubmitter `json:"submitters" url:"submitters"`
-	// Unique identifier of the author of the template.
-	AuthorID int `json:"author_id" url:"author_id"`
-	// Date and time when the template was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-	// The date and time when the template was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the template was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// Source of the template.
-	Source GetTemplateResponseSource `json:"source" url:"source"`
-	// Your application-specific unique string key to identify this template within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Unique identifier of the folder where the template is located.
-	FolderID int `json:"folder_id" url:"folder_id"`
-	// Folder name where the template is located.
-	FolderName string `json:"folder_name" url:"folder_name"`
-	// Indicates if the template is accessible by link.
-	SharedLink *bool           `json:"shared_link,omitempty" url:"shared_link,omitempty"`
-	Author     *TemplateAuthor `json:"author" url:"author"`
-	// List of documents attached to the template.
-	Documents []*TemplateDocument `json:"documents" url:"documents"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -11508,542 +7415,55 @@ type GetTemplateResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (g *GetTemplateResponse) GetID() int {
-	if g == nil {
-		return 0
-	}
-	return g.ID
-}
-
-func (g *GetTemplateResponse) GetSlug() string {
-	if g == nil {
-		return ""
-	}
-	return g.Slug
-}
-
-func (g *GetTemplateResponse) GetName() string {
-	if g == nil {
-		return ""
-	}
-	return g.Name
-}
-
-func (g *GetTemplateResponse) GetPreferences() map[string]any {
-	if g == nil {
-		return nil
-	}
-	return g.Preferences
-}
-
-func (g *GetTemplateResponse) GetSchema() []*TemplateSchemaDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Schema
-}
-
-func (g *GetTemplateResponse) GetFields() []*TemplateField {
-	if g == nil {
-		return nil
-	}
-	return g.Fields
-}
-
-func (g *GetTemplateResponse) GetSubmitters() []*TemplateSubmitter {
-	if g == nil {
-		return nil
-	}
-	return g.Submitters
-}
-
-func (g *GetTemplateResponse) GetAuthorID() int {
-	if g == nil {
-		return 0
-	}
-	return g.AuthorID
-}
-
-func (g *GetTemplateResponse) GetArchivedAt() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ArchivedAt
-}
-
-func (g *GetTemplateResponse) GetCreatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.CreatedAt
-}
-
-func (g *GetTemplateResponse) GetUpdatedAt() string {
-	if g == nil {
-		return ""
-	}
-	return g.UpdatedAt
-}
-
-func (g *GetTemplateResponse) GetSource() GetTemplateResponseSource {
-	if g == nil {
-		return ""
-	}
-	return g.Source
-}
-
-func (g *GetTemplateResponse) GetExternalID() *string {
-	if g == nil {
-		return nil
-	}
-	return g.ExternalID
-}
-
-func (g *GetTemplateResponse) GetFolderID() int {
-	if g == nil {
-		return 0
-	}
-	return g.FolderID
-}
-
-func (g *GetTemplateResponse) GetFolderName() string {
-	if g == nil {
-		return ""
-	}
-	return g.FolderName
-}
-
-func (g *GetTemplateResponse) GetSharedLink() *bool {
-	if g == nil {
-		return nil
-	}
-	return g.SharedLink
-}
-
-func (g *GetTemplateResponse) GetAuthor() *TemplateAuthor {
-	if g == nil {
-		return nil
-	}
-	return g.Author
-}
-
-func (g *GetTemplateResponse) GetDocuments() []*TemplateDocument {
-	if g == nil {
-		return nil
-	}
-	return g.Documents
-}
-
-func (g *GetTemplateResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetTemplateResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetID(id int) {
-	g.ID = id
-	g.require(getTemplateResponseFieldID)
-}
-
-// SetSlug sets the Slug field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetSlug(slug string) {
-	g.Slug = slug
-	g.require(getTemplateResponseFieldSlug)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetName(name string) {
-	g.Name = name
-	g.require(getTemplateResponseFieldName)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetPreferences(preferences map[string]any) {
-	g.Preferences = preferences
-	g.require(getTemplateResponseFieldPreferences)
-}
-
-// SetSchema sets the Schema field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetSchema(schema []*TemplateSchemaDocument) {
-	g.Schema = schema
-	g.require(getTemplateResponseFieldSchema)
-}
-
-// SetFields sets the Fields field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetFields(fields []*TemplateField) {
-	g.Fields = fields
-	g.require(getTemplateResponseFieldFields)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetSubmitters(submitters []*TemplateSubmitter) {
-	g.Submitters = submitters
-	g.require(getTemplateResponseFieldSubmitters)
-}
-
-// SetAuthorID sets the AuthorID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetAuthorID(authorID int) {
-	g.AuthorID = authorID
-	g.require(getTemplateResponseFieldAuthorID)
-}
-
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetArchivedAt(archivedAt *string) {
-	g.ArchivedAt = archivedAt
-	g.require(getTemplateResponseFieldArchivedAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetCreatedAt(createdAt string) {
-	g.CreatedAt = createdAt
-	g.require(getTemplateResponseFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetUpdatedAt(updatedAt string) {
-	g.UpdatedAt = updatedAt
-	g.require(getTemplateResponseFieldUpdatedAt)
-}
-
-// SetSource sets the Source field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetSource(source GetTemplateResponseSource) {
-	g.Source = source
-	g.require(getTemplateResponseFieldSource)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetExternalID(externalID *string) {
-	g.ExternalID = externalID
-	g.require(getTemplateResponseFieldExternalID)
-}
-
-// SetFolderID sets the FolderID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetFolderID(folderID int) {
-	g.FolderID = folderID
-	g.require(getTemplateResponseFieldFolderID)
-}
-
-// SetFolderName sets the FolderName field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetFolderName(folderName string) {
-	g.FolderName = folderName
-	g.require(getTemplateResponseFieldFolderName)
-}
-
-// SetSharedLink sets the SharedLink field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetSharedLink(sharedLink *bool) {
-	g.SharedLink = sharedLink
-	g.require(getTemplateResponseFieldSharedLink)
-}
-
-// SetAuthor sets the Author field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetAuthor(author *TemplateAuthor) {
-	g.Author = author
-	g.require(getTemplateResponseFieldAuthor)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplateResponse) SetDocuments(documents []*TemplateDocument) {
-	g.Documents = documents
-	g.require(getTemplateResponseFieldDocuments)
-}
-
-func (g *GetTemplateResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetTemplateResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetTemplateResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetTemplateResponse) MarshalJSON() ([]byte, error) {
-	type embed GetTemplateResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetTemplateResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-// Source of the template.
-type GetTemplateResponseSource string
-
-const (
-	GetTemplateResponseSourceNative GetTemplateResponseSource = "native"
-	GetTemplateResponseSourceAPI    GetTemplateResponseSource = "api"
-	GetTemplateResponseSourceEmbed  GetTemplateResponseSource = "embed"
-)
-
-func NewGetTemplateResponseSourceFromString(s string) (GetTemplateResponseSource, error) {
-	switch s {
-	case "native":
-		return GetTemplateResponseSourceNative, nil
-	case "api":
-		return GetTemplateResponseSourceAPI, nil
-	case "embed":
-		return GetTemplateResponseSourceEmbed, nil
-	}
-	var t GetTemplateResponseSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (g GetTemplateResponseSource) Ptr() *GetTemplateResponseSource {
-	return &g
-}
-
-var (
-	getTemplatesResponseFieldData       = big.NewInt(1 << 0)
-	getTemplatesResponseFieldPagination = big.NewInt(1 << 1)
-)
-
-type GetTemplatesResponse struct {
-	// List of templates.
-	Data       []*GetTemplateResponse `json:"data" url:"data"`
-	Pagination *TemplatePagination    `json:"pagination" url:"pagination"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (g *GetTemplatesResponse) GetData() []*GetTemplateResponse {
-	if g == nil {
-		return nil
-	}
-	return g.Data
-}
-
-func (g *GetTemplatesResponse) GetPagination() *TemplatePagination {
-	if g == nil {
-		return nil
-	}
-	return g.Pagination
-}
-
-func (g *GetTemplatesResponse) GetExtraProperties() map[string]interface{} {
-	if g == nil {
-		return nil
-	}
-	return g.extraProperties
-}
-
-func (g *GetTemplatesResponse) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetData sets the Data field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesResponse) SetData(data []*GetTemplateResponse) {
-	g.Data = data
-	g.require(getTemplatesResponseFieldData)
-}
-
-// SetPagination sets the Pagination field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesResponse) SetPagination(pagination *TemplatePagination) {
-	g.Pagination = pagination
-	g.require(getTemplatesResponseFieldPagination)
-}
-
-func (g *GetTemplatesResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler GetTemplatesResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*g = GetTemplatesResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *g)
-	if err != nil {
-		return err
-	}
-	g.extraProperties = extraProperties
-	g.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (g *GetTemplatesResponse) MarshalJSON() ([]byte, error) {
-	type embed GetTemplatesResponse
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*g),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (g *GetTemplatesResponse) String() string {
-	if g == nil {
-		return "<nil>"
-	}
-	if len(g.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(g); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", g)
-}
-
-var (
-	submissionCreatedByUserFieldID        = big.NewInt(1 << 0)
-	submissionCreatedByUserFieldFirstName = big.NewInt(1 << 1)
-	submissionCreatedByUserFieldLastName  = big.NewInt(1 << 2)
-	submissionCreatedByUserFieldEmail     = big.NewInt(1 << 3)
-)
-
-type SubmissionCreatedByUser struct {
-	// Unique identifier of the user who created the submission.
-	ID int `json:"id" url:"id"`
-	// The first name of the user who created the submission.
-	FirstName string `json:"first_name" url:"first_name"`
-	// The last name of the user who created the submission.
-	LastName string `json:"last_name" url:"last_name"`
-	// The email address of the user who created the submission.
-	Email string `json:"email" url:"email"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (s *SubmissionCreatedByUser) GetID() int {
-	if s == nil {
-		return 0
-	}
-	return s.ID
-}
-
-func (s *SubmissionCreatedByUser) GetFirstName() string {
+func (s *SchemaDocument) GetAttachmentUUID() string {
 	if s == nil {
 		return ""
 	}
-	return s.FirstName
+	return s.AttachmentUUID
 }
 
-func (s *SubmissionCreatedByUser) GetLastName() string {
+func (s *SchemaDocument) GetName() string {
 	if s == nil {
 		return ""
 	}
-	return s.LastName
+	return s.Name
 }
 
-func (s *SubmissionCreatedByUser) GetEmail() string {
-	if s == nil {
-		return ""
-	}
-	return s.Email
-}
-
-func (s *SubmissionCreatedByUser) GetExtraProperties() map[string]interface{} {
+func (s *SchemaDocument) GetExtraProperties() map[string]interface{} {
 	if s == nil {
 		return nil
 	}
 	return s.extraProperties
 }
 
-func (s *SubmissionCreatedByUser) require(field *big.Int) {
+func (s *SchemaDocument) require(field *big.Int) {
 	if s.explicitFields == nil {
 		s.explicitFields = big.NewInt(0)
 	}
 	s.explicitFields.Or(s.explicitFields, field)
 }
 
-// SetID sets the ID field and marks it as non-optional;
+// SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreatedByUser) SetID(id int) {
-	s.ID = id
-	s.require(submissionCreatedByUserFieldID)
+func (s *SchemaDocument) SetAttachmentUUID(attachmentUUID string) {
+	s.AttachmentUUID = attachmentUUID
+	s.require(schemaDocumentFieldAttachmentUUID)
 }
 
-// SetFirstName sets the FirstName field and marks it as non-optional;
+// SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreatedByUser) SetFirstName(firstName string) {
-	s.FirstName = firstName
-	s.require(submissionCreatedByUserFieldFirstName)
+func (s *SchemaDocument) SetName(name string) {
+	s.Name = name
+	s.require(schemaDocumentFieldName)
 }
 
-// SetLastName sets the LastName field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreatedByUser) SetLastName(lastName string) {
-	s.LastName = lastName
-	s.require(submissionCreatedByUserFieldLastName)
-}
-
-// SetEmail sets the Email field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreatedByUser) SetEmail(email string) {
-	s.Email = email
-	s.require(submissionCreatedByUserFieldEmail)
-}
-
-func (s *SubmissionCreatedByUser) UnmarshalJSON(data []byte) error {
-	type unmarshaler SubmissionCreatedByUser
+func (s *SchemaDocument) UnmarshalJSON(data []byte) error {
+	type unmarshaler SchemaDocument
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SubmissionCreatedByUser(value)
+	*s = SchemaDocument(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -12053,8 +7473,8 @@ func (s *SubmissionCreatedByUser) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubmissionCreatedByUser) MarshalJSON() ([]byte, error) {
-	type embed SubmissionCreatedByUser
+func (s *SchemaDocument) MarshalJSON() ([]byte, error) {
+	type embed SchemaDocument
 	var marshaler = struct {
 		embed
 	}{
@@ -12064,7 +7484,922 @@ func (s *SubmissionCreatedByUser) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (s *SubmissionCreatedByUser) String() string {
+func (s *SchemaDocument) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+var (
+	submissionFieldID                  = big.NewInt(1 << 0)
+	submissionFieldName                = big.NewInt(1 << 1)
+	submissionFieldSlug                = big.NewInt(1 << 2)
+	submissionFieldSource              = big.NewInt(1 << 3)
+	submissionFieldSubmittersOrder     = big.NewInt(1 << 4)
+	submissionFieldAuditLogURL         = big.NewInt(1 << 5)
+	submissionFieldCombinedDocumentURL = big.NewInt(1 << 6)
+	submissionFieldCreatedAt           = big.NewInt(1 << 7)
+	submissionFieldUpdatedAt           = big.NewInt(1 << 8)
+	submissionFieldArchivedAt          = big.NewInt(1 << 9)
+	submissionFieldExpireAt            = big.NewInt(1 << 10)
+	submissionFieldVariables           = big.NewInt(1 << 11)
+	submissionFieldSubmitters          = big.NewInt(1 << 12)
+	submissionFieldTemplate            = big.NewInt(1 << 13)
+	submissionFieldCreatedByUser       = big.NewInt(1 << 14)
+	submissionFieldSubmissionEvents    = big.NewInt(1 << 15)
+	submissionFieldDocuments           = big.NewInt(1 << 16)
+	submissionFieldStatus              = big.NewInt(1 << 17)
+	submissionFieldCompletedAt         = big.NewInt(1 << 18)
+)
+
+type Submission struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Name of the document submission.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Unique slug of the submission.
+	Slug string `json:"slug" url:"slug"`
+	// The source of the submission.
+	Source SubmissionSource `json:"source" url:"source"`
+	// The order of submitters.
+	SubmittersOrder SubmissionSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	// Audit log file URL.
+	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
+	// Combined PDF file URL with documents and Audit Log.
+	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submission was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+	// The date and time when the submission will expire and no longer be available for signing.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
+	// Dynamic content variables object used in dynamic template documents.
+	Variables map[string]any `json:"variables" url:"variables"`
+	// The list of submitters.
+	Submitters    []*SubmissionSubmitter `json:"submitters" url:"submitters"`
+	Template      *TemplateSummary       `json:"template,omitempty" url:"template,omitempty"`
+	CreatedByUser *User                  `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
+	// An array of events related to the submission.
+	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
+	// An array of completed or signed documents of the submission.
+	Documents []*Document `json:"documents" url:"documents"`
+	// The status of the submission.
+	Status SubmissionStatus `json:"status" url:"status"`
+	// The date and time when the submission was completed.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *Submission) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *Submission) GetName() string {
+	if s == nil {
+		return ""
+	}
+	return s.Name
+}
+
+func (s *Submission) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *Submission) GetSource() SubmissionSource {
+	if s == nil {
+		return ""
+	}
+	return s.Source
+}
+
+func (s *Submission) GetSubmittersOrder() SubmissionSubmittersOrder {
+	if s == nil {
+		return ""
+	}
+	return s.SubmittersOrder
+}
+
+func (s *Submission) GetAuditLogURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.AuditLogURL
+}
+
+func (s *Submission) GetCombinedDocumentURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CombinedDocumentURL
+}
+
+func (s *Submission) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *Submission) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *Submission) GetArchivedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ArchivedAt
+}
+
+func (s *Submission) GetExpireAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExpireAt
+}
+
+func (s *Submission) GetVariables() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Variables
+}
+
+func (s *Submission) GetSubmitters() []*SubmissionSubmitter {
+	if s == nil {
+		return nil
+	}
+	return s.Submitters
+}
+
+func (s *Submission) GetTemplate() *TemplateSummary {
+	if s == nil {
+		return nil
+	}
+	return s.Template
+}
+
+func (s *Submission) GetCreatedByUser() *User {
+	if s == nil {
+		return nil
+	}
+	return s.CreatedByUser
+}
+
+func (s *Submission) GetSubmissionEvents() []*SubmissionEvent {
+	if s == nil {
+		return nil
+	}
+	return s.SubmissionEvents
+}
+
+func (s *Submission) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *Submission) GetStatus() SubmissionStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *Submission) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *Submission) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *Submission) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetID(id int) {
+	s.ID = id
+	s.require(submissionFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetName(name string) {
+	s.Name = name
+	s.require(submissionFieldName)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submissionFieldSlug)
+}
+
+// SetSource sets the Source field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetSource(source SubmissionSource) {
+	s.Source = source
+	s.require(submissionFieldSource)
+}
+
+// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetSubmittersOrder(submittersOrder SubmissionSubmittersOrder) {
+	s.SubmittersOrder = submittersOrder
+	s.require(submissionFieldSubmittersOrder)
+}
+
+// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetAuditLogURL(auditLogURL *string) {
+	s.AuditLogURL = auditLogURL
+	s.require(submissionFieldAuditLogURL)
+}
+
+// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetCombinedDocumentURL(combinedDocumentURL *string) {
+	s.CombinedDocumentURL = combinedDocumentURL
+	s.require(submissionFieldCombinedDocumentURL)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submissionFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submissionFieldUpdatedAt)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetArchivedAt(archivedAt *string) {
+	s.ArchivedAt = archivedAt
+	s.require(submissionFieldArchivedAt)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetExpireAt(expireAt *string) {
+	s.ExpireAt = expireAt
+	s.require(submissionFieldExpireAt)
+}
+
+// SetVariables sets the Variables field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetVariables(variables map[string]any) {
+	s.Variables = variables
+	s.require(submissionFieldVariables)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetSubmitters(submitters []*SubmissionSubmitter) {
+	s.Submitters = submitters
+	s.require(submissionFieldSubmitters)
+}
+
+// SetTemplate sets the Template field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetTemplate(template *TemplateSummary) {
+	s.Template = template
+	s.require(submissionFieldTemplate)
+}
+
+// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetCreatedByUser(createdByUser *User) {
+	s.CreatedByUser = createdByUser
+	s.require(submissionFieldCreatedByUser)
+}
+
+// SetSubmissionEvents sets the SubmissionEvents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetSubmissionEvents(submissionEvents []*SubmissionEvent) {
+	s.SubmissionEvents = submissionEvents
+	s.require(submissionFieldSubmissionEvents)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submissionFieldDocuments)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetStatus(status SubmissionStatus) {
+	s.Status = status
+	s.require(submissionFieldStatus)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submission) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submissionFieldCompletedAt)
+}
+
+func (s *Submission) UnmarshalJSON(data []byte) error {
+	type unmarshaler Submission
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Submission(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Submission) MarshalJSON() ([]byte, error) {
+	type embed Submission
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *Submission) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+var (
+	submissionArchiveResultFieldID         = big.NewInt(1 << 0)
+	submissionArchiveResultFieldArchivedAt = big.NewInt(1 << 1)
+)
+
+type SubmissionArchiveResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionArchiveResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionArchiveResult) GetArchivedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ArchivedAt
+}
+
+func (s *SubmissionArchiveResult) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionArchiveResult) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionArchiveResult) SetID(id int) {
+	s.ID = id
+	s.require(submissionArchiveResultFieldID)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionArchiveResult) SetArchivedAt(archivedAt *string) {
+	s.ArchivedAt = archivedAt
+	s.require(submissionArchiveResultFieldArchivedAt)
+}
+
+func (s *SubmissionArchiveResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionArchiveResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionArchiveResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionArchiveResult) MarshalJSON() ([]byte, error) {
+	type embed SubmissionArchiveResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionArchiveResult) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+var (
+	submissionCreateResultFieldID              = big.NewInt(1 << 0)
+	submissionCreateResultFieldName            = big.NewInt(1 << 1)
+	submissionCreateResultFieldSubmitters      = big.NewInt(1 << 2)
+	submissionCreateResultFieldSource          = big.NewInt(1 << 3)
+	submissionCreateResultFieldSubmittersOrder = big.NewInt(1 << 4)
+	submissionCreateResultFieldStatus          = big.NewInt(1 << 5)
+	submissionCreateResultFieldSchema          = big.NewInt(1 << 6)
+	submissionCreateResultFieldFields          = big.NewInt(1 << 7)
+	submissionCreateResultFieldExpireAt        = big.NewInt(1 << 8)
+	submissionCreateResultFieldCreatedAt       = big.NewInt(1 << 9)
+)
+
+type SubmissionCreateResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission name.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// The list of submitters.
+	Submitters []*SubmitterCreateResult `json:"submitters" url:"submitters"`
+	// The source of the submission.
+	Source SubmissionCreateResultSource `json:"source" url:"source"`
+	// The order of submitters.
+	SubmittersOrder SubmissionCreateResultSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	// The status of the submission.
+	Status SubmissionCreateResultStatus `json:"status" url:"status"`
+	// The one-off submission document files.
+	Schema []*SchemaDocument `json:"schema,omitempty" url:"schema,omitempty"`
+	// List of fields to be filled in the one-off submission.
+	Fields []*Field `json:"fields,omitempty" url:"fields,omitempty"`
+	// Specify the expiration date and time after which the submission becomes unavailable for signature.
+	ExpireAt string `json:"expire_at" url:"expire_at"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionCreateResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionCreateResult) GetName() string {
+	if s == nil {
+		return ""
+	}
+	return s.Name
+}
+
+func (s *SubmissionCreateResult) GetSubmitters() []*SubmitterCreateResult {
+	if s == nil {
+		return nil
+	}
+	return s.Submitters
+}
+
+func (s *SubmissionCreateResult) GetSource() SubmissionCreateResultSource {
+	if s == nil {
+		return ""
+	}
+	return s.Source
+}
+
+func (s *SubmissionCreateResult) GetSubmittersOrder() SubmissionCreateResultSubmittersOrder {
+	if s == nil {
+		return ""
+	}
+	return s.SubmittersOrder
+}
+
+func (s *SubmissionCreateResult) GetStatus() SubmissionCreateResultStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmissionCreateResult) GetSchema() []*SchemaDocument {
+	if s == nil {
+		return nil
+	}
+	return s.Schema
+}
+
+func (s *SubmissionCreateResult) GetFields() []*Field {
+	if s == nil {
+		return nil
+	}
+	return s.Fields
+}
+
+func (s *SubmissionCreateResult) GetExpireAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.ExpireAt
+}
+
+func (s *SubmissionCreateResult) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmissionCreateResult) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionCreateResult) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetID(id int) {
+	s.ID = id
+	s.require(submissionCreateResultFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetName(name string) {
+	s.Name = name
+	s.require(submissionCreateResultFieldName)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetSubmitters(submitters []*SubmitterCreateResult) {
+	s.Submitters = submitters
+	s.require(submissionCreateResultFieldSubmitters)
+}
+
+// SetSource sets the Source field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetSource(source SubmissionCreateResultSource) {
+	s.Source = source
+	s.require(submissionCreateResultFieldSource)
+}
+
+// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetSubmittersOrder(submittersOrder SubmissionCreateResultSubmittersOrder) {
+	s.SubmittersOrder = submittersOrder
+	s.require(submissionCreateResultFieldSubmittersOrder)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetStatus(status SubmissionCreateResultStatus) {
+	s.Status = status
+	s.require(submissionCreateResultFieldStatus)
+}
+
+// SetSchema sets the Schema field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetSchema(schema []*SchemaDocument) {
+	s.Schema = schema
+	s.require(submissionCreateResultFieldSchema)
+}
+
+// SetFields sets the Fields field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetFields(fields []*Field) {
+	s.Fields = fields
+	s.require(submissionCreateResultFieldFields)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetExpireAt(expireAt string) {
+	s.ExpireAt = expireAt
+	s.require(submissionCreateResultFieldExpireAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionCreateResult) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submissionCreateResultFieldCreatedAt)
+}
+
+func (s *SubmissionCreateResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionCreateResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionCreateResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionCreateResult) MarshalJSON() ([]byte, error) {
+	type embed SubmissionCreateResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionCreateResult) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The source of the submission.
+type SubmissionCreateResultSource string
+
+const (
+	SubmissionCreateResultSourceInvite SubmissionCreateResultSource = "invite"
+	SubmissionCreateResultSourceBulk   SubmissionCreateResultSource = "bulk"
+	SubmissionCreateResultSourceAPI    SubmissionCreateResultSource = "api"
+	SubmissionCreateResultSourceEmbed  SubmissionCreateResultSource = "embed"
+	SubmissionCreateResultSourceLink   SubmissionCreateResultSource = "link"
+)
+
+func NewSubmissionCreateResultSourceFromString(s string) (SubmissionCreateResultSource, error) {
+	switch s {
+	case "invite":
+		return SubmissionCreateResultSourceInvite, nil
+	case "bulk":
+		return SubmissionCreateResultSourceBulk, nil
+	case "api":
+		return SubmissionCreateResultSourceAPI, nil
+	case "embed":
+		return SubmissionCreateResultSourceEmbed, nil
+	case "link":
+		return SubmissionCreateResultSourceLink, nil
+	}
+	var t SubmissionCreateResultSource
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionCreateResultSource) Ptr() *SubmissionCreateResultSource {
+	return &s
+}
+
+// The status of the submission.
+type SubmissionCreateResultStatus string
+
+const (
+	SubmissionCreateResultStatusCompleted SubmissionCreateResultStatus = "completed"
+	SubmissionCreateResultStatusDeclined  SubmissionCreateResultStatus = "declined"
+	SubmissionCreateResultStatusExpired   SubmissionCreateResultStatus = "expired"
+	SubmissionCreateResultStatusPending   SubmissionCreateResultStatus = "pending"
+)
+
+func NewSubmissionCreateResultStatusFromString(s string) (SubmissionCreateResultStatus, error) {
+	switch s {
+	case "completed":
+		return SubmissionCreateResultStatusCompleted, nil
+	case "declined":
+		return SubmissionCreateResultStatusDeclined, nil
+	case "expired":
+		return SubmissionCreateResultStatusExpired, nil
+	case "pending":
+		return SubmissionCreateResultStatusPending, nil
+	}
+	var t SubmissionCreateResultStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionCreateResultStatus) Ptr() *SubmissionCreateResultStatus {
+	return &s
+}
+
+// The order of submitters.
+type SubmissionCreateResultSubmittersOrder string
+
+const (
+	SubmissionCreateResultSubmittersOrderRandom    SubmissionCreateResultSubmittersOrder = "random"
+	SubmissionCreateResultSubmittersOrderPreserved SubmissionCreateResultSubmittersOrder = "preserved"
+)
+
+func NewSubmissionCreateResultSubmittersOrderFromString(s string) (SubmissionCreateResultSubmittersOrder, error) {
+	switch s {
+	case "random":
+		return SubmissionCreateResultSubmittersOrderRandom, nil
+	case "preserved":
+		return SubmissionCreateResultSubmittersOrderPreserved, nil
+	}
+	var t SubmissionCreateResultSubmittersOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionCreateResultSubmittersOrder) Ptr() *SubmissionCreateResultSubmittersOrder {
+	return &s
+}
+
+var (
+	submissionDocumentsFieldID        = big.NewInt(1 << 0)
+	submissionDocumentsFieldDocuments = big.NewInt(1 << 1)
+)
+
+type SubmissionDocuments struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// An array of completed or signed documents of the submission.
+	Documents []*Document `json:"documents" url:"documents"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionDocuments) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionDocuments) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *SubmissionDocuments) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionDocuments) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionDocuments) SetID(id int) {
+	s.ID = id
+	s.require(submissionDocumentsFieldID)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionDocuments) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submissionDocumentsFieldDocuments)
+}
+
+func (s *SubmissionDocuments) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionDocuments
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionDocuments(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionDocuments) MarshalJSON() ([]byte, error) {
+	type embed SubmissionDocuments
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionDocuments) String() string {
 	if s == nil {
 		return "<nil>"
 	}
@@ -12304,18 +8639,13 @@ func (s SubmissionEventEventType) Ptr() *SubmissionEventEventType {
 }
 
 var (
-	submissionPaginationFieldCount = big.NewInt(1 << 0)
-	submissionPaginationFieldNext  = big.NewInt(1 << 1)
-	submissionPaginationFieldPrev  = big.NewInt(1 << 2)
+	submissionListFieldData       = big.NewInt(1 << 0)
+	submissionListFieldPagination = big.NewInt(1 << 1)
 )
 
-type SubmissionPagination struct {
-	// Submissions count.
-	Count int `json:"count" url:"count"`
-	// The ID of the submission after which the next page starts.
-	Next *int `json:"next,omitempty" url:"next,omitempty"`
-	// The ID of the submission before which the previous page ends.
-	Prev *int `json:"prev,omitempty" url:"prev,omitempty"`
+type SubmissionList struct {
+	Data       []*SubmissionListItem `json:"data" url:"data"`
+	Pagination *Pagination           `json:"pagination" url:"pagination"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -12324,69 +8654,55 @@ type SubmissionPagination struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionPagination) GetCount() int {
-	if s == nil {
-		return 0
-	}
-	return s.Count
-}
-
-func (s *SubmissionPagination) GetNext() *int {
+func (s *SubmissionList) GetData() []*SubmissionListItem {
 	if s == nil {
 		return nil
 	}
-	return s.Next
+	return s.Data
 }
 
-func (s *SubmissionPagination) GetPrev() *int {
+func (s *SubmissionList) GetPagination() *Pagination {
 	if s == nil {
 		return nil
 	}
-	return s.Prev
+	return s.Pagination
 }
 
-func (s *SubmissionPagination) GetExtraProperties() map[string]interface{} {
+func (s *SubmissionList) GetExtraProperties() map[string]interface{} {
 	if s == nil {
 		return nil
 	}
 	return s.extraProperties
 }
 
-func (s *SubmissionPagination) require(field *big.Int) {
+func (s *SubmissionList) require(field *big.Int) {
 	if s.explicitFields == nil {
 		s.explicitFields = big.NewInt(0)
 	}
 	s.explicitFields.Or(s.explicitFields, field)
 }
 
-// SetCount sets the Count field and marks it as non-optional;
+// SetData sets the Data field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionPagination) SetCount(count int) {
-	s.Count = count
-	s.require(submissionPaginationFieldCount)
+func (s *SubmissionList) SetData(data []*SubmissionListItem) {
+	s.Data = data
+	s.require(submissionListFieldData)
 }
 
-// SetNext sets the Next field and marks it as non-optional;
+// SetPagination sets the Pagination field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionPagination) SetNext(next *int) {
-	s.Next = next
-	s.require(submissionPaginationFieldNext)
+func (s *SubmissionList) SetPagination(pagination *Pagination) {
+	s.Pagination = pagination
+	s.require(submissionListFieldPagination)
 }
 
-// SetPrev sets the Prev field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionPagination) SetPrev(prev *int) {
-	s.Prev = prev
-	s.require(submissionPaginationFieldPrev)
-}
-
-func (s *SubmissionPagination) UnmarshalJSON(data []byte) error {
-	type unmarshaler SubmissionPagination
+func (s *SubmissionList) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionList
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SubmissionPagination(value)
+	*s = SubmissionList(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -12396,8 +8712,8 @@ func (s *SubmissionPagination) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubmissionPagination) MarshalJSON() ([]byte, error) {
-	type embed SubmissionPagination
+func (s *SubmissionList) MarshalJSON() ([]byte, error) {
+	type embed SubmissionList
 	var marshaler = struct {
 		embed
 	}{
@@ -12407,7 +8723,7 @@ func (s *SubmissionPagination) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (s *SubmissionPagination) String() string {
+func (s *SubmissionList) String() string {
 	if s == nil {
 		return "<nil>"
 	}
@@ -12423,27 +8739,58 @@ func (s *SubmissionPagination) String() string {
 }
 
 var (
-	submissionTemplateFieldID         = big.NewInt(1 << 0)
-	submissionTemplateFieldName       = big.NewInt(1 << 1)
-	submissionTemplateFieldExternalID = big.NewInt(1 << 2)
-	submissionTemplateFieldFolderName = big.NewInt(1 << 3)
-	submissionTemplateFieldCreatedAt  = big.NewInt(1 << 4)
-	submissionTemplateFieldUpdatedAt  = big.NewInt(1 << 5)
+	submissionListItemFieldID                  = big.NewInt(1 << 0)
+	submissionListItemFieldName                = big.NewInt(1 << 1)
+	submissionListItemFieldSource              = big.NewInt(1 << 2)
+	submissionListItemFieldSlug                = big.NewInt(1 << 3)
+	submissionListItemFieldStatus              = big.NewInt(1 << 4)
+	submissionListItemFieldSubmittersOrder     = big.NewInt(1 << 5)
+	submissionListItemFieldAuditLogURL         = big.NewInt(1 << 6)
+	submissionListItemFieldCombinedDocumentURL = big.NewInt(1 << 7)
+	submissionListItemFieldCompletedAt         = big.NewInt(1 << 8)
+	submissionListItemFieldCreatedAt           = big.NewInt(1 << 9)
+	submissionListItemFieldUpdatedAt           = big.NewInt(1 << 10)
+	submissionListItemFieldArchivedAt          = big.NewInt(1 << 11)
+	submissionListItemFieldExpireAt            = big.NewInt(1 << 12)
+	submissionListItemFieldVariables           = big.NewInt(1 << 13)
+	submissionListItemFieldSubmitters          = big.NewInt(1 << 14)
+	submissionListItemFieldTemplate            = big.NewInt(1 << 15)
+	submissionListItemFieldCreatedByUser       = big.NewInt(1 << 16)
 )
 
-type SubmissionTemplate struct {
-	// Unique identifier of the document template.
+type SubmissionListItem struct {
+	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
-	// The name of the template.
-	Name string `json:"name" url:"name"`
-	// Your application-specific unique string key to identify this template within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Folder name where the template is located.
-	FolderName string `json:"folder_name" url:"folder_name"`
-	// The date and time when the template was created.
+	// Name of the document submission.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// The source of the submission.
+	Source SubmissionListItemSource `json:"source" url:"source"`
+	// Unique slug of the submission.
+	Slug string `json:"slug" url:"slug"`
+	// The status of the submission.
+	Status SubmissionListItemStatus `json:"status" url:"status"`
+	// The order of submitters.
+	SubmittersOrder SubmissionListItemSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	// Audit log file URL.
+	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
+	// Combined PDF file URL with documents and Audit Log.
+	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
+	// The date and time when the submission was completed.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submission was created.
 	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the template was last updated.
+	// The date and time when the submission was last updated.
 	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+	// The date and time when the submission will expire and no longer be available for signing.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
+	// Dynamic content variables object used in dynamic template documents.
+	Variables map[string]any `json:"variables" url:"variables"`
+	// The list of submitters.
+	Submitters    []*SubmitterSummary `json:"submitters" url:"submitters"`
+	Template      *TemplateSummary    `json:"template,omitempty" url:"template,omitempty"`
+	CreatedByUser *User               `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -12452,56 +8799,133 @@ type SubmissionTemplate struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionTemplate) GetID() int {
+func (s *SubmissionListItem) GetID() int {
 	if s == nil {
 		return 0
 	}
 	return s.ID
 }
 
-func (s *SubmissionTemplate) GetName() string {
+func (s *SubmissionListItem) GetName() string {
 	if s == nil {
 		return ""
 	}
 	return s.Name
 }
 
-func (s *SubmissionTemplate) GetExternalID() *string {
-	if s == nil {
-		return nil
-	}
-	return s.ExternalID
-}
-
-func (s *SubmissionTemplate) GetFolderName() string {
+func (s *SubmissionListItem) GetSource() SubmissionListItemSource {
 	if s == nil {
 		return ""
 	}
-	return s.FolderName
+	return s.Source
 }
 
-func (s *SubmissionTemplate) GetCreatedAt() string {
+func (s *SubmissionListItem) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmissionListItem) GetStatus() SubmissionListItemStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmissionListItem) GetSubmittersOrder() SubmissionListItemSubmittersOrder {
+	if s == nil {
+		return ""
+	}
+	return s.SubmittersOrder
+}
+
+func (s *SubmissionListItem) GetAuditLogURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.AuditLogURL
+}
+
+func (s *SubmissionListItem) GetCombinedDocumentURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CombinedDocumentURL
+}
+
+func (s *SubmissionListItem) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmissionListItem) GetCreatedAt() string {
 	if s == nil {
 		return ""
 	}
 	return s.CreatedAt
 }
 
-func (s *SubmissionTemplate) GetUpdatedAt() string {
+func (s *SubmissionListItem) GetUpdatedAt() string {
 	if s == nil {
 		return ""
 	}
 	return s.UpdatedAt
 }
 
-func (s *SubmissionTemplate) GetExtraProperties() map[string]interface{} {
+func (s *SubmissionListItem) GetArchivedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ArchivedAt
+}
+
+func (s *SubmissionListItem) GetExpireAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExpireAt
+}
+
+func (s *SubmissionListItem) GetVariables() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Variables
+}
+
+func (s *SubmissionListItem) GetSubmitters() []*SubmitterSummary {
+	if s == nil {
+		return nil
+	}
+	return s.Submitters
+}
+
+func (s *SubmissionListItem) GetTemplate() *TemplateSummary {
+	if s == nil {
+		return nil
+	}
+	return s.Template
+}
+
+func (s *SubmissionListItem) GetCreatedByUser() *User {
+	if s == nil {
+		return nil
+	}
+	return s.CreatedByUser
+}
+
+func (s *SubmissionListItem) GetExtraProperties() map[string]interface{} {
 	if s == nil {
 		return nil
 	}
 	return s.extraProperties
 }
 
-func (s *SubmissionTemplate) require(field *big.Int) {
+func (s *SubmissionListItem) require(field *big.Int) {
 	if s.explicitFields == nil {
 		s.explicitFields = big.NewInt(0)
 	}
@@ -12510,53 +8934,130 @@ func (s *SubmissionTemplate) require(field *big.Int) {
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetID(id int) {
+func (s *SubmissionListItem) SetID(id int) {
 	s.ID = id
-	s.require(submissionTemplateFieldID)
+	s.require(submissionListItemFieldID)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetName(name string) {
+func (s *SubmissionListItem) SetName(name string) {
 	s.Name = name
-	s.require(submissionTemplateFieldName)
+	s.require(submissionListItemFieldName)
 }
 
-// SetExternalID sets the ExternalID field and marks it as non-optional;
+// SetSource sets the Source field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetExternalID(externalID *string) {
-	s.ExternalID = externalID
-	s.require(submissionTemplateFieldExternalID)
+func (s *SubmissionListItem) SetSource(source SubmissionListItemSource) {
+	s.Source = source
+	s.require(submissionListItemFieldSource)
 }
 
-// SetFolderName sets the FolderName field and marks it as non-optional;
+// SetSlug sets the Slug field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetFolderName(folderName string) {
-	s.FolderName = folderName
-	s.require(submissionTemplateFieldFolderName)
+func (s *SubmissionListItem) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submissionListItemFieldSlug)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetStatus(status SubmissionListItemStatus) {
+	s.Status = status
+	s.require(submissionListItemFieldStatus)
+}
+
+// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetSubmittersOrder(submittersOrder SubmissionListItemSubmittersOrder) {
+	s.SubmittersOrder = submittersOrder
+	s.require(submissionListItemFieldSubmittersOrder)
+}
+
+// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetAuditLogURL(auditLogURL *string) {
+	s.AuditLogURL = auditLogURL
+	s.require(submissionListItemFieldAuditLogURL)
+}
+
+// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetCombinedDocumentURL(combinedDocumentURL *string) {
+	s.CombinedDocumentURL = combinedDocumentURL
+	s.require(submissionListItemFieldCombinedDocumentURL)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submissionListItemFieldCompletedAt)
 }
 
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetCreatedAt(createdAt string) {
+func (s *SubmissionListItem) SetCreatedAt(createdAt string) {
 	s.CreatedAt = createdAt
-	s.require(submissionTemplateFieldCreatedAt)
+	s.require(submissionListItemFieldCreatedAt)
 }
 
 // SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionTemplate) SetUpdatedAt(updatedAt string) {
+func (s *SubmissionListItem) SetUpdatedAt(updatedAt string) {
 	s.UpdatedAt = updatedAt
-	s.require(submissionTemplateFieldUpdatedAt)
+	s.require(submissionListItemFieldUpdatedAt)
 }
 
-func (s *SubmissionTemplate) UnmarshalJSON(data []byte) error {
-	type unmarshaler SubmissionTemplate
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetArchivedAt(archivedAt *string) {
+	s.ArchivedAt = archivedAt
+	s.require(submissionListItemFieldArchivedAt)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetExpireAt(expireAt *string) {
+	s.ExpireAt = expireAt
+	s.require(submissionListItemFieldExpireAt)
+}
+
+// SetVariables sets the Variables field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetVariables(variables map[string]any) {
+	s.Variables = variables
+	s.require(submissionListItemFieldVariables)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetSubmitters(submitters []*SubmitterSummary) {
+	s.Submitters = submitters
+	s.require(submissionListItemFieldSubmitters)
+}
+
+// SetTemplate sets the Template field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetTemplate(template *TemplateSummary) {
+	s.Template = template
+	s.require(submissionListItemFieldTemplate)
+}
+
+// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionListItem) SetCreatedByUser(createdByUser *User) {
+	s.CreatedByUser = createdByUser
+	s.require(submissionListItemFieldCreatedByUser)
+}
+
+func (s *SubmissionListItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionListItem
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SubmissionTemplate(value)
+	*s = SubmissionListItem(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -12566,8 +9067,8 @@ func (s *SubmissionTemplate) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubmissionTemplate) MarshalJSON() ([]byte, error) {
-	type embed SubmissionTemplate
+func (s *SubmissionListItem) MarshalJSON() ([]byte, error) {
+	type embed SubmissionListItem
 	var marshaler = struct {
 		embed
 	}{
@@ -12577,7 +9078,1512 @@ func (s *SubmissionTemplate) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (s *SubmissionTemplate) String() string {
+func (s *SubmissionListItem) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The source of the submission.
+type SubmissionListItemSource string
+
+const (
+	SubmissionListItemSourceInvite SubmissionListItemSource = "invite"
+	SubmissionListItemSourceBulk   SubmissionListItemSource = "bulk"
+	SubmissionListItemSourceAPI    SubmissionListItemSource = "api"
+	SubmissionListItemSourceEmbed  SubmissionListItemSource = "embed"
+	SubmissionListItemSourceLink   SubmissionListItemSource = "link"
+)
+
+func NewSubmissionListItemSourceFromString(s string) (SubmissionListItemSource, error) {
+	switch s {
+	case "invite":
+		return SubmissionListItemSourceInvite, nil
+	case "bulk":
+		return SubmissionListItemSourceBulk, nil
+	case "api":
+		return SubmissionListItemSourceAPI, nil
+	case "embed":
+		return SubmissionListItemSourceEmbed, nil
+	case "link":
+		return SubmissionListItemSourceLink, nil
+	}
+	var t SubmissionListItemSource
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionListItemSource) Ptr() *SubmissionListItemSource {
+	return &s
+}
+
+// The status of the submission.
+type SubmissionListItemStatus string
+
+const (
+	SubmissionListItemStatusCompleted SubmissionListItemStatus = "completed"
+	SubmissionListItemStatusDeclined  SubmissionListItemStatus = "declined"
+	SubmissionListItemStatusExpired   SubmissionListItemStatus = "expired"
+	SubmissionListItemStatusPending   SubmissionListItemStatus = "pending"
+)
+
+func NewSubmissionListItemStatusFromString(s string) (SubmissionListItemStatus, error) {
+	switch s {
+	case "completed":
+		return SubmissionListItemStatusCompleted, nil
+	case "declined":
+		return SubmissionListItemStatusDeclined, nil
+	case "expired":
+		return SubmissionListItemStatusExpired, nil
+	case "pending":
+		return SubmissionListItemStatusPending, nil
+	}
+	var t SubmissionListItemStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionListItemStatus) Ptr() *SubmissionListItemStatus {
+	return &s
+}
+
+// The order of submitters.
+type SubmissionListItemSubmittersOrder string
+
+const (
+	SubmissionListItemSubmittersOrderRandom    SubmissionListItemSubmittersOrder = "random"
+	SubmissionListItemSubmittersOrderPreserved SubmissionListItemSubmittersOrder = "preserved"
+)
+
+func NewSubmissionListItemSubmittersOrderFromString(s string) (SubmissionListItemSubmittersOrder, error) {
+	switch s {
+	case "random":
+		return SubmissionListItemSubmittersOrderRandom, nil
+	case "preserved":
+		return SubmissionListItemSubmittersOrderPreserved, nil
+	}
+	var t SubmissionListItemSubmittersOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionListItemSubmittersOrder) Ptr() *SubmissionListItemSubmittersOrder {
+	return &s
+}
+
+// The source of the submission.
+type SubmissionSource string
+
+const (
+	SubmissionSourceInvite SubmissionSource = "invite"
+	SubmissionSourceBulk   SubmissionSource = "bulk"
+	SubmissionSourceAPI    SubmissionSource = "api"
+	SubmissionSourceEmbed  SubmissionSource = "embed"
+	SubmissionSourceLink   SubmissionSource = "link"
+)
+
+func NewSubmissionSourceFromString(s string) (SubmissionSource, error) {
+	switch s {
+	case "invite":
+		return SubmissionSourceInvite, nil
+	case "bulk":
+		return SubmissionSourceBulk, nil
+	case "api":
+		return SubmissionSourceAPI, nil
+	case "embed":
+		return SubmissionSourceEmbed, nil
+	case "link":
+		return SubmissionSourceLink, nil
+	}
+	var t SubmissionSource
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionSource) Ptr() *SubmissionSource {
+	return &s
+}
+
+// The status of the submission.
+type SubmissionStatus string
+
+const (
+	SubmissionStatusCompleted SubmissionStatus = "completed"
+	SubmissionStatusDeclined  SubmissionStatus = "declined"
+	SubmissionStatusExpired   SubmissionStatus = "expired"
+	SubmissionStatusPending   SubmissionStatus = "pending"
+)
+
+func NewSubmissionStatusFromString(s string) (SubmissionStatus, error) {
+	switch s {
+	case "completed":
+		return SubmissionStatusCompleted, nil
+	case "declined":
+		return SubmissionStatusDeclined, nil
+	case "expired":
+		return SubmissionStatusExpired, nil
+	case "pending":
+		return SubmissionStatusPending, nil
+	}
+	var t SubmissionStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionStatus) Ptr() *SubmissionStatus {
+	return &s
+}
+
+var (
+	submissionSubmitterFieldID           = big.NewInt(1 << 0)
+	submissionSubmitterFieldSubmissionID = big.NewInt(1 << 1)
+	submissionSubmitterFieldUUID         = big.NewInt(1 << 2)
+	submissionSubmitterFieldEmail        = big.NewInt(1 << 3)
+	submissionSubmitterFieldSlug         = big.NewInt(1 << 4)
+	submissionSubmitterFieldSentAt       = big.NewInt(1 << 5)
+	submissionSubmitterFieldOpenedAt     = big.NewInt(1 << 6)
+	submissionSubmitterFieldCompletedAt  = big.NewInt(1 << 7)
+	submissionSubmitterFieldDeclinedAt   = big.NewInt(1 << 8)
+	submissionSubmitterFieldCreatedAt    = big.NewInt(1 << 9)
+	submissionSubmitterFieldUpdatedAt    = big.NewInt(1 << 10)
+	submissionSubmitterFieldName         = big.NewInt(1 << 11)
+	submissionSubmitterFieldPhone        = big.NewInt(1 << 12)
+	submissionSubmitterFieldExternalID   = big.NewInt(1 << 13)
+	submissionSubmitterFieldStatus       = big.NewInt(1 << 14)
+	submissionSubmitterFieldValues       = big.NewInt(1 << 15)
+	submissionSubmitterFieldDocuments    = big.NewInt(1 << 16)
+	submissionSubmitterFieldRole         = big.NewInt(1 << 17)
+	submissionSubmitterFieldMetadata     = big.NewInt(1 << 18)
+	submissionSubmitterFieldPreferences  = big.NewInt(1 << 19)
+)
+
+type SubmissionSubmitter struct {
+	// Submitter unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission unique ID number.
+	SubmissionID int `json:"submission_id" url:"submission_id"`
+	// Submitter UUID.
+	UUID string `json:"uuid" url:"uuid"`
+	// The email address of the submitter.
+	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	// Unique key to be used in the form signing link and embedded form.
+	Slug string `json:"slug" url:"slug"`
+	// The date and time when the signing request was sent to the submitter.
+	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
+	// The date and time when the submitter opened the signing form.
+	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
+	// The date and time when the submitter completed the signing form.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submitter declined the signing form.
+	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
+	// The date and time when the submitter was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submitter was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The name of the submitter.
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	// The phone number of the submitter.
+	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	// Your application-specific unique string key to identify this submitter within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// The status of signing request for the submitter.
+	Status SubmissionSubmitterStatus `json:"status" url:"status"`
+	// An array of pre-filled values for the submitter.
+	Values []*FieldValue `json:"values" url:"values"`
+	// An array of completed or signed documents by the submitter.
+	Documents []*Document `json:"documents" url:"documents"`
+	// The role of the submitter in the signing process.
+	Role string `json:"role" url:"role"`
+	// Metadata object with additional submitter information.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// Submitter preferences.
+	Preferences map[string]any `json:"preferences" url:"preferences"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionSubmitter) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionSubmitter) GetSubmissionID() int {
+	if s == nil {
+		return 0
+	}
+	return s.SubmissionID
+}
+
+func (s *SubmissionSubmitter) GetUUID() string {
+	if s == nil {
+		return ""
+	}
+	return s.UUID
+}
+
+func (s *SubmissionSubmitter) GetEmail() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Email
+}
+
+func (s *SubmissionSubmitter) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmissionSubmitter) GetSentAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SentAt
+}
+
+func (s *SubmissionSubmitter) GetOpenedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.OpenedAt
+}
+
+func (s *SubmissionSubmitter) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmissionSubmitter) GetDeclinedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DeclinedAt
+}
+
+func (s *SubmissionSubmitter) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmissionSubmitter) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *SubmissionSubmitter) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SubmissionSubmitter) GetPhone() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Phone
+}
+
+func (s *SubmissionSubmitter) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *SubmissionSubmitter) GetStatus() SubmissionSubmitterStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmissionSubmitter) GetValues() []*FieldValue {
+	if s == nil {
+		return nil
+	}
+	return s.Values
+}
+
+func (s *SubmissionSubmitter) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *SubmissionSubmitter) GetRole() string {
+	if s == nil {
+		return ""
+	}
+	return s.Role
+}
+
+func (s *SubmissionSubmitter) GetMetadata() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
+}
+
+func (s *SubmissionSubmitter) GetPreferences() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Preferences
+}
+
+func (s *SubmissionSubmitter) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionSubmitter) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetID(id int) {
+	s.ID = id
+	s.require(submissionSubmitterFieldID)
+}
+
+// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetSubmissionID(submissionID int) {
+	s.SubmissionID = submissionID
+	s.require(submissionSubmitterFieldSubmissionID)
+}
+
+// SetUUID sets the UUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetUUID(uuid string) {
+	s.UUID = uuid
+	s.require(submissionSubmitterFieldUUID)
+}
+
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetEmail(email *string) {
+	s.Email = email
+	s.require(submissionSubmitterFieldEmail)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submissionSubmitterFieldSlug)
+}
+
+// SetSentAt sets the SentAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetSentAt(sentAt *string) {
+	s.SentAt = sentAt
+	s.require(submissionSubmitterFieldSentAt)
+}
+
+// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetOpenedAt(openedAt *string) {
+	s.OpenedAt = openedAt
+	s.require(submissionSubmitterFieldOpenedAt)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submissionSubmitterFieldCompletedAt)
+}
+
+// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetDeclinedAt(declinedAt *string) {
+	s.DeclinedAt = declinedAt
+	s.require(submissionSubmitterFieldDeclinedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submissionSubmitterFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submissionSubmitterFieldUpdatedAt)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetName(name *string) {
+	s.Name = name
+	s.require(submissionSubmitterFieldName)
+}
+
+// SetPhone sets the Phone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetPhone(phone *string) {
+	s.Phone = phone
+	s.require(submissionSubmitterFieldPhone)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(submissionSubmitterFieldExternalID)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetStatus(status SubmissionSubmitterStatus) {
+	s.Status = status
+	s.require(submissionSubmitterFieldStatus)
+}
+
+// SetValues sets the Values field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetValues(values []*FieldValue) {
+	s.Values = values
+	s.require(submissionSubmitterFieldValues)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submissionSubmitterFieldDocuments)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetRole(role string) {
+	s.Role = role
+	s.require(submissionSubmitterFieldRole)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetMetadata(metadata map[string]any) {
+	s.Metadata = metadata
+	s.require(submissionSubmitterFieldMetadata)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionSubmitter) SetPreferences(preferences map[string]any) {
+	s.Preferences = preferences
+	s.require(submissionSubmitterFieldPreferences)
+}
+
+func (s *SubmissionSubmitter) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionSubmitter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionSubmitter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionSubmitter) MarshalJSON() ([]byte, error) {
+	type embed SubmissionSubmitter
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionSubmitter) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The status of signing request for the submitter.
+type SubmissionSubmitterStatus string
+
+const (
+	SubmissionSubmitterStatusCompleted SubmissionSubmitterStatus = "completed"
+	SubmissionSubmitterStatusDeclined  SubmissionSubmitterStatus = "declined"
+	SubmissionSubmitterStatusOpened    SubmissionSubmitterStatus = "opened"
+	SubmissionSubmitterStatusSent      SubmissionSubmitterStatus = "sent"
+	SubmissionSubmitterStatusAwaiting  SubmissionSubmitterStatus = "awaiting"
+)
+
+func NewSubmissionSubmitterStatusFromString(s string) (SubmissionSubmitterStatus, error) {
+	switch s {
+	case "completed":
+		return SubmissionSubmitterStatusCompleted, nil
+	case "declined":
+		return SubmissionSubmitterStatusDeclined, nil
+	case "opened":
+		return SubmissionSubmitterStatusOpened, nil
+	case "sent":
+		return SubmissionSubmitterStatusSent, nil
+	case "awaiting":
+		return SubmissionSubmitterStatusAwaiting, nil
+	}
+	var t SubmissionSubmitterStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionSubmitterStatus) Ptr() *SubmissionSubmitterStatus {
+	return &s
+}
+
+// The order of submitters.
+type SubmissionSubmittersOrder string
+
+const (
+	SubmissionSubmittersOrderRandom    SubmissionSubmittersOrder = "random"
+	SubmissionSubmittersOrderPreserved SubmissionSubmittersOrder = "preserved"
+)
+
+func NewSubmissionSubmittersOrderFromString(s string) (SubmissionSubmittersOrder, error) {
+	switch s {
+	case "random":
+		return SubmissionSubmittersOrderRandom, nil
+	case "preserved":
+		return SubmissionSubmittersOrderPreserved, nil
+	}
+	var t SubmissionSubmittersOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionSubmittersOrder) Ptr() *SubmissionSubmittersOrder {
+	return &s
+}
+
+var (
+	submissionUpdateResultFieldID                  = big.NewInt(1 << 0)
+	submissionUpdateResultFieldName                = big.NewInt(1 << 1)
+	submissionUpdateResultFieldSlug                = big.NewInt(1 << 2)
+	submissionUpdateResultFieldSource              = big.NewInt(1 << 3)
+	submissionUpdateResultFieldSubmittersOrder     = big.NewInt(1 << 4)
+	submissionUpdateResultFieldAuditLogURL         = big.NewInt(1 << 5)
+	submissionUpdateResultFieldCombinedDocumentURL = big.NewInt(1 << 6)
+	submissionUpdateResultFieldCreatedAt           = big.NewInt(1 << 7)
+	submissionUpdateResultFieldUpdatedAt           = big.NewInt(1 << 8)
+	submissionUpdateResultFieldArchivedAt          = big.NewInt(1 << 9)
+	submissionUpdateResultFieldExpireAt            = big.NewInt(1 << 10)
+	submissionUpdateResultFieldVariables           = big.NewInt(1 << 11)
+	submissionUpdateResultFieldSubmitters          = big.NewInt(1 << 12)
+	submissionUpdateResultFieldTemplate            = big.NewInt(1 << 13)
+	submissionUpdateResultFieldCreatedByUser       = big.NewInt(1 << 14)
+	submissionUpdateResultFieldDocuments           = big.NewInt(1 << 15)
+	submissionUpdateResultFieldStatus              = big.NewInt(1 << 16)
+	submissionUpdateResultFieldCompletedAt         = big.NewInt(1 << 17)
+)
+
+type SubmissionUpdateResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Name of the document submission.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Unique slug of the submission.
+	Slug string `json:"slug" url:"slug"`
+	// The source of the submission.
+	Source SubmissionUpdateResultSource `json:"source" url:"source"`
+	// The order of submitters.
+	SubmittersOrder SubmissionUpdateResultSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	// Audit log file URL.
+	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
+	// Combined PDF file URL with documents and Audit Log.
+	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submission was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+	// The date and time when the submission will expire and no longer be available for signing.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
+	// Dynamic content variables object used in dynamic template documents.
+	Variables map[string]any `json:"variables" url:"variables"`
+	// The list of submitters.
+	Submitters    []*SubmissionSubmitter `json:"submitters" url:"submitters"`
+	Template      *TemplateSummary       `json:"template,omitempty" url:"template,omitempty"`
+	CreatedByUser *User                  `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
+	// An array of completed or signed documents of the submission.
+	Documents []*Document `json:"documents" url:"documents"`
+	// The status of the submission.
+	Status SubmissionUpdateResultStatus `json:"status" url:"status"`
+	// The date and time when the submission was completed.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionUpdateResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionUpdateResult) GetName() string {
+	if s == nil {
+		return ""
+	}
+	return s.Name
+}
+
+func (s *SubmissionUpdateResult) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmissionUpdateResult) GetSource() SubmissionUpdateResultSource {
+	if s == nil {
+		return ""
+	}
+	return s.Source
+}
+
+func (s *SubmissionUpdateResult) GetSubmittersOrder() SubmissionUpdateResultSubmittersOrder {
+	if s == nil {
+		return ""
+	}
+	return s.SubmittersOrder
+}
+
+func (s *SubmissionUpdateResult) GetAuditLogURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.AuditLogURL
+}
+
+func (s *SubmissionUpdateResult) GetCombinedDocumentURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CombinedDocumentURL
+}
+
+func (s *SubmissionUpdateResult) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmissionUpdateResult) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *SubmissionUpdateResult) GetArchivedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ArchivedAt
+}
+
+func (s *SubmissionUpdateResult) GetExpireAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExpireAt
+}
+
+func (s *SubmissionUpdateResult) GetVariables() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Variables
+}
+
+func (s *SubmissionUpdateResult) GetSubmitters() []*SubmissionSubmitter {
+	if s == nil {
+		return nil
+	}
+	return s.Submitters
+}
+
+func (s *SubmissionUpdateResult) GetTemplate() *TemplateSummary {
+	if s == nil {
+		return nil
+	}
+	return s.Template
+}
+
+func (s *SubmissionUpdateResult) GetCreatedByUser() *User {
+	if s == nil {
+		return nil
+	}
+	return s.CreatedByUser
+}
+
+func (s *SubmissionUpdateResult) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *SubmissionUpdateResult) GetStatus() SubmissionUpdateResultStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmissionUpdateResult) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmissionUpdateResult) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionUpdateResult) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetID(id int) {
+	s.ID = id
+	s.require(submissionUpdateResultFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetName(name string) {
+	s.Name = name
+	s.require(submissionUpdateResultFieldName)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submissionUpdateResultFieldSlug)
+}
+
+// SetSource sets the Source field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetSource(source SubmissionUpdateResultSource) {
+	s.Source = source
+	s.require(submissionUpdateResultFieldSource)
+}
+
+// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetSubmittersOrder(submittersOrder SubmissionUpdateResultSubmittersOrder) {
+	s.SubmittersOrder = submittersOrder
+	s.require(submissionUpdateResultFieldSubmittersOrder)
+}
+
+// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetAuditLogURL(auditLogURL *string) {
+	s.AuditLogURL = auditLogURL
+	s.require(submissionUpdateResultFieldAuditLogURL)
+}
+
+// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetCombinedDocumentURL(combinedDocumentURL *string) {
+	s.CombinedDocumentURL = combinedDocumentURL
+	s.require(submissionUpdateResultFieldCombinedDocumentURL)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submissionUpdateResultFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submissionUpdateResultFieldUpdatedAt)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetArchivedAt(archivedAt *string) {
+	s.ArchivedAt = archivedAt
+	s.require(submissionUpdateResultFieldArchivedAt)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetExpireAt(expireAt *string) {
+	s.ExpireAt = expireAt
+	s.require(submissionUpdateResultFieldExpireAt)
+}
+
+// SetVariables sets the Variables field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetVariables(variables map[string]any) {
+	s.Variables = variables
+	s.require(submissionUpdateResultFieldVariables)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetSubmitters(submitters []*SubmissionSubmitter) {
+	s.Submitters = submitters
+	s.require(submissionUpdateResultFieldSubmitters)
+}
+
+// SetTemplate sets the Template field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetTemplate(template *TemplateSummary) {
+	s.Template = template
+	s.require(submissionUpdateResultFieldTemplate)
+}
+
+// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetCreatedByUser(createdByUser *User) {
+	s.CreatedByUser = createdByUser
+	s.require(submissionUpdateResultFieldCreatedByUser)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submissionUpdateResultFieldDocuments)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetStatus(status SubmissionUpdateResultStatus) {
+	s.Status = status
+	s.require(submissionUpdateResultFieldStatus)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionUpdateResult) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submissionUpdateResultFieldCompletedAt)
+}
+
+func (s *SubmissionUpdateResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionUpdateResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionUpdateResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionUpdateResult) MarshalJSON() ([]byte, error) {
+	type embed SubmissionUpdateResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionUpdateResult) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The source of the submission.
+type SubmissionUpdateResultSource string
+
+const (
+	SubmissionUpdateResultSourceInvite SubmissionUpdateResultSource = "invite"
+	SubmissionUpdateResultSourceBulk   SubmissionUpdateResultSource = "bulk"
+	SubmissionUpdateResultSourceAPI    SubmissionUpdateResultSource = "api"
+	SubmissionUpdateResultSourceEmbed  SubmissionUpdateResultSource = "embed"
+	SubmissionUpdateResultSourceLink   SubmissionUpdateResultSource = "link"
+)
+
+func NewSubmissionUpdateResultSourceFromString(s string) (SubmissionUpdateResultSource, error) {
+	switch s {
+	case "invite":
+		return SubmissionUpdateResultSourceInvite, nil
+	case "bulk":
+		return SubmissionUpdateResultSourceBulk, nil
+	case "api":
+		return SubmissionUpdateResultSourceAPI, nil
+	case "embed":
+		return SubmissionUpdateResultSourceEmbed, nil
+	case "link":
+		return SubmissionUpdateResultSourceLink, nil
+	}
+	var t SubmissionUpdateResultSource
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionUpdateResultSource) Ptr() *SubmissionUpdateResultSource {
+	return &s
+}
+
+// The status of the submission.
+type SubmissionUpdateResultStatus string
+
+const (
+	SubmissionUpdateResultStatusCompleted SubmissionUpdateResultStatus = "completed"
+	SubmissionUpdateResultStatusDeclined  SubmissionUpdateResultStatus = "declined"
+	SubmissionUpdateResultStatusExpired   SubmissionUpdateResultStatus = "expired"
+	SubmissionUpdateResultStatusPending   SubmissionUpdateResultStatus = "pending"
+)
+
+func NewSubmissionUpdateResultStatusFromString(s string) (SubmissionUpdateResultStatus, error) {
+	switch s {
+	case "completed":
+		return SubmissionUpdateResultStatusCompleted, nil
+	case "declined":
+		return SubmissionUpdateResultStatusDeclined, nil
+	case "expired":
+		return SubmissionUpdateResultStatusExpired, nil
+	case "pending":
+		return SubmissionUpdateResultStatusPending, nil
+	}
+	var t SubmissionUpdateResultStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionUpdateResultStatus) Ptr() *SubmissionUpdateResultStatus {
+	return &s
+}
+
+// The order of submitters.
+type SubmissionUpdateResultSubmittersOrder string
+
+const (
+	SubmissionUpdateResultSubmittersOrderRandom    SubmissionUpdateResultSubmittersOrder = "random"
+	SubmissionUpdateResultSubmittersOrderPreserved SubmissionUpdateResultSubmittersOrder = "preserved"
+)
+
+func NewSubmissionUpdateResultSubmittersOrderFromString(s string) (SubmissionUpdateResultSubmittersOrder, error) {
+	switch s {
+	case "random":
+		return SubmissionUpdateResultSubmittersOrderRandom, nil
+	case "preserved":
+		return SubmissionUpdateResultSubmittersOrderPreserved, nil
+	}
+	var t SubmissionUpdateResultSubmittersOrder
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmissionUpdateResultSubmittersOrder) Ptr() *SubmissionUpdateResultSubmittersOrder {
+	return &s
+}
+
+var (
+	submitterFieldID               = big.NewInt(1 << 0)
+	submitterFieldSubmissionID     = big.NewInt(1 << 1)
+	submitterFieldUUID             = big.NewInt(1 << 2)
+	submitterFieldEmail            = big.NewInt(1 << 3)
+	submitterFieldSlug             = big.NewInt(1 << 4)
+	submitterFieldSentAt           = big.NewInt(1 << 5)
+	submitterFieldOpenedAt         = big.NewInt(1 << 6)
+	submitterFieldCompletedAt      = big.NewInt(1 << 7)
+	submitterFieldDeclinedAt       = big.NewInt(1 << 8)
+	submitterFieldCreatedAt        = big.NewInt(1 << 9)
+	submitterFieldUpdatedAt        = big.NewInt(1 << 10)
+	submitterFieldName             = big.NewInt(1 << 11)
+	submitterFieldPhone            = big.NewInt(1 << 12)
+	submitterFieldStatus           = big.NewInt(1 << 13)
+	submitterFieldExternalID       = big.NewInt(1 << 14)
+	submitterFieldMetadata         = big.NewInt(1 << 15)
+	submitterFieldPreferences      = big.NewInt(1 << 16)
+	submitterFieldTemplate         = big.NewInt(1 << 17)
+	submitterFieldSubmissionEvents = big.NewInt(1 << 18)
+	submitterFieldValues           = big.NewInt(1 << 19)
+	submitterFieldDocuments        = big.NewInt(1 << 20)
+	submitterFieldRole             = big.NewInt(1 << 21)
+)
+
+type Submitter struct {
+	// Submitter unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission unique ID number.
+	SubmissionID int `json:"submission_id" url:"submission_id"`
+	// Submitter UUID.
+	UUID string `json:"uuid" url:"uuid"`
+	// The email address of the submitter.
+	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	// Unique key to be used in the form signing link and embedded form.
+	Slug string `json:"slug" url:"slug"`
+	// The date and time when the signing request was sent to the submitter.
+	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
+	// The date and time when the submitter opened the signing form.
+	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
+	// The date and time when the submitter completed the signing form.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submitter declined the signing form.
+	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
+	// The date and time when the submitter was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submitter was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The name of the submitter.
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	// The phone number of the submitter.
+	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	// The status of signing request for the submitter.
+	Status SubmitterStatus `json:"status" url:"status"`
+	// Your application-specific unique string key to identify this submitter within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// Metadata object with additional submitter information.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// Submitter preferences.
+	Preferences map[string]any     `json:"preferences" url:"preferences"`
+	Template    *SubmitterTemplate `json:"template" url:"template"`
+	// An array of events related to the submission.
+	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
+	// An array of pre-filled values for the submitter.
+	Values []*FieldValue `json:"values" url:"values"`
+	// An array of completed or signed documents by the submitter.
+	Documents []*Document `json:"documents" url:"documents"`
+	// The role of the submitter in the signing process.
+	Role string `json:"role" url:"role"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *Submitter) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *Submitter) GetSubmissionID() int {
+	if s == nil {
+		return 0
+	}
+	return s.SubmissionID
+}
+
+func (s *Submitter) GetUUID() string {
+	if s == nil {
+		return ""
+	}
+	return s.UUID
+}
+
+func (s *Submitter) GetEmail() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Email
+}
+
+func (s *Submitter) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *Submitter) GetSentAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SentAt
+}
+
+func (s *Submitter) GetOpenedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.OpenedAt
+}
+
+func (s *Submitter) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *Submitter) GetDeclinedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DeclinedAt
+}
+
+func (s *Submitter) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *Submitter) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *Submitter) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *Submitter) GetPhone() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Phone
+}
+
+func (s *Submitter) GetStatus() SubmitterStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *Submitter) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *Submitter) GetMetadata() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
+}
+
+func (s *Submitter) GetPreferences() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Preferences
+}
+
+func (s *Submitter) GetTemplate() *SubmitterTemplate {
+	if s == nil {
+		return nil
+	}
+	return s.Template
+}
+
+func (s *Submitter) GetSubmissionEvents() []*SubmissionEvent {
+	if s == nil {
+		return nil
+	}
+	return s.SubmissionEvents
+}
+
+func (s *Submitter) GetValues() []*FieldValue {
+	if s == nil {
+		return nil
+	}
+	return s.Values
+}
+
+func (s *Submitter) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *Submitter) GetRole() string {
+	if s == nil {
+		return ""
+	}
+	return s.Role
+}
+
+func (s *Submitter) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *Submitter) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetID(id int) {
+	s.ID = id
+	s.require(submitterFieldID)
+}
+
+// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetSubmissionID(submissionID int) {
+	s.SubmissionID = submissionID
+	s.require(submitterFieldSubmissionID)
+}
+
+// SetUUID sets the UUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetUUID(uuid string) {
+	s.UUID = uuid
+	s.require(submitterFieldUUID)
+}
+
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetEmail(email *string) {
+	s.Email = email
+	s.require(submitterFieldEmail)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submitterFieldSlug)
+}
+
+// SetSentAt sets the SentAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetSentAt(sentAt *string) {
+	s.SentAt = sentAt
+	s.require(submitterFieldSentAt)
+}
+
+// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetOpenedAt(openedAt *string) {
+	s.OpenedAt = openedAt
+	s.require(submitterFieldOpenedAt)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submitterFieldCompletedAt)
+}
+
+// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetDeclinedAt(declinedAt *string) {
+	s.DeclinedAt = declinedAt
+	s.require(submitterFieldDeclinedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submitterFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submitterFieldUpdatedAt)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetName(name *string) {
+	s.Name = name
+	s.require(submitterFieldName)
+}
+
+// SetPhone sets the Phone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetPhone(phone *string) {
+	s.Phone = phone
+	s.require(submitterFieldPhone)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetStatus(status SubmitterStatus) {
+	s.Status = status
+	s.require(submitterFieldStatus)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(submitterFieldExternalID)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetMetadata(metadata map[string]any) {
+	s.Metadata = metadata
+	s.require(submitterFieldMetadata)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetPreferences(preferences map[string]any) {
+	s.Preferences = preferences
+	s.require(submitterFieldPreferences)
+}
+
+// SetTemplate sets the Template field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetTemplate(template *SubmitterTemplate) {
+	s.Template = template
+	s.require(submitterFieldTemplate)
+}
+
+// SetSubmissionEvents sets the SubmissionEvents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetSubmissionEvents(submissionEvents []*SubmissionEvent) {
+	s.SubmissionEvents = submissionEvents
+	s.require(submitterFieldSubmissionEvents)
+}
+
+// SetValues sets the Values field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetValues(values []*FieldValue) {
+	s.Values = values
+	s.require(submitterFieldValues)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submitterFieldDocuments)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *Submitter) SetRole(role string) {
+	s.Role = role
+	s.require(submitterFieldRole)
+}
+
+func (s *Submitter) UnmarshalJSON(data []byte) error {
+	type unmarshaler Submitter
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = Submitter(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *Submitter) MarshalJSON() ([]byte, error) {
+	type embed Submitter
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *Submitter) String() string {
 	if s == nil {
 		return "<nil>"
 	}
@@ -12593,18 +10599,69 @@ func (s *SubmissionTemplate) String() string {
 }
 
 var (
-	submitterPaginationFieldCount = big.NewInt(1 << 0)
-	submitterPaginationFieldNext  = big.NewInt(1 << 1)
-	submitterPaginationFieldPrev  = big.NewInt(1 << 2)
+	submitterCreateResultFieldID           = big.NewInt(1 << 0)
+	submitterCreateResultFieldSubmissionID = big.NewInt(1 << 1)
+	submitterCreateResultFieldUUID         = big.NewInt(1 << 2)
+	submitterCreateResultFieldEmail        = big.NewInt(1 << 3)
+	submitterCreateResultFieldSlug         = big.NewInt(1 << 4)
+	submitterCreateResultFieldStatus       = big.NewInt(1 << 5)
+	submitterCreateResultFieldValues       = big.NewInt(1 << 6)
+	submitterCreateResultFieldMetadata     = big.NewInt(1 << 7)
+	submitterCreateResultFieldSentAt       = big.NewInt(1 << 8)
+	submitterCreateResultFieldOpenedAt     = big.NewInt(1 << 9)
+	submitterCreateResultFieldCompletedAt  = big.NewInt(1 << 10)
+	submitterCreateResultFieldDeclinedAt   = big.NewInt(1 << 11)
+	submitterCreateResultFieldCreatedAt    = big.NewInt(1 << 12)
+	submitterCreateResultFieldUpdatedAt    = big.NewInt(1 << 13)
+	submitterCreateResultFieldName         = big.NewInt(1 << 14)
+	submitterCreateResultFieldPhone        = big.NewInt(1 << 15)
+	submitterCreateResultFieldExternalID   = big.NewInt(1 << 16)
+	submitterCreateResultFieldPreferences  = big.NewInt(1 << 17)
+	submitterCreateResultFieldRole         = big.NewInt(1 << 18)
+	submitterCreateResultFieldEmbedSrc     = big.NewInt(1 << 19)
 )
 
-type SubmitterPagination struct {
-	// Submitters count.
-	Count int `json:"count" url:"count"`
-	// The ID of the submitter after which the next page starts.
-	Next *int `json:"next,omitempty" url:"next,omitempty"`
-	// The ID of the submitter before which the previous page ends.
-	Prev *int `json:"prev,omitempty" url:"prev,omitempty"`
+type SubmitterCreateResult struct {
+	// Submitter unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission unique ID number.
+	SubmissionID int `json:"submission_id" url:"submission_id"`
+	// Submitter UUID.
+	UUID string `json:"uuid" url:"uuid"`
+	// The email address of the submitter.
+	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	// Unique key to be used in the form signing link and embedded form.
+	Slug string `json:"slug" url:"slug"`
+	// The status of signing request for the submitter.
+	Status SubmitterCreateResultStatus `json:"status" url:"status"`
+	// An array of pre-filled values for the submitter.
+	Values []*FieldValue `json:"values" url:"values"`
+	// Metadata object with additional submitter information.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// The date and time when the signing request was sent to the submitter.
+	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
+	// The date and time when the submitter opened the signing form.
+	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
+	// The date and time when the submitter completed the signing form.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submitter declined the signing form.
+	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
+	// The date and time when the submitter was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submitter was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The name of the submitter.
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	// The phone number of the submitter.
+	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	// Your application-specific unique string key to identify this submitter within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// Submitter preferences.
+	Preferences map[string]any `json:"preferences" url:"preferences"`
+	// The role of the submitter in the signing process.
+	Role string `json:"role" url:"role"`
+	// The `src` URL value to embed the signing form or sign via a link.
+	EmbedSrc string `json:"embed_src" url:"embed_src"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -12613,69 +10670,307 @@ type SubmitterPagination struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmitterPagination) GetCount() int {
+func (s *SubmitterCreateResult) GetID() int {
 	if s == nil {
 		return 0
 	}
-	return s.Count
+	return s.ID
 }
 
-func (s *SubmitterPagination) GetNext() *int {
+func (s *SubmitterCreateResult) GetSubmissionID() int {
+	if s == nil {
+		return 0
+	}
+	return s.SubmissionID
+}
+
+func (s *SubmitterCreateResult) GetUUID() string {
+	if s == nil {
+		return ""
+	}
+	return s.UUID
+}
+
+func (s *SubmitterCreateResult) GetEmail() *string {
 	if s == nil {
 		return nil
 	}
-	return s.Next
+	return s.Email
 }
 
-func (s *SubmitterPagination) GetPrev() *int {
+func (s *SubmitterCreateResult) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmitterCreateResult) GetStatus() SubmitterCreateResultStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmitterCreateResult) GetValues() []*FieldValue {
 	if s == nil {
 		return nil
 	}
-	return s.Prev
+	return s.Values
 }
 
-func (s *SubmitterPagination) GetExtraProperties() map[string]interface{} {
+func (s *SubmitterCreateResult) GetMetadata() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
+}
+
+func (s *SubmitterCreateResult) GetSentAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SentAt
+}
+
+func (s *SubmitterCreateResult) GetOpenedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.OpenedAt
+}
+
+func (s *SubmitterCreateResult) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmitterCreateResult) GetDeclinedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DeclinedAt
+}
+
+func (s *SubmitterCreateResult) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmitterCreateResult) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *SubmitterCreateResult) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SubmitterCreateResult) GetPhone() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Phone
+}
+
+func (s *SubmitterCreateResult) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *SubmitterCreateResult) GetPreferences() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Preferences
+}
+
+func (s *SubmitterCreateResult) GetRole() string {
+	if s == nil {
+		return ""
+	}
+	return s.Role
+}
+
+func (s *SubmitterCreateResult) GetEmbedSrc() string {
+	if s == nil {
+		return ""
+	}
+	return s.EmbedSrc
+}
+
+func (s *SubmitterCreateResult) GetExtraProperties() map[string]interface{} {
 	if s == nil {
 		return nil
 	}
 	return s.extraProperties
 }
 
-func (s *SubmitterPagination) require(field *big.Int) {
+func (s *SubmitterCreateResult) require(field *big.Int) {
 	if s.explicitFields == nil {
 		s.explicitFields = big.NewInt(0)
 	}
 	s.explicitFields.Or(s.explicitFields, field)
 }
 
-// SetCount sets the Count field and marks it as non-optional;
+// SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterPagination) SetCount(count int) {
-	s.Count = count
-	s.require(submitterPaginationFieldCount)
+func (s *SubmitterCreateResult) SetID(id int) {
+	s.ID = id
+	s.require(submitterCreateResultFieldID)
 }
 
-// SetNext sets the Next field and marks it as non-optional;
+// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterPagination) SetNext(next *int) {
-	s.Next = next
-	s.require(submitterPaginationFieldNext)
+func (s *SubmitterCreateResult) SetSubmissionID(submissionID int) {
+	s.SubmissionID = submissionID
+	s.require(submitterCreateResultFieldSubmissionID)
 }
 
-// SetPrev sets the Prev field and marks it as non-optional;
+// SetUUID sets the UUID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterPagination) SetPrev(prev *int) {
-	s.Prev = prev
-	s.require(submitterPaginationFieldPrev)
+func (s *SubmitterCreateResult) SetUUID(uuid string) {
+	s.UUID = uuid
+	s.require(submitterCreateResultFieldUUID)
 }
 
-func (s *SubmitterPagination) UnmarshalJSON(data []byte) error {
-	type unmarshaler SubmitterPagination
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetEmail(email *string) {
+	s.Email = email
+	s.require(submitterCreateResultFieldEmail)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submitterCreateResultFieldSlug)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetStatus(status SubmitterCreateResultStatus) {
+	s.Status = status
+	s.require(submitterCreateResultFieldStatus)
+}
+
+// SetValues sets the Values field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetValues(values []*FieldValue) {
+	s.Values = values
+	s.require(submitterCreateResultFieldValues)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetMetadata(metadata map[string]any) {
+	s.Metadata = metadata
+	s.require(submitterCreateResultFieldMetadata)
+}
+
+// SetSentAt sets the SentAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetSentAt(sentAt *string) {
+	s.SentAt = sentAt
+	s.require(submitterCreateResultFieldSentAt)
+}
+
+// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetOpenedAt(openedAt *string) {
+	s.OpenedAt = openedAt
+	s.require(submitterCreateResultFieldOpenedAt)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submitterCreateResultFieldCompletedAt)
+}
+
+// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetDeclinedAt(declinedAt *string) {
+	s.DeclinedAt = declinedAt
+	s.require(submitterCreateResultFieldDeclinedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submitterCreateResultFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submitterCreateResultFieldUpdatedAt)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetName(name *string) {
+	s.Name = name
+	s.require(submitterCreateResultFieldName)
+}
+
+// SetPhone sets the Phone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetPhone(phone *string) {
+	s.Phone = phone
+	s.require(submitterCreateResultFieldPhone)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(submitterCreateResultFieldExternalID)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetPreferences(preferences map[string]any) {
+	s.Preferences = preferences
+	s.require(submitterCreateResultFieldPreferences)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetRole(role string) {
+	s.Role = role
+	s.require(submitterCreateResultFieldRole)
+}
+
+// SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterCreateResult) SetEmbedSrc(embedSrc string) {
+	s.EmbedSrc = embedSrc
+	s.require(submitterCreateResultFieldEmbedSrc)
+}
+
+func (s *SubmitterCreateResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmitterCreateResult
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SubmitterPagination(value)
+	*s = SubmitterCreateResult(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -12685,8 +10980,8 @@ func (s *SubmitterPagination) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubmitterPagination) MarshalJSON() ([]byte, error) {
-	type embed SubmitterPagination
+func (s *SubmitterCreateResult) MarshalJSON() ([]byte, error) {
+	type embed SubmitterCreateResult
 	var marshaler = struct {
 		embed
 	}{
@@ -12696,7 +10991,7 @@ func (s *SubmitterPagination) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (s *SubmitterPagination) String() string {
+func (s *SubmitterCreateResult) String() string {
 	if s == nil {
 		return "<nil>"
 	}
@@ -12709,6 +11004,576 @@ func (s *SubmitterPagination) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
+}
+
+// The status of signing request for the submitter.
+type SubmitterCreateResultStatus string
+
+const (
+	SubmitterCreateResultStatusCompleted SubmitterCreateResultStatus = "completed"
+	SubmitterCreateResultStatusDeclined  SubmitterCreateResultStatus = "declined"
+	SubmitterCreateResultStatusOpened    SubmitterCreateResultStatus = "opened"
+	SubmitterCreateResultStatusSent      SubmitterCreateResultStatus = "sent"
+	SubmitterCreateResultStatusAwaiting  SubmitterCreateResultStatus = "awaiting"
+)
+
+func NewSubmitterCreateResultStatusFromString(s string) (SubmitterCreateResultStatus, error) {
+	switch s {
+	case "completed":
+		return SubmitterCreateResultStatusCompleted, nil
+	case "declined":
+		return SubmitterCreateResultStatusDeclined, nil
+	case "opened":
+		return SubmitterCreateResultStatusOpened, nil
+	case "sent":
+		return SubmitterCreateResultStatusSent, nil
+	case "awaiting":
+		return SubmitterCreateResultStatusAwaiting, nil
+	}
+	var t SubmitterCreateResultStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmitterCreateResultStatus) Ptr() *SubmitterCreateResultStatus {
+	return &s
+}
+
+var (
+	submitterListFieldData       = big.NewInt(1 << 0)
+	submitterListFieldPagination = big.NewInt(1 << 1)
+)
+
+type SubmitterList struct {
+	Data       []*Submitter `json:"data,omitempty" url:"data,omitempty"`
+	Pagination *Pagination  `json:"pagination,omitempty" url:"pagination,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmitterList) GetData() []*Submitter {
+	if s == nil {
+		return nil
+	}
+	return s.Data
+}
+
+func (s *SubmitterList) GetPagination() *Pagination {
+	if s == nil {
+		return nil
+	}
+	return s.Pagination
+}
+
+func (s *SubmitterList) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmitterList) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterList) SetData(data []*Submitter) {
+	s.Data = data
+	s.require(submitterListFieldData)
+}
+
+// SetPagination sets the Pagination field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterList) SetPagination(pagination *Pagination) {
+	s.Pagination = pagination
+	s.require(submitterListFieldPagination)
+}
+
+func (s *SubmitterList) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmitterList
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmitterList(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmitterList) MarshalJSON() ([]byte, error) {
+	type embed SubmitterList
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmitterList) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The status of signing request for the submitter.
+type SubmitterStatus string
+
+const (
+	SubmitterStatusCompleted SubmitterStatus = "completed"
+	SubmitterStatusDeclined  SubmitterStatus = "declined"
+	SubmitterStatusOpened    SubmitterStatus = "opened"
+	SubmitterStatusSent      SubmitterStatus = "sent"
+	SubmitterStatusAwaiting  SubmitterStatus = "awaiting"
+)
+
+func NewSubmitterStatusFromString(s string) (SubmitterStatus, error) {
+	switch s {
+	case "completed":
+		return SubmitterStatusCompleted, nil
+	case "declined":
+		return SubmitterStatusDeclined, nil
+	case "opened":
+		return SubmitterStatusOpened, nil
+	case "sent":
+		return SubmitterStatusSent, nil
+	case "awaiting":
+		return SubmitterStatusAwaiting, nil
+	}
+	var t SubmitterStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmitterStatus) Ptr() *SubmitterStatus {
+	return &s
+}
+
+var (
+	submitterSummaryFieldID           = big.NewInt(1 << 0)
+	submitterSummaryFieldSubmissionID = big.NewInt(1 << 1)
+	submitterSummaryFieldUUID         = big.NewInt(1 << 2)
+	submitterSummaryFieldEmail        = big.NewInt(1 << 3)
+	submitterSummaryFieldSlug         = big.NewInt(1 << 4)
+	submitterSummaryFieldSentAt       = big.NewInt(1 << 5)
+	submitterSummaryFieldOpenedAt     = big.NewInt(1 << 6)
+	submitterSummaryFieldCompletedAt  = big.NewInt(1 << 7)
+	submitterSummaryFieldDeclinedAt   = big.NewInt(1 << 8)
+	submitterSummaryFieldCreatedAt    = big.NewInt(1 << 9)
+	submitterSummaryFieldUpdatedAt    = big.NewInt(1 << 10)
+	submitterSummaryFieldName         = big.NewInt(1 << 11)
+	submitterSummaryFieldPhone        = big.NewInt(1 << 12)
+	submitterSummaryFieldExternalID   = big.NewInt(1 << 13)
+	submitterSummaryFieldStatus       = big.NewInt(1 << 14)
+	submitterSummaryFieldRole         = big.NewInt(1 << 15)
+	submitterSummaryFieldMetadata     = big.NewInt(1 << 16)
+	submitterSummaryFieldPreferences  = big.NewInt(1 << 17)
+)
+
+type SubmitterSummary struct {
+	// Submitter unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission unique ID number.
+	SubmissionID int `json:"submission_id" url:"submission_id"`
+	// Submitter UUID.
+	UUID string `json:"uuid" url:"uuid"`
+	// The email address of the submitter.
+	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	// Unique key to be used in the form signing link and embedded form.
+	Slug string `json:"slug" url:"slug"`
+	// The date and time when the signing request was sent to the submitter.
+	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
+	// The date and time when the submitter opened the signing form.
+	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
+	// The date and time when the submitter completed the signing form.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submitter declined the signing form.
+	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
+	// The date and time when the submitter was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submitter was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The name of the submitter.
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	// The phone number of the submitter.
+	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	// Your application-specific unique string key to identify this submitter within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// The status of signing request for the submitter.
+	Status SubmitterSummaryStatus `json:"status" url:"status"`
+	// The role of the submitter in the signing process.
+	Role string `json:"role" url:"role"`
+	// Metadata object with additional submitter information.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// Submitter preferences.
+	Preferences map[string]any `json:"preferences" url:"preferences"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmitterSummary) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmitterSummary) GetSubmissionID() int {
+	if s == nil {
+		return 0
+	}
+	return s.SubmissionID
+}
+
+func (s *SubmitterSummary) GetUUID() string {
+	if s == nil {
+		return ""
+	}
+	return s.UUID
+}
+
+func (s *SubmitterSummary) GetEmail() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Email
+}
+
+func (s *SubmitterSummary) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmitterSummary) GetSentAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SentAt
+}
+
+func (s *SubmitterSummary) GetOpenedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.OpenedAt
+}
+
+func (s *SubmitterSummary) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmitterSummary) GetDeclinedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DeclinedAt
+}
+
+func (s *SubmitterSummary) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmitterSummary) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *SubmitterSummary) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SubmitterSummary) GetPhone() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Phone
+}
+
+func (s *SubmitterSummary) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *SubmitterSummary) GetStatus() SubmitterSummaryStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmitterSummary) GetRole() string {
+	if s == nil {
+		return ""
+	}
+	return s.Role
+}
+
+func (s *SubmitterSummary) GetMetadata() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
+}
+
+func (s *SubmitterSummary) GetPreferences() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Preferences
+}
+
+func (s *SubmitterSummary) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmitterSummary) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetID(id int) {
+	s.ID = id
+	s.require(submitterSummaryFieldID)
+}
+
+// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetSubmissionID(submissionID int) {
+	s.SubmissionID = submissionID
+	s.require(submitterSummaryFieldSubmissionID)
+}
+
+// SetUUID sets the UUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetUUID(uuid string) {
+	s.UUID = uuid
+	s.require(submitterSummaryFieldUUID)
+}
+
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetEmail(email *string) {
+	s.Email = email
+	s.require(submitterSummaryFieldEmail)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submitterSummaryFieldSlug)
+}
+
+// SetSentAt sets the SentAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetSentAt(sentAt *string) {
+	s.SentAt = sentAt
+	s.require(submitterSummaryFieldSentAt)
+}
+
+// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetOpenedAt(openedAt *string) {
+	s.OpenedAt = openedAt
+	s.require(submitterSummaryFieldOpenedAt)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submitterSummaryFieldCompletedAt)
+}
+
+// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetDeclinedAt(declinedAt *string) {
+	s.DeclinedAt = declinedAt
+	s.require(submitterSummaryFieldDeclinedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submitterSummaryFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submitterSummaryFieldUpdatedAt)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetName(name *string) {
+	s.Name = name
+	s.require(submitterSummaryFieldName)
+}
+
+// SetPhone sets the Phone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetPhone(phone *string) {
+	s.Phone = phone
+	s.require(submitterSummaryFieldPhone)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(submitterSummaryFieldExternalID)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetStatus(status SubmitterSummaryStatus) {
+	s.Status = status
+	s.require(submitterSummaryFieldStatus)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetRole(role string) {
+	s.Role = role
+	s.require(submitterSummaryFieldRole)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetMetadata(metadata map[string]any) {
+	s.Metadata = metadata
+	s.require(submitterSummaryFieldMetadata)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterSummary) SetPreferences(preferences map[string]any) {
+	s.Preferences = preferences
+	s.require(submitterSummaryFieldPreferences)
+}
+
+func (s *SubmitterSummary) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmitterSummary
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmitterSummary(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmitterSummary) MarshalJSON() ([]byte, error) {
+	type embed SubmitterSummary
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmitterSummary) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+// The status of signing request for the submitter.
+type SubmitterSummaryStatus string
+
+const (
+	SubmitterSummaryStatusCompleted SubmitterSummaryStatus = "completed"
+	SubmitterSummaryStatusDeclined  SubmitterSummaryStatus = "declined"
+	SubmitterSummaryStatusOpened    SubmitterSummaryStatus = "opened"
+	SubmitterSummaryStatusSent      SubmitterSummaryStatus = "sent"
+	SubmitterSummaryStatusAwaiting  SubmitterSummaryStatus = "awaiting"
+)
+
+func NewSubmitterSummaryStatusFromString(s string) (SubmitterSummaryStatus, error) {
+	switch s {
+	case "completed":
+		return SubmitterSummaryStatusCompleted, nil
+	case "declined":
+		return SubmitterSummaryStatusDeclined, nil
+	case "opened":
+		return SubmitterSummaryStatusOpened, nil
+	case "sent":
+		return SubmitterSummaryStatusSent, nil
+	case "awaiting":
+		return SubmitterSummaryStatusAwaiting, nil
+	}
+	var t SubmitterSummaryStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SubmitterSummaryStatus) Ptr() *SubmitterSummaryStatus {
+	return &s
 }
 
 // Base template details.
@@ -12861,15 +11726,72 @@ func (s *SubmitterTemplate) String() string {
 }
 
 var (
-	submitterValueFieldField = big.NewInt(1 << 0)
-	submitterValueFieldValue = big.NewInt(1 << 1)
+	submitterUpdateResultFieldID           = big.NewInt(1 << 0)
+	submitterUpdateResultFieldSubmissionID = big.NewInt(1 << 1)
+	submitterUpdateResultFieldUUID         = big.NewInt(1 << 2)
+	submitterUpdateResultFieldEmail        = big.NewInt(1 << 3)
+	submitterUpdateResultFieldSlug         = big.NewInt(1 << 4)
+	submitterUpdateResultFieldSentAt       = big.NewInt(1 << 5)
+	submitterUpdateResultFieldOpenedAt     = big.NewInt(1 << 6)
+	submitterUpdateResultFieldCompletedAt  = big.NewInt(1 << 7)
+	submitterUpdateResultFieldDeclinedAt   = big.NewInt(1 << 8)
+	submitterUpdateResultFieldCreatedAt    = big.NewInt(1 << 9)
+	submitterUpdateResultFieldUpdatedAt    = big.NewInt(1 << 10)
+	submitterUpdateResultFieldName         = big.NewInt(1 << 11)
+	submitterUpdateResultFieldPhone        = big.NewInt(1 << 12)
+	submitterUpdateResultFieldStatus       = big.NewInt(1 << 13)
+	submitterUpdateResultFieldExternalID   = big.NewInt(1 << 14)
+	submitterUpdateResultFieldMetadata     = big.NewInt(1 << 15)
+	submitterUpdateResultFieldPreferences  = big.NewInt(1 << 16)
+	submitterUpdateResultFieldValues       = big.NewInt(1 << 17)
+	submitterUpdateResultFieldDocuments    = big.NewInt(1 << 18)
+	submitterUpdateResultFieldRole         = big.NewInt(1 << 19)
+	submitterUpdateResultFieldEmbedSrc     = big.NewInt(1 << 20)
 )
 
-type SubmitterValue struct {
-	// Document template field name.
-	Field string `json:"field" url:"field"`
-	// Pre-filled value of the field.
-	Value *SubmitterValueValue `json:"value" url:"value"`
+type SubmitterUpdateResult struct {
+	// Submitter unique ID number.
+	ID int `json:"id" url:"id"`
+	// Submission unique ID number.
+	SubmissionID int `json:"submission_id" url:"submission_id"`
+	// Submitter UUID.
+	UUID string `json:"uuid" url:"uuid"`
+	// The email address of the submitter.
+	Email *string `json:"email,omitempty" url:"email,omitempty"`
+	// Unique key to be used in the form signing link and embedded form.
+	Slug string `json:"slug" url:"slug"`
+	// The date and time when the signing request was sent to the submitter.
+	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
+	// The date and time when the submitter opened the signing form.
+	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
+	// The date and time when the submitter completed the signing form.
+	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
+	// The date and time when the submitter declined the signing form.
+	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
+	// The date and time when the submitter was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the submitter was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// The name of the submitter.
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
+	// The phone number of the submitter.
+	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
+	// The status of signing request for the submitter.
+	Status SubmitterUpdateResultStatus `json:"status" url:"status"`
+	// Your application-specific unique string key to identify this submitter within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// Metadata object with additional submitter information.
+	Metadata map[string]any `json:"metadata" url:"metadata"`
+	// Submitter preferences.
+	Preferences map[string]any `json:"preferences" url:"preferences"`
+	// An array of pre-filled values for the submitter.
+	Values []*FieldValue `json:"values" url:"values"`
+	// An array of completed or signed documents by the submitter.
+	Documents []*Document `json:"documents" url:"documents"`
+	// The role of the submitter in the signing process.
+	Role string `json:"role" url:"role"`
+	// The `src` URL value to embed the signing form or sign via a link.
+	EmbedSrc string `json:"embed_src" url:"embed_src"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -12878,55 +11800,321 @@ type SubmitterValue struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmitterValue) GetField() string {
+func (s *SubmitterUpdateResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmitterUpdateResult) GetSubmissionID() int {
+	if s == nil {
+		return 0
+	}
+	return s.SubmissionID
+}
+
+func (s *SubmitterUpdateResult) GetUUID() string {
 	if s == nil {
 		return ""
 	}
-	return s.Field
+	return s.UUID
 }
 
-func (s *SubmitterValue) GetValue() *SubmitterValueValue {
+func (s *SubmitterUpdateResult) GetEmail() *string {
 	if s == nil {
 		return nil
 	}
-	return s.Value
+	return s.Email
 }
 
-func (s *SubmitterValue) GetExtraProperties() map[string]interface{} {
+func (s *SubmitterUpdateResult) GetSlug() string {
+	if s == nil {
+		return ""
+	}
+	return s.Slug
+}
+
+func (s *SubmitterUpdateResult) GetSentAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.SentAt
+}
+
+func (s *SubmitterUpdateResult) GetOpenedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.OpenedAt
+}
+
+func (s *SubmitterUpdateResult) GetCompletedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.CompletedAt
+}
+
+func (s *SubmitterUpdateResult) GetDeclinedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.DeclinedAt
+}
+
+func (s *SubmitterUpdateResult) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmitterUpdateResult) GetUpdatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.UpdatedAt
+}
+
+func (s *SubmitterUpdateResult) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SubmitterUpdateResult) GetPhone() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Phone
+}
+
+func (s *SubmitterUpdateResult) GetStatus() SubmitterUpdateResultStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SubmitterUpdateResult) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *SubmitterUpdateResult) GetMetadata() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Metadata
+}
+
+func (s *SubmitterUpdateResult) GetPreferences() map[string]any {
+	if s == nil {
+		return nil
+	}
+	return s.Preferences
+}
+
+func (s *SubmitterUpdateResult) GetValues() []*FieldValue {
+	if s == nil {
+		return nil
+	}
+	return s.Values
+}
+
+func (s *SubmitterUpdateResult) GetDocuments() []*Document {
+	if s == nil {
+		return nil
+	}
+	return s.Documents
+}
+
+func (s *SubmitterUpdateResult) GetRole() string {
+	if s == nil {
+		return ""
+	}
+	return s.Role
+}
+
+func (s *SubmitterUpdateResult) GetEmbedSrc() string {
+	if s == nil {
+		return ""
+	}
+	return s.EmbedSrc
+}
+
+func (s *SubmitterUpdateResult) GetExtraProperties() map[string]interface{} {
 	if s == nil {
 		return nil
 	}
 	return s.extraProperties
 }
 
-func (s *SubmitterValue) require(field *big.Int) {
+func (s *SubmitterUpdateResult) require(field *big.Int) {
 	if s.explicitFields == nil {
 		s.explicitFields = big.NewInt(0)
 	}
 	s.explicitFields.Or(s.explicitFields, field)
 }
 
-// SetField sets the Field field and marks it as non-optional;
+// SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterValue) SetField(field string) {
-	s.Field = field
-	s.require(submitterValueFieldField)
+func (s *SubmitterUpdateResult) SetID(id int) {
+	s.ID = id
+	s.require(submitterUpdateResultFieldID)
 }
 
-// SetValue sets the Value field and marks it as non-optional;
+// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterValue) SetValue(value *SubmitterValueValue) {
-	s.Value = value
-	s.require(submitterValueFieldValue)
+func (s *SubmitterUpdateResult) SetSubmissionID(submissionID int) {
+	s.SubmissionID = submissionID
+	s.require(submitterUpdateResultFieldSubmissionID)
 }
 
-func (s *SubmitterValue) UnmarshalJSON(data []byte) error {
-	type unmarshaler SubmitterValue
+// SetUUID sets the UUID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetUUID(uuid string) {
+	s.UUID = uuid
+	s.require(submitterUpdateResultFieldUUID)
+}
+
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetEmail(email *string) {
+	s.Email = email
+	s.require(submitterUpdateResultFieldEmail)
+}
+
+// SetSlug sets the Slug field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetSlug(slug string) {
+	s.Slug = slug
+	s.require(submitterUpdateResultFieldSlug)
+}
+
+// SetSentAt sets the SentAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetSentAt(sentAt *string) {
+	s.SentAt = sentAt
+	s.require(submitterUpdateResultFieldSentAt)
+}
+
+// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetOpenedAt(openedAt *string) {
+	s.OpenedAt = openedAt
+	s.require(submitterUpdateResultFieldOpenedAt)
+}
+
+// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetCompletedAt(completedAt *string) {
+	s.CompletedAt = completedAt
+	s.require(submitterUpdateResultFieldCompletedAt)
+}
+
+// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetDeclinedAt(declinedAt *string) {
+	s.DeclinedAt = declinedAt
+	s.require(submitterUpdateResultFieldDeclinedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submitterUpdateResultFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetUpdatedAt(updatedAt string) {
+	s.UpdatedAt = updatedAt
+	s.require(submitterUpdateResultFieldUpdatedAt)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetName(name *string) {
+	s.Name = name
+	s.require(submitterUpdateResultFieldName)
+}
+
+// SetPhone sets the Phone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetPhone(phone *string) {
+	s.Phone = phone
+	s.require(submitterUpdateResultFieldPhone)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetStatus(status SubmitterUpdateResultStatus) {
+	s.Status = status
+	s.require(submitterUpdateResultFieldStatus)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(submitterUpdateResultFieldExternalID)
+}
+
+// SetMetadata sets the Metadata field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetMetadata(metadata map[string]any) {
+	s.Metadata = metadata
+	s.require(submitterUpdateResultFieldMetadata)
+}
+
+// SetPreferences sets the Preferences field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetPreferences(preferences map[string]any) {
+	s.Preferences = preferences
+	s.require(submitterUpdateResultFieldPreferences)
+}
+
+// SetValues sets the Values field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetValues(values []*FieldValue) {
+	s.Values = values
+	s.require(submitterUpdateResultFieldValues)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetDocuments(documents []*Document) {
+	s.Documents = documents
+	s.require(submitterUpdateResultFieldDocuments)
+}
+
+// SetRole sets the Role field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetRole(role string) {
+	s.Role = role
+	s.require(submitterUpdateResultFieldRole)
+}
+
+// SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmitterUpdateResult) SetEmbedSrc(embedSrc string) {
+	s.EmbedSrc = embedSrc
+	s.require(submitterUpdateResultFieldEmbedSrc)
+}
+
+func (s *SubmitterUpdateResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmitterUpdateResult
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SubmitterValue(value)
+	*s = SubmitterUpdateResult(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -12936,8 +12124,8 @@ func (s *SubmitterValue) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (s *SubmitterValue) MarshalJSON() ([]byte, error) {
-	type embed SubmitterValue
+func (s *SubmitterUpdateResult) MarshalJSON() ([]byte, error) {
+	type embed SubmitterUpdateResult
 	var marshaler = struct {
 		embed
 	}{
@@ -12947,7 +12135,7 @@ func (s *SubmitterValue) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (s *SubmitterValue) String() string {
+func (s *SubmitterUpdateResult) String() string {
 	if s == nil {
 		return "<nil>"
 	}
@@ -12962,210 +12150,95 @@ func (s *SubmitterValue) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// Pre-filled value of the field.
-type SubmitterValueValue struct {
-	String                           string
-	Double                           float64
-	Boolean                          bool
-	SubmitterValueValueThreeItemList []*SubmitterValueValueThreeItem
+// The status of signing request for the submitter.
+type SubmitterUpdateResultStatus string
 
-	typ string
+const (
+	SubmitterUpdateResultStatusCompleted SubmitterUpdateResultStatus = "completed"
+	SubmitterUpdateResultStatusDeclined  SubmitterUpdateResultStatus = "declined"
+	SubmitterUpdateResultStatusOpened    SubmitterUpdateResultStatus = "opened"
+	SubmitterUpdateResultStatusSent      SubmitterUpdateResultStatus = "sent"
+	SubmitterUpdateResultStatusAwaiting  SubmitterUpdateResultStatus = "awaiting"
+)
+
+func NewSubmitterUpdateResultStatusFromString(s string) (SubmitterUpdateResultStatus, error) {
+	switch s {
+	case "completed":
+		return SubmitterUpdateResultStatusCompleted, nil
+	case "declined":
+		return SubmitterUpdateResultStatusDeclined, nil
+	case "opened":
+		return SubmitterUpdateResultStatusOpened, nil
+	case "sent":
+		return SubmitterUpdateResultStatusSent, nil
+	case "awaiting":
+		return SubmitterUpdateResultStatusAwaiting, nil
+	}
+	var t SubmitterUpdateResultStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (s *SubmitterValueValue) GetString() string {
-	if s == nil {
-		return ""
-	}
-	return s.String
-}
-
-func (s *SubmitterValueValue) GetDouble() float64 {
-	if s == nil {
-		return 0
-	}
-	return s.Double
-}
-
-func (s *SubmitterValueValue) GetBoolean() bool {
-	if s == nil {
-		return false
-	}
-	return s.Boolean
-}
-
-func (s *SubmitterValueValue) GetSubmitterValueValueThreeItemList() []*SubmitterValueValueThreeItem {
-	if s == nil {
-		return nil
-	}
-	return s.SubmitterValueValueThreeItemList
-}
-
-func (s *SubmitterValueValue) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		s.typ = "String"
-		s.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		s.typ = "Double"
-		s.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		s.typ = "Boolean"
-		s.Boolean = valueBoolean
-		return nil
-	}
-	var valueSubmitterValueValueThreeItemList []*SubmitterValueValueThreeItem
-	if err := json.Unmarshal(data, &valueSubmitterValueValueThreeItemList); err == nil {
-		s.typ = "SubmitterValueValueThreeItemList"
-		s.SubmitterValueValueThreeItemList = valueSubmitterValueValueThreeItemList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, s)
-}
-
-func (s SubmitterValueValue) MarshalJSON() ([]byte, error) {
-	if s.typ == "String" || s.String != "" {
-		return json.Marshal(s.String)
-	}
-	if s.typ == "Double" || s.Double != 0 {
-		return json.Marshal(s.Double)
-	}
-	if s.typ == "Boolean" || s.Boolean != false {
-		return json.Marshal(s.Boolean)
-	}
-	if s.typ == "SubmitterValueValueThreeItemList" || s.SubmitterValueValueThreeItemList != nil {
-		return json.Marshal(s.SubmitterValueValueThreeItemList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", s)
-}
-
-type SubmitterValueValueVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-	VisitSubmitterValueValueThreeItemList([]*SubmitterValueValueThreeItem) error
-}
-
-func (s *SubmitterValueValue) Accept(visitor SubmitterValueValueVisitor) error {
-	if s.typ == "String" || s.String != "" {
-		return visitor.VisitString(s.String)
-	}
-	if s.typ == "Double" || s.Double != 0 {
-		return visitor.VisitDouble(s.Double)
-	}
-	if s.typ == "Boolean" || s.Boolean != false {
-		return visitor.VisitBoolean(s.Boolean)
-	}
-	if s.typ == "SubmitterValueValueThreeItemList" || s.SubmitterValueValueThreeItemList != nil {
-		return visitor.VisitSubmitterValueValueThreeItemList(s.SubmitterValueValueThreeItemList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", s)
-}
-
-type SubmitterValueValueThreeItem struct {
-	String  string
-	Double  float64
-	Boolean bool
-
-	typ string
-}
-
-func (s *SubmitterValueValueThreeItem) GetString() string {
-	if s == nil {
-		return ""
-	}
-	return s.String
-}
-
-func (s *SubmitterValueValueThreeItem) GetDouble() float64 {
-	if s == nil {
-		return 0
-	}
-	return s.Double
-}
-
-func (s *SubmitterValueValueThreeItem) GetBoolean() bool {
-	if s == nil {
-		return false
-	}
-	return s.Boolean
-}
-
-func (s *SubmitterValueValueThreeItem) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		s.typ = "String"
-		s.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		s.typ = "Double"
-		s.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		s.typ = "Boolean"
-		s.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, s)
-}
-
-func (s SubmitterValueValueThreeItem) MarshalJSON() ([]byte, error) {
-	if s.typ == "String" || s.String != "" {
-		return json.Marshal(s.String)
-	}
-	if s.typ == "Double" || s.Double != 0 {
-		return json.Marshal(s.Double)
-	}
-	if s.typ == "Boolean" || s.Boolean != false {
-		return json.Marshal(s.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", s)
-}
-
-type SubmitterValueValueThreeItemVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-}
-
-func (s *SubmitterValueValueThreeItem) Accept(visitor SubmitterValueValueThreeItemVisitor) error {
-	if s.typ == "String" || s.String != "" {
-		return visitor.VisitString(s.String)
-	}
-	if s.typ == "Double" || s.Double != 0 {
-		return visitor.VisitDouble(s.Double)
-	}
-	if s.typ == "Boolean" || s.Boolean != false {
-		return visitor.VisitBoolean(s.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", s)
+func (s SubmitterUpdateResultStatus) Ptr() *SubmitterUpdateResultStatus {
+	return &s
 }
 
 var (
-	templateAuthorFieldID        = big.NewInt(1 << 0)
-	templateAuthorFieldFirstName = big.NewInt(1 << 1)
-	templateAuthorFieldLastName  = big.NewInt(1 << 2)
-	templateAuthorFieldEmail     = big.NewInt(1 << 3)
+	templateFieldID          = big.NewInt(1 << 0)
+	templateFieldSlug        = big.NewInt(1 << 1)
+	templateFieldName        = big.NewInt(1 << 2)
+	templateFieldPreferences = big.NewInt(1 << 3)
+	templateFieldSchema      = big.NewInt(1 << 4)
+	templateFieldFields      = big.NewInt(1 << 5)
+	templateFieldSubmitters  = big.NewInt(1 << 6)
+	templateFieldAuthorID    = big.NewInt(1 << 7)
+	templateFieldArchivedAt  = big.NewInt(1 << 8)
+	templateFieldCreatedAt   = big.NewInt(1 << 9)
+	templateFieldUpdatedAt   = big.NewInt(1 << 10)
+	templateFieldSource      = big.NewInt(1 << 11)
+	templateFieldExternalID  = big.NewInt(1 << 12)
+	templateFieldFolderID    = big.NewInt(1 << 13)
+	templateFieldFolderName  = big.NewInt(1 << 14)
+	templateFieldSharedLink  = big.NewInt(1 << 15)
+	templateFieldAuthor      = big.NewInt(1 << 16)
+	templateFieldDocuments   = big.NewInt(1 << 17)
 )
 
-type TemplateAuthor struct {
-	// Unique identifier of the author.
+type Template struct {
+	// Unique identifier of the document template.
 	ID int `json:"id" url:"id"`
-	// First name of the author.
-	FirstName string `json:"first_name" url:"first_name"`
-	// Last name of the author.
-	LastName string `json:"last_name" url:"last_name"`
-	// Author email.
-	Email string `json:"email" url:"email"`
+	// Unique slug of the document template.
+	Slug string `json:"slug" url:"slug"`
+	// The name of the template.
+	Name string `json:"name" url:"name"`
+	// Template preferences.
+	Preferences map[string]any `json:"preferences" url:"preferences"`
+	// List of documents attached to the template.
+	Schema []*SchemaDocument `json:"schema" url:"schema"`
+	// List of fields to be filled in the template.
+	Fields []*Field `json:"fields" url:"fields"`
+	// The list of submitters for the template.
+	Submitters []*TemplateSubmitter `json:"submitters" url:"submitters"`
+	// Unique identifier of the author of the template.
+	AuthorID int `json:"author_id" url:"author_id"`
+	// Date and time when the template was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+	// The date and time when the template was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+	// The date and time when the template was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
+	// Source of the template.
+	Source TemplateSource `json:"source" url:"source"`
+	// Your application-specific unique string key to identify this template within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// Unique identifier of the folder where the template is located.
+	FolderID int `json:"folder_id" url:"folder_id"`
+	// Folder name where the template is located.
+	FolderName string `json:"folder_name" url:"folder_name"`
+	// Indicates if the template is accessible by link.
+	SharedLink *bool `json:"shared_link,omitempty" url:"shared_link,omitempty"`
+	Author     *User `json:"author" url:"author"`
+	// List of documents attached to the template.
+	Documents []*TemplateDocument `json:"documents" url:"documents"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -13174,42 +12247,140 @@ type TemplateAuthor struct {
 	rawJSON         json.RawMessage
 }
 
-func (t *TemplateAuthor) GetID() int {
+func (t *Template) GetID() int {
 	if t == nil {
 		return 0
 	}
 	return t.ID
 }
 
-func (t *TemplateAuthor) GetFirstName() string {
+func (t *Template) GetSlug() string {
 	if t == nil {
 		return ""
 	}
-	return t.FirstName
+	return t.Slug
 }
 
-func (t *TemplateAuthor) GetLastName() string {
+func (t *Template) GetName() string {
 	if t == nil {
 		return ""
 	}
-	return t.LastName
+	return t.Name
 }
 
-func (t *TemplateAuthor) GetEmail() string {
+func (t *Template) GetPreferences() map[string]any {
+	if t == nil {
+		return nil
+	}
+	return t.Preferences
+}
+
+func (t *Template) GetSchema() []*SchemaDocument {
+	if t == nil {
+		return nil
+	}
+	return t.Schema
+}
+
+func (t *Template) GetFields() []*Field {
+	if t == nil {
+		return nil
+	}
+	return t.Fields
+}
+
+func (t *Template) GetSubmitters() []*TemplateSubmitter {
+	if t == nil {
+		return nil
+	}
+	return t.Submitters
+}
+
+func (t *Template) GetAuthorID() int {
+	if t == nil {
+		return 0
+	}
+	return t.AuthorID
+}
+
+func (t *Template) GetArchivedAt() *string {
+	if t == nil {
+		return nil
+	}
+	return t.ArchivedAt
+}
+
+func (t *Template) GetCreatedAt() string {
 	if t == nil {
 		return ""
 	}
-	return t.Email
+	return t.CreatedAt
 }
 
-func (t *TemplateAuthor) GetExtraProperties() map[string]interface{} {
+func (t *Template) GetUpdatedAt() string {
+	if t == nil {
+		return ""
+	}
+	return t.UpdatedAt
+}
+
+func (t *Template) GetSource() TemplateSource {
+	if t == nil {
+		return ""
+	}
+	return t.Source
+}
+
+func (t *Template) GetExternalID() *string {
+	if t == nil {
+		return nil
+	}
+	return t.ExternalID
+}
+
+func (t *Template) GetFolderID() int {
+	if t == nil {
+		return 0
+	}
+	return t.FolderID
+}
+
+func (t *Template) GetFolderName() string {
+	if t == nil {
+		return ""
+	}
+	return t.FolderName
+}
+
+func (t *Template) GetSharedLink() *bool {
+	if t == nil {
+		return nil
+	}
+	return t.SharedLink
+}
+
+func (t *Template) GetAuthor() *User {
+	if t == nil {
+		return nil
+	}
+	return t.Author
+}
+
+func (t *Template) GetDocuments() []*TemplateDocument {
+	if t == nil {
+		return nil
+	}
+	return t.Documents
+}
+
+func (t *Template) GetExtraProperties() map[string]interface{} {
 	if t == nil {
 		return nil
 	}
 	return t.extraProperties
 }
 
-func (t *TemplateAuthor) require(field *big.Int) {
+func (t *Template) require(field *big.Int) {
 	if t.explicitFields == nil {
 		t.explicitFields = big.NewInt(0)
 	}
@@ -13218,39 +12389,137 @@ func (t *TemplateAuthor) require(field *big.Int) {
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateAuthor) SetID(id int) {
+func (t *Template) SetID(id int) {
 	t.ID = id
-	t.require(templateAuthorFieldID)
+	t.require(templateFieldID)
 }
 
-// SetFirstName sets the FirstName field and marks it as non-optional;
+// SetSlug sets the Slug field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateAuthor) SetFirstName(firstName string) {
-	t.FirstName = firstName
-	t.require(templateAuthorFieldFirstName)
+func (t *Template) SetSlug(slug string) {
+	t.Slug = slug
+	t.require(templateFieldSlug)
 }
 
-// SetLastName sets the LastName field and marks it as non-optional;
+// SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateAuthor) SetLastName(lastName string) {
-	t.LastName = lastName
-	t.require(templateAuthorFieldLastName)
+func (t *Template) SetName(name string) {
+	t.Name = name
+	t.require(templateFieldName)
 }
 
-// SetEmail sets the Email field and marks it as non-optional;
+// SetPreferences sets the Preferences field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateAuthor) SetEmail(email string) {
-	t.Email = email
-	t.require(templateAuthorFieldEmail)
+func (t *Template) SetPreferences(preferences map[string]any) {
+	t.Preferences = preferences
+	t.require(templateFieldPreferences)
 }
 
-func (t *TemplateAuthor) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplateAuthor
+// SetSchema sets the Schema field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetSchema(schema []*SchemaDocument) {
+	t.Schema = schema
+	t.require(templateFieldSchema)
+}
+
+// SetFields sets the Fields field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetFields(fields []*Field) {
+	t.Fields = fields
+	t.require(templateFieldFields)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetSubmitters(submitters []*TemplateSubmitter) {
+	t.Submitters = submitters
+	t.require(templateFieldSubmitters)
+}
+
+// SetAuthorID sets the AuthorID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetAuthorID(authorID int) {
+	t.AuthorID = authorID
+	t.require(templateFieldAuthorID)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetArchivedAt(archivedAt *string) {
+	t.ArchivedAt = archivedAt
+	t.require(templateFieldArchivedAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetCreatedAt(createdAt string) {
+	t.CreatedAt = createdAt
+	t.require(templateFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetUpdatedAt(updatedAt string) {
+	t.UpdatedAt = updatedAt
+	t.require(templateFieldUpdatedAt)
+}
+
+// SetSource sets the Source field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetSource(source TemplateSource) {
+	t.Source = source
+	t.require(templateFieldSource)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetExternalID(externalID *string) {
+	t.ExternalID = externalID
+	t.require(templateFieldExternalID)
+}
+
+// SetFolderID sets the FolderID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetFolderID(folderID int) {
+	t.FolderID = folderID
+	t.require(templateFieldFolderID)
+}
+
+// SetFolderName sets the FolderName field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetFolderName(folderName string) {
+	t.FolderName = folderName
+	t.require(templateFieldFolderName)
+}
+
+// SetSharedLink sets the SharedLink field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetSharedLink(sharedLink *bool) {
+	t.SharedLink = sharedLink
+	t.require(templateFieldSharedLink)
+}
+
+// SetAuthor sets the Author field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetAuthor(author *User) {
+	t.Author = author
+	t.require(templateFieldAuthor)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetDocuments(documents []*TemplateDocument) {
+	t.Documents = documents
+	t.require(templateFieldDocuments)
+}
+
+func (t *Template) UnmarshalJSON(data []byte) error {
+	type unmarshaler Template
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*t = TemplateAuthor(value)
+	*t = Template(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
@@ -13260,8 +12529,8 @@ func (t *TemplateAuthor) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (t *TemplateAuthor) MarshalJSON() ([]byte, error) {
-	type embed TemplateAuthor
+func (t *Template) MarshalJSON() ([]byte, error) {
+	type embed Template
 	var marshaler = struct {
 		embed
 	}{
@@ -13271,7 +12540,109 @@ func (t *TemplateAuthor) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (t *TemplateAuthor) String() string {
+func (t *Template) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	templateArchiveResultFieldID         = big.NewInt(1 << 0)
+	templateArchiveResultFieldArchivedAt = big.NewInt(1 << 1)
+)
+
+type TemplateArchiveResult struct {
+	// Template unique ID number.
+	ID int `json:"id" url:"id"`
+	// Date and time when the template was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TemplateArchiveResult) GetID() int {
+	if t == nil {
+		return 0
+	}
+	return t.ID
+}
+
+func (t *TemplateArchiveResult) GetArchivedAt() *string {
+	if t == nil {
+		return nil
+	}
+	return t.ArchivedAt
+}
+
+func (t *TemplateArchiveResult) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TemplateArchiveResult) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplateArchiveResult) SetID(id int) {
+	t.ID = id
+	t.require(templateArchiveResultFieldID)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplateArchiveResult) SetArchivedAt(archivedAt *string) {
+	t.ArchivedAt = archivedAt
+	t.require(templateArchiveResultFieldArchivedAt)
+}
+
+func (t *TemplateArchiveResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler TemplateArchiveResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TemplateArchiveResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TemplateArchiveResult) MarshalJSON() ([]byte, error) {
+	type embed TemplateArchiveResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TemplateArchiveResult) String() string {
 	if t == nil {
 		return "<nil>"
 	}
@@ -13440,29 +12811,14 @@ func (t *TemplateDocument) String() string {
 }
 
 var (
-	templateFieldFieldUUID          = big.NewInt(1 << 0)
-	templateFieldFieldSubmitterUUID = big.NewInt(1 << 1)
-	templateFieldFieldName          = big.NewInt(1 << 2)
-	templateFieldFieldType          = big.NewInt(1 << 3)
-	templateFieldFieldRequired      = big.NewInt(1 << 4)
-	templateFieldFieldPreferences   = big.NewInt(1 << 5)
-	templateFieldFieldAreas         = big.NewInt(1 << 6)
+	templateListFieldData       = big.NewInt(1 << 0)
+	templateListFieldPagination = big.NewInt(1 << 1)
 )
 
-type TemplateField struct {
-	// Unique identifier of the field.
-	UUID string `json:"uuid" url:"uuid"`
-	// Unique identifier of the submitter that filled the field.
-	SubmitterUUID string `json:"submitter_uuid" url:"submitter_uuid"`
-	// Field name.
-	Name string `json:"name" url:"name"`
-	// Type of the field (e.g., text, signature, date, initials).
-	Type TemplateFieldType `json:"type" url:"type"`
-	// Indicates if the field is required.
-	Required    bool                      `json:"required" url:"required"`
-	Preferences *TemplateFieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
-	// List of areas where the field is located in the document.
-	Areas []*TemplateFieldArea `json:"areas" url:"areas"`
+type TemplateList struct {
+	// List of templates.
+	Data       []*Template `json:"data" url:"data"`
+	Pagination *Pagination `json:"pagination" url:"pagination"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -13471,125 +12827,55 @@ type TemplateField struct {
 	rawJSON         json.RawMessage
 }
 
-func (t *TemplateField) GetUUID() string {
-	if t == nil {
-		return ""
-	}
-	return t.UUID
-}
-
-func (t *TemplateField) GetSubmitterUUID() string {
-	if t == nil {
-		return ""
-	}
-	return t.SubmitterUUID
-}
-
-func (t *TemplateField) GetName() string {
-	if t == nil {
-		return ""
-	}
-	return t.Name
-}
-
-func (t *TemplateField) GetType() TemplateFieldType {
-	if t == nil {
-		return ""
-	}
-	return t.Type
-}
-
-func (t *TemplateField) GetRequired() bool {
-	if t == nil {
-		return false
-	}
-	return t.Required
-}
-
-func (t *TemplateField) GetPreferences() *TemplateFieldPreferences {
+func (t *TemplateList) GetData() []*Template {
 	if t == nil {
 		return nil
 	}
-	return t.Preferences
+	return t.Data
 }
 
-func (t *TemplateField) GetAreas() []*TemplateFieldArea {
+func (t *TemplateList) GetPagination() *Pagination {
 	if t == nil {
 		return nil
 	}
-	return t.Areas
+	return t.Pagination
 }
 
-func (t *TemplateField) GetExtraProperties() map[string]interface{} {
+func (t *TemplateList) GetExtraProperties() map[string]interface{} {
 	if t == nil {
 		return nil
 	}
 	return t.extraProperties
 }
 
-func (t *TemplateField) require(field *big.Int) {
+func (t *TemplateList) require(field *big.Int) {
 	if t.explicitFields == nil {
 		t.explicitFields = big.NewInt(0)
 	}
 	t.explicitFields.Or(t.explicitFields, field)
 }
 
-// SetUUID sets the UUID field and marks it as non-optional;
+// SetData sets the Data field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetUUID(uuid string) {
-	t.UUID = uuid
-	t.require(templateFieldFieldUUID)
+func (t *TemplateList) SetData(data []*Template) {
+	t.Data = data
+	t.require(templateListFieldData)
 }
 
-// SetSubmitterUUID sets the SubmitterUUID field and marks it as non-optional;
+// SetPagination sets the Pagination field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetSubmitterUUID(submitterUUID string) {
-	t.SubmitterUUID = submitterUUID
-	t.require(templateFieldFieldSubmitterUUID)
+func (t *TemplateList) SetPagination(pagination *Pagination) {
+	t.Pagination = pagination
+	t.require(templateListFieldPagination)
 }
 
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetName(name string) {
-	t.Name = name
-	t.require(templateFieldFieldName)
-}
-
-// SetType sets the Type field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetType(type_ TemplateFieldType) {
-	t.Type = type_
-	t.require(templateFieldFieldType)
-}
-
-// SetRequired sets the Required field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetRequired(required bool) {
-	t.Required = required
-	t.require(templateFieldFieldRequired)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetPreferences(preferences *TemplateFieldPreferences) {
-	t.Preferences = preferences
-	t.require(templateFieldFieldPreferences)
-}
-
-// SetAreas sets the Areas field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateField) SetAreas(areas []*TemplateFieldArea) {
-	t.Areas = areas
-	t.require(templateFieldFieldAreas)
-}
-
-func (t *TemplateField) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplateField
+func (t *TemplateList) UnmarshalJSON(data []byte) error {
+	type unmarshaler TemplateList
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*t = TemplateField(value)
+	*t = TemplateList(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
@@ -13599,8 +12885,8 @@ func (t *TemplateField) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (t *TemplateField) MarshalJSON() ([]byte, error) {
-	type embed TemplateField
+func (t *TemplateList) MarshalJSON() ([]byte, error) {
+	type embed TemplateList
 	var marshaler = struct {
 		embed
 	}{
@@ -13610,7 +12896,7 @@ func (t *TemplateField) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (t *TemplateField) String() string {
+func (t *TemplateList) String() string {
 	if t == nil {
 		return "<nil>"
 	}
@@ -13625,742 +12911,30 @@ func (t *TemplateField) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-var (
-	templateFieldAreaFieldX              = big.NewInt(1 << 0)
-	templateFieldAreaFieldY              = big.NewInt(1 << 1)
-	templateFieldAreaFieldW              = big.NewInt(1 << 2)
-	templateFieldAreaFieldH              = big.NewInt(1 << 3)
-	templateFieldAreaFieldAttachmentUUID = big.NewInt(1 << 4)
-	templateFieldAreaFieldPage           = big.NewInt(1 << 5)
-)
-
-type TemplateFieldArea struct {
-	// X coordinate of the area where the field is located in the document.
-	X float64 `json:"x" url:"x"`
-	// Y coordinate of the area where the field is located in the document.
-	Y float64 `json:"y" url:"y"`
-	// Width of the area where the field is located in the document.
-	W float64 `json:"w" url:"w"`
-	// Height of the area where the field is located in the document.
-	H float64 `json:"h" url:"h"`
-	// Unique identifier of the attached document where the field is located.
-	AttachmentUUID string `json:"attachment_uuid" url:"attachment_uuid"`
-	// Page number of the attached document where the field is located.
-	Page int `json:"page" url:"page"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (t *TemplateFieldArea) GetX() float64 {
-	if t == nil {
-		return 0
-	}
-	return t.X
-}
-
-func (t *TemplateFieldArea) GetY() float64 {
-	if t == nil {
-		return 0
-	}
-	return t.Y
-}
-
-func (t *TemplateFieldArea) GetW() float64 {
-	if t == nil {
-		return 0
-	}
-	return t.W
-}
-
-func (t *TemplateFieldArea) GetH() float64 {
-	if t == nil {
-		return 0
-	}
-	return t.H
-}
-
-func (t *TemplateFieldArea) GetAttachmentUUID() string {
-	if t == nil {
-		return ""
-	}
-	return t.AttachmentUUID
-}
-
-func (t *TemplateFieldArea) GetPage() int {
-	if t == nil {
-		return 0
-	}
-	return t.Page
-}
-
-func (t *TemplateFieldArea) GetExtraProperties() map[string]interface{} {
-	if t == nil {
-		return nil
-	}
-	return t.extraProperties
-}
-
-func (t *TemplateFieldArea) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
-	}
-	t.explicitFields.Or(t.explicitFields, field)
-}
-
-// SetX sets the X field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetX(x float64) {
-	t.X = x
-	t.require(templateFieldAreaFieldX)
-}
-
-// SetY sets the Y field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetY(y float64) {
-	t.Y = y
-	t.require(templateFieldAreaFieldY)
-}
-
-// SetW sets the W field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetW(w float64) {
-	t.W = w
-	t.require(templateFieldAreaFieldW)
-}
-
-// SetH sets the H field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetH(h float64) {
-	t.H = h
-	t.require(templateFieldAreaFieldH)
-}
-
-// SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetAttachmentUUID(attachmentUUID string) {
-	t.AttachmentUUID = attachmentUUID
-	t.require(templateFieldAreaFieldAttachmentUUID)
-}
-
-// SetPage sets the Page field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldArea) SetPage(page int) {
-	t.Page = page
-	t.require(templateFieldAreaFieldPage)
-}
-
-func (t *TemplateFieldArea) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplateFieldArea
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TemplateFieldArea(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-	t.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TemplateFieldArea) MarshalJSON() ([]byte, error) {
-	type embed TemplateFieldArea
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*t),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (t *TemplateFieldArea) String() string {
-	if t == nil {
-		return "<nil>"
-	}
-	if len(t.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
-}
-
-// Field display preferences.
-var (
-	templateFieldPreferencesFieldFontSize   = big.NewInt(1 << 0)
-	templateFieldPreferencesFieldFontType   = big.NewInt(1 << 1)
-	templateFieldPreferencesFieldFont       = big.NewInt(1 << 2)
-	templateFieldPreferencesFieldColor      = big.NewInt(1 << 3)
-	templateFieldPreferencesFieldBackground = big.NewInt(1 << 4)
-	templateFieldPreferencesFieldAlign      = big.NewInt(1 << 5)
-	templateFieldPreferencesFieldValign     = big.NewInt(1 << 6)
-	templateFieldPreferencesFieldFormat     = big.NewInt(1 << 7)
-	templateFieldPreferencesFieldPrice      = big.NewInt(1 << 8)
-	templateFieldPreferencesFieldCurrency   = big.NewInt(1 << 9)
-	templateFieldPreferencesFieldMask       = big.NewInt(1 << 10)
-	templateFieldPreferencesFieldReasons    = big.NewInt(1 << 11)
-)
-
-type TemplateFieldPreferences struct {
-	// Font size of the field value in pixels.
-	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
-	// Font type of the field value.
-	FontType string `json:"font_type,omitempty" url:"font_type,omitempty"`
-	// Font family of the field value.
-	Font string `json:"font,omitempty" url:"font,omitempty"`
-	// Font color of the field value.
-	Color string `json:"color,omitempty" url:"color,omitempty"`
-	// Field box background color.
-	Background string `json:"background,omitempty" url:"background,omitempty"`
-	// Horizontal alignment of the field text value.
-	Align string `json:"align,omitempty" url:"align,omitempty"`
-	// Vertical alignment of the field text value.
-	Valign string `json:"valign,omitempty" url:"valign,omitempty"`
-	// The data format for different field types.
-	Format string `json:"format,omitempty" url:"format,omitempty"`
-	// Price value of the payment field. Only for payment fields.
-	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
-	// Currency value of the payment field. Only for payment fields.
-	Currency string `json:"currency,omitempty" url:"currency,omitempty"`
-	// Indicates if the field is masked on the document.
-	Mask *bool `json:"mask,omitempty" url:"mask,omitempty"`
-	// An array of signature reasons to choose from.
-	Reasons []string `json:"reasons,omitempty" url:"reasons,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (t *TemplateFieldPreferences) GetFontSize() *int {
-	if t == nil {
-		return nil
-	}
-	return t.FontSize
-}
-
-func (t *TemplateFieldPreferences) GetFontType() string {
-	if t == nil {
-		return ""
-	}
-	return t.FontType
-}
-
-func (t *TemplateFieldPreferences) GetFont() string {
-	if t == nil {
-		return ""
-	}
-	return t.Font
-}
-
-func (t *TemplateFieldPreferences) GetColor() string {
-	if t == nil {
-		return ""
-	}
-	return t.Color
-}
-
-func (t *TemplateFieldPreferences) GetBackground() string {
-	if t == nil {
-		return ""
-	}
-	return t.Background
-}
-
-func (t *TemplateFieldPreferences) GetAlign() string {
-	if t == nil {
-		return ""
-	}
-	return t.Align
-}
-
-func (t *TemplateFieldPreferences) GetValign() string {
-	if t == nil {
-		return ""
-	}
-	return t.Valign
-}
-
-func (t *TemplateFieldPreferences) GetFormat() string {
-	if t == nil {
-		return ""
-	}
-	return t.Format
-}
-
-func (t *TemplateFieldPreferences) GetPrice() *float64 {
-	if t == nil {
-		return nil
-	}
-	return t.Price
-}
-
-func (t *TemplateFieldPreferences) GetCurrency() string {
-	if t == nil {
-		return ""
-	}
-	return t.Currency
-}
-
-func (t *TemplateFieldPreferences) GetMask() *bool {
-	if t == nil {
-		return nil
-	}
-	return t.Mask
-}
-
-func (t *TemplateFieldPreferences) GetReasons() []string {
-	if t == nil {
-		return nil
-	}
-	return t.Reasons
-}
-
-func (t *TemplateFieldPreferences) GetExtraProperties() map[string]interface{} {
-	if t == nil {
-		return nil
-	}
-	return t.extraProperties
-}
-
-func (t *TemplateFieldPreferences) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
-	}
-	t.explicitFields.Or(t.explicitFields, field)
-}
-
-// SetFontSize sets the FontSize field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFontSize(fontSize *int) {
-	t.FontSize = fontSize
-	t.require(templateFieldPreferencesFieldFontSize)
-}
-
-// SetFontType sets the FontType field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFontType(fontType string) {
-	t.FontType = fontType
-	t.require(templateFieldPreferencesFieldFontType)
-}
-
-// SetFont sets the Font field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFont(font string) {
-	t.Font = font
-	t.require(templateFieldPreferencesFieldFont)
-}
-
-// SetColor sets the Color field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetColor(color string) {
-	t.Color = color
-	t.require(templateFieldPreferencesFieldColor)
-}
-
-// SetBackground sets the Background field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetBackground(background string) {
-	t.Background = background
-	t.require(templateFieldPreferencesFieldBackground)
-}
-
-// SetAlign sets the Align field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetAlign(align string) {
-	t.Align = align
-	t.require(templateFieldPreferencesFieldAlign)
-}
-
-// SetValign sets the Valign field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetValign(valign string) {
-	t.Valign = valign
-	t.require(templateFieldPreferencesFieldValign)
-}
-
-// SetFormat sets the Format field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetFormat(format string) {
-	t.Format = format
-	t.require(templateFieldPreferencesFieldFormat)
-}
-
-// SetPrice sets the Price field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetPrice(price *float64) {
-	t.Price = price
-	t.require(templateFieldPreferencesFieldPrice)
-}
-
-// SetCurrency sets the Currency field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetCurrency(currency string) {
-	t.Currency = currency
-	t.require(templateFieldPreferencesFieldCurrency)
-}
-
-// SetMask sets the Mask field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetMask(mask *bool) {
-	t.Mask = mask
-	t.require(templateFieldPreferencesFieldMask)
-}
-
-// SetReasons sets the Reasons field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateFieldPreferences) SetReasons(reasons []string) {
-	t.Reasons = reasons
-	t.require(templateFieldPreferencesFieldReasons)
-}
-
-func (t *TemplateFieldPreferences) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplateFieldPreferences
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TemplateFieldPreferences(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-	t.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TemplateFieldPreferences) MarshalJSON() ([]byte, error) {
-	type embed TemplateFieldPreferences
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*t),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (t *TemplateFieldPreferences) String() string {
-	if t == nil {
-		return "<nil>"
-	}
-	if len(t.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
-}
-
-// Type of the field (e.g., text, signature, date, initials).
-type TemplateFieldType string
+// Source of the template.
+type TemplateSource string
 
 const (
-	TemplateFieldTypeHeading       TemplateFieldType = "heading"
-	TemplateFieldTypeText          TemplateFieldType = "text"
-	TemplateFieldTypeSignature     TemplateFieldType = "signature"
-	TemplateFieldTypeInitials      TemplateFieldType = "initials"
-	TemplateFieldTypeDate          TemplateFieldType = "date"
-	TemplateFieldTypeNumber        TemplateFieldType = "number"
-	TemplateFieldTypeImage         TemplateFieldType = "image"
-	TemplateFieldTypeCheckbox      TemplateFieldType = "checkbox"
-	TemplateFieldTypeMultiple      TemplateFieldType = "multiple"
-	TemplateFieldTypeFile          TemplateFieldType = "file"
-	TemplateFieldTypeRadio         TemplateFieldType = "radio"
-	TemplateFieldTypeSelect        TemplateFieldType = "select"
-	TemplateFieldTypeCells         TemplateFieldType = "cells"
-	TemplateFieldTypeStamp         TemplateFieldType = "stamp"
-	TemplateFieldTypePayment       TemplateFieldType = "payment"
-	TemplateFieldTypePhone         TemplateFieldType = "phone"
-	TemplateFieldTypeVerification  TemplateFieldType = "verification"
-	TemplateFieldTypeKba           TemplateFieldType = "kba"
-	TemplateFieldTypeStrikethrough TemplateFieldType = "strikethrough"
+	TemplateSourceNative TemplateSource = "native"
+	TemplateSourceAPI    TemplateSource = "api"
+	TemplateSourceEmbed  TemplateSource = "embed"
 )
 
-func NewTemplateFieldTypeFromString(s string) (TemplateFieldType, error) {
+func NewTemplateSourceFromString(s string) (TemplateSource, error) {
 	switch s {
-	case "heading":
-		return TemplateFieldTypeHeading, nil
-	case "text":
-		return TemplateFieldTypeText, nil
-	case "signature":
-		return TemplateFieldTypeSignature, nil
-	case "initials":
-		return TemplateFieldTypeInitials, nil
-	case "date":
-		return TemplateFieldTypeDate, nil
-	case "number":
-		return TemplateFieldTypeNumber, nil
-	case "image":
-		return TemplateFieldTypeImage, nil
-	case "checkbox":
-		return TemplateFieldTypeCheckbox, nil
-	case "multiple":
-		return TemplateFieldTypeMultiple, nil
-	case "file":
-		return TemplateFieldTypeFile, nil
-	case "radio":
-		return TemplateFieldTypeRadio, nil
-	case "select":
-		return TemplateFieldTypeSelect, nil
-	case "cells":
-		return TemplateFieldTypeCells, nil
-	case "stamp":
-		return TemplateFieldTypeStamp, nil
-	case "payment":
-		return TemplateFieldTypePayment, nil
-	case "phone":
-		return TemplateFieldTypePhone, nil
-	case "verification":
-		return TemplateFieldTypeVerification, nil
-	case "kba":
-		return TemplateFieldTypeKba, nil
-	case "strikethrough":
-		return TemplateFieldTypeStrikethrough, nil
+	case "native":
+		return TemplateSourceNative, nil
+	case "api":
+		return TemplateSourceAPI, nil
+	case "embed":
+		return TemplateSourceEmbed, nil
 	}
-	var t TemplateFieldType
+	var t TemplateSource
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (t TemplateFieldType) Ptr() *TemplateFieldType {
+func (t TemplateSource) Ptr() *TemplateSource {
 	return &t
-}
-
-var (
-	templatePaginationFieldCount = big.NewInt(1 << 0)
-	templatePaginationFieldNext  = big.NewInt(1 << 1)
-	templatePaginationFieldPrev  = big.NewInt(1 << 2)
-)
-
-type TemplatePagination struct {
-	// Templates count.
-	Count int `json:"count" url:"count"`
-	// The ID of the template after which the next page starts.
-	Next *int `json:"next,omitempty" url:"next,omitempty"`
-	// The ID of the template before which the previous page ends.
-	Prev *int `json:"prev,omitempty" url:"prev,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (t *TemplatePagination) GetCount() int {
-	if t == nil {
-		return 0
-	}
-	return t.Count
-}
-
-func (t *TemplatePagination) GetNext() *int {
-	if t == nil {
-		return nil
-	}
-	return t.Next
-}
-
-func (t *TemplatePagination) GetPrev() *int {
-	if t == nil {
-		return nil
-	}
-	return t.Prev
-}
-
-func (t *TemplatePagination) GetExtraProperties() map[string]interface{} {
-	if t == nil {
-		return nil
-	}
-	return t.extraProperties
-}
-
-func (t *TemplatePagination) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
-	}
-	t.explicitFields.Or(t.explicitFields, field)
-}
-
-// SetCount sets the Count field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplatePagination) SetCount(count int) {
-	t.Count = count
-	t.require(templatePaginationFieldCount)
-}
-
-// SetNext sets the Next field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplatePagination) SetNext(next *int) {
-	t.Next = next
-	t.require(templatePaginationFieldNext)
-}
-
-// SetPrev sets the Prev field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplatePagination) SetPrev(prev *int) {
-	t.Prev = prev
-	t.require(templatePaginationFieldPrev)
-}
-
-func (t *TemplatePagination) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplatePagination
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TemplatePagination(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-	t.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TemplatePagination) MarshalJSON() ([]byte, error) {
-	type embed TemplatePagination
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*t),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (t *TemplatePagination) String() string {
-	if t == nil {
-		return "<nil>"
-	}
-	if len(t.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
-}
-
-var (
-	templateSchemaDocumentFieldAttachmentUUID = big.NewInt(1 << 0)
-	templateSchemaDocumentFieldName           = big.NewInt(1 << 1)
-)
-
-type TemplateSchemaDocument struct {
-	// Unique identifier of attached document to the template.
-	AttachmentUUID string `json:"attachment_uuid" url:"attachment_uuid"`
-	// Name of the attached document to the template.
-	Name string `json:"name" url:"name"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (t *TemplateSchemaDocument) GetAttachmentUUID() string {
-	if t == nil {
-		return ""
-	}
-	return t.AttachmentUUID
-}
-
-func (t *TemplateSchemaDocument) GetName() string {
-	if t == nil {
-		return ""
-	}
-	return t.Name
-}
-
-func (t *TemplateSchemaDocument) GetExtraProperties() map[string]interface{} {
-	if t == nil {
-		return nil
-	}
-	return t.extraProperties
-}
-
-func (t *TemplateSchemaDocument) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
-	}
-	t.explicitFields.Or(t.explicitFields, field)
-}
-
-// SetAttachmentUUID sets the AttachmentUUID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateSchemaDocument) SetAttachmentUUID(attachmentUUID string) {
-	t.AttachmentUUID = attachmentUUID
-	t.require(templateSchemaDocumentFieldAttachmentUUID)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateSchemaDocument) SetName(name string) {
-	t.Name = name
-	t.require(templateSchemaDocumentFieldName)
-}
-
-func (t *TemplateSchemaDocument) UnmarshalJSON(data []byte) error {
-	type unmarshaler TemplateSchemaDocument
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*t = TemplateSchemaDocument(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *t)
-	if err != nil {
-		return err
-	}
-	t.extraProperties = extraProperties
-	t.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (t *TemplateSchemaDocument) MarshalJSON() ([]byte, error) {
-	type embed TemplateSchemaDocument
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*t),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (t *TemplateSchemaDocument) String() string {
-	if t == nil {
-		return "<nil>"
-	}
-	if len(t.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(t); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", t)
 }
 
 var (
@@ -14466,58 +13040,27 @@ func (t *TemplateSubmitter) String() string {
 }
 
 var (
-	updateSubmissionResponseFieldID                  = big.NewInt(1 << 0)
-	updateSubmissionResponseFieldName                = big.NewInt(1 << 1)
-	updateSubmissionResponseFieldSlug                = big.NewInt(1 << 2)
-	updateSubmissionResponseFieldSource              = big.NewInt(1 << 3)
-	updateSubmissionResponseFieldSubmittersOrder     = big.NewInt(1 << 4)
-	updateSubmissionResponseFieldAuditLogURL         = big.NewInt(1 << 5)
-	updateSubmissionResponseFieldCombinedDocumentURL = big.NewInt(1 << 6)
-	updateSubmissionResponseFieldCreatedAt           = big.NewInt(1 << 7)
-	updateSubmissionResponseFieldUpdatedAt           = big.NewInt(1 << 8)
-	updateSubmissionResponseFieldArchivedAt          = big.NewInt(1 << 9)
-	updateSubmissionResponseFieldSubmitters          = big.NewInt(1 << 10)
-	updateSubmissionResponseFieldTemplate            = big.NewInt(1 << 11)
-	updateSubmissionResponseFieldCreatedByUser       = big.NewInt(1 << 12)
-	updateSubmissionResponseFieldDocuments           = big.NewInt(1 << 13)
-	updateSubmissionResponseFieldStatus              = big.NewInt(1 << 14)
-	updateSubmissionResponseFieldMetadata            = big.NewInt(1 << 15)
-	updateSubmissionResponseFieldCompletedAt         = big.NewInt(1 << 16)
+	templateSummaryFieldID         = big.NewInt(1 << 0)
+	templateSummaryFieldName       = big.NewInt(1 << 1)
+	templateSummaryFieldExternalID = big.NewInt(1 << 2)
+	templateSummaryFieldFolderName = big.NewInt(1 << 3)
+	templateSummaryFieldCreatedAt  = big.NewInt(1 << 4)
+	templateSummaryFieldUpdatedAt  = big.NewInt(1 << 5)
 )
 
-type UpdateSubmissionResponse struct {
-	// Submission unique ID number.
+type TemplateSummary struct {
+	// Unique identifier of the document template.
 	ID int `json:"id" url:"id"`
-	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
-	// Unique slug of the submission.
-	Slug string `json:"slug" url:"slug"`
-	// The source of the submission.
-	Source UpdateSubmissionResponseSource `json:"source" url:"source"`
-	// The order of submitters.
-	SubmittersOrder UpdateSubmissionResponseSubmittersOrder `json:"submitters_order" url:"submitters_order"`
-	// Audit log file URL.
-	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
-	// Combined PDF file URL with documents and Audit Log.
-	CombinedDocumentURL *string `json:"combined_document_url,omitempty" url:"combined_document_url,omitempty"`
-	// The date and time when the submission was created.
+	// The name of the template.
+	Name string `json:"name" url:"name"`
+	// Your application-specific unique string key to identify this template within your app.
+	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
+	// Folder name where the template is located.
+	FolderName string `json:"folder_name" url:"folder_name"`
+	// The date and time when the template was created.
 	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submission was last updated.
+	// The date and time when the template was last updated.
 	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The date and time when the submission was archived.
-	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
-	// The list of submitters.
-	Submitters    []*GetSubmissionResponseSubmitter `json:"submitters" url:"submitters"`
-	Template      *SubmissionTemplate               `json:"template,omitempty" url:"template,omitempty"`
-	CreatedByUser *SubmissionCreatedByUser          `json:"created_by_user,omitempty" url:"created_by_user,omitempty"`
-	// An array of completed or signed documents of the submission.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The status of the submission.
-	Status UpdateSubmissionResponseStatus `json:"status" url:"status"`
-	// Object with custom metadata.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// The date and time when the submission was completed.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -14526,404 +13069,156 @@ type UpdateSubmissionResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (u *UpdateSubmissionResponse) GetID() int {
-	if u == nil {
+func (t *TemplateSummary) GetID() int {
+	if t == nil {
 		return 0
 	}
-	return u.ID
+	return t.ID
 }
 
-func (u *UpdateSubmissionResponse) GetName() string {
-	if u == nil {
+func (t *TemplateSummary) GetName() string {
+	if t == nil {
 		return ""
 	}
-	return u.Name
+	return t.Name
 }
 
-func (u *UpdateSubmissionResponse) GetSlug() string {
-	if u == nil {
+func (t *TemplateSummary) GetExternalID() *string {
+	if t == nil {
+		return nil
+	}
+	return t.ExternalID
+}
+
+func (t *TemplateSummary) GetFolderName() string {
+	if t == nil {
 		return ""
 	}
-	return u.Slug
+	return t.FolderName
 }
 
-func (u *UpdateSubmissionResponse) GetSource() UpdateSubmissionResponseSource {
-	if u == nil {
+func (t *TemplateSummary) GetCreatedAt() string {
+	if t == nil {
 		return ""
 	}
-	return u.Source
+	return t.CreatedAt
 }
 
-func (u *UpdateSubmissionResponse) GetSubmittersOrder() UpdateSubmissionResponseSubmittersOrder {
-	if u == nil {
+func (t *TemplateSummary) GetUpdatedAt() string {
+	if t == nil {
 		return ""
 	}
-	return u.SubmittersOrder
+	return t.UpdatedAt
 }
 
-func (u *UpdateSubmissionResponse) GetAuditLogURL() *string {
-	if u == nil {
+func (t *TemplateSummary) GetExtraProperties() map[string]interface{} {
+	if t == nil {
 		return nil
 	}
-	return u.AuditLogURL
+	return t.extraProperties
 }
 
-func (u *UpdateSubmissionResponse) GetCombinedDocumentURL() *string {
-	if u == nil {
-		return nil
+func (t *TemplateSummary) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
 	}
-	return u.CombinedDocumentURL
-}
-
-func (u *UpdateSubmissionResponse) GetCreatedAt() string {
-	if u == nil {
-		return ""
-	}
-	return u.CreatedAt
-}
-
-func (u *UpdateSubmissionResponse) GetUpdatedAt() string {
-	if u == nil {
-		return ""
-	}
-	return u.UpdatedAt
-}
-
-func (u *UpdateSubmissionResponse) GetArchivedAt() *string {
-	if u == nil {
-		return nil
-	}
-	return u.ArchivedAt
-}
-
-func (u *UpdateSubmissionResponse) GetSubmitters() []*GetSubmissionResponseSubmitter {
-	if u == nil {
-		return nil
-	}
-	return u.Submitters
-}
-
-func (u *UpdateSubmissionResponse) GetTemplate() *SubmissionTemplate {
-	if u == nil {
-		return nil
-	}
-	return u.Template
-}
-
-func (u *UpdateSubmissionResponse) GetCreatedByUser() *SubmissionCreatedByUser {
-	if u == nil {
-		return nil
-	}
-	return u.CreatedByUser
-}
-
-func (u *UpdateSubmissionResponse) GetDocuments() []*CompletedDocument {
-	if u == nil {
-		return nil
-	}
-	return u.Documents
-}
-
-func (u *UpdateSubmissionResponse) GetStatus() UpdateSubmissionResponseStatus {
-	if u == nil {
-		return ""
-	}
-	return u.Status
-}
-
-func (u *UpdateSubmissionResponse) GetMetadata() map[string]any {
-	if u == nil {
-		return nil
-	}
-	return u.Metadata
-}
-
-func (u *UpdateSubmissionResponse) GetCompletedAt() *string {
-	if u == nil {
-		return nil
-	}
-	return u.CompletedAt
-}
-
-func (u *UpdateSubmissionResponse) GetExtraProperties() map[string]interface{} {
-	if u == nil {
-		return nil
-	}
-	return u.extraProperties
-}
-
-func (u *UpdateSubmissionResponse) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
-	}
-	u.explicitFields.Or(u.explicitFields, field)
+	t.explicitFields.Or(t.explicitFields, field)
 }
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetID(id int) {
-	u.ID = id
-	u.require(updateSubmissionResponseFieldID)
+func (t *TemplateSummary) SetID(id int) {
+	t.ID = id
+	t.require(templateSummaryFieldID)
 }
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetName(name string) {
-	u.Name = name
-	u.require(updateSubmissionResponseFieldName)
+func (t *TemplateSummary) SetName(name string) {
+	t.Name = name
+	t.require(templateSummaryFieldName)
 }
 
-// SetSlug sets the Slug field and marks it as non-optional;
+// SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetSlug(slug string) {
-	u.Slug = slug
-	u.require(updateSubmissionResponseFieldSlug)
+func (t *TemplateSummary) SetExternalID(externalID *string) {
+	t.ExternalID = externalID
+	t.require(templateSummaryFieldExternalID)
 }
 
-// SetSource sets the Source field and marks it as non-optional;
+// SetFolderName sets the FolderName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetSource(source UpdateSubmissionResponseSource) {
-	u.Source = source
-	u.require(updateSubmissionResponseFieldSource)
-}
-
-// SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetSubmittersOrder(submittersOrder UpdateSubmissionResponseSubmittersOrder) {
-	u.SubmittersOrder = submittersOrder
-	u.require(updateSubmissionResponseFieldSubmittersOrder)
-}
-
-// SetAuditLogURL sets the AuditLogURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetAuditLogURL(auditLogURL *string) {
-	u.AuditLogURL = auditLogURL
-	u.require(updateSubmissionResponseFieldAuditLogURL)
-}
-
-// SetCombinedDocumentURL sets the CombinedDocumentURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetCombinedDocumentURL(combinedDocumentURL *string) {
-	u.CombinedDocumentURL = combinedDocumentURL
-	u.require(updateSubmissionResponseFieldCombinedDocumentURL)
+func (t *TemplateSummary) SetFolderName(folderName string) {
+	t.FolderName = folderName
+	t.require(templateSummaryFieldFolderName)
 }
 
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetCreatedAt(createdAt string) {
-	u.CreatedAt = createdAt
-	u.require(updateSubmissionResponseFieldCreatedAt)
+func (t *TemplateSummary) SetCreatedAt(createdAt string) {
+	t.CreatedAt = createdAt
+	t.require(templateSummaryFieldCreatedAt)
 }
 
 // SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetUpdatedAt(updatedAt string) {
-	u.UpdatedAt = updatedAt
-	u.require(updateSubmissionResponseFieldUpdatedAt)
+func (t *TemplateSummary) SetUpdatedAt(updatedAt string) {
+	t.UpdatedAt = updatedAt
+	t.require(templateSummaryFieldUpdatedAt)
 }
 
-// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetArchivedAt(archivedAt *string) {
-	u.ArchivedAt = archivedAt
-	u.require(updateSubmissionResponseFieldArchivedAt)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetSubmitters(submitters []*GetSubmissionResponseSubmitter) {
-	u.Submitters = submitters
-	u.require(updateSubmissionResponseFieldSubmitters)
-}
-
-// SetTemplate sets the Template field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetTemplate(template *SubmissionTemplate) {
-	u.Template = template
-	u.require(updateSubmissionResponseFieldTemplate)
-}
-
-// SetCreatedByUser sets the CreatedByUser field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetCreatedByUser(createdByUser *SubmissionCreatedByUser) {
-	u.CreatedByUser = createdByUser
-	u.require(updateSubmissionResponseFieldCreatedByUser)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetDocuments(documents []*CompletedDocument) {
-	u.Documents = documents
-	u.require(updateSubmissionResponseFieldDocuments)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetStatus(status UpdateSubmissionResponseStatus) {
-	u.Status = status
-	u.require(updateSubmissionResponseFieldStatus)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetMetadata(metadata map[string]any) {
-	u.Metadata = metadata
-	u.require(updateSubmissionResponseFieldMetadata)
-}
-
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionResponse) SetCompletedAt(completedAt *string) {
-	u.CompletedAt = completedAt
-	u.require(updateSubmissionResponseFieldCompletedAt)
-}
-
-func (u *UpdateSubmissionResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler UpdateSubmissionResponse
+func (t *TemplateSummary) UnmarshalJSON(data []byte) error {
+	type unmarshaler TemplateSummary
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*u = UpdateSubmissionResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	*t = TemplateSummary(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
 	if err != nil {
 		return err
 	}
-	u.extraProperties = extraProperties
-	u.rawJSON = json.RawMessage(data)
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (u *UpdateSubmissionResponse) MarshalJSON() ([]byte, error) {
-	type embed UpdateSubmissionResponse
+func (t *TemplateSummary) MarshalJSON() ([]byte, error) {
+	type embed TemplateSummary
 	var marshaler = struct {
 		embed
 	}{
-		embed: embed(*u),
+		embed: embed(*t),
 	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
-func (u *UpdateSubmissionResponse) String() string {
-	if u == nil {
+func (t *TemplateSummary) String() string {
+	if t == nil {
 		return "<nil>"
 	}
-	if len(u.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := internal.StringifyJSON(u); err == nil {
+	if value, err := internal.StringifyJSON(t); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", u)
-}
-
-// The source of the submission.
-type UpdateSubmissionResponseSource string
-
-const (
-	UpdateSubmissionResponseSourceInvite UpdateSubmissionResponseSource = "invite"
-	UpdateSubmissionResponseSourceBulk   UpdateSubmissionResponseSource = "bulk"
-	UpdateSubmissionResponseSourceAPI    UpdateSubmissionResponseSource = "api"
-	UpdateSubmissionResponseSourceEmbed  UpdateSubmissionResponseSource = "embed"
-	UpdateSubmissionResponseSourceLink   UpdateSubmissionResponseSource = "link"
-)
-
-func NewUpdateSubmissionResponseSourceFromString(s string) (UpdateSubmissionResponseSource, error) {
-	switch s {
-	case "invite":
-		return UpdateSubmissionResponseSourceInvite, nil
-	case "bulk":
-		return UpdateSubmissionResponseSourceBulk, nil
-	case "api":
-		return UpdateSubmissionResponseSourceAPI, nil
-	case "embed":
-		return UpdateSubmissionResponseSourceEmbed, nil
-	case "link":
-		return UpdateSubmissionResponseSourceLink, nil
-	}
-	var t UpdateSubmissionResponseSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmissionResponseSource) Ptr() *UpdateSubmissionResponseSource {
-	return &u
-}
-
-// The status of the submission.
-type UpdateSubmissionResponseStatus string
-
-const (
-	UpdateSubmissionResponseStatusCompleted UpdateSubmissionResponseStatus = "completed"
-	UpdateSubmissionResponseStatusDeclined  UpdateSubmissionResponseStatus = "declined"
-	UpdateSubmissionResponseStatusExpired   UpdateSubmissionResponseStatus = "expired"
-	UpdateSubmissionResponseStatusPending   UpdateSubmissionResponseStatus = "pending"
-)
-
-func NewUpdateSubmissionResponseStatusFromString(s string) (UpdateSubmissionResponseStatus, error) {
-	switch s {
-	case "completed":
-		return UpdateSubmissionResponseStatusCompleted, nil
-	case "declined":
-		return UpdateSubmissionResponseStatusDeclined, nil
-	case "expired":
-		return UpdateSubmissionResponseStatusExpired, nil
-	case "pending":
-		return UpdateSubmissionResponseStatusPending, nil
-	}
-	var t UpdateSubmissionResponseStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmissionResponseStatus) Ptr() *UpdateSubmissionResponseStatus {
-	return &u
-}
-
-// The order of submitters.
-type UpdateSubmissionResponseSubmittersOrder string
-
-const (
-	UpdateSubmissionResponseSubmittersOrderRandom    UpdateSubmissionResponseSubmittersOrder = "random"
-	UpdateSubmissionResponseSubmittersOrderPreserved UpdateSubmissionResponseSubmittersOrder = "preserved"
-)
-
-func NewUpdateSubmissionResponseSubmittersOrderFromString(s string) (UpdateSubmissionResponseSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return UpdateSubmissionResponseSubmittersOrderRandom, nil
-	case "preserved":
-		return UpdateSubmissionResponseSubmittersOrderPreserved, nil
-	}
-	var t UpdateSubmissionResponseSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmissionResponseSubmittersOrder) Ptr() *UpdateSubmissionResponseSubmittersOrder {
-	return &u
+	return fmt.Sprintf("%#v", t)
 }
 
 var (
-	updateSubmitterRequestFieldFieldName         = big.NewInt(1 << 0)
-	updateSubmitterRequestFieldFieldDefaultValue = big.NewInt(1 << 1)
-	updateSubmitterRequestFieldFieldReadonly     = big.NewInt(1 << 2)
-	updateSubmitterRequestFieldFieldRequired     = big.NewInt(1 << 3)
-	updateSubmitterRequestFieldFieldValidation   = big.NewInt(1 << 4)
-	updateSubmitterRequestFieldFieldPreferences  = big.NewInt(1 << 5)
+	templateUpdateResultFieldID        = big.NewInt(1 << 0)
+	templateUpdateResultFieldUpdatedAt = big.NewInt(1 << 1)
 )
 
-type UpdateSubmitterRequestField struct {
-	// Document template field name.
-	Name string `json:"name" url:"name"`
-	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-	DefaultValue *UpdateSubmitterRequestFieldDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
-	// Set `true` to make it impossible for the submitter to edit predefined field value.
-	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
-	// Set `true` to make the field required.
-	Required    *bool             `json:"required,omitempty" url:"required,omitempty"`
-	Validation  *FieldValidation  `json:"validation,omitempty" url:"validation,omitempty"`
-	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
+type TemplateUpdateResult struct {
+	// Template unique ID number.
+	ID int `json:"id" url:"id"`
+	// Date and time when the template was last updated.
+	UpdatedAt string `json:"updated_at" url:"updated_at"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -14932,56 +13227,168 @@ type UpdateSubmitterRequestField struct {
 	rawJSON         json.RawMessage
 }
 
-func (u *UpdateSubmitterRequestField) GetName() string {
+func (t *TemplateUpdateResult) GetID() int {
+	if t == nil {
+		return 0
+	}
+	return t.ID
+}
+
+func (t *TemplateUpdateResult) GetUpdatedAt() string {
+	if t == nil {
+		return ""
+	}
+	return t.UpdatedAt
+}
+
+func (t *TemplateUpdateResult) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TemplateUpdateResult) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplateUpdateResult) SetID(id int) {
+	t.ID = id
+	t.require(templateUpdateResultFieldID)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplateUpdateResult) SetUpdatedAt(updatedAt string) {
+	t.UpdatedAt = updatedAt
+	t.require(templateUpdateResultFieldUpdatedAt)
+}
+
+func (t *TemplateUpdateResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler TemplateUpdateResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TemplateUpdateResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TemplateUpdateResult) MarshalJSON() ([]byte, error) {
+	type embed TemplateUpdateResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TemplateUpdateResult) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	updateSubmitterFieldParamsFieldName         = big.NewInt(1 << 0)
+	updateSubmitterFieldParamsFieldDefaultValue = big.NewInt(1 << 1)
+	updateSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 2)
+	updateSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 3)
+	updateSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 4)
+	updateSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 5)
+)
+
+type UpdateSubmitterFieldParams struct {
+	// Document template field name.
+	Name string `json:"name" url:"name"`
+	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+	DefaultValue *UpdateSubmitterFieldParamsDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	// Set `true` to make it impossible for the submitter to edit predefined field value.
+	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
+	// Set `true` to make the field required.
+	Required    *bool                                  `json:"required,omitempty" url:"required,omitempty"`
+	Validation  *UpdateSubmitterFieldValidationParams  `json:"validation,omitempty" url:"validation,omitempty"`
+	Preferences *UpdateSubmitterFieldPreferencesParams `json:"preferences,omitempty" url:"preferences,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateSubmitterFieldParams) GetName() string {
 	if u == nil {
 		return ""
 	}
 	return u.Name
 }
 
-func (u *UpdateSubmitterRequestField) GetDefaultValue() *UpdateSubmitterRequestFieldDefaultValue {
+func (u *UpdateSubmitterFieldParams) GetDefaultValue() *UpdateSubmitterFieldParamsDefaultValue {
 	if u == nil {
 		return nil
 	}
 	return u.DefaultValue
 }
 
-func (u *UpdateSubmitterRequestField) GetReadonly() *bool {
+func (u *UpdateSubmitterFieldParams) GetReadonly() *bool {
 	if u == nil {
 		return nil
 	}
 	return u.Readonly
 }
 
-func (u *UpdateSubmitterRequestField) GetRequired() *bool {
+func (u *UpdateSubmitterFieldParams) GetRequired() *bool {
 	if u == nil {
 		return nil
 	}
 	return u.Required
 }
 
-func (u *UpdateSubmitterRequestField) GetValidation() *FieldValidation {
+func (u *UpdateSubmitterFieldParams) GetValidation() *UpdateSubmitterFieldValidationParams {
 	if u == nil {
 		return nil
 	}
 	return u.Validation
 }
 
-func (u *UpdateSubmitterRequestField) GetPreferences() *FieldPreferences {
+func (u *UpdateSubmitterFieldParams) GetPreferences() *UpdateSubmitterFieldPreferencesParams {
 	if u == nil {
 		return nil
 	}
 	return u.Preferences
 }
 
-func (u *UpdateSubmitterRequestField) GetExtraProperties() map[string]interface{} {
+func (u *UpdateSubmitterFieldParams) GetExtraProperties() map[string]interface{} {
 	if u == nil {
 		return nil
 	}
 	return u.extraProperties
 }
 
-func (u *UpdateSubmitterRequestField) require(field *big.Int) {
+func (u *UpdateSubmitterFieldParams) require(field *big.Int) {
 	if u.explicitFields == nil {
 		u.explicitFields = big.NewInt(0)
 	}
@@ -14990,53 +13397,53 @@ func (u *UpdateSubmitterRequestField) require(field *big.Int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetName(name string) {
+func (u *UpdateSubmitterFieldParams) SetName(name string) {
 	u.Name = name
-	u.require(updateSubmitterRequestFieldFieldName)
+	u.require(updateSubmitterFieldParamsFieldName)
 }
 
 // SetDefaultValue sets the DefaultValue field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetDefaultValue(defaultValue *UpdateSubmitterRequestFieldDefaultValue) {
+func (u *UpdateSubmitterFieldParams) SetDefaultValue(defaultValue *UpdateSubmitterFieldParamsDefaultValue) {
 	u.DefaultValue = defaultValue
-	u.require(updateSubmitterRequestFieldFieldDefaultValue)
+	u.require(updateSubmitterFieldParamsFieldDefaultValue)
 }
 
 // SetReadonly sets the Readonly field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetReadonly(readonly *bool) {
+func (u *UpdateSubmitterFieldParams) SetReadonly(readonly *bool) {
 	u.Readonly = readonly
-	u.require(updateSubmitterRequestFieldFieldReadonly)
+	u.require(updateSubmitterFieldParamsFieldReadonly)
 }
 
 // SetRequired sets the Required field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetRequired(required *bool) {
+func (u *UpdateSubmitterFieldParams) SetRequired(required *bool) {
 	u.Required = required
-	u.require(updateSubmitterRequestFieldFieldRequired)
+	u.require(updateSubmitterFieldParamsFieldRequired)
 }
 
 // SetValidation sets the Validation field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetValidation(validation *FieldValidation) {
+func (u *UpdateSubmitterFieldParams) SetValidation(validation *UpdateSubmitterFieldValidationParams) {
 	u.Validation = validation
-	u.require(updateSubmitterRequestFieldFieldValidation)
+	u.require(updateSubmitterFieldParamsFieldValidation)
 }
 
 // SetPreferences sets the Preferences field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterRequestField) SetPreferences(preferences *FieldPreferences) {
+func (u *UpdateSubmitterFieldParams) SetPreferences(preferences *UpdateSubmitterFieldPreferencesParams) {
 	u.Preferences = preferences
-	u.require(updateSubmitterRequestFieldFieldPreferences)
+	u.require(updateSubmitterFieldParamsFieldPreferences)
 }
 
-func (u *UpdateSubmitterRequestField) UnmarshalJSON(data []byte) error {
-	type unmarshaler UpdateSubmitterRequestField
+func (u *UpdateSubmitterFieldParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmitterFieldParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*u = UpdateSubmitterRequestField(value)
+	*u = UpdateSubmitterFieldParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
@@ -15046,8 +13453,8 @@ func (u *UpdateSubmitterRequestField) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (u *UpdateSubmitterRequestField) MarshalJSON() ([]byte, error) {
-	type embed UpdateSubmitterRequestField
+func (u *UpdateSubmitterFieldParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmitterFieldParams
 	var marshaler = struct {
 		embed
 	}{
@@ -15057,7 +13464,7 @@ func (u *UpdateSubmitterRequestField) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (u *UpdateSubmitterRequestField) String() string {
+func (u *UpdateSubmitterFieldParams) String() string {
 	if u == nil {
 		return "<nil>"
 	}
@@ -15073,44 +13480,44 @@ func (u *UpdateSubmitterRequestField) String() string {
 }
 
 // Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-type UpdateSubmitterRequestFieldDefaultValue struct {
-	String                                               string
-	Double                                               float64
-	Boolean                                              bool
-	UpdateSubmitterRequestFieldDefaultValueThreeItemList []*UpdateSubmitterRequestFieldDefaultValueThreeItem
+type UpdateSubmitterFieldParamsDefaultValue struct {
+	String                                              string
+	Double                                              float64
+	Boolean                                             bool
+	UpdateSubmitterFieldParamsDefaultValueThreeItemList []*UpdateSubmitterFieldParamsDefaultValueThreeItem
 
 	typ string
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) GetString() string {
+func (u *UpdateSubmitterFieldParamsDefaultValue) GetString() string {
 	if u == nil {
 		return ""
 	}
 	return u.String
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) GetDouble() float64 {
+func (u *UpdateSubmitterFieldParamsDefaultValue) GetDouble() float64 {
 	if u == nil {
 		return 0
 	}
 	return u.Double
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) GetBoolean() bool {
+func (u *UpdateSubmitterFieldParamsDefaultValue) GetBoolean() bool {
 	if u == nil {
 		return false
 	}
 	return u.Boolean
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) GetUpdateSubmitterRequestFieldDefaultValueThreeItemList() []*UpdateSubmitterRequestFieldDefaultValueThreeItem {
+func (u *UpdateSubmitterFieldParamsDefaultValue) GetUpdateSubmitterFieldParamsDefaultValueThreeItemList() []*UpdateSubmitterFieldParamsDefaultValueThreeItem {
 	if u == nil {
 		return nil
 	}
-	return u.UpdateSubmitterRequestFieldDefaultValueThreeItemList
+	return u.UpdateSubmitterFieldParamsDefaultValueThreeItemList
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) UnmarshalJSON(data []byte) error {
+func (u *UpdateSubmitterFieldParamsDefaultValue) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
 		u.typ = "String"
@@ -15129,16 +13536,16 @@ func (u *UpdateSubmitterRequestFieldDefaultValue) UnmarshalJSON(data []byte) err
 		u.Boolean = valueBoolean
 		return nil
 	}
-	var valueUpdateSubmitterRequestFieldDefaultValueThreeItemList []*UpdateSubmitterRequestFieldDefaultValueThreeItem
-	if err := json.Unmarshal(data, &valueUpdateSubmitterRequestFieldDefaultValueThreeItemList); err == nil {
-		u.typ = "UpdateSubmitterRequestFieldDefaultValueThreeItemList"
-		u.UpdateSubmitterRequestFieldDefaultValueThreeItemList = valueUpdateSubmitterRequestFieldDefaultValueThreeItemList
+	var valueUpdateSubmitterFieldParamsDefaultValueThreeItemList []*UpdateSubmitterFieldParamsDefaultValueThreeItem
+	if err := json.Unmarshal(data, &valueUpdateSubmitterFieldParamsDefaultValueThreeItemList); err == nil {
+		u.typ = "UpdateSubmitterFieldParamsDefaultValueThreeItemList"
+		u.UpdateSubmitterFieldParamsDefaultValueThreeItemList = valueUpdateSubmitterFieldParamsDefaultValueThreeItemList
 		return nil
 	}
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
 }
 
-func (u UpdateSubmitterRequestFieldDefaultValue) MarshalJSON() ([]byte, error) {
+func (u UpdateSubmitterFieldParamsDefaultValue) MarshalJSON() ([]byte, error) {
 	if u.typ == "String" || u.String != "" {
 		return json.Marshal(u.String)
 	}
@@ -15148,20 +13555,20 @@ func (u UpdateSubmitterRequestFieldDefaultValue) MarshalJSON() ([]byte, error) {
 	if u.typ == "Boolean" || u.Boolean != false {
 		return json.Marshal(u.Boolean)
 	}
-	if u.typ == "UpdateSubmitterRequestFieldDefaultValueThreeItemList" || u.UpdateSubmitterRequestFieldDefaultValueThreeItemList != nil {
-		return json.Marshal(u.UpdateSubmitterRequestFieldDefaultValueThreeItemList)
+	if u.typ == "UpdateSubmitterFieldParamsDefaultValueThreeItemList" || u.UpdateSubmitterFieldParamsDefaultValueThreeItemList != nil {
+		return json.Marshal(u.UpdateSubmitterFieldParamsDefaultValueThreeItemList)
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
 }
 
-type UpdateSubmitterRequestFieldDefaultValueVisitor interface {
+type UpdateSubmitterFieldParamsDefaultValueVisitor interface {
 	VisitString(string) error
 	VisitDouble(float64) error
 	VisitBoolean(bool) error
-	VisitUpdateSubmitterRequestFieldDefaultValueThreeItemList([]*UpdateSubmitterRequestFieldDefaultValueThreeItem) error
+	VisitUpdateSubmitterFieldParamsDefaultValueThreeItemList([]*UpdateSubmitterFieldParamsDefaultValueThreeItem) error
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValue) Accept(visitor UpdateSubmitterRequestFieldDefaultValueVisitor) error {
+func (u *UpdateSubmitterFieldParamsDefaultValue) Accept(visitor UpdateSubmitterFieldParamsDefaultValueVisitor) error {
 	if u.typ == "String" || u.String != "" {
 		return visitor.VisitString(u.String)
 	}
@@ -15171,13 +13578,13 @@ func (u *UpdateSubmitterRequestFieldDefaultValue) Accept(visitor UpdateSubmitter
 	if u.typ == "Boolean" || u.Boolean != false {
 		return visitor.VisitBoolean(u.Boolean)
 	}
-	if u.typ == "UpdateSubmitterRequestFieldDefaultValueThreeItemList" || u.UpdateSubmitterRequestFieldDefaultValueThreeItemList != nil {
-		return visitor.VisitUpdateSubmitterRequestFieldDefaultValueThreeItemList(u.UpdateSubmitterRequestFieldDefaultValueThreeItemList)
+	if u.typ == "UpdateSubmitterFieldParamsDefaultValueThreeItemList" || u.UpdateSubmitterFieldParamsDefaultValueThreeItemList != nil {
+		return visitor.VisitUpdateSubmitterFieldParamsDefaultValueThreeItemList(u.UpdateSubmitterFieldParamsDefaultValueThreeItemList)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", u)
 }
 
-type UpdateSubmitterRequestFieldDefaultValueThreeItem struct {
+type UpdateSubmitterFieldParamsDefaultValueThreeItem struct {
 	String  string
 	Double  float64
 	Boolean bool
@@ -15185,28 +13592,28 @@ type UpdateSubmitterRequestFieldDefaultValueThreeItem struct {
 	typ string
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) GetString() string {
+func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetString() string {
 	if u == nil {
 		return ""
 	}
 	return u.String
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) GetDouble() float64 {
+func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetDouble() float64 {
 	if u == nil {
 		return 0
 	}
 	return u.Double
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) GetBoolean() bool {
+func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetBoolean() bool {
 	if u == nil {
 		return false
 	}
 	return u.Boolean
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
+func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
 		u.typ = "String"
@@ -15228,7 +13635,7 @@ func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) UnmarshalJSON(data []
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
 }
 
-func (u UpdateSubmitterRequestFieldDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
+func (u UpdateSubmitterFieldParamsDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
 	if u.typ == "String" || u.String != "" {
 		return json.Marshal(u.String)
 	}
@@ -15241,13 +13648,13 @@ func (u UpdateSubmitterRequestFieldDefaultValueThreeItem) MarshalJSON() ([]byte,
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
 }
 
-type UpdateSubmitterRequestFieldDefaultValueThreeItemVisitor interface {
+type UpdateSubmitterFieldParamsDefaultValueThreeItemVisitor interface {
 	VisitString(string) error
 	VisitDouble(float64) error
 	VisitBoolean(bool) error
 }
 
-func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) Accept(visitor UpdateSubmitterRequestFieldDefaultValueThreeItemVisitor) error {
+func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) Accept(visitor UpdateSubmitterFieldParamsDefaultValueThreeItemVisitor) error {
 	if u.typ == "String" || u.String != "" {
 		return visitor.VisitString(u.String)
 	}
@@ -15260,73 +13667,47 @@ func (u *UpdateSubmitterRequestFieldDefaultValueThreeItem) Accept(visitor Update
 	return fmt.Errorf("type %T does not include a non-empty union type", u)
 }
 
+// Field display preferences.
 var (
-	updateSubmitterResponseFieldID           = big.NewInt(1 << 0)
-	updateSubmitterResponseFieldSubmissionID = big.NewInt(1 << 1)
-	updateSubmitterResponseFieldUUID         = big.NewInt(1 << 2)
-	updateSubmitterResponseFieldEmail        = big.NewInt(1 << 3)
-	updateSubmitterResponseFieldSlug         = big.NewInt(1 << 4)
-	updateSubmitterResponseFieldSentAt       = big.NewInt(1 << 5)
-	updateSubmitterResponseFieldOpenedAt     = big.NewInt(1 << 6)
-	updateSubmitterResponseFieldCompletedAt  = big.NewInt(1 << 7)
-	updateSubmitterResponseFieldDeclinedAt   = big.NewInt(1 << 8)
-	updateSubmitterResponseFieldCreatedAt    = big.NewInt(1 << 9)
-	updateSubmitterResponseFieldUpdatedAt    = big.NewInt(1 << 10)
-	updateSubmitterResponseFieldName         = big.NewInt(1 << 11)
-	updateSubmitterResponseFieldPhone        = big.NewInt(1 << 12)
-	updateSubmitterResponseFieldStatus       = big.NewInt(1 << 13)
-	updateSubmitterResponseFieldExternalID   = big.NewInt(1 << 14)
-	updateSubmitterResponseFieldMetadata     = big.NewInt(1 << 15)
-	updateSubmitterResponseFieldPreferences  = big.NewInt(1 << 16)
-	updateSubmitterResponseFieldValues       = big.NewInt(1 << 17)
-	updateSubmitterResponseFieldDocuments    = big.NewInt(1 << 18)
-	updateSubmitterResponseFieldRole         = big.NewInt(1 << 19)
-	updateSubmitterResponseFieldEmbedSrc     = big.NewInt(1 << 20)
+	updateSubmitterFieldPreferencesParamsFieldFontSize   = big.NewInt(1 << 0)
+	updateSubmitterFieldPreferencesParamsFieldFontType   = big.NewInt(1 << 1)
+	updateSubmitterFieldPreferencesParamsFieldFont       = big.NewInt(1 << 2)
+	updateSubmitterFieldPreferencesParamsFieldColor      = big.NewInt(1 << 3)
+	updateSubmitterFieldPreferencesParamsFieldBackground = big.NewInt(1 << 4)
+	updateSubmitterFieldPreferencesParamsFieldAlign      = big.NewInt(1 << 5)
+	updateSubmitterFieldPreferencesParamsFieldValign     = big.NewInt(1 << 6)
+	updateSubmitterFieldPreferencesParamsFieldFormat     = big.NewInt(1 << 7)
+	updateSubmitterFieldPreferencesParamsFieldPrice      = big.NewInt(1 << 8)
+	updateSubmitterFieldPreferencesParamsFieldCurrency   = big.NewInt(1 << 9)
+	updateSubmitterFieldPreferencesParamsFieldMask       = big.NewInt(1 << 10)
+	updateSubmitterFieldPreferencesParamsFieldReasons    = big.NewInt(1 << 11)
 )
 
-type UpdateSubmitterResponse struct {
-	// Submitter unique ID number.
-	ID int `json:"id" url:"id"`
-	// Submission unique ID number.
-	SubmissionID int `json:"submission_id" url:"submission_id"`
-	// Submitter UUID.
-	UUID string `json:"uuid" url:"uuid"`
-	// The email address of the submitter.
-	Email *string `json:"email,omitempty" url:"email,omitempty"`
-	// Unique key to be used in the form signing link and embedded form.
-	Slug string `json:"slug" url:"slug"`
-	// The date and time when the signing request was sent to the submitter.
-	SentAt *string `json:"sent_at,omitempty" url:"sent_at,omitempty"`
-	// The date and time when the submitter opened the signing form.
-	OpenedAt *string `json:"opened_at,omitempty" url:"opened_at,omitempty"`
-	// The date and time when the submitter completed the signing form.
-	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
-	// The date and time when the submitter declined the signing form.
-	DeclinedAt *string `json:"declined_at,omitempty" url:"declined_at,omitempty"`
-	// The date and time when the submitter was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-	// The date and time when the submitter was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
-	// The name of the submitter.
-	Name *string `json:"name,omitempty" url:"name,omitempty"`
-	// The phone number of the submitter.
-	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
-	// The status of signing request for the submitter.
-	Status UpdateSubmitterResponseStatus `json:"status" url:"status"`
-	// Your application-specific unique string key to identify this submitter within your app.
-	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
-	// Metadata object with additional submitter information.
-	Metadata map[string]any `json:"metadata" url:"metadata"`
-	// Submitter preferences.
-	Preferences map[string]any `json:"preferences" url:"preferences"`
-	// An array of pre-filled values for the submitter.
-	Values []*SubmitterValue `json:"values" url:"values"`
-	// An array of completed or signed documents by the submitter.
-	Documents []*CompletedDocument `json:"documents" url:"documents"`
-	// The role of the submitter in the signing process.
-	Role string `json:"role" url:"role"`
-	// The `src` URL value to embed the signing form or sign via a link.
-	EmbedSrc string `json:"embed_src" url:"embed_src"`
+type UpdateSubmitterFieldPreferencesParams struct {
+	// Font size of the field value in pixels.
+	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
+	// Font type of the field value.
+	FontType *UpdateSubmitterFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	// Font family of the field value.
+	Font *UpdateSubmitterFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	// Font color of the field value.
+	Color *UpdateSubmitterFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	// Field box background color.
+	Background *UpdateSubmitterFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	// Horizontal alignment of the field text value.
+	Align *UpdateSubmitterFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	// Vertical alignment of the field text value.
+	Valign *UpdateSubmitterFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
+	Format string `json:"format,omitempty" url:"format,omitempty"`
+	// Price value of the payment field. Only for payment fields.
+	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
+	// Currency value of the payment field. Only for payment fields.
+	Currency *UpdateSubmitterFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	// Set `true` to make sensitive data masked on the document.
+	Mask *UpdateSubmitterFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
+	// An array of signature reasons to choose from.
+	Reasons []string `json:"reasons,omitempty" url:"reasons,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -15335,321 +13716,195 @@ type UpdateSubmitterResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (u *UpdateSubmitterResponse) GetID() int {
+func (u *UpdateSubmitterFieldPreferencesParams) GetFontSize() *int {
 	if u == nil {
-		return 0
+		return nil
 	}
-	return u.ID
+	return u.FontSize
 }
 
-func (u *UpdateSubmitterResponse) GetSubmissionID() int {
+func (u *UpdateSubmitterFieldPreferencesParams) GetFontType() *UpdateSubmitterFieldPreferencesParamsFontType {
 	if u == nil {
-		return 0
+		return nil
 	}
-	return u.SubmissionID
+	return u.FontType
 }
 
-func (u *UpdateSubmitterResponse) GetUUID() string {
+func (u *UpdateSubmitterFieldPreferencesParams) GetFont() *UpdateSubmitterFieldPreferencesParamsFont {
+	if u == nil {
+		return nil
+	}
+	return u.Font
+}
+
+func (u *UpdateSubmitterFieldPreferencesParams) GetColor() *UpdateSubmitterFieldPreferencesParamsColor {
+	if u == nil {
+		return nil
+	}
+	return u.Color
+}
+
+func (u *UpdateSubmitterFieldPreferencesParams) GetBackground() *UpdateSubmitterFieldPreferencesParamsBackground {
+	if u == nil {
+		return nil
+	}
+	return u.Background
+}
+
+func (u *UpdateSubmitterFieldPreferencesParams) GetAlign() *UpdateSubmitterFieldPreferencesParamsAlign {
+	if u == nil {
+		return nil
+	}
+	return u.Align
+}
+
+func (u *UpdateSubmitterFieldPreferencesParams) GetValign() *UpdateSubmitterFieldPreferencesParamsValign {
+	if u == nil {
+		return nil
+	}
+	return u.Valign
+}
+
+func (u *UpdateSubmitterFieldPreferencesParams) GetFormat() string {
 	if u == nil {
 		return ""
 	}
-	return u.UUID
+	return u.Format
 }
 
-func (u *UpdateSubmitterResponse) GetEmail() *string {
+func (u *UpdateSubmitterFieldPreferencesParams) GetPrice() *float64 {
 	if u == nil {
 		return nil
 	}
-	return u.Email
+	return u.Price
 }
 
-func (u *UpdateSubmitterResponse) GetSlug() string {
-	if u == nil {
-		return ""
-	}
-	return u.Slug
-}
-
-func (u *UpdateSubmitterResponse) GetSentAt() *string {
+func (u *UpdateSubmitterFieldPreferencesParams) GetCurrency() *UpdateSubmitterFieldPreferencesParamsCurrency {
 	if u == nil {
 		return nil
 	}
-	return u.SentAt
+	return u.Currency
 }
 
-func (u *UpdateSubmitterResponse) GetOpenedAt() *string {
+func (u *UpdateSubmitterFieldPreferencesParams) GetMask() *UpdateSubmitterFieldPreferencesParamsMask {
 	if u == nil {
 		return nil
 	}
-	return u.OpenedAt
+	return u.Mask
 }
 
-func (u *UpdateSubmitterResponse) GetCompletedAt() *string {
+func (u *UpdateSubmitterFieldPreferencesParams) GetReasons() []string {
 	if u == nil {
 		return nil
 	}
-	return u.CompletedAt
+	return u.Reasons
 }
 
-func (u *UpdateSubmitterResponse) GetDeclinedAt() *string {
-	if u == nil {
-		return nil
-	}
-	return u.DeclinedAt
-}
-
-func (u *UpdateSubmitterResponse) GetCreatedAt() string {
-	if u == nil {
-		return ""
-	}
-	return u.CreatedAt
-}
-
-func (u *UpdateSubmitterResponse) GetUpdatedAt() string {
-	if u == nil {
-		return ""
-	}
-	return u.UpdatedAt
-}
-
-func (u *UpdateSubmitterResponse) GetName() *string {
-	if u == nil {
-		return nil
-	}
-	return u.Name
-}
-
-func (u *UpdateSubmitterResponse) GetPhone() *string {
-	if u == nil {
-		return nil
-	}
-	return u.Phone
-}
-
-func (u *UpdateSubmitterResponse) GetStatus() UpdateSubmitterResponseStatus {
-	if u == nil {
-		return ""
-	}
-	return u.Status
-}
-
-func (u *UpdateSubmitterResponse) GetExternalID() *string {
-	if u == nil {
-		return nil
-	}
-	return u.ExternalID
-}
-
-func (u *UpdateSubmitterResponse) GetMetadata() map[string]any {
-	if u == nil {
-		return nil
-	}
-	return u.Metadata
-}
-
-func (u *UpdateSubmitterResponse) GetPreferences() map[string]any {
-	if u == nil {
-		return nil
-	}
-	return u.Preferences
-}
-
-func (u *UpdateSubmitterResponse) GetValues() []*SubmitterValue {
-	if u == nil {
-		return nil
-	}
-	return u.Values
-}
-
-func (u *UpdateSubmitterResponse) GetDocuments() []*CompletedDocument {
-	if u == nil {
-		return nil
-	}
-	return u.Documents
-}
-
-func (u *UpdateSubmitterResponse) GetRole() string {
-	if u == nil {
-		return ""
-	}
-	return u.Role
-}
-
-func (u *UpdateSubmitterResponse) GetEmbedSrc() string {
-	if u == nil {
-		return ""
-	}
-	return u.EmbedSrc
-}
-
-func (u *UpdateSubmitterResponse) GetExtraProperties() map[string]interface{} {
+func (u *UpdateSubmitterFieldPreferencesParams) GetExtraProperties() map[string]interface{} {
 	if u == nil {
 		return nil
 	}
 	return u.extraProperties
 }
 
-func (u *UpdateSubmitterResponse) require(field *big.Int) {
+func (u *UpdateSubmitterFieldPreferencesParams) require(field *big.Int) {
 	if u.explicitFields == nil {
 		u.explicitFields = big.NewInt(0)
 	}
 	u.explicitFields.Or(u.explicitFields, field)
 }
 
-// SetID sets the ID field and marks it as non-optional;
+// SetFontSize sets the FontSize field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetID(id int) {
-	u.ID = id
-	u.require(updateSubmitterResponseFieldID)
+func (u *UpdateSubmitterFieldPreferencesParams) SetFontSize(fontSize *int) {
+	u.FontSize = fontSize
+	u.require(updateSubmitterFieldPreferencesParamsFieldFontSize)
 }
 
-// SetSubmissionID sets the SubmissionID field and marks it as non-optional;
+// SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetSubmissionID(submissionID int) {
-	u.SubmissionID = submissionID
-	u.require(updateSubmitterResponseFieldSubmissionID)
+func (u *UpdateSubmitterFieldPreferencesParams) SetFontType(fontType *UpdateSubmitterFieldPreferencesParamsFontType) {
+	u.FontType = fontType
+	u.require(updateSubmitterFieldPreferencesParamsFieldFontType)
 }
 
-// SetUUID sets the UUID field and marks it as non-optional;
+// SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetUUID(uuid string) {
-	u.UUID = uuid
-	u.require(updateSubmitterResponseFieldUUID)
+func (u *UpdateSubmitterFieldPreferencesParams) SetFont(font *UpdateSubmitterFieldPreferencesParamsFont) {
+	u.Font = font
+	u.require(updateSubmitterFieldPreferencesParamsFieldFont)
 }
 
-// SetEmail sets the Email field and marks it as non-optional;
+// SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetEmail(email *string) {
-	u.Email = email
-	u.require(updateSubmitterResponseFieldEmail)
+func (u *UpdateSubmitterFieldPreferencesParams) SetColor(color *UpdateSubmitterFieldPreferencesParamsColor) {
+	u.Color = color
+	u.require(updateSubmitterFieldPreferencesParamsFieldColor)
 }
 
-// SetSlug sets the Slug field and marks it as non-optional;
+// SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetSlug(slug string) {
-	u.Slug = slug
-	u.require(updateSubmitterResponseFieldSlug)
+func (u *UpdateSubmitterFieldPreferencesParams) SetBackground(background *UpdateSubmitterFieldPreferencesParamsBackground) {
+	u.Background = background
+	u.require(updateSubmitterFieldPreferencesParamsFieldBackground)
 }
 
-// SetSentAt sets the SentAt field and marks it as non-optional;
+// SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetSentAt(sentAt *string) {
-	u.SentAt = sentAt
-	u.require(updateSubmitterResponseFieldSentAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetAlign(align *UpdateSubmitterFieldPreferencesParamsAlign) {
+	u.Align = align
+	u.require(updateSubmitterFieldPreferencesParamsFieldAlign)
 }
 
-// SetOpenedAt sets the OpenedAt field and marks it as non-optional;
+// SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetOpenedAt(openedAt *string) {
-	u.OpenedAt = openedAt
-	u.require(updateSubmitterResponseFieldOpenedAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetValign(valign *UpdateSubmitterFieldPreferencesParamsValign) {
+	u.Valign = valign
+	u.require(updateSubmitterFieldPreferencesParamsFieldValign)
 }
 
-// SetCompletedAt sets the CompletedAt field and marks it as non-optional;
+// SetFormat sets the Format field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetCompletedAt(completedAt *string) {
-	u.CompletedAt = completedAt
-	u.require(updateSubmitterResponseFieldCompletedAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetFormat(format string) {
+	u.Format = format
+	u.require(updateSubmitterFieldPreferencesParamsFieldFormat)
 }
 
-// SetDeclinedAt sets the DeclinedAt field and marks it as non-optional;
+// SetPrice sets the Price field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetDeclinedAt(declinedAt *string) {
-	u.DeclinedAt = declinedAt
-	u.require(updateSubmitterResponseFieldDeclinedAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetPrice(price *float64) {
+	u.Price = price
+	u.require(updateSubmitterFieldPreferencesParamsFieldPrice)
 }
 
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetCreatedAt(createdAt string) {
-	u.CreatedAt = createdAt
-	u.require(updateSubmitterResponseFieldCreatedAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetCurrency(currency *UpdateSubmitterFieldPreferencesParamsCurrency) {
+	u.Currency = currency
+	u.require(updateSubmitterFieldPreferencesParamsFieldCurrency)
 }
 
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// SetMask sets the Mask field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetUpdatedAt(updatedAt string) {
-	u.UpdatedAt = updatedAt
-	u.require(updateSubmitterResponseFieldUpdatedAt)
+func (u *UpdateSubmitterFieldPreferencesParams) SetMask(mask *UpdateSubmitterFieldPreferencesParamsMask) {
+	u.Mask = mask
+	u.require(updateSubmitterFieldPreferencesParamsFieldMask)
 }
 
-// SetName sets the Name field and marks it as non-optional;
+// SetReasons sets the Reasons field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetName(name *string) {
-	u.Name = name
-	u.require(updateSubmitterResponseFieldName)
+func (u *UpdateSubmitterFieldPreferencesParams) SetReasons(reasons []string) {
+	u.Reasons = reasons
+	u.require(updateSubmitterFieldPreferencesParamsFieldReasons)
 }
 
-// SetPhone sets the Phone field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetPhone(phone *string) {
-	u.Phone = phone
-	u.require(updateSubmitterResponseFieldPhone)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetStatus(status UpdateSubmitterResponseStatus) {
-	u.Status = status
-	u.require(updateSubmitterResponseFieldStatus)
-}
-
-// SetExternalID sets the ExternalID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetExternalID(externalID *string) {
-	u.ExternalID = externalID
-	u.require(updateSubmitterResponseFieldExternalID)
-}
-
-// SetMetadata sets the Metadata field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetMetadata(metadata map[string]any) {
-	u.Metadata = metadata
-	u.require(updateSubmitterResponseFieldMetadata)
-}
-
-// SetPreferences sets the Preferences field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetPreferences(preferences map[string]any) {
-	u.Preferences = preferences
-	u.require(updateSubmitterResponseFieldPreferences)
-}
-
-// SetValues sets the Values field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetValues(values []*SubmitterValue) {
-	u.Values = values
-	u.require(updateSubmitterResponseFieldValues)
-}
-
-// SetDocuments sets the Documents field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetDocuments(documents []*CompletedDocument) {
-	u.Documents = documents
-	u.require(updateSubmitterResponseFieldDocuments)
-}
-
-// SetRole sets the Role field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetRole(role string) {
-	u.Role = role
-	u.require(updateSubmitterResponseFieldRole)
-}
-
-// SetEmbedSrc sets the EmbedSrc field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterResponse) SetEmbedSrc(embedSrc string) {
-	u.EmbedSrc = embedSrc
-	u.require(updateSubmitterResponseFieldEmbedSrc)
-}
-
-func (u *UpdateSubmitterResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler UpdateSubmitterResponse
+func (u *UpdateSubmitterFieldPreferencesParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmitterFieldPreferencesParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*u = UpdateSubmitterResponse(value)
+	*u = UpdateSubmitterFieldPreferencesParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
@@ -15659,8 +13914,8 @@ func (u *UpdateSubmitterResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (u *UpdateSubmitterResponse) MarshalJSON() ([]byte, error) {
-	type embed UpdateSubmitterResponse
+func (u *UpdateSubmitterFieldPreferencesParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmitterFieldPreferencesParams
 	var marshaler = struct {
 		embed
 	}{
@@ -15670,7 +13925,7 @@ func (u *UpdateSubmitterResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (u *UpdateSubmitterResponse) String() string {
+func (u *UpdateSubmitterFieldPreferencesParams) String() string {
 	if u == nil {
 		return "<nil>"
 	}
@@ -15685,48 +13940,277 @@ func (u *UpdateSubmitterResponse) String() string {
 	return fmt.Sprintf("%#v", u)
 }
 
-// The status of signing request for the submitter.
-type UpdateSubmitterResponseStatus string
+// Horizontal alignment of the field text value.
+type UpdateSubmitterFieldPreferencesParamsAlign string
 
 const (
-	UpdateSubmitterResponseStatusCompleted UpdateSubmitterResponseStatus = "completed"
-	UpdateSubmitterResponseStatusDeclined  UpdateSubmitterResponseStatus = "declined"
-	UpdateSubmitterResponseStatusOpened    UpdateSubmitterResponseStatus = "opened"
-	UpdateSubmitterResponseStatusSent      UpdateSubmitterResponseStatus = "sent"
-	UpdateSubmitterResponseStatusAwaiting  UpdateSubmitterResponseStatus = "awaiting"
+	UpdateSubmitterFieldPreferencesParamsAlignLeft   UpdateSubmitterFieldPreferencesParamsAlign = "left"
+	UpdateSubmitterFieldPreferencesParamsAlignCenter UpdateSubmitterFieldPreferencesParamsAlign = "center"
+	UpdateSubmitterFieldPreferencesParamsAlignRight  UpdateSubmitterFieldPreferencesParamsAlign = "right"
 )
 
-func NewUpdateSubmitterResponseStatusFromString(s string) (UpdateSubmitterResponseStatus, error) {
+func NewUpdateSubmitterFieldPreferencesParamsAlignFromString(s string) (UpdateSubmitterFieldPreferencesParamsAlign, error) {
 	switch s {
-	case "completed":
-		return UpdateSubmitterResponseStatusCompleted, nil
-	case "declined":
-		return UpdateSubmitterResponseStatusDeclined, nil
-	case "opened":
-		return UpdateSubmitterResponseStatusOpened, nil
-	case "sent":
-		return UpdateSubmitterResponseStatusSent, nil
-	case "awaiting":
-		return UpdateSubmitterResponseStatusAwaiting, nil
+	case "left":
+		return UpdateSubmitterFieldPreferencesParamsAlignLeft, nil
+	case "center":
+		return UpdateSubmitterFieldPreferencesParamsAlignCenter, nil
+	case "right":
+		return UpdateSubmitterFieldPreferencesParamsAlignRight, nil
 	}
-	var t UpdateSubmitterResponseStatus
+	var t UpdateSubmitterFieldPreferencesParamsAlign
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (u UpdateSubmitterResponseStatus) Ptr() *UpdateSubmitterResponseStatus {
+func (u UpdateSubmitterFieldPreferencesParamsAlign) Ptr() *UpdateSubmitterFieldPreferencesParamsAlign {
 	return &u
 }
 
-var (
-	updateTemplateResponseFieldID        = big.NewInt(1 << 0)
-	updateTemplateResponseFieldUpdatedAt = big.NewInt(1 << 1)
+// Field box background color.
+type UpdateSubmitterFieldPreferencesParamsBackground string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsBackgroundBlack UpdateSubmitterFieldPreferencesParamsBackground = "black"
+	UpdateSubmitterFieldPreferencesParamsBackgroundWhite UpdateSubmitterFieldPreferencesParamsBackground = "white"
+	UpdateSubmitterFieldPreferencesParamsBackgroundBlue  UpdateSubmitterFieldPreferencesParamsBackground = "blue"
 )
 
-type UpdateTemplateResponse struct {
-	// Template unique ID number.
-	ID int `json:"id" url:"id"`
-	// Date and time when the template was last updated.
-	UpdatedAt string `json:"updated_at" url:"updated_at"`
+func NewUpdateSubmitterFieldPreferencesParamsBackgroundFromString(s string) (UpdateSubmitterFieldPreferencesParamsBackground, error) {
+	switch s {
+	case "black":
+		return UpdateSubmitterFieldPreferencesParamsBackgroundBlack, nil
+	case "white":
+		return UpdateSubmitterFieldPreferencesParamsBackgroundWhite, nil
+	case "blue":
+		return UpdateSubmitterFieldPreferencesParamsBackgroundBlue, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsBackground
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsBackground) Ptr() *UpdateSubmitterFieldPreferencesParamsBackground {
+	return &u
+}
+
+// Font color of the field value.
+type UpdateSubmitterFieldPreferencesParamsColor string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsColorBlack UpdateSubmitterFieldPreferencesParamsColor = "black"
+	UpdateSubmitterFieldPreferencesParamsColorWhite UpdateSubmitterFieldPreferencesParamsColor = "white"
+	UpdateSubmitterFieldPreferencesParamsColorBlue  UpdateSubmitterFieldPreferencesParamsColor = "blue"
+)
+
+func NewUpdateSubmitterFieldPreferencesParamsColorFromString(s string) (UpdateSubmitterFieldPreferencesParamsColor, error) {
+	switch s {
+	case "black":
+		return UpdateSubmitterFieldPreferencesParamsColorBlack, nil
+	case "white":
+		return UpdateSubmitterFieldPreferencesParamsColorWhite, nil
+	case "blue":
+		return UpdateSubmitterFieldPreferencesParamsColorBlue, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsColor
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsColor) Ptr() *UpdateSubmitterFieldPreferencesParamsColor {
+	return &u
+}
+
+// Currency value of the payment field. Only for payment fields.
+type UpdateSubmitterFieldPreferencesParamsCurrency string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsCurrencyUsd UpdateSubmitterFieldPreferencesParamsCurrency = "USD"
+	UpdateSubmitterFieldPreferencesParamsCurrencyEur UpdateSubmitterFieldPreferencesParamsCurrency = "EUR"
+	UpdateSubmitterFieldPreferencesParamsCurrencyGbp UpdateSubmitterFieldPreferencesParamsCurrency = "GBP"
+	UpdateSubmitterFieldPreferencesParamsCurrencyCad UpdateSubmitterFieldPreferencesParamsCurrency = "CAD"
+	UpdateSubmitterFieldPreferencesParamsCurrencyAud UpdateSubmitterFieldPreferencesParamsCurrency = "AUD"
+)
+
+func NewUpdateSubmitterFieldPreferencesParamsCurrencyFromString(s string) (UpdateSubmitterFieldPreferencesParamsCurrency, error) {
+	switch s {
+	case "USD":
+		return UpdateSubmitterFieldPreferencesParamsCurrencyUsd, nil
+	case "EUR":
+		return UpdateSubmitterFieldPreferencesParamsCurrencyEur, nil
+	case "GBP":
+		return UpdateSubmitterFieldPreferencesParamsCurrencyGbp, nil
+	case "CAD":
+		return UpdateSubmitterFieldPreferencesParamsCurrencyCad, nil
+	case "AUD":
+		return UpdateSubmitterFieldPreferencesParamsCurrencyAud, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsCurrency
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsCurrency) Ptr() *UpdateSubmitterFieldPreferencesParamsCurrency {
+	return &u
+}
+
+// Font family of the field value.
+type UpdateSubmitterFieldPreferencesParamsFont string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsFontTimes     UpdateSubmitterFieldPreferencesParamsFont = "Times"
+	UpdateSubmitterFieldPreferencesParamsFontHelvetica UpdateSubmitterFieldPreferencesParamsFont = "Helvetica"
+	UpdateSubmitterFieldPreferencesParamsFontCourier   UpdateSubmitterFieldPreferencesParamsFont = "Courier"
+)
+
+func NewUpdateSubmitterFieldPreferencesParamsFontFromString(s string) (UpdateSubmitterFieldPreferencesParamsFont, error) {
+	switch s {
+	case "Times":
+		return UpdateSubmitterFieldPreferencesParamsFontTimes, nil
+	case "Helvetica":
+		return UpdateSubmitterFieldPreferencesParamsFontHelvetica, nil
+	case "Courier":
+		return UpdateSubmitterFieldPreferencesParamsFontCourier, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsFont
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsFont) Ptr() *UpdateSubmitterFieldPreferencesParamsFont {
+	return &u
+}
+
+// Font type of the field value.
+type UpdateSubmitterFieldPreferencesParamsFontType string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsFontTypeBold       UpdateSubmitterFieldPreferencesParamsFontType = "bold"
+	UpdateSubmitterFieldPreferencesParamsFontTypeItalic     UpdateSubmitterFieldPreferencesParamsFontType = "italic"
+	UpdateSubmitterFieldPreferencesParamsFontTypeBoldItalic UpdateSubmitterFieldPreferencesParamsFontType = "bold_italic"
+)
+
+func NewUpdateSubmitterFieldPreferencesParamsFontTypeFromString(s string) (UpdateSubmitterFieldPreferencesParamsFontType, error) {
+	switch s {
+	case "bold":
+		return UpdateSubmitterFieldPreferencesParamsFontTypeBold, nil
+	case "italic":
+		return UpdateSubmitterFieldPreferencesParamsFontTypeItalic, nil
+	case "bold_italic":
+		return UpdateSubmitterFieldPreferencesParamsFontTypeBoldItalic, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsFontType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsFontType) Ptr() *UpdateSubmitterFieldPreferencesParamsFontType {
+	return &u
+}
+
+// Set `true` to make sensitive data masked on the document.
+type UpdateSubmitterFieldPreferencesParamsMask struct {
+	Integer int
+	Boolean bool
+
+	typ string
+}
+
+func (u *UpdateSubmitterFieldPreferencesParamsMask) GetInteger() int {
+	if u == nil {
+		return 0
+	}
+	return u.Integer
+}
+
+func (u *UpdateSubmitterFieldPreferencesParamsMask) GetBoolean() bool {
+	if u == nil {
+		return false
+	}
+	return u.Boolean
+}
+
+func (u *UpdateSubmitterFieldPreferencesParamsMask) UnmarshalJSON(data []byte) error {
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		u.typ = "Integer"
+		u.Integer = valueInteger
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		u.typ = "Boolean"
+		u.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsMask) MarshalJSON() ([]byte, error) {
+	if u.typ == "Integer" || u.Integer != 0 {
+		return json.Marshal(u.Integer)
+	}
+	if u.typ == "Boolean" || u.Boolean != false {
+		return json.Marshal(u.Boolean)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+type UpdateSubmitterFieldPreferencesParamsMaskVisitor interface {
+	VisitInteger(int) error
+	VisitBoolean(bool) error
+}
+
+func (u *UpdateSubmitterFieldPreferencesParamsMask) Accept(visitor UpdateSubmitterFieldPreferencesParamsMaskVisitor) error {
+	if u.typ == "Integer" || u.Integer != 0 {
+		return visitor.VisitInteger(u.Integer)
+	}
+	if u.typ == "Boolean" || u.Boolean != false {
+		return visitor.VisitBoolean(u.Boolean)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+// Vertical alignment of the field text value.
+type UpdateSubmitterFieldPreferencesParamsValign string
+
+const (
+	UpdateSubmitterFieldPreferencesParamsValignTop    UpdateSubmitterFieldPreferencesParamsValign = "top"
+	UpdateSubmitterFieldPreferencesParamsValignCenter UpdateSubmitterFieldPreferencesParamsValign = "center"
+	UpdateSubmitterFieldPreferencesParamsValignBottom UpdateSubmitterFieldPreferencesParamsValign = "bottom"
+)
+
+func NewUpdateSubmitterFieldPreferencesParamsValignFromString(s string) (UpdateSubmitterFieldPreferencesParamsValign, error) {
+	switch s {
+	case "top":
+		return UpdateSubmitterFieldPreferencesParamsValignTop, nil
+	case "center":
+		return UpdateSubmitterFieldPreferencesParamsValignCenter, nil
+	case "bottom":
+		return UpdateSubmitterFieldPreferencesParamsValignBottom, nil
+	}
+	var t UpdateSubmitterFieldPreferencesParamsValign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdateSubmitterFieldPreferencesParamsValign) Ptr() *UpdateSubmitterFieldPreferencesParamsValign {
+	return &u
+}
+
+// Field validation rules.
+var (
+	updateSubmitterFieldValidationParamsFieldPattern = big.NewInt(1 << 0)
+	updateSubmitterFieldValidationParamsFieldMessage = big.NewInt(1 << 1)
+	updateSubmitterFieldValidationParamsFieldMin     = big.NewInt(1 << 2)
+	updateSubmitterFieldValidationParamsFieldMax     = big.NewInt(1 << 3)
+	updateSubmitterFieldValidationParamsFieldStep    = big.NewInt(1 << 4)
+)
+
+type UpdateSubmitterFieldValidationParams struct {
+	// HTML field validation pattern string based on https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern specification.
+	Pattern string `json:"pattern,omitempty" url:"pattern,omitempty"`
+	// A custom error message to display on validation failure.
+	Message string `json:"message,omitempty" url:"message,omitempty"`
+	// Minimum allowed number value or date depending on field type.
+	Min *UpdateSubmitterFieldValidationParamsMin `json:"min,omitempty" url:"min,omitempty"`
+	// Maximum allowed number value or date depending on field type.
+	Max *UpdateSubmitterFieldValidationParamsMax `json:"max,omitempty" url:"max,omitempty"`
+	// Increment step for number field. Pass 1 to accept only integers, or 0.01 to accept decimal currency.
+	Step *float64 `json:"step,omitempty" url:"step,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -15735,55 +14219,97 @@ type UpdateTemplateResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (u *UpdateTemplateResponse) GetID() int {
-	if u == nil {
-		return 0
-	}
-	return u.ID
-}
-
-func (u *UpdateTemplateResponse) GetUpdatedAt() string {
+func (u *UpdateSubmitterFieldValidationParams) GetPattern() string {
 	if u == nil {
 		return ""
 	}
-	return u.UpdatedAt
+	return u.Pattern
 }
 
-func (u *UpdateTemplateResponse) GetExtraProperties() map[string]interface{} {
+func (u *UpdateSubmitterFieldValidationParams) GetMessage() string {
+	if u == nil {
+		return ""
+	}
+	return u.Message
+}
+
+func (u *UpdateSubmitterFieldValidationParams) GetMin() *UpdateSubmitterFieldValidationParamsMin {
+	if u == nil {
+		return nil
+	}
+	return u.Min
+}
+
+func (u *UpdateSubmitterFieldValidationParams) GetMax() *UpdateSubmitterFieldValidationParamsMax {
+	if u == nil {
+		return nil
+	}
+	return u.Max
+}
+
+func (u *UpdateSubmitterFieldValidationParams) GetStep() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Step
+}
+
+func (u *UpdateSubmitterFieldValidationParams) GetExtraProperties() map[string]interface{} {
 	if u == nil {
 		return nil
 	}
 	return u.extraProperties
 }
 
-func (u *UpdateTemplateResponse) require(field *big.Int) {
+func (u *UpdateSubmitterFieldValidationParams) require(field *big.Int) {
 	if u.explicitFields == nil {
 		u.explicitFields = big.NewInt(0)
 	}
 	u.explicitFields.Or(u.explicitFields, field)
 }
 
-// SetID sets the ID field and marks it as non-optional;
+// SetPattern sets the Pattern field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateResponse) SetID(id int) {
-	u.ID = id
-	u.require(updateTemplateResponseFieldID)
+func (u *UpdateSubmitterFieldValidationParams) SetPattern(pattern string) {
+	u.Pattern = pattern
+	u.require(updateSubmitterFieldValidationParamsFieldPattern)
 }
 
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateResponse) SetUpdatedAt(updatedAt string) {
-	u.UpdatedAt = updatedAt
-	u.require(updateTemplateResponseFieldUpdatedAt)
+func (u *UpdateSubmitterFieldValidationParams) SetMessage(message string) {
+	u.Message = message
+	u.require(updateSubmitterFieldValidationParamsFieldMessage)
 }
 
-func (u *UpdateTemplateResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler UpdateTemplateResponse
+// SetMin sets the Min field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterFieldValidationParams) SetMin(min *UpdateSubmitterFieldValidationParamsMin) {
+	u.Min = min
+	u.require(updateSubmitterFieldValidationParamsFieldMin)
+}
+
+// SetMax sets the Max field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterFieldValidationParams) SetMax(max *UpdateSubmitterFieldValidationParamsMax) {
+	u.Max = max
+	u.require(updateSubmitterFieldValidationParamsFieldMax)
+}
+
+// SetStep sets the Step field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterFieldValidationParams) SetStep(step *float64) {
+	u.Step = step
+	u.require(updateSubmitterFieldValidationParamsFieldStep)
+}
+
+func (u *UpdateSubmitterFieldValidationParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmitterFieldValidationParams
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*u = UpdateTemplateResponse(value)
+	*u = UpdateSubmitterFieldValidationParams(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *u)
 	if err != nil {
 		return err
@@ -15793,8 +14319,8 @@ func (u *UpdateTemplateResponse) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (u *UpdateTemplateResponse) MarshalJSON() ([]byte, error) {
-	type embed UpdateTemplateResponse
+func (u *UpdateSubmitterFieldValidationParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmitterFieldValidationParams
 	var marshaler = struct {
 		embed
 	}{
@@ -15804,7 +14330,542 @@ func (u *UpdateTemplateResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (u *UpdateTemplateResponse) String() string {
+func (u *UpdateSubmitterFieldValidationParams) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+// Maximum allowed number value or date depending on field type.
+type UpdateSubmitterFieldValidationParamsMax struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMax) GetDouble() float64 {
+	if u == nil {
+		return 0
+	}
+	return u.Double
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMax) GetString() string {
+	if u == nil {
+		return ""
+	}
+	return u.String
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMax) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		u.typ = "Double"
+		u.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		u.typ = "String"
+		u.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
+}
+
+func (u UpdateSubmitterFieldValidationParamsMax) MarshalJSON() ([]byte, error) {
+	if u.typ == "Double" || u.Double != 0 {
+		return json.Marshal(u.Double)
+	}
+	if u.typ == "String" || u.String != "" {
+		return json.Marshal(u.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+type UpdateSubmitterFieldValidationParamsMaxVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMax) Accept(visitor UpdateSubmitterFieldValidationParamsMaxVisitor) error {
+	if u.typ == "Double" || u.Double != 0 {
+		return visitor.VisitDouble(u.Double)
+	}
+	if u.typ == "String" || u.String != "" {
+		return visitor.VisitString(u.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+// Minimum allowed number value or date depending on field type.
+type UpdateSubmitterFieldValidationParamsMin struct {
+	Double float64
+	String string
+
+	typ string
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMin) GetDouble() float64 {
+	if u == nil {
+		return 0
+	}
+	return u.Double
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMin) GetString() string {
+	if u == nil {
+		return ""
+	}
+	return u.String
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMin) UnmarshalJSON(data []byte) error {
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		u.typ = "Double"
+		u.Double = valueDouble
+		return nil
+	}
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		u.typ = "String"
+		u.String = valueString
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
+}
+
+func (u UpdateSubmitterFieldValidationParamsMin) MarshalJSON() ([]byte, error) {
+	if u.typ == "Double" || u.Double != 0 {
+		return json.Marshal(u.Double)
+	}
+	if u.typ == "String" || u.String != "" {
+		return json.Marshal(u.String)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+type UpdateSubmitterFieldValidationParamsMinVisitor interface {
+	VisitDouble(float64) error
+	VisitString(string) error
+}
+
+func (u *UpdateSubmitterFieldValidationParamsMin) Accept(visitor UpdateSubmitterFieldValidationParamsMinVisitor) error {
+	if u.typ == "Double" || u.Double != 0 {
+		return visitor.VisitDouble(u.Double)
+	}
+	if u.typ == "String" || u.String != "" {
+		return visitor.VisitString(u.String)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", u)
+}
+
+// Custom signature request email message.
+var (
+	updateSubmitterMessageParamsFieldSubject = big.NewInt(1 << 0)
+	updateSubmitterMessageParamsFieldBody    = big.NewInt(1 << 1)
+)
+
+type UpdateSubmitterMessageParams struct {
+	// Custom signature request email subject.
+	Subject string `json:"subject,omitempty" url:"subject,omitempty"`
+	// Custom signature request email body. Can include the following variables: {{template.name}}, {{submitter.link}}, {{account.name}}.
+	Body string `json:"body,omitempty" url:"body,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateSubmitterMessageParams) GetSubject() string {
+	if u == nil {
+		return ""
+	}
+	return u.Subject
+}
+
+func (u *UpdateSubmitterMessageParams) GetBody() string {
+	if u == nil {
+		return ""
+	}
+	return u.Body
+}
+
+func (u *UpdateSubmitterMessageParams) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdateSubmitterMessageParams) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetSubject sets the Subject field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterMessageParams) SetSubject(subject string) {
+	u.Subject = subject
+	u.require(updateSubmitterMessageParamsFieldSubject)
+}
+
+// SetBody sets the Body field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterMessageParams) SetBody(body string) {
+	u.Body = body
+	u.require(updateSubmitterMessageParamsFieldBody)
+}
+
+func (u *UpdateSubmitterMessageParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateSubmitterMessageParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdateSubmitterMessageParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdateSubmitterMessageParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateSubmitterMessageParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdateSubmitterMessageParams) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updateTemplateDocumentsDocumentParamsFieldName     = big.NewInt(1 << 0)
+	updateTemplateDocumentsDocumentParamsFieldFile     = big.NewInt(1 << 1)
+	updateTemplateDocumentsDocumentParamsFieldHTML     = big.NewInt(1 << 2)
+	updateTemplateDocumentsDocumentParamsFieldPosition = big.NewInt(1 << 3)
+	updateTemplateDocumentsDocumentParamsFieldReplace  = big.NewInt(1 << 4)
+	updateTemplateDocumentsDocumentParamsFieldRemove   = big.NewInt(1 << 5)
+)
+
+type UpdateTemplateDocumentsDocumentParams struct {
+	// Document name. Random uuid will be assigned when not specified.
+	Name string `json:"name,omitempty" url:"name,omitempty"`
+	// Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
+	File string `json:"file,omitempty" url:"file,omitempty"`
+	// HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
+	HTML string `json:"html,omitempty" url:"html,omitempty"`
+	// Position of the document. By default will be added as the last document in the template.
+	Position *int `json:"position,omitempty" url:"position,omitempty"`
+	// Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
+	Replace *bool `json:"replace,omitempty" url:"replace,omitempty"`
+	// Set to `true` to remove existing document at given `position` or with given `name`.
+	Remove *bool `json:"remove,omitempty" url:"remove,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetName() string {
+	if u == nil {
+		return ""
+	}
+	return u.Name
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetFile() string {
+	if u == nil {
+		return ""
+	}
+	return u.File
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetHTML() string {
+	if u == nil {
+		return ""
+	}
+	return u.HTML
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetPosition() *int {
+	if u == nil {
+		return nil
+	}
+	return u.Position
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetReplace() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.Replace
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetRemove() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.Remove
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetName(name string) {
+	u.Name = name
+	u.require(updateTemplateDocumentsDocumentParamsFieldName)
+}
+
+// SetFile sets the File field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetFile(file string) {
+	u.File = file
+	u.require(updateTemplateDocumentsDocumentParamsFieldFile)
+}
+
+// SetHTML sets the HTML field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetHTML(html string) {
+	u.HTML = html
+	u.require(updateTemplateDocumentsDocumentParamsFieldHTML)
+}
+
+// SetPosition sets the Position field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetPosition(position *int) {
+	u.Position = position
+	u.require(updateTemplateDocumentsDocumentParamsFieldPosition)
+}
+
+// SetReplace sets the Replace field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetReplace(replace *bool) {
+	u.Replace = replace
+	u.require(updateTemplateDocumentsDocumentParamsFieldReplace)
+}
+
+// SetRemove sets the Remove field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsDocumentParams) SetRemove(remove *bool) {
+	u.Remove = remove
+	u.require(updateTemplateDocumentsDocumentParamsFieldRemove)
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateTemplateDocumentsDocumentParams
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdateTemplateDocumentsDocumentParams(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateTemplateDocumentsDocumentParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdateTemplateDocumentsDocumentParams) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	userFieldID        = big.NewInt(1 << 0)
+	userFieldFirstName = big.NewInt(1 << 1)
+	userFieldLastName  = big.NewInt(1 << 2)
+	userFieldEmail     = big.NewInt(1 << 3)
+)
+
+type User struct {
+	// Unique identifier of the user.
+	ID int `json:"id" url:"id"`
+	// The first name of the user.
+	FirstName string `json:"first_name" url:"first_name"`
+	// The last name of the user.
+	LastName string `json:"last_name" url:"last_name"`
+	// The email address of the user.
+	Email string `json:"email" url:"email"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *User) GetID() int {
+	if u == nil {
+		return 0
+	}
+	return u.ID
+}
+
+func (u *User) GetFirstName() string {
+	if u == nil {
+		return ""
+	}
+	return u.FirstName
+}
+
+func (u *User) GetLastName() string {
+	if u == nil {
+		return ""
+	}
+	return u.LastName
+}
+
+func (u *User) GetEmail() string {
+	if u == nil {
+		return ""
+	}
+	return u.Email
+}
+
+func (u *User) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *User) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *User) SetID(id int) {
+	u.ID = id
+	u.require(userFieldID)
+}
+
+// SetFirstName sets the FirstName field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *User) SetFirstName(firstName string) {
+	u.FirstName = firstName
+	u.require(userFieldFirstName)
+}
+
+// SetLastName sets the LastName field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *User) SetLastName(lastName string) {
+	u.LastName = lastName
+	u.require(userFieldLastName)
+}
+
+// SetEmail sets the Email field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *User) SetEmail(email string) {
+	u.Email = email
+	u.require(userFieldEmail)
+}
+
+func (u *User) UnmarshalJSON(data []byte) error {
+	type unmarshaler User
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = User(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *User) MarshalJSON() ([]byte, error) {
+	type embed User
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *User) String() string {
 	if u == nil {
 		return "<nil>"
 	}
@@ -15930,10 +14991,10 @@ type UpdateSubmitterParams struct {
 	// Set to `true` to require phone 2FA verification via a one-time code sent to the phone number in order to access the documents.
 	RequirePhone2Fa *bool `json:"require_phone_2fa,omitempty" url:"-"`
 	// Set to `true` to require email 2FA verification via a one-time code sent to the email address in order to access the documents.
-	RequireEmail2Fa *bool                                      `json:"require_email_2fa,omitempty" url:"-"`
-	Message         *CreateSubmissionsFromEmailsRequestMessage `json:"message,omitempty" url:"-"`
+	RequireEmail2Fa *bool                         `json:"require_email_2fa,omitempty" url:"-"`
+	Message         *UpdateSubmitterMessageParams `json:"message,omitempty" url:"-"`
 	// A list of configurations for template document form fields.
-	Fields []*UpdateSubmitterRequestField `json:"fields,omitempty" url:"-"`
+	Fields []*UpdateSubmitterFieldParams `json:"fields,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -16039,14 +15100,14 @@ func (u *UpdateSubmitterParams) SetRequireEmail2Fa(requireEmail2Fa *bool) {
 
 // SetMessage sets the Message field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetMessage(message *CreateSubmissionsFromEmailsRequestMessage) {
+func (u *UpdateSubmitterParams) SetMessage(message *UpdateSubmitterMessageParams) {
 	u.Message = message
 	u.require(updateSubmitterParamsFieldMessage)
 }
 
 // SetFields sets the Fields field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterParams) SetFields(fields []*UpdateSubmitterRequestField) {
+func (u *UpdateSubmitterParams) SetFields(fields []*UpdateSubmitterFieldParams) {
 	u.Fields = fields
 	u.require(updateSubmitterParamsFieldFields)
 }
@@ -16140,6 +15201,63 @@ func (u *UpdateTemplateParams) UnmarshalJSON(data []byte) error {
 
 func (u *UpdateTemplateParams) MarshalJSON() ([]byte, error) {
 	type embed UpdateTemplateParams
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
+	updateTemplateDocumentsParamsFieldDocuments = big.NewInt(1 << 0)
+	updateTemplateDocumentsParamsFieldMerge     = big.NewInt(1 << 1)
+)
+
+type UpdateTemplateDocumentsParams struct {
+	// The list of documents to add or replace in the template.
+	Documents []*UpdateTemplateDocumentsDocumentParams `json:"documents,omitempty" url:"-"`
+	// Set to `true` to merge all existing and new documents into a single PDF document in the template.
+	Merge *bool `json:"merge,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (u *UpdateTemplateDocumentsParams) require(field *big.Int) {
+	if u.explicitFields == nil {
+		u.explicitFields = big.NewInt(0)
+	}
+	u.explicitFields.Or(u.explicitFields, field)
+}
+
+// SetDocuments sets the Documents field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsParams) SetDocuments(documents []*UpdateTemplateDocumentsDocumentParams) {
+	u.Documents = documents
+	u.require(updateTemplateDocumentsParamsFieldDocuments)
+}
+
+// SetMerge sets the Merge field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateTemplateDocumentsParams) SetMerge(merge *bool) {
+	u.Merge = merge
+	u.require(updateTemplateDocumentsParamsFieldMerge)
+}
+
+func (u *UpdateTemplateDocumentsParams) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdateTemplateDocumentsParams
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*u = UpdateTemplateDocumentsParams(body)
+	return nil
+}
+
+func (u *UpdateTemplateDocumentsParams) MarshalJSON() ([]byte, error) {
+	type embed UpdateTemplateDocumentsParams
 	var marshaler = struct {
 		embed
 	}{
