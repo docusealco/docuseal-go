@@ -99,7 +99,7 @@ type CreateSubmissionParams struct {
 	// Set `true` to send signature request via phone number and SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"-"`
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionRequestOrder `json:"order,omitempty" url:"-"`
+	Order SubmittersOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
 	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
@@ -148,7 +148,7 @@ func (c *CreateSubmissionParams) SetSendSms(sendSms *bool) {
 
 // SetOrder sets the Order field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionParams) SetOrder(order *CreateSubmissionRequestOrder) {
+func (c *CreateSubmissionParams) SetOrder(order SubmittersOrder) {
 	c.Order = order
 	c.require(createSubmissionParamsFieldOrder)
 }
@@ -251,7 +251,7 @@ type CreateSubmissionFromDocxParams struct {
 	// Dynamic content variables object. Variable values can be strings, numbers, arrays, objects, or HTML content used to generate styled text, paragraphs, and tables in DOCX.
 	Variables map[string]any `json:"variables,omitempty" url:"-"`
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromDocxRequestOrder `json:"order,omitempty" url:"-"`
+	Order SubmittersOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
 	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
@@ -313,7 +313,7 @@ func (c *CreateSubmissionFromDocxParams) SetVariables(variables map[string]any) 
 
 // SetOrder sets the Order field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromDocxParams) SetOrder(order *CreateSubmissionFromDocxRequestOrder) {
+func (c *CreateSubmissionFromDocxParams) SetOrder(order SubmittersOrder) {
 	c.Order = order
 	c.require(createSubmissionFromDocxParamsFieldOrder)
 }
@@ -433,7 +433,7 @@ type CreateSubmissionFromHTMLParams struct {
 	// Set `true` to send signature request via phone number and SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"-"`
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromHTMLRequestOrder `json:"order,omitempty" url:"-"`
+	Order SubmittersOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
 	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
@@ -486,7 +486,7 @@ func (c *CreateSubmissionFromHTMLParams) SetSendSms(sendSms *bool) {
 
 // SetOrder sets the Order field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLParams) SetOrder(order *CreateSubmissionFromHTMLRequestOrder) {
+func (c *CreateSubmissionFromHTMLParams) SetOrder(order SubmittersOrder) {
 	c.Order = order
 	c.require(createSubmissionFromHTMLParamsFieldOrder)
 }
@@ -601,7 +601,7 @@ type CreateSubmissionFromPdfParams struct {
 	// Set `true` to send signature request via phone number and SMS.
 	SendSms *bool `json:"send_sms,omitempty" url:"-"`
 	// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-	Order *CreateSubmissionFromPdfRequestOrder `json:"order,omitempty" url:"-"`
+	Order SubmittersOrder `json:"order,omitempty" url:"-"`
 	// Specify URL to redirect to after the submission completion.
 	CompletedRedirectURL string `json:"completed_redirect_url,omitempty" url:"-"`
 	// Specify BCC address to send signed documents to after the completion.
@@ -658,7 +658,7 @@ func (c *CreateSubmissionFromPdfParams) SetSendSms(sendSms *bool) {
 
 // SetOrder sets the Order field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromPdfParams) SetOrder(order *CreateSubmissionFromPdfRequestOrder) {
+func (c *CreateSubmissionFromPdfParams) SetOrder(order SubmittersOrder) {
 	c.Order = order
 	c.require(createSubmissionFromPdfParamsFieldOrder)
 }
@@ -870,7 +870,7 @@ type CreateTemplateFromHTMLParams struct {
 	// Template name. Random uuid will be assigned when not specified.
 	Name string `json:"name,omitempty" url:"-"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
-	Size *CreateTemplateFromHTMLRequestSize `json:"size,omitempty" url:"-"`
+	Size PageSize `json:"size,omitempty" url:"-"`
 	// Your application-specific unique string key to identify this template within your app. Existing template with specified `external_id` will be updated with a new HTML.
 	ExternalID string `json:"external_id,omitempty" url:"-"`
 	// The folder's name in which the template should be created.
@@ -921,7 +921,7 @@ func (c *CreateTemplateFromHTMLParams) SetName(name string) {
 
 // SetSize sets the Size field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHTMLParams) SetSize(size *CreateTemplateFromHTMLRequestSize) {
+func (c *CreateTemplateFromHTMLParams) SetSize(size PageSize) {
 	c.Size = size
 	c.require(createTemplateFromHTMLParamsFieldSize)
 }
@@ -1124,13 +1124,13 @@ type GetSubmissionsParams struct {
 	// The template ID allows you to receive only the submissions created from that specific template.
 	TemplateID *int `json:"-" url:"template_id,omitempty"`
 	// Filter submissions by status.
-	Status *GetSubmissionsRequestStatus `json:"-" url:"status,omitempty"`
+	Status SubmissionStatus `json:"-" url:"status,omitempty"`
 	// Filter submissions based on submitter's name, email or phone partial match.
-	Q *string `json:"-" url:"q,omitempty"`
+	Q string `json:"-" url:"q,omitempty"`
 	// Filter submissions by unique slug.
-	Slug *string `json:"-" url:"slug,omitempty"`
+	Slug string `json:"-" url:"slug,omitempty"`
 	// Filter submissions by template folder name.
-	TemplateFolder *string `json:"-" url:"template_folder,omitempty"`
+	TemplateFolder string `json:"-" url:"template_folder,omitempty"`
 	// Returns only archived submissions when `true` and only active submissions when `false`.
 	Archived *bool `json:"-" url:"archived,omitempty"`
 	// The number of submissions to return. Default value is 10. Maximum value is 100.
@@ -1160,28 +1160,28 @@ func (g *GetSubmissionsParams) SetTemplateID(templateID *int) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsParams) SetStatus(status *GetSubmissionsRequestStatus) {
+func (g *GetSubmissionsParams) SetStatus(status SubmissionStatus) {
 	g.Status = status
 	g.require(getSubmissionsParamsFieldStatus)
 }
 
 // SetQ sets the Q field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsParams) SetQ(q *string) {
+func (g *GetSubmissionsParams) SetQ(q string) {
 	g.Q = q
 	g.require(getSubmissionsParamsFieldQ)
 }
 
 // SetSlug sets the Slug field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsParams) SetSlug(slug *string) {
+func (g *GetSubmissionsParams) SetSlug(slug string) {
 	g.Slug = slug
 	g.require(getSubmissionsParamsFieldSlug)
 }
 
 // SetTemplateFolder sets the TemplateFolder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmissionsParams) SetTemplateFolder(templateFolder *string) {
+func (g *GetSubmissionsParams) SetTemplateFolder(templateFolder string) {
 	g.TemplateFolder = templateFolder
 	g.require(getSubmissionsParamsFieldTemplateFolder)
 }
@@ -1230,15 +1230,15 @@ type GetSubmittersParams struct {
 	// The submission ID allows you to receive only the submitters related to that specific submission.
 	SubmissionID *int `json:"-" url:"submission_id,omitempty"`
 	// Filter submitters on name, email or phone partial match.
-	Q *string `json:"-" url:"q,omitempty"`
+	Q string `json:"-" url:"q,omitempty"`
 	// Filter submitters by unique slug.
-	Slug *string `json:"-" url:"slug,omitempty"`
+	Slug string `json:"-" url:"slug,omitempty"`
 	// The date and time string value to filter submitters that completed the submission after the specified date and time.
 	CompletedAfter *time.Time `json:"-" url:"completed_after,omitempty"`
 	// The date and time string value to filter submitters that completed the submission before the specified date and time.
 	CompletedBefore *time.Time `json:"-" url:"completed_before,omitempty"`
 	// The unique application-specific identifier provided for a submitter when initializing a signature request. It allows you to receive only submitters with a specified external ID.
-	ExternalID *string `json:"-" url:"external_id,omitempty"`
+	ExternalID string `json:"-" url:"external_id,omitempty"`
 	// The number of submitters to return. Default value is 10. Maximum value is 100.
 	Limit *int `json:"-" url:"limit,omitempty"`
 	// The unique identifier of the submitter to start the list from. It allows you to receive only submitters with an ID greater than the specified value. Pass ID value from the `pagination.next` response to load the next batch of submitters.
@@ -1266,14 +1266,14 @@ func (g *GetSubmittersParams) SetSubmissionID(submissionID *int) {
 
 // SetQ sets the Q field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersParams) SetQ(q *string) {
+func (g *GetSubmittersParams) SetQ(q string) {
 	g.Q = q
 	g.require(getSubmittersParamsFieldQ)
 }
 
 // SetSlug sets the Slug field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersParams) SetSlug(slug *string) {
+func (g *GetSubmittersParams) SetSlug(slug string) {
 	g.Slug = slug
 	g.require(getSubmittersParamsFieldSlug)
 }
@@ -1294,7 +1294,7 @@ func (g *GetSubmittersParams) SetCompletedBefore(completedBefore *time.Time) {
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetSubmittersParams) SetExternalID(externalID *string) {
+func (g *GetSubmittersParams) SetExternalID(externalID string) {
 	g.ExternalID = externalID
 	g.require(getSubmittersParamsFieldExternalID)
 }
@@ -1334,13 +1334,13 @@ var (
 
 type GetTemplatesParams struct {
 	// Filter templates based on the name partial match.
-	Q *string `json:"-" url:"q,omitempty"`
+	Q string `json:"-" url:"q,omitempty"`
 	// Filter templates by unique slug.
-	Slug *string `json:"-" url:"slug,omitempty"`
+	Slug string `json:"-" url:"slug,omitempty"`
 	// The unique application-specific identifier provided for the template via API or Embedded template form builder. It allows you to receive only templates with your specified external ID.
-	ExternalID *string `json:"-" url:"external_id,omitempty"`
+	ExternalID string `json:"-" url:"external_id,omitempty"`
 	// Filter templates by folder name.
-	Folder *string `json:"-" url:"folder,omitempty"`
+	Folder string `json:"-" url:"folder,omitempty"`
 	// List only archived templates instead of active ones.
 	Archived *bool `json:"-" url:"archived,omitempty"`
 	// List templates shared with test mode.
@@ -1365,28 +1365,28 @@ func (g *GetTemplatesParams) require(field *big.Int) {
 
 // SetQ sets the Q field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesParams) SetQ(q *string) {
+func (g *GetTemplatesParams) SetQ(q string) {
 	g.Q = q
 	g.require(getTemplatesParamsFieldQ)
 }
 
 // SetSlug sets the Slug field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesParams) SetSlug(slug *string) {
+func (g *GetTemplatesParams) SetSlug(slug string) {
 	g.Slug = slug
 	g.require(getTemplatesParamsFieldSlug)
 }
 
 // SetExternalID sets the ExternalID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesParams) SetExternalID(externalID *string) {
+func (g *GetTemplatesParams) SetExternalID(externalID string) {
 	g.ExternalID = externalID
 	g.require(getTemplatesParamsFieldExternalID)
 }
 
 // SetFolder sets the Folder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetTemplatesParams) SetFolder(folder *string) {
+func (g *GetTemplatesParams) SetFolder(folder string) {
 	g.Folder = folder
 	g.require(getTemplatesParamsFieldFolder)
 }
@@ -1708,7 +1708,7 @@ type CreateSubmissionDocumentFieldParams struct {
 	// Name of the field.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
-	Type *CreateSubmissionDocumentFieldParamsType `json:"type,omitempty" url:"type,omitempty"`
+	Type FieldType `json:"type,omitempty" url:"type,omitempty"`
 	// Role name of the signer.
 	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// Indicates if the field is required.
@@ -1736,9 +1736,9 @@ func (c *CreateSubmissionDocumentFieldParams) GetName() string {
 	return c.Name
 }
 
-func (c *CreateSubmissionDocumentFieldParams) GetType() *CreateSubmissionDocumentFieldParamsType {
+func (c *CreateSubmissionDocumentFieldParams) GetType() FieldType {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Type
 }
@@ -1808,7 +1808,7 @@ func (c *CreateSubmissionDocumentFieldParams) SetName(name string) {
 
 // SetType sets the Type field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionDocumentFieldParams) SetType(type_ *CreateSubmissionDocumentFieldParamsType) {
+func (c *CreateSubmissionDocumentFieldParams) SetType(type_ FieldType) {
 	c.Type = type_
 	c.require(createSubmissionDocumentFieldParamsFieldType)
 }
@@ -1895,80 +1895,6 @@ func (c *CreateSubmissionDocumentFieldParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
-}
-
-// Type of the field (e.g., text, signature, date, initials).
-type CreateSubmissionDocumentFieldParamsType string
-
-const (
-	CreateSubmissionDocumentFieldParamsTypeHeading       CreateSubmissionDocumentFieldParamsType = "heading"
-	CreateSubmissionDocumentFieldParamsTypeText          CreateSubmissionDocumentFieldParamsType = "text"
-	CreateSubmissionDocumentFieldParamsTypeSignature     CreateSubmissionDocumentFieldParamsType = "signature"
-	CreateSubmissionDocumentFieldParamsTypeInitials      CreateSubmissionDocumentFieldParamsType = "initials"
-	CreateSubmissionDocumentFieldParamsTypeDate          CreateSubmissionDocumentFieldParamsType = "date"
-	CreateSubmissionDocumentFieldParamsTypeNumber        CreateSubmissionDocumentFieldParamsType = "number"
-	CreateSubmissionDocumentFieldParamsTypeImage         CreateSubmissionDocumentFieldParamsType = "image"
-	CreateSubmissionDocumentFieldParamsTypeCheckbox      CreateSubmissionDocumentFieldParamsType = "checkbox"
-	CreateSubmissionDocumentFieldParamsTypeMultiple      CreateSubmissionDocumentFieldParamsType = "multiple"
-	CreateSubmissionDocumentFieldParamsTypeFile          CreateSubmissionDocumentFieldParamsType = "file"
-	CreateSubmissionDocumentFieldParamsTypeRadio         CreateSubmissionDocumentFieldParamsType = "radio"
-	CreateSubmissionDocumentFieldParamsTypeSelect        CreateSubmissionDocumentFieldParamsType = "select"
-	CreateSubmissionDocumentFieldParamsTypeCells         CreateSubmissionDocumentFieldParamsType = "cells"
-	CreateSubmissionDocumentFieldParamsTypeStamp         CreateSubmissionDocumentFieldParamsType = "stamp"
-	CreateSubmissionDocumentFieldParamsTypePayment       CreateSubmissionDocumentFieldParamsType = "payment"
-	CreateSubmissionDocumentFieldParamsTypePhone         CreateSubmissionDocumentFieldParamsType = "phone"
-	CreateSubmissionDocumentFieldParamsTypeVerification  CreateSubmissionDocumentFieldParamsType = "verification"
-	CreateSubmissionDocumentFieldParamsTypeKba           CreateSubmissionDocumentFieldParamsType = "kba"
-	CreateSubmissionDocumentFieldParamsTypeStrikethrough CreateSubmissionDocumentFieldParamsType = "strikethrough"
-)
-
-func NewCreateSubmissionDocumentFieldParamsTypeFromString(s string) (CreateSubmissionDocumentFieldParamsType, error) {
-	switch s {
-	case "heading":
-		return CreateSubmissionDocumentFieldParamsTypeHeading, nil
-	case "text":
-		return CreateSubmissionDocumentFieldParamsTypeText, nil
-	case "signature":
-		return CreateSubmissionDocumentFieldParamsTypeSignature, nil
-	case "initials":
-		return CreateSubmissionDocumentFieldParamsTypeInitials, nil
-	case "date":
-		return CreateSubmissionDocumentFieldParamsTypeDate, nil
-	case "number":
-		return CreateSubmissionDocumentFieldParamsTypeNumber, nil
-	case "image":
-		return CreateSubmissionDocumentFieldParamsTypeImage, nil
-	case "checkbox":
-		return CreateSubmissionDocumentFieldParamsTypeCheckbox, nil
-	case "multiple":
-		return CreateSubmissionDocumentFieldParamsTypeMultiple, nil
-	case "file":
-		return CreateSubmissionDocumentFieldParamsTypeFile, nil
-	case "radio":
-		return CreateSubmissionDocumentFieldParamsTypeRadio, nil
-	case "select":
-		return CreateSubmissionDocumentFieldParamsTypeSelect, nil
-	case "cells":
-		return CreateSubmissionDocumentFieldParamsTypeCells, nil
-	case "stamp":
-		return CreateSubmissionDocumentFieldParamsTypeStamp, nil
-	case "payment":
-		return CreateSubmissionDocumentFieldParamsTypePayment, nil
-	case "phone":
-		return CreateSubmissionDocumentFieldParamsTypePhone, nil
-	case "verification":
-		return CreateSubmissionDocumentFieldParamsTypeVerification, nil
-	case "kba":
-		return CreateSubmissionDocumentFieldParamsTypeKba, nil
-	case "strikethrough":
-		return CreateSubmissionDocumentFieldParamsTypeStrikethrough, nil
-	}
-	var t CreateSubmissionDocumentFieldParamsType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionDocumentFieldParamsType) Ptr() *CreateSubmissionDocumentFieldParamsType {
-	return &c
 }
 
 var (
@@ -2090,29 +2016,6 @@ func (c *CreateSubmissionFromDocxDocumentParams) String() string {
 	return fmt.Sprintf("%#v", c)
 }
 
-// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-type CreateSubmissionFromDocxRequestOrder string
-
-const (
-	CreateSubmissionFromDocxRequestOrderPreserved CreateSubmissionFromDocxRequestOrder = "preserved"
-	CreateSubmissionFromDocxRequestOrderRandom    CreateSubmissionFromDocxRequestOrder = "random"
-)
-
-func NewCreateSubmissionFromDocxRequestOrderFromString(s string) (CreateSubmissionFromDocxRequestOrder, error) {
-	switch s {
-	case "preserved":
-		return CreateSubmissionFromDocxRequestOrderPreserved, nil
-	case "random":
-		return CreateSubmissionFromDocxRequestOrderRandom, nil
-	}
-	var t CreateSubmissionFromDocxRequestOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromDocxRequestOrder) Ptr() *CreateSubmissionFromDocxRequestOrder {
-	return &c
-}
-
 var (
 	createSubmissionFromHTMLDocumentParamsFieldName       = big.NewInt(1 << 0)
 	createSubmissionFromHTMLDocumentParamsFieldHTML       = big.NewInt(1 << 1)
@@ -2132,7 +2035,7 @@ type CreateSubmissionFromHTMLDocumentParams struct {
 	// HTML document content of the footer to be displayed on every page.
 	HTMLFooter string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
-	Size *CreateSubmissionFromHTMLDocumentParamsSize `json:"size,omitempty" url:"size,omitempty"`
+	Size PageSize `json:"size,omitempty" url:"size,omitempty"`
 	// Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
 	Position *int `json:"position,omitempty" url:"position,omitempty"`
 
@@ -2171,9 +2074,9 @@ func (c *CreateSubmissionFromHTMLDocumentParams) GetHTMLFooter() string {
 	return c.HTMLFooter
 }
 
-func (c *CreateSubmissionFromHTMLDocumentParams) GetSize() *CreateSubmissionFromHTMLDocumentParamsSize {
+func (c *CreateSubmissionFromHTMLDocumentParams) GetSize() PageSize {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Size
 }
@@ -2229,7 +2132,7 @@ func (c *CreateSubmissionFromHTMLDocumentParams) SetHTMLFooter(htmlFooter string
 
 // SetSize sets the Size field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHTMLDocumentParams) SetSize(size *CreateSubmissionFromHTMLDocumentParamsSize) {
+func (c *CreateSubmissionFromHTMLDocumentParams) SetSize(size PageSize) {
 	c.Size = size
 	c.require(createSubmissionFromHTMLDocumentParamsFieldSize)
 }
@@ -2281,79 +2184,6 @@ func (c *CreateSubmissionFromHTMLDocumentParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
-}
-
-// Page size. Letter 8.5 x 11 will be assigned when not specified.
-type CreateSubmissionFromHTMLDocumentParamsSize string
-
-const (
-	CreateSubmissionFromHTMLDocumentParamsSizeLetter  CreateSubmissionFromHTMLDocumentParamsSize = "Letter"
-	CreateSubmissionFromHTMLDocumentParamsSizeLegal   CreateSubmissionFromHTMLDocumentParamsSize = "Legal"
-	CreateSubmissionFromHTMLDocumentParamsSizeTabloid CreateSubmissionFromHTMLDocumentParamsSize = "Tabloid"
-	CreateSubmissionFromHTMLDocumentParamsSizeLedger  CreateSubmissionFromHTMLDocumentParamsSize = "Ledger"
-	CreateSubmissionFromHTMLDocumentParamsSizeA0      CreateSubmissionFromHTMLDocumentParamsSize = "A0"
-	CreateSubmissionFromHTMLDocumentParamsSizeA1      CreateSubmissionFromHTMLDocumentParamsSize = "A1"
-	CreateSubmissionFromHTMLDocumentParamsSizeA2      CreateSubmissionFromHTMLDocumentParamsSize = "A2"
-	CreateSubmissionFromHTMLDocumentParamsSizeA3      CreateSubmissionFromHTMLDocumentParamsSize = "A3"
-	CreateSubmissionFromHTMLDocumentParamsSizeA4      CreateSubmissionFromHTMLDocumentParamsSize = "A4"
-	CreateSubmissionFromHTMLDocumentParamsSizeA5      CreateSubmissionFromHTMLDocumentParamsSize = "A5"
-	CreateSubmissionFromHTMLDocumentParamsSizeA6      CreateSubmissionFromHTMLDocumentParamsSize = "A6"
-)
-
-func NewCreateSubmissionFromHTMLDocumentParamsSizeFromString(s string) (CreateSubmissionFromHTMLDocumentParamsSize, error) {
-	switch s {
-	case "Letter":
-		return CreateSubmissionFromHTMLDocumentParamsSizeLetter, nil
-	case "Legal":
-		return CreateSubmissionFromHTMLDocumentParamsSizeLegal, nil
-	case "Tabloid":
-		return CreateSubmissionFromHTMLDocumentParamsSizeTabloid, nil
-	case "Ledger":
-		return CreateSubmissionFromHTMLDocumentParamsSizeLedger, nil
-	case "A0":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA0, nil
-	case "A1":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA1, nil
-	case "A2":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA2, nil
-	case "A3":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA3, nil
-	case "A4":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA4, nil
-	case "A5":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA5, nil
-	case "A6":
-		return CreateSubmissionFromHTMLDocumentParamsSizeA6, nil
-	}
-	var t CreateSubmissionFromHTMLDocumentParamsSize
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromHTMLDocumentParamsSize) Ptr() *CreateSubmissionFromHTMLDocumentParamsSize {
-	return &c
-}
-
-// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-type CreateSubmissionFromHTMLRequestOrder string
-
-const (
-	CreateSubmissionFromHTMLRequestOrderPreserved CreateSubmissionFromHTMLRequestOrder = "preserved"
-	CreateSubmissionFromHTMLRequestOrderRandom    CreateSubmissionFromHTMLRequestOrder = "random"
-)
-
-func NewCreateSubmissionFromHTMLRequestOrderFromString(s string) (CreateSubmissionFromHTMLRequestOrder, error) {
-	switch s {
-	case "preserved":
-		return CreateSubmissionFromHTMLRequestOrderPreserved, nil
-	case "random":
-		return CreateSubmissionFromHTMLRequestOrderRandom, nil
-	}
-	var t CreateSubmissionFromHTMLRequestOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromHTMLRequestOrder) Ptr() *CreateSubmissionFromHTMLRequestOrder {
-	return &c
 }
 
 var (
@@ -2492,29 +2322,6 @@ func (c *CreateSubmissionFromPdfDocumentParams) String() string {
 	return fmt.Sprintf("%#v", c)
 }
 
-// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-type CreateSubmissionFromPdfRequestOrder string
-
-const (
-	CreateSubmissionFromPdfRequestOrderPreserved CreateSubmissionFromPdfRequestOrder = "preserved"
-	CreateSubmissionFromPdfRequestOrderRandom    CreateSubmissionFromPdfRequestOrder = "random"
-)
-
-func NewCreateSubmissionFromPdfRequestOrderFromString(s string) (CreateSubmissionFromPdfRequestOrder, error) {
-	switch s {
-	case "preserved":
-		return CreateSubmissionFromPdfRequestOrderPreserved, nil
-	case "random":
-		return CreateSubmissionFromPdfRequestOrderRandom, nil
-	}
-	var t CreateSubmissionFromPdfRequestOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionFromPdfRequestOrder) Ptr() *CreateSubmissionFromPdfRequestOrder {
-	return &c
-}
-
 // Custom signature request email message.
 var (
 	createSubmissionMessageParamsFieldSubject = big.NewInt(1 << 0)
@@ -2604,165 +2411,6 @@ func (c *CreateSubmissionMessageParams) MarshalJSON() ([]byte, error) {
 }
 
 func (c *CreateSubmissionMessageParams) String() string {
-	if c == nil {
-		return "<nil>"
-	}
-	if len(c.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(c); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", c)
-}
-
-// Pass 'random' to send signature request emails to all parties right away. The order is 'preserved' by default so the second party will receive a signature request email only after the document is signed by the first party.
-type CreateSubmissionRequestOrder string
-
-const (
-	CreateSubmissionRequestOrderPreserved CreateSubmissionRequestOrder = "preserved"
-	CreateSubmissionRequestOrderRandom    CreateSubmissionRequestOrder = "random"
-)
-
-func NewCreateSubmissionRequestOrderFromString(s string) (CreateSubmissionRequestOrder, error) {
-	switch s {
-	case "preserved":
-		return CreateSubmissionRequestOrderPreserved, nil
-	case "random":
-		return CreateSubmissionRequestOrderRandom, nil
-	}
-	var t CreateSubmissionRequestOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionRequestOrder) Ptr() *CreateSubmissionRequestOrder {
-	return &c
-}
-
-var (
-	createSubmissionResultFieldID         = big.NewInt(1 << 0)
-	createSubmissionResultFieldSubmitters = big.NewInt(1 << 1)
-	createSubmissionResultFieldExpireAt   = big.NewInt(1 << 2)
-	createSubmissionResultFieldCreatedAt  = big.NewInt(1 << 3)
-)
-
-type CreateSubmissionResult struct {
-	// Submission unique ID number.
-	ID int `json:"id" url:"id"`
-	// The list of created submitters.
-	Submitters []*SubmitterCreateResult `json:"submitters" url:"submitters"`
-	// The date and time when the submission expires.
-	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
-	// The date and time when the submission was created.
-	CreatedAt string `json:"created_at" url:"created_at"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (c *CreateSubmissionResult) GetID() int {
-	if c == nil {
-		return 0
-	}
-	return c.ID
-}
-
-func (c *CreateSubmissionResult) GetSubmitters() []*SubmitterCreateResult {
-	if c == nil {
-		return nil
-	}
-	return c.Submitters
-}
-
-func (c *CreateSubmissionResult) GetExpireAt() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ExpireAt
-}
-
-func (c *CreateSubmissionResult) GetCreatedAt() string {
-	if c == nil {
-		return ""
-	}
-	return c.CreatedAt
-}
-
-func (c *CreateSubmissionResult) GetExtraProperties() map[string]interface{} {
-	if c == nil {
-		return nil
-	}
-	return c.extraProperties
-}
-
-func (c *CreateSubmissionResult) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
-	}
-	c.explicitFields.Or(c.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResult) SetID(id int) {
-	c.ID = id
-	c.require(createSubmissionResultFieldID)
-}
-
-// SetSubmitters sets the Submitters field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResult) SetSubmitters(submitters []*SubmitterCreateResult) {
-	c.Submitters = submitters
-	c.require(createSubmissionResultFieldSubmitters)
-}
-
-// SetExpireAt sets the ExpireAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResult) SetExpireAt(expireAt *string) {
-	c.ExpireAt = expireAt
-	c.require(createSubmissionResultFieldExpireAt)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionResult) SetCreatedAt(createdAt string) {
-	c.CreatedAt = createdAt
-	c.require(createSubmissionResultFieldCreatedAt)
-}
-
-func (c *CreateSubmissionResult) UnmarshalJSON(data []byte) error {
-	type unmarshaler CreateSubmissionResult
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*c = CreateSubmissionResult(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *c)
-	if err != nil {
-		return err
-	}
-	c.extraProperties = extraProperties
-	c.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (c *CreateSubmissionResult) MarshalJSON() ([]byte, error) {
-	type embed CreateSubmissionResult
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*c),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (c *CreateSubmissionResult) String() string {
 	if c == nil {
 		return "<nil>"
 	}
@@ -3187,23 +2835,23 @@ type CreateSubmissionSubmitterFieldPreferencesParams struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType *CreateSubmissionSubmitterFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType FieldFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font *CreateSubmissionSubmitterFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	Font FieldFont `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color *CreateSubmissionSubmitterFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	Color string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background *CreateSubmissionSubmitterFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	Background string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align *CreateSubmissionSubmitterFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	Align FieldAlign `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign *CreateSubmissionSubmitterFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	Valign FieldValign `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
 	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency *CreateSubmissionSubmitterFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	Currency Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	// Set `true` to make sensitive data masked on the document.
 	Mask *CreateSubmissionSubmitterFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
@@ -3223,44 +2871,44 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFontSize() *int {
 	return c.FontSize
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFontType() *CreateSubmissionSubmitterFieldPreferencesParamsFontType {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFontType() FieldFontType {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.FontType
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFont() *CreateSubmissionSubmitterFieldPreferencesParamsFont {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetFont() FieldFont {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Font
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetColor() *CreateSubmissionSubmitterFieldPreferencesParamsColor {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetColor() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Color
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetBackground() *CreateSubmissionSubmitterFieldPreferencesParamsBackground {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetBackground() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Background
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetAlign() *CreateSubmissionSubmitterFieldPreferencesParamsAlign {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetAlign() FieldAlign {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Align
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetValign() *CreateSubmissionSubmitterFieldPreferencesParamsValign {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetValign() FieldValign {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Valign
 }
@@ -3279,9 +2927,9 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetPrice() *float64 {
 	return c.Price
 }
 
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetCurrency() *CreateSubmissionSubmitterFieldPreferencesParamsCurrency {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) GetCurrency() Currency {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Currency
 }
@@ -3323,42 +2971,42 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFontSize(fontSize *
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFontType(fontType *CreateSubmissionSubmitterFieldPreferencesParamsFontType) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFontType(fontType FieldFontType) {
 	c.FontType = fontType
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFont(font *CreateSubmissionSubmitterFieldPreferencesParamsFont) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetFont(font FieldFont) {
 	c.Font = font
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetColor(color *CreateSubmissionSubmitterFieldPreferencesParamsColor) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetColor(color string) {
 	c.Color = color
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetBackground(background *CreateSubmissionSubmitterFieldPreferencesParamsBackground) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetBackground(background string) {
 	c.Background = background
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetAlign(align *CreateSubmissionSubmitterFieldPreferencesParamsAlign) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetAlign(align FieldAlign) {
 	c.Align = align
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetValign(valign *CreateSubmissionSubmitterFieldPreferencesParamsValign) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetValign(valign FieldValign) {
 	c.Valign = valign
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldValign)
 }
@@ -3379,7 +3027,7 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetPrice(price *float6
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetCurrency(currency *CreateSubmissionSubmitterFieldPreferencesParamsCurrency) {
+func (c *CreateSubmissionSubmitterFieldPreferencesParams) SetCurrency(currency Currency) {
 	c.Currency = currency
 	c.require(createSubmissionSubmitterFieldPreferencesParamsFieldCurrency)
 }
@@ -3438,168 +3086,6 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
-}
-
-// Horizontal alignment of the field text value.
-type CreateSubmissionSubmitterFieldPreferencesParamsAlign string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsAlignLeft   CreateSubmissionSubmitterFieldPreferencesParamsAlign = "left"
-	CreateSubmissionSubmitterFieldPreferencesParamsAlignCenter CreateSubmissionSubmitterFieldPreferencesParamsAlign = "center"
-	CreateSubmissionSubmitterFieldPreferencesParamsAlignRight  CreateSubmissionSubmitterFieldPreferencesParamsAlign = "right"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsAlignFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsAlign, error) {
-	switch s {
-	case "left":
-		return CreateSubmissionSubmitterFieldPreferencesParamsAlignLeft, nil
-	case "center":
-		return CreateSubmissionSubmitterFieldPreferencesParamsAlignCenter, nil
-	case "right":
-		return CreateSubmissionSubmitterFieldPreferencesParamsAlignRight, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsAlign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsAlign) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsAlign {
-	return &c
-}
-
-// Field box background color.
-type CreateSubmissionSubmitterFieldPreferencesParamsBackground string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlack CreateSubmissionSubmitterFieldPreferencesParamsBackground = "black"
-	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundWhite CreateSubmissionSubmitterFieldPreferencesParamsBackground = "white"
-	CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlue  CreateSubmissionSubmitterFieldPreferencesParamsBackground = "blue"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsBackgroundFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsBackground, error) {
-	switch s {
-	case "black":
-		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlack, nil
-	case "white":
-		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundWhite, nil
-	case "blue":
-		return CreateSubmissionSubmitterFieldPreferencesParamsBackgroundBlue, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsBackground
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsBackground) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsBackground {
-	return &c
-}
-
-// Font color of the field value.
-type CreateSubmissionSubmitterFieldPreferencesParamsColor string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsColorBlack CreateSubmissionSubmitterFieldPreferencesParamsColor = "black"
-	CreateSubmissionSubmitterFieldPreferencesParamsColorWhite CreateSubmissionSubmitterFieldPreferencesParamsColor = "white"
-	CreateSubmissionSubmitterFieldPreferencesParamsColorBlue  CreateSubmissionSubmitterFieldPreferencesParamsColor = "blue"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsColorFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsColor, error) {
-	switch s {
-	case "black":
-		return CreateSubmissionSubmitterFieldPreferencesParamsColorBlack, nil
-	case "white":
-		return CreateSubmissionSubmitterFieldPreferencesParamsColorWhite, nil
-	case "blue":
-		return CreateSubmissionSubmitterFieldPreferencesParamsColorBlue, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsColor
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsColor) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsColor {
-	return &c
-}
-
-// Currency value of the payment field. Only for payment fields.
-type CreateSubmissionSubmitterFieldPreferencesParamsCurrency string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyUsd CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "USD"
-	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyEur CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "EUR"
-	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyGbp CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "GBP"
-	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyCad CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "CAD"
-	CreateSubmissionSubmitterFieldPreferencesParamsCurrencyAud CreateSubmissionSubmitterFieldPreferencesParamsCurrency = "AUD"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsCurrencyFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsCurrency, error) {
-	switch s {
-	case "USD":
-		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyUsd, nil
-	case "EUR":
-		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyEur, nil
-	case "GBP":
-		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyGbp, nil
-	case "CAD":
-		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyCad, nil
-	case "AUD":
-		return CreateSubmissionSubmitterFieldPreferencesParamsCurrencyAud, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsCurrency
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsCurrency) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsCurrency {
-	return &c
-}
-
-// Font family of the field value.
-type CreateSubmissionSubmitterFieldPreferencesParamsFont string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsFontTimes     CreateSubmissionSubmitterFieldPreferencesParamsFont = "Times"
-	CreateSubmissionSubmitterFieldPreferencesParamsFontHelvetica CreateSubmissionSubmitterFieldPreferencesParamsFont = "Helvetica"
-	CreateSubmissionSubmitterFieldPreferencesParamsFontCourier   CreateSubmissionSubmitterFieldPreferencesParamsFont = "Courier"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsFontFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsFont, error) {
-	switch s {
-	case "Times":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontTimes, nil
-	case "Helvetica":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontHelvetica, nil
-	case "Courier":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontCourier, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsFont
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsFont) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsFont {
-	return &c
-}
-
-// Font type of the field value.
-type CreateSubmissionSubmitterFieldPreferencesParamsFontType string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBold       CreateSubmissionSubmitterFieldPreferencesParamsFontType = "bold"
-	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeItalic     CreateSubmissionSubmitterFieldPreferencesParamsFontType = "italic"
-	CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBoldItalic CreateSubmissionSubmitterFieldPreferencesParamsFontType = "bold_italic"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsFontTypeFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsFontType, error) {
-	switch s {
-	case "bold":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBold, nil
-	case "italic":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeItalic, nil
-	case "bold_italic":
-		return CreateSubmissionSubmitterFieldPreferencesParamsFontTypeBoldItalic, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsFontType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsFontType) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsFontType {
-	return &c
 }
 
 // Set `true` to make sensitive data masked on the document.
@@ -3663,32 +3149,6 @@ func (c *CreateSubmissionSubmitterFieldPreferencesParamsMask) Accept(visitor Cre
 		return visitor.VisitBoolean(c.Boolean)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-// Vertical alignment of the field text value.
-type CreateSubmissionSubmitterFieldPreferencesParamsValign string
-
-const (
-	CreateSubmissionSubmitterFieldPreferencesParamsValignTop    CreateSubmissionSubmitterFieldPreferencesParamsValign = "top"
-	CreateSubmissionSubmitterFieldPreferencesParamsValignCenter CreateSubmissionSubmitterFieldPreferencesParamsValign = "center"
-	CreateSubmissionSubmitterFieldPreferencesParamsValignBottom CreateSubmissionSubmitterFieldPreferencesParamsValign = "bottom"
-)
-
-func NewCreateSubmissionSubmitterFieldPreferencesParamsValignFromString(s string) (CreateSubmissionSubmitterFieldPreferencesParamsValign, error) {
-	switch s {
-	case "top":
-		return CreateSubmissionSubmitterFieldPreferencesParamsValignTop, nil
-	case "center":
-		return CreateSubmissionSubmitterFieldPreferencesParamsValignCenter, nil
-	case "bottom":
-		return CreateSubmissionSubmitterFieldPreferencesParamsValignBottom, nil
-	}
-	var t CreateSubmissionSubmitterFieldPreferencesParamsValign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateSubmissionSubmitterFieldPreferencesParamsValign) Ptr() *CreateSubmissionSubmitterFieldPreferencesParamsValign {
-	return &c
 }
 
 // Field validation rules.
@@ -4651,7 +4111,7 @@ type CreateTemplateDocumentFieldParams struct {
 	// Name of the field.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
-	Type *CreateTemplateDocumentFieldParamsType `json:"type,omitempty" url:"type,omitempty"`
+	Type FieldType `json:"type,omitempty" url:"type,omitempty"`
 	// Role name of the signer.
 	Role string `json:"role,omitempty" url:"role,omitempty"`
 	// Indicates if the field is required.
@@ -4681,9 +4141,9 @@ func (c *CreateTemplateDocumentFieldParams) GetName() string {
 	return c.Name
 }
 
-func (c *CreateTemplateDocumentFieldParams) GetType() *CreateTemplateDocumentFieldParamsType {
+func (c *CreateTemplateDocumentFieldParams) GetType() FieldType {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Type
 }
@@ -4767,7 +4227,7 @@ func (c *CreateTemplateDocumentFieldParams) SetName(name string) {
 
 // SetType sets the Type field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldParams) SetType(type_ *CreateTemplateDocumentFieldParamsType) {
+func (c *CreateTemplateDocumentFieldParams) SetType(type_ FieldType) {
 	c.Type = type_
 	c.require(createTemplateDocumentFieldParamsFieldType)
 }
@@ -4870,80 +4330,6 @@ func (c *CreateTemplateDocumentFieldParams) String() string {
 	return fmt.Sprintf("%#v", c)
 }
 
-// Type of the field (e.g., text, signature, date, initials).
-type CreateTemplateDocumentFieldParamsType string
-
-const (
-	CreateTemplateDocumentFieldParamsTypeHeading       CreateTemplateDocumentFieldParamsType = "heading"
-	CreateTemplateDocumentFieldParamsTypeText          CreateTemplateDocumentFieldParamsType = "text"
-	CreateTemplateDocumentFieldParamsTypeSignature     CreateTemplateDocumentFieldParamsType = "signature"
-	CreateTemplateDocumentFieldParamsTypeInitials      CreateTemplateDocumentFieldParamsType = "initials"
-	CreateTemplateDocumentFieldParamsTypeDate          CreateTemplateDocumentFieldParamsType = "date"
-	CreateTemplateDocumentFieldParamsTypeNumber        CreateTemplateDocumentFieldParamsType = "number"
-	CreateTemplateDocumentFieldParamsTypeImage         CreateTemplateDocumentFieldParamsType = "image"
-	CreateTemplateDocumentFieldParamsTypeCheckbox      CreateTemplateDocumentFieldParamsType = "checkbox"
-	CreateTemplateDocumentFieldParamsTypeMultiple      CreateTemplateDocumentFieldParamsType = "multiple"
-	CreateTemplateDocumentFieldParamsTypeFile          CreateTemplateDocumentFieldParamsType = "file"
-	CreateTemplateDocumentFieldParamsTypeRadio         CreateTemplateDocumentFieldParamsType = "radio"
-	CreateTemplateDocumentFieldParamsTypeSelect        CreateTemplateDocumentFieldParamsType = "select"
-	CreateTemplateDocumentFieldParamsTypeCells         CreateTemplateDocumentFieldParamsType = "cells"
-	CreateTemplateDocumentFieldParamsTypeStamp         CreateTemplateDocumentFieldParamsType = "stamp"
-	CreateTemplateDocumentFieldParamsTypePayment       CreateTemplateDocumentFieldParamsType = "payment"
-	CreateTemplateDocumentFieldParamsTypePhone         CreateTemplateDocumentFieldParamsType = "phone"
-	CreateTemplateDocumentFieldParamsTypeVerification  CreateTemplateDocumentFieldParamsType = "verification"
-	CreateTemplateDocumentFieldParamsTypeKba           CreateTemplateDocumentFieldParamsType = "kba"
-	CreateTemplateDocumentFieldParamsTypeStrikethrough CreateTemplateDocumentFieldParamsType = "strikethrough"
-)
-
-func NewCreateTemplateDocumentFieldParamsTypeFromString(s string) (CreateTemplateDocumentFieldParamsType, error) {
-	switch s {
-	case "heading":
-		return CreateTemplateDocumentFieldParamsTypeHeading, nil
-	case "text":
-		return CreateTemplateDocumentFieldParamsTypeText, nil
-	case "signature":
-		return CreateTemplateDocumentFieldParamsTypeSignature, nil
-	case "initials":
-		return CreateTemplateDocumentFieldParamsTypeInitials, nil
-	case "date":
-		return CreateTemplateDocumentFieldParamsTypeDate, nil
-	case "number":
-		return CreateTemplateDocumentFieldParamsTypeNumber, nil
-	case "image":
-		return CreateTemplateDocumentFieldParamsTypeImage, nil
-	case "checkbox":
-		return CreateTemplateDocumentFieldParamsTypeCheckbox, nil
-	case "multiple":
-		return CreateTemplateDocumentFieldParamsTypeMultiple, nil
-	case "file":
-		return CreateTemplateDocumentFieldParamsTypeFile, nil
-	case "radio":
-		return CreateTemplateDocumentFieldParamsTypeRadio, nil
-	case "select":
-		return CreateTemplateDocumentFieldParamsTypeSelect, nil
-	case "cells":
-		return CreateTemplateDocumentFieldParamsTypeCells, nil
-	case "stamp":
-		return CreateTemplateDocumentFieldParamsTypeStamp, nil
-	case "payment":
-		return CreateTemplateDocumentFieldParamsTypePayment, nil
-	case "phone":
-		return CreateTemplateDocumentFieldParamsTypePhone, nil
-	case "verification":
-		return CreateTemplateDocumentFieldParamsTypeVerification, nil
-	case "kba":
-		return CreateTemplateDocumentFieldParamsTypeKba, nil
-	case "strikethrough":
-		return CreateTemplateDocumentFieldParamsTypeStrikethrough, nil
-	}
-	var t CreateTemplateDocumentFieldParamsType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldParamsType) Ptr() *CreateTemplateDocumentFieldParamsType {
-	return &c
-}
-
 // Field display preferences.
 var (
 	createTemplateDocumentFieldPreferencesParamsFieldFontSize   = big.NewInt(1 << 0)
@@ -4964,23 +4350,23 @@ type CreateTemplateDocumentFieldPreferencesParams struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType *CreateTemplateDocumentFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType FieldFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font *CreateTemplateDocumentFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	Font FieldFont `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color *CreateTemplateDocumentFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	Color string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background *CreateTemplateDocumentFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	Background string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align *CreateTemplateDocumentFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	Align FieldAlign `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign *CreateTemplateDocumentFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	Valign FieldValign `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
 	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency *CreateTemplateDocumentFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	Currency Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	// Set `true` to make sensitive data masked on the document.
 	Mask *CreateTemplateDocumentFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
@@ -5000,44 +4386,44 @@ func (c *CreateTemplateDocumentFieldPreferencesParams) GetFontSize() *int {
 	return c.FontSize
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetFontType() *CreateTemplateDocumentFieldPreferencesParamsFontType {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFontType() FieldFontType {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.FontType
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetFont() *CreateTemplateDocumentFieldPreferencesParamsFont {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetFont() FieldFont {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Font
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetColor() *CreateTemplateDocumentFieldPreferencesParamsColor {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetColor() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Color
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetBackground() *CreateTemplateDocumentFieldPreferencesParamsBackground {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetBackground() string {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Background
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetAlign() *CreateTemplateDocumentFieldPreferencesParamsAlign {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetAlign() FieldAlign {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Align
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetValign() *CreateTemplateDocumentFieldPreferencesParamsValign {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetValign() FieldValign {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Valign
 }
@@ -5056,9 +4442,9 @@ func (c *CreateTemplateDocumentFieldPreferencesParams) GetPrice() *float64 {
 	return c.Price
 }
 
-func (c *CreateTemplateDocumentFieldPreferencesParams) GetCurrency() *CreateTemplateDocumentFieldPreferencesParamsCurrency {
+func (c *CreateTemplateDocumentFieldPreferencesParams) GetCurrency() Currency {
 	if c == nil {
-		return nil
+		return ""
 	}
 	return c.Currency
 }
@@ -5100,42 +4486,42 @@ func (c *CreateTemplateDocumentFieldPreferencesParams) SetFontSize(fontSize *int
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetFontType(fontType *CreateTemplateDocumentFieldPreferencesParamsFontType) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFontType(fontType FieldFontType) {
 	c.FontType = fontType
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetFont(font *CreateTemplateDocumentFieldPreferencesParamsFont) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetFont(font FieldFont) {
 	c.Font = font
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetColor(color *CreateTemplateDocumentFieldPreferencesParamsColor) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetColor(color string) {
 	c.Color = color
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetBackground(background *CreateTemplateDocumentFieldPreferencesParamsBackground) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetBackground(background string) {
 	c.Background = background
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetAlign(align *CreateTemplateDocumentFieldPreferencesParamsAlign) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetAlign(align FieldAlign) {
 	c.Align = align
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetValign(valign *CreateTemplateDocumentFieldPreferencesParamsValign) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetValign(valign FieldValign) {
 	c.Valign = valign
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldValign)
 }
@@ -5156,7 +4542,7 @@ func (c *CreateTemplateDocumentFieldPreferencesParams) SetPrice(price *float64) 
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateDocumentFieldPreferencesParams) SetCurrency(currency *CreateTemplateDocumentFieldPreferencesParamsCurrency) {
+func (c *CreateTemplateDocumentFieldPreferencesParams) SetCurrency(currency Currency) {
 	c.Currency = currency
 	c.require(createTemplateDocumentFieldPreferencesParamsFieldCurrency)
 }
@@ -5215,168 +4601,6 @@ func (c *CreateTemplateDocumentFieldPreferencesParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
-}
-
-// Horizontal alignment of the field text value.
-type CreateTemplateDocumentFieldPreferencesParamsAlign string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsAlignLeft   CreateTemplateDocumentFieldPreferencesParamsAlign = "left"
-	CreateTemplateDocumentFieldPreferencesParamsAlignCenter CreateTemplateDocumentFieldPreferencesParamsAlign = "center"
-	CreateTemplateDocumentFieldPreferencesParamsAlignRight  CreateTemplateDocumentFieldPreferencesParamsAlign = "right"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsAlignFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsAlign, error) {
-	switch s {
-	case "left":
-		return CreateTemplateDocumentFieldPreferencesParamsAlignLeft, nil
-	case "center":
-		return CreateTemplateDocumentFieldPreferencesParamsAlignCenter, nil
-	case "right":
-		return CreateTemplateDocumentFieldPreferencesParamsAlignRight, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsAlign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsAlign) Ptr() *CreateTemplateDocumentFieldPreferencesParamsAlign {
-	return &c
-}
-
-// Field box background color.
-type CreateTemplateDocumentFieldPreferencesParamsBackground string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsBackgroundBlack CreateTemplateDocumentFieldPreferencesParamsBackground = "black"
-	CreateTemplateDocumentFieldPreferencesParamsBackgroundWhite CreateTemplateDocumentFieldPreferencesParamsBackground = "white"
-	CreateTemplateDocumentFieldPreferencesParamsBackgroundBlue  CreateTemplateDocumentFieldPreferencesParamsBackground = "blue"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsBackgroundFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsBackground, error) {
-	switch s {
-	case "black":
-		return CreateTemplateDocumentFieldPreferencesParamsBackgroundBlack, nil
-	case "white":
-		return CreateTemplateDocumentFieldPreferencesParamsBackgroundWhite, nil
-	case "blue":
-		return CreateTemplateDocumentFieldPreferencesParamsBackgroundBlue, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsBackground
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsBackground) Ptr() *CreateTemplateDocumentFieldPreferencesParamsBackground {
-	return &c
-}
-
-// Font color of the field value.
-type CreateTemplateDocumentFieldPreferencesParamsColor string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsColorBlack CreateTemplateDocumentFieldPreferencesParamsColor = "black"
-	CreateTemplateDocumentFieldPreferencesParamsColorWhite CreateTemplateDocumentFieldPreferencesParamsColor = "white"
-	CreateTemplateDocumentFieldPreferencesParamsColorBlue  CreateTemplateDocumentFieldPreferencesParamsColor = "blue"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsColorFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsColor, error) {
-	switch s {
-	case "black":
-		return CreateTemplateDocumentFieldPreferencesParamsColorBlack, nil
-	case "white":
-		return CreateTemplateDocumentFieldPreferencesParamsColorWhite, nil
-	case "blue":
-		return CreateTemplateDocumentFieldPreferencesParamsColorBlue, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsColor
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsColor) Ptr() *CreateTemplateDocumentFieldPreferencesParamsColor {
-	return &c
-}
-
-// Currency value of the payment field. Only for payment fields.
-type CreateTemplateDocumentFieldPreferencesParamsCurrency string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsCurrencyUsd CreateTemplateDocumentFieldPreferencesParamsCurrency = "USD"
-	CreateTemplateDocumentFieldPreferencesParamsCurrencyEur CreateTemplateDocumentFieldPreferencesParamsCurrency = "EUR"
-	CreateTemplateDocumentFieldPreferencesParamsCurrencyGbp CreateTemplateDocumentFieldPreferencesParamsCurrency = "GBP"
-	CreateTemplateDocumentFieldPreferencesParamsCurrencyCad CreateTemplateDocumentFieldPreferencesParamsCurrency = "CAD"
-	CreateTemplateDocumentFieldPreferencesParamsCurrencyAud CreateTemplateDocumentFieldPreferencesParamsCurrency = "AUD"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsCurrencyFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsCurrency, error) {
-	switch s {
-	case "USD":
-		return CreateTemplateDocumentFieldPreferencesParamsCurrencyUsd, nil
-	case "EUR":
-		return CreateTemplateDocumentFieldPreferencesParamsCurrencyEur, nil
-	case "GBP":
-		return CreateTemplateDocumentFieldPreferencesParamsCurrencyGbp, nil
-	case "CAD":
-		return CreateTemplateDocumentFieldPreferencesParamsCurrencyCad, nil
-	case "AUD":
-		return CreateTemplateDocumentFieldPreferencesParamsCurrencyAud, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsCurrency
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsCurrency) Ptr() *CreateTemplateDocumentFieldPreferencesParamsCurrency {
-	return &c
-}
-
-// Font family of the field value.
-type CreateTemplateDocumentFieldPreferencesParamsFont string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsFontTimes     CreateTemplateDocumentFieldPreferencesParamsFont = "Times"
-	CreateTemplateDocumentFieldPreferencesParamsFontHelvetica CreateTemplateDocumentFieldPreferencesParamsFont = "Helvetica"
-	CreateTemplateDocumentFieldPreferencesParamsFontCourier   CreateTemplateDocumentFieldPreferencesParamsFont = "Courier"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsFontFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsFont, error) {
-	switch s {
-	case "Times":
-		return CreateTemplateDocumentFieldPreferencesParamsFontTimes, nil
-	case "Helvetica":
-		return CreateTemplateDocumentFieldPreferencesParamsFontHelvetica, nil
-	case "Courier":
-		return CreateTemplateDocumentFieldPreferencesParamsFontCourier, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsFont
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsFont) Ptr() *CreateTemplateDocumentFieldPreferencesParamsFont {
-	return &c
-}
-
-// Font type of the field value.
-type CreateTemplateDocumentFieldPreferencesParamsFontType string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsFontTypeBold       CreateTemplateDocumentFieldPreferencesParamsFontType = "bold"
-	CreateTemplateDocumentFieldPreferencesParamsFontTypeItalic     CreateTemplateDocumentFieldPreferencesParamsFontType = "italic"
-	CreateTemplateDocumentFieldPreferencesParamsFontTypeBoldItalic CreateTemplateDocumentFieldPreferencesParamsFontType = "bold_italic"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsFontTypeFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsFontType, error) {
-	switch s {
-	case "bold":
-		return CreateTemplateDocumentFieldPreferencesParamsFontTypeBold, nil
-	case "italic":
-		return CreateTemplateDocumentFieldPreferencesParamsFontTypeItalic, nil
-	case "bold_italic":
-		return CreateTemplateDocumentFieldPreferencesParamsFontTypeBoldItalic, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsFontType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsFontType) Ptr() *CreateTemplateDocumentFieldPreferencesParamsFontType {
-	return &c
 }
 
 // Set `true` to make sensitive data masked on the document.
@@ -5440,32 +4664,6 @@ func (c *CreateTemplateDocumentFieldPreferencesParamsMask) Accept(visitor Create
 		return visitor.VisitBoolean(c.Boolean)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-// Vertical alignment of the field text value.
-type CreateTemplateDocumentFieldPreferencesParamsValign string
-
-const (
-	CreateTemplateDocumentFieldPreferencesParamsValignTop    CreateTemplateDocumentFieldPreferencesParamsValign = "top"
-	CreateTemplateDocumentFieldPreferencesParamsValignCenter CreateTemplateDocumentFieldPreferencesParamsValign = "center"
-	CreateTemplateDocumentFieldPreferencesParamsValignBottom CreateTemplateDocumentFieldPreferencesParamsValign = "bottom"
-)
-
-func NewCreateTemplateDocumentFieldPreferencesParamsValignFromString(s string) (CreateTemplateDocumentFieldPreferencesParamsValign, error) {
-	switch s {
-	case "top":
-		return CreateTemplateDocumentFieldPreferencesParamsValignTop, nil
-	case "center":
-		return CreateTemplateDocumentFieldPreferencesParamsValignCenter, nil
-	case "bottom":
-		return CreateTemplateDocumentFieldPreferencesParamsValignBottom, nil
-	}
-	var t CreateTemplateDocumentFieldPreferencesParamsValign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateDocumentFieldPreferencesParamsValign) Ptr() *CreateTemplateDocumentFieldPreferencesParamsValign {
-	return &c
 }
 
 // Field validation rules.
@@ -5986,56 +5184,6 @@ func (c *CreateTemplateFromHTMLDocumentParams) String() string {
 	return fmt.Sprintf("%#v", c)
 }
 
-// Page size. Letter 8.5 x 11 will be assigned when not specified.
-type CreateTemplateFromHTMLRequestSize string
-
-const (
-	CreateTemplateFromHTMLRequestSizeLetter  CreateTemplateFromHTMLRequestSize = "Letter"
-	CreateTemplateFromHTMLRequestSizeLegal   CreateTemplateFromHTMLRequestSize = "Legal"
-	CreateTemplateFromHTMLRequestSizeTabloid CreateTemplateFromHTMLRequestSize = "Tabloid"
-	CreateTemplateFromHTMLRequestSizeLedger  CreateTemplateFromHTMLRequestSize = "Ledger"
-	CreateTemplateFromHTMLRequestSizeA0      CreateTemplateFromHTMLRequestSize = "A0"
-	CreateTemplateFromHTMLRequestSizeA1      CreateTemplateFromHTMLRequestSize = "A1"
-	CreateTemplateFromHTMLRequestSizeA2      CreateTemplateFromHTMLRequestSize = "A2"
-	CreateTemplateFromHTMLRequestSizeA3      CreateTemplateFromHTMLRequestSize = "A3"
-	CreateTemplateFromHTMLRequestSizeA4      CreateTemplateFromHTMLRequestSize = "A4"
-	CreateTemplateFromHTMLRequestSizeA5      CreateTemplateFromHTMLRequestSize = "A5"
-	CreateTemplateFromHTMLRequestSizeA6      CreateTemplateFromHTMLRequestSize = "A6"
-)
-
-func NewCreateTemplateFromHTMLRequestSizeFromString(s string) (CreateTemplateFromHTMLRequestSize, error) {
-	switch s {
-	case "Letter":
-		return CreateTemplateFromHTMLRequestSizeLetter, nil
-	case "Legal":
-		return CreateTemplateFromHTMLRequestSizeLegal, nil
-	case "Tabloid":
-		return CreateTemplateFromHTMLRequestSizeTabloid, nil
-	case "Ledger":
-		return CreateTemplateFromHTMLRequestSizeLedger, nil
-	case "A0":
-		return CreateTemplateFromHTMLRequestSizeA0, nil
-	case "A1":
-		return CreateTemplateFromHTMLRequestSizeA1, nil
-	case "A2":
-		return CreateTemplateFromHTMLRequestSizeA2, nil
-	case "A3":
-		return CreateTemplateFromHTMLRequestSizeA3, nil
-	case "A4":
-		return CreateTemplateFromHTMLRequestSizeA4, nil
-	case "A5":
-		return CreateTemplateFromHTMLRequestSizeA5, nil
-	case "A6":
-		return CreateTemplateFromHTMLRequestSizeA6, nil
-	}
-	var t CreateTemplateFromHTMLRequestSize
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (c CreateTemplateFromHTMLRequestSize) Ptr() *CreateTemplateFromHTMLRequestSize {
-	return &c
-}
-
 var (
 	createTemplateFromPdfDocumentParamsFieldName   = big.NewInt(1 << 0)
 	createTemplateFromPdfDocumentParamsFieldFile   = big.NewInt(1 << 1)
@@ -6153,6 +5301,37 @@ func (c *CreateTemplateFromPdfDocumentParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
+}
+
+type Currency string
+
+const (
+	CurrencyUsd Currency = "USD"
+	CurrencyEur Currency = "EUR"
+	CurrencyGbp Currency = "GBP"
+	CurrencyCad Currency = "CAD"
+	CurrencyAud Currency = "AUD"
+)
+
+func NewCurrencyFromString(s string) (Currency, error) {
+	switch s {
+	case "USD":
+		return CurrencyUsd, nil
+	case "EUR":
+		return CurrencyEur, nil
+	case "GBP":
+		return CurrencyGbp, nil
+	case "CAD":
+		return CurrencyCad, nil
+	case "AUD":
+		return CurrencyAud, nil
+	}
+	var t Currency
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c Currency) Ptr() *Currency {
+	return &c
 }
 
 var (
@@ -6443,6 +5622,31 @@ func (f *Field) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
+type FieldAlign string
+
+const (
+	FieldAlignLeft   FieldAlign = "left"
+	FieldAlignCenter FieldAlign = "center"
+	FieldAlignRight  FieldAlign = "right"
+)
+
+func NewFieldAlignFromString(s string) (FieldAlign, error) {
+	switch s {
+	case "left":
+		return FieldAlignLeft, nil
+	case "center":
+		return FieldAlignCenter, nil
+	case "right":
+		return FieldAlignRight, nil
+	}
+	var t FieldAlign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (f FieldAlign) Ptr() *FieldAlign {
+	return &f
+}
+
 var (
 	fieldAreaFieldX              = big.NewInt(1 << 0)
 	fieldAreaFieldY              = big.NewInt(1 << 1)
@@ -6613,6 +5817,56 @@ func (f *FieldArea) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
+type FieldFont string
+
+const (
+	FieldFontTimes     FieldFont = "Times"
+	FieldFontHelvetica FieldFont = "Helvetica"
+	FieldFontCourier   FieldFont = "Courier"
+)
+
+func NewFieldFontFromString(s string) (FieldFont, error) {
+	switch s {
+	case "Times":
+		return FieldFontTimes, nil
+	case "Helvetica":
+		return FieldFontHelvetica, nil
+	case "Courier":
+		return FieldFontCourier, nil
+	}
+	var t FieldFont
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (f FieldFont) Ptr() *FieldFont {
+	return &f
+}
+
+type FieldFontType string
+
+const (
+	FieldFontTypeBold       FieldFontType = "bold"
+	FieldFontTypeItalic     FieldFontType = "italic"
+	FieldFontTypeBoldItalic FieldFontType = "bold_italic"
+)
+
+func NewFieldFontTypeFromString(s string) (FieldFontType, error) {
+	switch s {
+	case "bold":
+		return FieldFontTypeBold, nil
+	case "italic":
+		return FieldFontTypeItalic, nil
+	case "bold_italic":
+		return FieldFontTypeBoldItalic, nil
+	}
+	var t FieldFontType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (f FieldFontType) Ptr() *FieldFontType {
+	return &f
+}
+
 // Field display preferences.
 var (
 	fieldPreferencesFieldFontSize   = big.NewInt(1 << 0)
@@ -6633,23 +5887,23 @@ type FieldPreferences struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType string `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType *string `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font string `json:"font,omitempty" url:"font,omitempty"`
+	Font *string `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color string `json:"color,omitempty" url:"color,omitempty"`
+	Color *string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background string `json:"background,omitempty" url:"background,omitempty"`
+	Background *string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align string `json:"align,omitempty" url:"align,omitempty"`
+	Align *string `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign string `json:"valign,omitempty" url:"valign,omitempty"`
+	Valign *string `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.
-	Format string `json:"format,omitempty" url:"format,omitempty"`
+	Format *string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency string `json:"currency,omitempty" url:"currency,omitempty"`
+	Currency *string `json:"currency,omitempty" url:"currency,omitempty"`
 	// Indicates if the field is masked on the document.
 	Mask *bool `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
@@ -6669,51 +5923,51 @@ func (f *FieldPreferences) GetFontSize() *int {
 	return f.FontSize
 }
 
-func (f *FieldPreferences) GetFontType() string {
+func (f *FieldPreferences) GetFontType() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.FontType
 }
 
-func (f *FieldPreferences) GetFont() string {
+func (f *FieldPreferences) GetFont() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Font
 }
 
-func (f *FieldPreferences) GetColor() string {
+func (f *FieldPreferences) GetColor() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Color
 }
 
-func (f *FieldPreferences) GetBackground() string {
+func (f *FieldPreferences) GetBackground() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Background
 }
 
-func (f *FieldPreferences) GetAlign() string {
+func (f *FieldPreferences) GetAlign() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Align
 }
 
-func (f *FieldPreferences) GetValign() string {
+func (f *FieldPreferences) GetValign() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Valign
 }
 
-func (f *FieldPreferences) GetFormat() string {
+func (f *FieldPreferences) GetFormat() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Format
 }
@@ -6725,9 +5979,9 @@ func (f *FieldPreferences) GetPrice() *float64 {
 	return f.Price
 }
 
-func (f *FieldPreferences) GetCurrency() string {
+func (f *FieldPreferences) GetCurrency() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Currency
 }
@@ -6769,49 +6023,49 @@ func (f *FieldPreferences) SetFontSize(fontSize *int) {
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFontType(fontType string) {
+func (f *FieldPreferences) SetFontType(fontType *string) {
 	f.FontType = fontType
 	f.require(fieldPreferencesFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFont(font string) {
+func (f *FieldPreferences) SetFont(font *string) {
 	f.Font = font
 	f.require(fieldPreferencesFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetColor(color string) {
+func (f *FieldPreferences) SetColor(color *string) {
 	f.Color = color
 	f.require(fieldPreferencesFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetBackground(background string) {
+func (f *FieldPreferences) SetBackground(background *string) {
 	f.Background = background
 	f.require(fieldPreferencesFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetAlign(align string) {
+func (f *FieldPreferences) SetAlign(align *string) {
 	f.Align = align
 	f.require(fieldPreferencesFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetValign(valign string) {
+func (f *FieldPreferences) SetValign(valign *string) {
 	f.Valign = valign
 	f.require(fieldPreferencesFieldValign)
 }
 
 // SetFormat sets the Format field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetFormat(format string) {
+func (f *FieldPreferences) SetFormat(format *string) {
 	f.Format = format
 	f.require(fieldPreferencesFieldFormat)
 }
@@ -6825,7 +6079,7 @@ func (f *FieldPreferences) SetPrice(price *float64) {
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FieldPreferences) SetCurrency(currency string) {
+func (f *FieldPreferences) SetCurrency(currency *string) {
 	f.Currency = currency
 	f.require(fieldPreferencesFieldCurrency)
 }
@@ -6886,7 +6140,6 @@ func (f *FieldPreferences) String() string {
 	return fmt.Sprintf("%#v", f)
 }
 
-// Type of the field (e.g., text, signature, date, initials).
 type FieldType string
 
 const (
@@ -6957,6 +6210,31 @@ func NewFieldTypeFromString(s string) (FieldType, error) {
 }
 
 func (f FieldType) Ptr() *FieldType {
+	return &f
+}
+
+type FieldValign string
+
+const (
+	FieldValignTop    FieldValign = "top"
+	FieldValignCenter FieldValign = "center"
+	FieldValignBottom FieldValign = "bottom"
+)
+
+func NewFieldValignFromString(s string) (FieldValign, error) {
+	switch s {
+	case "top":
+		return FieldValignTop, nil
+	case "center":
+		return FieldValignCenter, nil
+	case "bottom":
+		return FieldValignBottom, nil
+	}
+	var t FieldValign
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (f FieldValign) Ptr() *FieldValign {
 	return &f
 }
 
@@ -7250,32 +6528,53 @@ func (f *FieldValueValueThreeItem) Accept(visitor FieldValueValueThreeItemVisito
 	return fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-type GetSubmissionsRequestStatus string
+type PageSize string
 
 const (
-	GetSubmissionsRequestStatusPending   GetSubmissionsRequestStatus = "pending"
-	GetSubmissionsRequestStatusCompleted GetSubmissionsRequestStatus = "completed"
-	GetSubmissionsRequestStatusDeclined  GetSubmissionsRequestStatus = "declined"
-	GetSubmissionsRequestStatusExpired   GetSubmissionsRequestStatus = "expired"
+	PageSizeLetter  PageSize = "Letter"
+	PageSizeLegal   PageSize = "Legal"
+	PageSizeTabloid PageSize = "Tabloid"
+	PageSizeLedger  PageSize = "Ledger"
+	PageSizeA0      PageSize = "A0"
+	PageSizeA1      PageSize = "A1"
+	PageSizeA2      PageSize = "A2"
+	PageSizeA3      PageSize = "A3"
+	PageSizeA4      PageSize = "A4"
+	PageSizeA5      PageSize = "A5"
+	PageSizeA6      PageSize = "A6"
 )
 
-func NewGetSubmissionsRequestStatusFromString(s string) (GetSubmissionsRequestStatus, error) {
+func NewPageSizeFromString(s string) (PageSize, error) {
 	switch s {
-	case "pending":
-		return GetSubmissionsRequestStatusPending, nil
-	case "completed":
-		return GetSubmissionsRequestStatusCompleted, nil
-	case "declined":
-		return GetSubmissionsRequestStatusDeclined, nil
-	case "expired":
-		return GetSubmissionsRequestStatusExpired, nil
+	case "Letter":
+		return PageSizeLetter, nil
+	case "Legal":
+		return PageSizeLegal, nil
+	case "Tabloid":
+		return PageSizeTabloid, nil
+	case "Ledger":
+		return PageSizeLedger, nil
+	case "A0":
+		return PageSizeA0, nil
+	case "A1":
+		return PageSizeA1, nil
+	case "A2":
+		return PageSizeA2, nil
+	case "A3":
+		return PageSizeA3, nil
+	case "A4":
+		return PageSizeA4, nil
+	case "A5":
+		return PageSizeA5, nil
+	case "A6":
+		return PageSizeA6, nil
 	}
-	var t GetSubmissionsRequestStatus
+	var t PageSize
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (g GetSubmissionsRequestStatus) Ptr() *GetSubmissionsRequestStatus {
-	return &g
+func (p PageSize) Ptr() *PageSize {
+	return &p
 }
 
 var (
@@ -7525,13 +6824,13 @@ type Submission struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
 	// Unique slug of the submission.
 	Slug string `json:"slug" url:"slug"`
 	// The source of the submission.
 	Source SubmissionSource `json:"source" url:"source"`
 	// The order of submitters.
-	SubmittersOrder SubmissionSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	SubmittersOrder SubmittersOrder `json:"submitters_order" url:"submitters_order"`
 	// Audit log file URL.
 	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
 	// Combined PDF file URL with documents and Audit Log.
@@ -7573,9 +6872,9 @@ func (s *Submission) GetID() int {
 	return s.ID
 }
 
-func (s *Submission) GetName() string {
+func (s *Submission) GetName() *string {
 	if s == nil {
-		return ""
+		return nil
 	}
 	return s.Name
 }
@@ -7594,7 +6893,7 @@ func (s *Submission) GetSource() SubmissionSource {
 	return s.Source
 }
 
-func (s *Submission) GetSubmittersOrder() SubmissionSubmittersOrder {
+func (s *Submission) GetSubmittersOrder() SubmittersOrder {
 	if s == nil {
 		return ""
 	}
@@ -7722,7 +7021,7 @@ func (s *Submission) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *Submission) SetName(name string) {
+func (s *Submission) SetName(name *string) {
 	s.Name = name
 	s.require(submissionFieldName)
 }
@@ -7743,7 +7042,7 @@ func (s *Submission) SetSource(source SubmissionSource) {
 
 // SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *Submission) SetSubmittersOrder(submittersOrder SubmissionSubmittersOrder) {
+func (s *Submission) SetSubmittersOrder(submittersOrder SubmittersOrder) {
 	s.SubmittersOrder = submittersOrder
 	s.require(submissionFieldSubmittersOrder)
 }
@@ -8007,21 +7306,21 @@ type SubmissionCreateResult struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Submission name.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
+	Name string `json:"name" url:"name"`
 	// The list of submitters.
 	Submitters []*SubmitterCreateResult `json:"submitters" url:"submitters"`
 	// The source of the submission.
-	Source SubmissionCreateResultSource `json:"source" url:"source"`
+	Source SubmissionSource `json:"source" url:"source"`
 	// The order of submitters.
-	SubmittersOrder SubmissionCreateResultSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	SubmittersOrder SubmittersOrder `json:"submitters_order" url:"submitters_order"`
 	// The status of the submission.
-	Status SubmissionCreateResultStatus `json:"status" url:"status"`
+	Status SubmissionStatus `json:"status" url:"status"`
 	// The one-off submission document files.
 	Schema []*SchemaDocument `json:"schema,omitempty" url:"schema,omitempty"`
 	// List of fields to be filled in the one-off submission.
 	Fields []*Field `json:"fields,omitempty" url:"fields,omitempty"`
-	// Specify the expiration date and time after which the submission becomes unavailable for signature.
-	ExpireAt string `json:"expire_at" url:"expire_at"`
+	// The date and time when the submission will expire and no longer be available for signing.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
 	// The date and time when the submission was created.
 	CreatedAt string `json:"created_at" url:"created_at"`
 
@@ -8053,21 +7352,21 @@ func (s *SubmissionCreateResult) GetSubmitters() []*SubmitterCreateResult {
 	return s.Submitters
 }
 
-func (s *SubmissionCreateResult) GetSource() SubmissionCreateResultSource {
+func (s *SubmissionCreateResult) GetSource() SubmissionSource {
 	if s == nil {
 		return ""
 	}
 	return s.Source
 }
 
-func (s *SubmissionCreateResult) GetSubmittersOrder() SubmissionCreateResultSubmittersOrder {
+func (s *SubmissionCreateResult) GetSubmittersOrder() SubmittersOrder {
 	if s == nil {
 		return ""
 	}
 	return s.SubmittersOrder
 }
 
-func (s *SubmissionCreateResult) GetStatus() SubmissionCreateResultStatus {
+func (s *SubmissionCreateResult) GetStatus() SubmissionStatus {
 	if s == nil {
 		return ""
 	}
@@ -8088,9 +7387,9 @@ func (s *SubmissionCreateResult) GetFields() []*Field {
 	return s.Fields
 }
 
-func (s *SubmissionCreateResult) GetExpireAt() string {
+func (s *SubmissionCreateResult) GetExpireAt() *string {
 	if s == nil {
-		return ""
+		return nil
 	}
 	return s.ExpireAt
 }
@@ -8139,21 +7438,21 @@ func (s *SubmissionCreateResult) SetSubmitters(submitters []*SubmitterCreateResu
 
 // SetSource sets the Source field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreateResult) SetSource(source SubmissionCreateResultSource) {
+func (s *SubmissionCreateResult) SetSource(source SubmissionSource) {
 	s.Source = source
 	s.require(submissionCreateResultFieldSource)
 }
 
 // SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreateResult) SetSubmittersOrder(submittersOrder SubmissionCreateResultSubmittersOrder) {
+func (s *SubmissionCreateResult) SetSubmittersOrder(submittersOrder SubmittersOrder) {
 	s.SubmittersOrder = submittersOrder
 	s.require(submissionCreateResultFieldSubmittersOrder)
 }
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreateResult) SetStatus(status SubmissionCreateResultStatus) {
+func (s *SubmissionCreateResult) SetStatus(status SubmissionStatus) {
 	s.Status = status
 	s.require(submissionCreateResultFieldStatus)
 }
@@ -8174,7 +7473,7 @@ func (s *SubmissionCreateResult) SetFields(fields []*Field) {
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreateResult) SetExpireAt(expireAt string) {
+func (s *SubmissionCreateResult) SetExpireAt(expireAt *string) {
 	s.ExpireAt = expireAt
 	s.require(submissionCreateResultFieldExpireAt)
 }
@@ -8226,90 +7525,6 @@ func (s *SubmissionCreateResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
-}
-
-// The source of the submission.
-type SubmissionCreateResultSource string
-
-const (
-	SubmissionCreateResultSourceInvite SubmissionCreateResultSource = "invite"
-	SubmissionCreateResultSourceBulk   SubmissionCreateResultSource = "bulk"
-	SubmissionCreateResultSourceAPI    SubmissionCreateResultSource = "api"
-	SubmissionCreateResultSourceEmbed  SubmissionCreateResultSource = "embed"
-	SubmissionCreateResultSourceLink   SubmissionCreateResultSource = "link"
-)
-
-func NewSubmissionCreateResultSourceFromString(s string) (SubmissionCreateResultSource, error) {
-	switch s {
-	case "invite":
-		return SubmissionCreateResultSourceInvite, nil
-	case "bulk":
-		return SubmissionCreateResultSourceBulk, nil
-	case "api":
-		return SubmissionCreateResultSourceAPI, nil
-	case "embed":
-		return SubmissionCreateResultSourceEmbed, nil
-	case "link":
-		return SubmissionCreateResultSourceLink, nil
-	}
-	var t SubmissionCreateResultSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionCreateResultSource) Ptr() *SubmissionCreateResultSource {
-	return &s
-}
-
-// The status of the submission.
-type SubmissionCreateResultStatus string
-
-const (
-	SubmissionCreateResultStatusCompleted SubmissionCreateResultStatus = "completed"
-	SubmissionCreateResultStatusDeclined  SubmissionCreateResultStatus = "declined"
-	SubmissionCreateResultStatusExpired   SubmissionCreateResultStatus = "expired"
-	SubmissionCreateResultStatusPending   SubmissionCreateResultStatus = "pending"
-)
-
-func NewSubmissionCreateResultStatusFromString(s string) (SubmissionCreateResultStatus, error) {
-	switch s {
-	case "completed":
-		return SubmissionCreateResultStatusCompleted, nil
-	case "declined":
-		return SubmissionCreateResultStatusDeclined, nil
-	case "expired":
-		return SubmissionCreateResultStatusExpired, nil
-	case "pending":
-		return SubmissionCreateResultStatusPending, nil
-	}
-	var t SubmissionCreateResultStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionCreateResultStatus) Ptr() *SubmissionCreateResultStatus {
-	return &s
-}
-
-// The order of submitters.
-type SubmissionCreateResultSubmittersOrder string
-
-const (
-	SubmissionCreateResultSubmittersOrderRandom    SubmissionCreateResultSubmittersOrder = "random"
-	SubmissionCreateResultSubmittersOrderPreserved SubmissionCreateResultSubmittersOrder = "preserved"
-)
-
-func NewSubmissionCreateResultSubmittersOrderFromString(s string) (SubmissionCreateResultSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return SubmissionCreateResultSubmittersOrderRandom, nil
-	case "preserved":
-		return SubmissionCreateResultSubmittersOrderPreserved, nil
-	}
-	var t SubmissionCreateResultSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionCreateResultSubmittersOrder) Ptr() *SubmissionCreateResultSubmittersOrder {
-	return &s
 }
 
 var (
@@ -8428,7 +7643,7 @@ type SubmissionEvent struct {
 	// Unique identifier of the submitter that triggered the event.
 	SubmitterID int `json:"submitter_id" url:"submitter_id"`
 	// Event type.
-	EventType SubmissionEventEventType `json:"event_type" url:"event_type"`
+	EventType SubmissionEventType `json:"event_type" url:"event_type"`
 	// Date and time when the event was triggered.
 	EventTimestamp string `json:"event_timestamp" url:"event_timestamp"`
 	// Additional event details object.
@@ -8455,7 +7670,7 @@ func (s *SubmissionEvent) GetSubmitterID() int {
 	return s.SubmitterID
 }
 
-func (s *SubmissionEvent) GetEventType() SubmissionEventEventType {
+func (s *SubmissionEvent) GetEventType() SubmissionEventType {
 	if s == nil {
 		return ""
 	}
@@ -8506,7 +7721,7 @@ func (s *SubmissionEvent) SetSubmitterID(submitterID int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionEvent) SetEventType(eventType SubmissionEventEventType) {
+func (s *SubmissionEvent) SetEventType(eventType SubmissionEventType) {
 	s.EventType = eventType
 	s.require(submissionEventFieldEventType)
 }
@@ -8567,75 +7782,210 @@ func (s *SubmissionEvent) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// Event type.
-type SubmissionEventEventType string
+type SubmissionEventType string
 
 const (
-	SubmissionEventEventTypeSendEmail            SubmissionEventEventType = "send_email"
-	SubmissionEventEventTypeBounceEmail          SubmissionEventEventType = "bounce_email"
-	SubmissionEventEventTypeComplaintEmail       SubmissionEventEventType = "complaint_email"
-	SubmissionEventEventTypeSendReminderEmail    SubmissionEventEventType = "send_reminder_email"
-	SubmissionEventEventTypeSendSms              SubmissionEventEventType = "send_sms"
-	SubmissionEventEventTypeSend2FaSms           SubmissionEventEventType = "send_2fa_sms"
-	SubmissionEventEventTypeOpenEmail            SubmissionEventEventType = "open_email"
-	SubmissionEventEventTypeClickEmail           SubmissionEventEventType = "click_email"
-	SubmissionEventEventTypeClickSms             SubmissionEventEventType = "click_sms"
-	SubmissionEventEventTypePhoneVerified        SubmissionEventEventType = "phone_verified"
-	SubmissionEventEventTypeStartForm            SubmissionEventEventType = "start_form"
-	SubmissionEventEventTypeStartVerification    SubmissionEventEventType = "start_verification"
-	SubmissionEventEventTypeCompleteVerification SubmissionEventEventType = "complete_verification"
-	SubmissionEventEventTypeViewForm             SubmissionEventEventType = "view_form"
-	SubmissionEventEventTypeInviteParty          SubmissionEventEventType = "invite_party"
-	SubmissionEventEventTypeCompleteForm         SubmissionEventEventType = "complete_form"
-	SubmissionEventEventTypeDeclineForm          SubmissionEventEventType = "decline_form"
-	SubmissionEventEventTypeAPICompleteForm      SubmissionEventEventType = "api_complete_form"
+	SubmissionEventTypeSendEmail            SubmissionEventType = "send_email"
+	SubmissionEventTypeBounceEmail          SubmissionEventType = "bounce_email"
+	SubmissionEventTypeComplaintEmail       SubmissionEventType = "complaint_email"
+	SubmissionEventTypeSendReminderEmail    SubmissionEventType = "send_reminder_email"
+	SubmissionEventTypeSendSms              SubmissionEventType = "send_sms"
+	SubmissionEventTypeSend2FaSms           SubmissionEventType = "send_2fa_sms"
+	SubmissionEventTypeOpenEmail            SubmissionEventType = "open_email"
+	SubmissionEventTypeClickEmail           SubmissionEventType = "click_email"
+	SubmissionEventTypeClickSms             SubmissionEventType = "click_sms"
+	SubmissionEventTypePhoneVerified        SubmissionEventType = "phone_verified"
+	SubmissionEventTypeStartForm            SubmissionEventType = "start_form"
+	SubmissionEventTypeStartVerification    SubmissionEventType = "start_verification"
+	SubmissionEventTypeCompleteVerification SubmissionEventType = "complete_verification"
+	SubmissionEventTypeViewForm             SubmissionEventType = "view_form"
+	SubmissionEventTypeInviteParty          SubmissionEventType = "invite_party"
+	SubmissionEventTypeCompleteForm         SubmissionEventType = "complete_form"
+	SubmissionEventTypeDeclineForm          SubmissionEventType = "decline_form"
+	SubmissionEventTypeAPICompleteForm      SubmissionEventType = "api_complete_form"
 )
 
-func NewSubmissionEventEventTypeFromString(s string) (SubmissionEventEventType, error) {
+func NewSubmissionEventTypeFromString(s string) (SubmissionEventType, error) {
 	switch s {
 	case "send_email":
-		return SubmissionEventEventTypeSendEmail, nil
+		return SubmissionEventTypeSendEmail, nil
 	case "bounce_email":
-		return SubmissionEventEventTypeBounceEmail, nil
+		return SubmissionEventTypeBounceEmail, nil
 	case "complaint_email":
-		return SubmissionEventEventTypeComplaintEmail, nil
+		return SubmissionEventTypeComplaintEmail, nil
 	case "send_reminder_email":
-		return SubmissionEventEventTypeSendReminderEmail, nil
+		return SubmissionEventTypeSendReminderEmail, nil
 	case "send_sms":
-		return SubmissionEventEventTypeSendSms, nil
+		return SubmissionEventTypeSendSms, nil
 	case "send_2fa_sms":
-		return SubmissionEventEventTypeSend2FaSms, nil
+		return SubmissionEventTypeSend2FaSms, nil
 	case "open_email":
-		return SubmissionEventEventTypeOpenEmail, nil
+		return SubmissionEventTypeOpenEmail, nil
 	case "click_email":
-		return SubmissionEventEventTypeClickEmail, nil
+		return SubmissionEventTypeClickEmail, nil
 	case "click_sms":
-		return SubmissionEventEventTypeClickSms, nil
+		return SubmissionEventTypeClickSms, nil
 	case "phone_verified":
-		return SubmissionEventEventTypePhoneVerified, nil
+		return SubmissionEventTypePhoneVerified, nil
 	case "start_form":
-		return SubmissionEventEventTypeStartForm, nil
+		return SubmissionEventTypeStartForm, nil
 	case "start_verification":
-		return SubmissionEventEventTypeStartVerification, nil
+		return SubmissionEventTypeStartVerification, nil
 	case "complete_verification":
-		return SubmissionEventEventTypeCompleteVerification, nil
+		return SubmissionEventTypeCompleteVerification, nil
 	case "view_form":
-		return SubmissionEventEventTypeViewForm, nil
+		return SubmissionEventTypeViewForm, nil
 	case "invite_party":
-		return SubmissionEventEventTypeInviteParty, nil
+		return SubmissionEventTypeInviteParty, nil
 	case "complete_form":
-		return SubmissionEventEventTypeCompleteForm, nil
+		return SubmissionEventTypeCompleteForm, nil
 	case "decline_form":
-		return SubmissionEventEventTypeDeclineForm, nil
+		return SubmissionEventTypeDeclineForm, nil
 	case "api_complete_form":
-		return SubmissionEventEventTypeAPICompleteForm, nil
+		return SubmissionEventTypeAPICompleteForm, nil
 	}
-	var t SubmissionEventEventType
+	var t SubmissionEventType
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (s SubmissionEventEventType) Ptr() *SubmissionEventEventType {
+func (s SubmissionEventType) Ptr() *SubmissionEventType {
 	return &s
+}
+
+var (
+	submissionInitResultFieldID         = big.NewInt(1 << 0)
+	submissionInitResultFieldSubmitters = big.NewInt(1 << 1)
+	submissionInitResultFieldExpireAt   = big.NewInt(1 << 2)
+	submissionInitResultFieldCreatedAt  = big.NewInt(1 << 3)
+)
+
+type SubmissionInitResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// The list of created submitters.
+	Submitters []*SubmitterCreateResult `json:"submitters" url:"submitters"`
+	// The date and time when the submission expires.
+	ExpireAt *string `json:"expire_at,omitempty" url:"expire_at,omitempty"`
+	// The date and time when the submission was created.
+	CreatedAt string `json:"created_at" url:"created_at"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionInitResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionInitResult) GetSubmitters() []*SubmitterCreateResult {
+	if s == nil {
+		return nil
+	}
+	return s.Submitters
+}
+
+func (s *SubmissionInitResult) GetExpireAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExpireAt
+}
+
+func (s *SubmissionInitResult) GetCreatedAt() string {
+	if s == nil {
+		return ""
+	}
+	return s.CreatedAt
+}
+
+func (s *SubmissionInitResult) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionInitResult) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionInitResult) SetID(id int) {
+	s.ID = id
+	s.require(submissionInitResultFieldID)
+}
+
+// SetSubmitters sets the Submitters field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionInitResult) SetSubmitters(submitters []*SubmitterCreateResult) {
+	s.Submitters = submitters
+	s.require(submissionInitResultFieldSubmitters)
+}
+
+// SetExpireAt sets the ExpireAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionInitResult) SetExpireAt(expireAt *string) {
+	s.ExpireAt = expireAt
+	s.require(submissionInitResultFieldExpireAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionInitResult) SetCreatedAt(createdAt string) {
+	s.CreatedAt = createdAt
+	s.require(submissionInitResultFieldCreatedAt)
+}
+
+func (s *SubmissionInitResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionInitResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionInitResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionInitResult) MarshalJSON() ([]byte, error) {
+	type embed SubmissionInitResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionInitResult) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
 }
 
 var (
@@ -8762,15 +8112,15 @@ type SubmissionListItem struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
 	// The source of the submission.
-	Source SubmissionListItemSource `json:"source" url:"source"`
+	Source SubmissionSource `json:"source" url:"source"`
 	// Unique slug of the submission.
 	Slug string `json:"slug" url:"slug"`
 	// The status of the submission.
-	Status SubmissionListItemStatus `json:"status" url:"status"`
+	Status SubmissionStatus `json:"status" url:"status"`
 	// The order of submitters.
-	SubmittersOrder SubmissionListItemSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	SubmittersOrder SubmittersOrder `json:"submitters_order" url:"submitters_order"`
 	// Audit log file URL.
 	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
 	// Combined PDF file URL with documents and Audit Log.
@@ -8806,14 +8156,14 @@ func (s *SubmissionListItem) GetID() int {
 	return s.ID
 }
 
-func (s *SubmissionListItem) GetName() string {
+func (s *SubmissionListItem) GetName() *string {
 	if s == nil {
-		return ""
+		return nil
 	}
 	return s.Name
 }
 
-func (s *SubmissionListItem) GetSource() SubmissionListItemSource {
+func (s *SubmissionListItem) GetSource() SubmissionSource {
 	if s == nil {
 		return ""
 	}
@@ -8827,14 +8177,14 @@ func (s *SubmissionListItem) GetSlug() string {
 	return s.Slug
 }
 
-func (s *SubmissionListItem) GetStatus() SubmissionListItemStatus {
+func (s *SubmissionListItem) GetStatus() SubmissionStatus {
 	if s == nil {
 		return ""
 	}
 	return s.Status
 }
 
-func (s *SubmissionListItem) GetSubmittersOrder() SubmissionListItemSubmittersOrder {
+func (s *SubmissionListItem) GetSubmittersOrder() SubmittersOrder {
 	if s == nil {
 		return ""
 	}
@@ -8941,14 +8291,14 @@ func (s *SubmissionListItem) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionListItem) SetName(name string) {
+func (s *SubmissionListItem) SetName(name *string) {
 	s.Name = name
 	s.require(submissionListItemFieldName)
 }
 
 // SetSource sets the Source field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionListItem) SetSource(source SubmissionListItemSource) {
+func (s *SubmissionListItem) SetSource(source SubmissionSource) {
 	s.Source = source
 	s.require(submissionListItemFieldSource)
 }
@@ -8962,14 +8312,14 @@ func (s *SubmissionListItem) SetSlug(slug string) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionListItem) SetStatus(status SubmissionListItemStatus) {
+func (s *SubmissionListItem) SetStatus(status SubmissionStatus) {
 	s.Status = status
 	s.require(submissionListItemFieldStatus)
 }
 
 // SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionListItem) SetSubmittersOrder(submittersOrder SubmissionListItemSubmittersOrder) {
+func (s *SubmissionListItem) SetSubmittersOrder(submittersOrder SubmittersOrder) {
 	s.SubmittersOrder = submittersOrder
 	s.require(submissionListItemFieldSubmittersOrder)
 }
@@ -9093,91 +8443,6 @@ func (s *SubmissionListItem) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The source of the submission.
-type SubmissionListItemSource string
-
-const (
-	SubmissionListItemSourceInvite SubmissionListItemSource = "invite"
-	SubmissionListItemSourceBulk   SubmissionListItemSource = "bulk"
-	SubmissionListItemSourceAPI    SubmissionListItemSource = "api"
-	SubmissionListItemSourceEmbed  SubmissionListItemSource = "embed"
-	SubmissionListItemSourceLink   SubmissionListItemSource = "link"
-)
-
-func NewSubmissionListItemSourceFromString(s string) (SubmissionListItemSource, error) {
-	switch s {
-	case "invite":
-		return SubmissionListItemSourceInvite, nil
-	case "bulk":
-		return SubmissionListItemSourceBulk, nil
-	case "api":
-		return SubmissionListItemSourceAPI, nil
-	case "embed":
-		return SubmissionListItemSourceEmbed, nil
-	case "link":
-		return SubmissionListItemSourceLink, nil
-	}
-	var t SubmissionListItemSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionListItemSource) Ptr() *SubmissionListItemSource {
-	return &s
-}
-
-// The status of the submission.
-type SubmissionListItemStatus string
-
-const (
-	SubmissionListItemStatusCompleted SubmissionListItemStatus = "completed"
-	SubmissionListItemStatusDeclined  SubmissionListItemStatus = "declined"
-	SubmissionListItemStatusExpired   SubmissionListItemStatus = "expired"
-	SubmissionListItemStatusPending   SubmissionListItemStatus = "pending"
-)
-
-func NewSubmissionListItemStatusFromString(s string) (SubmissionListItemStatus, error) {
-	switch s {
-	case "completed":
-		return SubmissionListItemStatusCompleted, nil
-	case "declined":
-		return SubmissionListItemStatusDeclined, nil
-	case "expired":
-		return SubmissionListItemStatusExpired, nil
-	case "pending":
-		return SubmissionListItemStatusPending, nil
-	}
-	var t SubmissionListItemStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionListItemStatus) Ptr() *SubmissionListItemStatus {
-	return &s
-}
-
-// The order of submitters.
-type SubmissionListItemSubmittersOrder string
-
-const (
-	SubmissionListItemSubmittersOrderRandom    SubmissionListItemSubmittersOrder = "random"
-	SubmissionListItemSubmittersOrderPreserved SubmissionListItemSubmittersOrder = "preserved"
-)
-
-func NewSubmissionListItemSubmittersOrderFromString(s string) (SubmissionListItemSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return SubmissionListItemSubmittersOrderRandom, nil
-	case "preserved":
-		return SubmissionListItemSubmittersOrderPreserved, nil
-	}
-	var t SubmissionListItemSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionListItemSubmittersOrder) Ptr() *SubmissionListItemSubmittersOrder {
-	return &s
-}
-
-// The source of the submission.
 type SubmissionSource string
 
 const (
@@ -9209,7 +8474,6 @@ func (s SubmissionSource) Ptr() *SubmissionSource {
 	return &s
 }
 
-// The status of the submission.
 type SubmissionStatus string
 
 const (
@@ -9291,7 +8555,7 @@ type SubmissionSubmitter struct {
 	// Your application-specific unique string key to identify this submitter within your app.
 	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
 	// The status of signing request for the submitter.
-	Status SubmissionSubmitterStatus `json:"status" url:"status"`
+	Status SubmitterStatus `json:"status" url:"status"`
 	// An array of pre-filled values for the submitter.
 	Values []*FieldValue `json:"values" url:"values"`
 	// An array of completed or signed documents by the submitter.
@@ -9408,7 +8672,7 @@ func (s *SubmissionSubmitter) GetExternalID() *string {
 	return s.ExternalID
 }
 
-func (s *SubmissionSubmitter) GetStatus() SubmissionSubmitterStatus {
+func (s *SubmissionSubmitter) GetStatus() SubmitterStatus {
 	if s == nil {
 		return ""
 	}
@@ -9564,7 +8828,7 @@ func (s *SubmissionSubmitter) SetExternalID(externalID *string) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionSubmitter) SetStatus(status SubmissionSubmitterStatus) {
+func (s *SubmissionSubmitter) SetStatus(status SubmitterStatus) {
 	s.Status = status
 	s.require(submissionSubmitterFieldStatus)
 }
@@ -9646,61 +8910,6 @@ func (s *SubmissionSubmitter) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The status of signing request for the submitter.
-type SubmissionSubmitterStatus string
-
-const (
-	SubmissionSubmitterStatusCompleted SubmissionSubmitterStatus = "completed"
-	SubmissionSubmitterStatusDeclined  SubmissionSubmitterStatus = "declined"
-	SubmissionSubmitterStatusOpened    SubmissionSubmitterStatus = "opened"
-	SubmissionSubmitterStatusSent      SubmissionSubmitterStatus = "sent"
-	SubmissionSubmitterStatusAwaiting  SubmissionSubmitterStatus = "awaiting"
-)
-
-func NewSubmissionSubmitterStatusFromString(s string) (SubmissionSubmitterStatus, error) {
-	switch s {
-	case "completed":
-		return SubmissionSubmitterStatusCompleted, nil
-	case "declined":
-		return SubmissionSubmitterStatusDeclined, nil
-	case "opened":
-		return SubmissionSubmitterStatusOpened, nil
-	case "sent":
-		return SubmissionSubmitterStatusSent, nil
-	case "awaiting":
-		return SubmissionSubmitterStatusAwaiting, nil
-	}
-	var t SubmissionSubmitterStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionSubmitterStatus) Ptr() *SubmissionSubmitterStatus {
-	return &s
-}
-
-// The order of submitters.
-type SubmissionSubmittersOrder string
-
-const (
-	SubmissionSubmittersOrderRandom    SubmissionSubmittersOrder = "random"
-	SubmissionSubmittersOrderPreserved SubmissionSubmittersOrder = "preserved"
-)
-
-func NewSubmissionSubmittersOrderFromString(s string) (SubmissionSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return SubmissionSubmittersOrderRandom, nil
-	case "preserved":
-		return SubmissionSubmittersOrderPreserved, nil
-	}
-	var t SubmissionSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionSubmittersOrder) Ptr() *SubmissionSubmittersOrder {
-	return &s
-}
-
 var (
 	submissionUpdateResultFieldID                  = big.NewInt(1 << 0)
 	submissionUpdateResultFieldName                = big.NewInt(1 << 1)
@@ -9726,13 +8935,13 @@ type SubmissionUpdateResult struct {
 	// Submission unique ID number.
 	ID int `json:"id" url:"id"`
 	// Name of the document submission.
-	Name string `json:"name,omitempty" url:"name,omitempty"`
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
 	// Unique slug of the submission.
 	Slug string `json:"slug" url:"slug"`
 	// The source of the submission.
-	Source SubmissionUpdateResultSource `json:"source" url:"source"`
+	Source SubmissionSource `json:"source" url:"source"`
 	// The order of submitters.
-	SubmittersOrder SubmissionUpdateResultSubmittersOrder `json:"submitters_order" url:"submitters_order"`
+	SubmittersOrder SubmittersOrder `json:"submitters_order" url:"submitters_order"`
 	// Audit log file URL.
 	AuditLogURL *string `json:"audit_log_url,omitempty" url:"audit_log_url,omitempty"`
 	// Combined PDF file URL with documents and Audit Log.
@@ -9754,7 +8963,7 @@ type SubmissionUpdateResult struct {
 	// An array of completed or signed documents of the submission.
 	Documents []*Document `json:"documents" url:"documents"`
 	// The status of the submission.
-	Status SubmissionUpdateResultStatus `json:"status" url:"status"`
+	Status SubmissionStatus `json:"status" url:"status"`
 	// The date and time when the submission was completed.
 	CompletedAt *string `json:"completed_at,omitempty" url:"completed_at,omitempty"`
 
@@ -9772,9 +8981,9 @@ func (s *SubmissionUpdateResult) GetID() int {
 	return s.ID
 }
 
-func (s *SubmissionUpdateResult) GetName() string {
+func (s *SubmissionUpdateResult) GetName() *string {
 	if s == nil {
-		return ""
+		return nil
 	}
 	return s.Name
 }
@@ -9786,14 +8995,14 @@ func (s *SubmissionUpdateResult) GetSlug() string {
 	return s.Slug
 }
 
-func (s *SubmissionUpdateResult) GetSource() SubmissionUpdateResultSource {
+func (s *SubmissionUpdateResult) GetSource() SubmissionSource {
 	if s == nil {
 		return ""
 	}
 	return s.Source
 }
 
-func (s *SubmissionUpdateResult) GetSubmittersOrder() SubmissionUpdateResultSubmittersOrder {
+func (s *SubmissionUpdateResult) GetSubmittersOrder() SubmittersOrder {
 	if s == nil {
 		return ""
 	}
@@ -9877,7 +9086,7 @@ func (s *SubmissionUpdateResult) GetDocuments() []*Document {
 	return s.Documents
 }
 
-func (s *SubmissionUpdateResult) GetStatus() SubmissionUpdateResultStatus {
+func (s *SubmissionUpdateResult) GetStatus() SubmissionStatus {
 	if s == nil {
 		return ""
 	}
@@ -9914,7 +9123,7 @@ func (s *SubmissionUpdateResult) SetID(id int) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionUpdateResult) SetName(name string) {
+func (s *SubmissionUpdateResult) SetName(name *string) {
 	s.Name = name
 	s.require(submissionUpdateResultFieldName)
 }
@@ -9928,14 +9137,14 @@ func (s *SubmissionUpdateResult) SetSlug(slug string) {
 
 // SetSource sets the Source field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionUpdateResult) SetSource(source SubmissionUpdateResultSource) {
+func (s *SubmissionUpdateResult) SetSource(source SubmissionSource) {
 	s.Source = source
 	s.require(submissionUpdateResultFieldSource)
 }
 
 // SetSubmittersOrder sets the SubmittersOrder field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionUpdateResult) SetSubmittersOrder(submittersOrder SubmissionUpdateResultSubmittersOrder) {
+func (s *SubmissionUpdateResult) SetSubmittersOrder(submittersOrder SubmittersOrder) {
 	s.SubmittersOrder = submittersOrder
 	s.require(submissionUpdateResultFieldSubmittersOrder)
 }
@@ -10019,7 +9228,7 @@ func (s *SubmissionUpdateResult) SetDocuments(documents []*Document) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionUpdateResult) SetStatus(status SubmissionUpdateResultStatus) {
+func (s *SubmissionUpdateResult) SetStatus(status SubmissionStatus) {
 	s.Status = status
 	s.require(submissionUpdateResultFieldStatus)
 }
@@ -10071,90 +9280,6 @@ func (s *SubmissionUpdateResult) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
-}
-
-// The source of the submission.
-type SubmissionUpdateResultSource string
-
-const (
-	SubmissionUpdateResultSourceInvite SubmissionUpdateResultSource = "invite"
-	SubmissionUpdateResultSourceBulk   SubmissionUpdateResultSource = "bulk"
-	SubmissionUpdateResultSourceAPI    SubmissionUpdateResultSource = "api"
-	SubmissionUpdateResultSourceEmbed  SubmissionUpdateResultSource = "embed"
-	SubmissionUpdateResultSourceLink   SubmissionUpdateResultSource = "link"
-)
-
-func NewSubmissionUpdateResultSourceFromString(s string) (SubmissionUpdateResultSource, error) {
-	switch s {
-	case "invite":
-		return SubmissionUpdateResultSourceInvite, nil
-	case "bulk":
-		return SubmissionUpdateResultSourceBulk, nil
-	case "api":
-		return SubmissionUpdateResultSourceAPI, nil
-	case "embed":
-		return SubmissionUpdateResultSourceEmbed, nil
-	case "link":
-		return SubmissionUpdateResultSourceLink, nil
-	}
-	var t SubmissionUpdateResultSource
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionUpdateResultSource) Ptr() *SubmissionUpdateResultSource {
-	return &s
-}
-
-// The status of the submission.
-type SubmissionUpdateResultStatus string
-
-const (
-	SubmissionUpdateResultStatusCompleted SubmissionUpdateResultStatus = "completed"
-	SubmissionUpdateResultStatusDeclined  SubmissionUpdateResultStatus = "declined"
-	SubmissionUpdateResultStatusExpired   SubmissionUpdateResultStatus = "expired"
-	SubmissionUpdateResultStatusPending   SubmissionUpdateResultStatus = "pending"
-)
-
-func NewSubmissionUpdateResultStatusFromString(s string) (SubmissionUpdateResultStatus, error) {
-	switch s {
-	case "completed":
-		return SubmissionUpdateResultStatusCompleted, nil
-	case "declined":
-		return SubmissionUpdateResultStatusDeclined, nil
-	case "expired":
-		return SubmissionUpdateResultStatusExpired, nil
-	case "pending":
-		return SubmissionUpdateResultStatusPending, nil
-	}
-	var t SubmissionUpdateResultStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionUpdateResultStatus) Ptr() *SubmissionUpdateResultStatus {
-	return &s
-}
-
-// The order of submitters.
-type SubmissionUpdateResultSubmittersOrder string
-
-const (
-	SubmissionUpdateResultSubmittersOrderRandom    SubmissionUpdateResultSubmittersOrder = "random"
-	SubmissionUpdateResultSubmittersOrderPreserved SubmissionUpdateResultSubmittersOrder = "preserved"
-)
-
-func NewSubmissionUpdateResultSubmittersOrderFromString(s string) (SubmissionUpdateResultSubmittersOrder, error) {
-	switch s {
-	case "random":
-		return SubmissionUpdateResultSubmittersOrderRandom, nil
-	case "preserved":
-		return SubmissionUpdateResultSubmittersOrderPreserved, nil
-	}
-	var t SubmissionUpdateResultSubmittersOrder
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmissionUpdateResultSubmittersOrder) Ptr() *SubmissionUpdateResultSubmittersOrder {
-	return &s
 }
 
 var (
@@ -10633,7 +9758,7 @@ type SubmitterCreateResult struct {
 	// Unique key to be used in the form signing link and embedded form.
 	Slug string `json:"slug" url:"slug"`
 	// The status of signing request for the submitter.
-	Status SubmitterCreateResultStatus `json:"status" url:"status"`
+	Status SubmitterStatus `json:"status" url:"status"`
 	// An array of pre-filled values for the submitter.
 	Values []*FieldValue `json:"values" url:"values"`
 	// Metadata object with additional submitter information.
@@ -10705,7 +9830,7 @@ func (s *SubmitterCreateResult) GetSlug() string {
 	return s.Slug
 }
 
-func (s *SubmitterCreateResult) GetStatus() SubmitterCreateResultStatus {
+func (s *SubmitterCreateResult) GetStatus() SubmitterStatus {
 	if s == nil {
 		return ""
 	}
@@ -10861,7 +9986,7 @@ func (s *SubmitterCreateResult) SetSlug(slug string) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterCreateResult) SetStatus(status SubmitterCreateResultStatus) {
+func (s *SubmitterCreateResult) SetStatus(status SubmitterStatus) {
 	s.Status = status
 	s.require(submitterCreateResultFieldStatus)
 }
@@ -11006,38 +10131,6 @@ func (s *SubmitterCreateResult) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The status of signing request for the submitter.
-type SubmitterCreateResultStatus string
-
-const (
-	SubmitterCreateResultStatusCompleted SubmitterCreateResultStatus = "completed"
-	SubmitterCreateResultStatusDeclined  SubmitterCreateResultStatus = "declined"
-	SubmitterCreateResultStatusOpened    SubmitterCreateResultStatus = "opened"
-	SubmitterCreateResultStatusSent      SubmitterCreateResultStatus = "sent"
-	SubmitterCreateResultStatusAwaiting  SubmitterCreateResultStatus = "awaiting"
-)
-
-func NewSubmitterCreateResultStatusFromString(s string) (SubmitterCreateResultStatus, error) {
-	switch s {
-	case "completed":
-		return SubmitterCreateResultStatusCompleted, nil
-	case "declined":
-		return SubmitterCreateResultStatusDeclined, nil
-	case "opened":
-		return SubmitterCreateResultStatusOpened, nil
-	case "sent":
-		return SubmitterCreateResultStatusSent, nil
-	case "awaiting":
-		return SubmitterCreateResultStatusAwaiting, nil
-	}
-	var t SubmitterCreateResultStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmitterCreateResultStatus) Ptr() *SubmitterCreateResultStatus {
-	return &s
-}
-
 var (
 	submitterListFieldData       = big.NewInt(1 << 0)
 	submitterListFieldPagination = big.NewInt(1 << 1)
@@ -11138,7 +10231,6 @@ func (s *SubmitterList) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The status of signing request for the submitter.
 type SubmitterStatus string
 
 const (
@@ -11221,7 +10313,7 @@ type SubmitterSummary struct {
 	// Your application-specific unique string key to identify this submitter within your app.
 	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
 	// The status of signing request for the submitter.
-	Status SubmitterSummaryStatus `json:"status" url:"status"`
+	Status SubmitterStatus `json:"status" url:"status"`
 	// The role of the submitter in the signing process.
 	Role string `json:"role" url:"role"`
 	// Metadata object with additional submitter information.
@@ -11334,7 +10426,7 @@ func (s *SubmitterSummary) GetExternalID() *string {
 	return s.ExternalID
 }
 
-func (s *SubmitterSummary) GetStatus() SubmitterSummaryStatus {
+func (s *SubmitterSummary) GetStatus() SubmitterStatus {
 	if s == nil {
 		return ""
 	}
@@ -11476,7 +10568,7 @@ func (s *SubmitterSummary) SetExternalID(externalID *string) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterSummary) SetStatus(status SubmitterSummaryStatus) {
+func (s *SubmitterSummary) SetStatus(status SubmitterStatus) {
 	s.Status = status
 	s.require(submitterSummaryFieldStatus)
 }
@@ -11542,38 +10634,6 @@ func (s *SubmitterSummary) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
-}
-
-// The status of signing request for the submitter.
-type SubmitterSummaryStatus string
-
-const (
-	SubmitterSummaryStatusCompleted SubmitterSummaryStatus = "completed"
-	SubmitterSummaryStatusDeclined  SubmitterSummaryStatus = "declined"
-	SubmitterSummaryStatusOpened    SubmitterSummaryStatus = "opened"
-	SubmitterSummaryStatusSent      SubmitterSummaryStatus = "sent"
-	SubmitterSummaryStatusAwaiting  SubmitterSummaryStatus = "awaiting"
-)
-
-func NewSubmitterSummaryStatusFromString(s string) (SubmitterSummaryStatus, error) {
-	switch s {
-	case "completed":
-		return SubmitterSummaryStatusCompleted, nil
-	case "declined":
-		return SubmitterSummaryStatusDeclined, nil
-	case "opened":
-		return SubmitterSummaryStatusOpened, nil
-	case "sent":
-		return SubmitterSummaryStatusSent, nil
-	case "awaiting":
-		return SubmitterSummaryStatusAwaiting, nil
-	}
-	var t SubmitterSummaryStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SubmitterSummaryStatus) Ptr() *SubmitterSummaryStatus {
-	return &s
 }
 
 // Base template details.
@@ -11777,7 +10837,7 @@ type SubmitterUpdateResult struct {
 	// The phone number of the submitter.
 	Phone *string `json:"phone,omitempty" url:"phone,omitempty"`
 	// The status of signing request for the submitter.
-	Status SubmitterUpdateResultStatus `json:"status" url:"status"`
+	Status SubmitterStatus `json:"status" url:"status"`
 	// Your application-specific unique string key to identify this submitter within your app.
 	ExternalID *string `json:"external_id,omitempty" url:"external_id,omitempty"`
 	// Metadata object with additional submitter information.
@@ -11891,7 +10951,7 @@ func (s *SubmitterUpdateResult) GetPhone() *string {
 	return s.Phone
 }
 
-func (s *SubmitterUpdateResult) GetStatus() SubmitterUpdateResultStatus {
+func (s *SubmitterUpdateResult) GetStatus() SubmitterStatus {
 	if s == nil {
 		return ""
 	}
@@ -12054,7 +11114,7 @@ func (s *SubmitterUpdateResult) SetPhone(phone *string) {
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmitterUpdateResult) SetStatus(status SubmitterUpdateResultStatus) {
+func (s *SubmitterUpdateResult) SetStatus(status SubmitterStatus) {
 	s.Status = status
 	s.require(submitterUpdateResultFieldStatus)
 }
@@ -12150,57 +11210,48 @@ func (s *SubmitterUpdateResult) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-// The status of signing request for the submitter.
-type SubmitterUpdateResultStatus string
+type SubmittersOrder string
 
 const (
-	SubmitterUpdateResultStatusCompleted SubmitterUpdateResultStatus = "completed"
-	SubmitterUpdateResultStatusDeclined  SubmitterUpdateResultStatus = "declined"
-	SubmitterUpdateResultStatusOpened    SubmitterUpdateResultStatus = "opened"
-	SubmitterUpdateResultStatusSent      SubmitterUpdateResultStatus = "sent"
-	SubmitterUpdateResultStatusAwaiting  SubmitterUpdateResultStatus = "awaiting"
+	SubmittersOrderRandom    SubmittersOrder = "random"
+	SubmittersOrderPreserved SubmittersOrder = "preserved"
 )
 
-func NewSubmitterUpdateResultStatusFromString(s string) (SubmitterUpdateResultStatus, error) {
+func NewSubmittersOrderFromString(s string) (SubmittersOrder, error) {
 	switch s {
-	case "completed":
-		return SubmitterUpdateResultStatusCompleted, nil
-	case "declined":
-		return SubmitterUpdateResultStatusDeclined, nil
-	case "opened":
-		return SubmitterUpdateResultStatusOpened, nil
-	case "sent":
-		return SubmitterUpdateResultStatusSent, nil
-	case "awaiting":
-		return SubmitterUpdateResultStatusAwaiting, nil
+	case "random":
+		return SubmittersOrderRandom, nil
+	case "preserved":
+		return SubmittersOrderPreserved, nil
 	}
-	var t SubmitterUpdateResultStatus
+	var t SubmittersOrder
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (s SubmitterUpdateResultStatus) Ptr() *SubmitterUpdateResultStatus {
+func (s SubmittersOrder) Ptr() *SubmittersOrder {
 	return &s
 }
 
 var (
-	templateFieldID          = big.NewInt(1 << 0)
-	templateFieldSlug        = big.NewInt(1 << 1)
-	templateFieldName        = big.NewInt(1 << 2)
-	templateFieldPreferences = big.NewInt(1 << 3)
-	templateFieldSchema      = big.NewInt(1 << 4)
-	templateFieldFields      = big.NewInt(1 << 5)
-	templateFieldSubmitters  = big.NewInt(1 << 6)
-	templateFieldAuthorID    = big.NewInt(1 << 7)
-	templateFieldArchivedAt  = big.NewInt(1 << 8)
-	templateFieldCreatedAt   = big.NewInt(1 << 9)
-	templateFieldUpdatedAt   = big.NewInt(1 << 10)
-	templateFieldSource      = big.NewInt(1 << 11)
-	templateFieldExternalID  = big.NewInt(1 << 12)
-	templateFieldFolderID    = big.NewInt(1 << 13)
-	templateFieldFolderName  = big.NewInt(1 << 14)
-	templateFieldSharedLink  = big.NewInt(1 << 15)
-	templateFieldAuthor      = big.NewInt(1 << 16)
-	templateFieldDocuments   = big.NewInt(1 << 17)
+	templateFieldID              = big.NewInt(1 << 0)
+	templateFieldSlug            = big.NewInt(1 << 1)
+	templateFieldName            = big.NewInt(1 << 2)
+	templateFieldPreferences     = big.NewInt(1 << 3)
+	templateFieldSchema          = big.NewInt(1 << 4)
+	templateFieldFields          = big.NewInt(1 << 5)
+	templateFieldVariablesSchema = big.NewInt(1 << 6)
+	templateFieldSubmitters      = big.NewInt(1 << 7)
+	templateFieldAuthorID        = big.NewInt(1 << 8)
+	templateFieldArchivedAt      = big.NewInt(1 << 9)
+	templateFieldCreatedAt       = big.NewInt(1 << 10)
+	templateFieldUpdatedAt       = big.NewInt(1 << 11)
+	templateFieldSource          = big.NewInt(1 << 12)
+	templateFieldExternalID      = big.NewInt(1 << 13)
+	templateFieldFolderID        = big.NewInt(1 << 14)
+	templateFieldFolderName      = big.NewInt(1 << 15)
+	templateFieldSharedLink      = big.NewInt(1 << 16)
+	templateFieldAuthor          = big.NewInt(1 << 17)
+	templateFieldDocuments       = big.NewInt(1 << 18)
 )
 
 type Template struct {
@@ -12216,6 +11267,8 @@ type Template struct {
 	Schema []*SchemaDocument `json:"schema" url:"schema"`
 	// List of fields to be filled in the template.
 	Fields []*Field `json:"fields" url:"fields"`
+	// Schema of the dynamic document content variables used in the template.
+	VariablesSchema map[string]any `json:"variables_schema" url:"variables_schema"`
 	// The list of submitters for the template.
 	Submitters []*TemplateSubmitter `json:"submitters" url:"submitters"`
 	// Unique identifier of the author of the template.
@@ -12287,6 +11340,13 @@ func (t *Template) GetFields() []*Field {
 		return nil
 	}
 	return t.Fields
+}
+
+func (t *Template) GetVariablesSchema() map[string]any {
+	if t == nil {
+		return nil
+	}
+	return t.VariablesSchema
 }
 
 func (t *Template) GetSubmitters() []*TemplateSubmitter {
@@ -12427,6 +11487,13 @@ func (t *Template) SetSchema(schema []*SchemaDocument) {
 func (t *Template) SetFields(fields []*Field) {
 	t.Fields = fields
 	t.require(templateFieldFields)
+}
+
+// SetVariablesSchema sets the VariablesSchema field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *Template) SetVariablesSchema(variablesSchema map[string]any) {
+	t.VariablesSchema = variablesSchema
+	t.require(templateFieldVariablesSchema)
 }
 
 // SetSubmitters sets the Submitters field and marks it as non-optional;
@@ -12911,7 +11978,6 @@ func (t *TemplateList) String() string {
 	return fmt.Sprintf("%#v", t)
 }
 
-// Source of the template.
 type TemplateSource string
 
 const (
@@ -13687,23 +12753,23 @@ type UpdateSubmitterFieldPreferencesParams struct {
 	// Font size of the field value in pixels.
 	FontSize *int `json:"font_size,omitempty" url:"font_size,omitempty"`
 	// Font type of the field value.
-	FontType *UpdateSubmitterFieldPreferencesParamsFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
+	FontType FieldFontType `json:"font_type,omitempty" url:"font_type,omitempty"`
 	// Font family of the field value.
-	Font *UpdateSubmitterFieldPreferencesParamsFont `json:"font,omitempty" url:"font,omitempty"`
+	Font FieldFont `json:"font,omitempty" url:"font,omitempty"`
 	// Font color of the field value.
-	Color *UpdateSubmitterFieldPreferencesParamsColor `json:"color,omitempty" url:"color,omitempty"`
+	Color string `json:"color,omitempty" url:"color,omitempty"`
 	// Field box background color.
-	Background *UpdateSubmitterFieldPreferencesParamsBackground `json:"background,omitempty" url:"background,omitempty"`
+	Background string `json:"background,omitempty" url:"background,omitempty"`
 	// Horizontal alignment of the field text value.
-	Align *UpdateSubmitterFieldPreferencesParamsAlign `json:"align,omitempty" url:"align,omitempty"`
+	Align FieldAlign `json:"align,omitempty" url:"align,omitempty"`
 	// Vertical alignment of the field text value.
-	Valign *UpdateSubmitterFieldPreferencesParamsValign `json:"valign,omitempty" url:"valign,omitempty"`
+	Valign FieldValign `json:"valign,omitempty" url:"valign,omitempty"`
 	// The data format for different field types.<br>- Date field: accepts formats such as DD/MM/YYYY (default: MM/DD/YYYY).<br>- Signature field: accepts drawn, typed, drawn_or_typed (default), or upload.<br>- Number field: accepts currency formats such as usd, eur, gbp.
 	Format string `json:"format,omitempty" url:"format,omitempty"`
 	// Price value of the payment field. Only for payment fields.
 	Price *float64 `json:"price,omitempty" url:"price,omitempty"`
 	// Currency value of the payment field. Only for payment fields.
-	Currency *UpdateSubmitterFieldPreferencesParamsCurrency `json:"currency,omitempty" url:"currency,omitempty"`
+	Currency Currency `json:"currency,omitempty" url:"currency,omitempty"`
 	// Set `true` to make sensitive data masked on the document.
 	Mask *UpdateSubmitterFieldPreferencesParamsMask `json:"mask,omitempty" url:"mask,omitempty"`
 	// An array of signature reasons to choose from.
@@ -13723,44 +12789,44 @@ func (u *UpdateSubmitterFieldPreferencesParams) GetFontSize() *int {
 	return u.FontSize
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetFontType() *UpdateSubmitterFieldPreferencesParamsFontType {
+func (u *UpdateSubmitterFieldPreferencesParams) GetFontType() FieldFontType {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.FontType
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetFont() *UpdateSubmitterFieldPreferencesParamsFont {
+func (u *UpdateSubmitterFieldPreferencesParams) GetFont() FieldFont {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Font
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetColor() *UpdateSubmitterFieldPreferencesParamsColor {
+func (u *UpdateSubmitterFieldPreferencesParams) GetColor() string {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Color
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetBackground() *UpdateSubmitterFieldPreferencesParamsBackground {
+func (u *UpdateSubmitterFieldPreferencesParams) GetBackground() string {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Background
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetAlign() *UpdateSubmitterFieldPreferencesParamsAlign {
+func (u *UpdateSubmitterFieldPreferencesParams) GetAlign() FieldAlign {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Align
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetValign() *UpdateSubmitterFieldPreferencesParamsValign {
+func (u *UpdateSubmitterFieldPreferencesParams) GetValign() FieldValign {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Valign
 }
@@ -13779,9 +12845,9 @@ func (u *UpdateSubmitterFieldPreferencesParams) GetPrice() *float64 {
 	return u.Price
 }
 
-func (u *UpdateSubmitterFieldPreferencesParams) GetCurrency() *UpdateSubmitterFieldPreferencesParamsCurrency {
+func (u *UpdateSubmitterFieldPreferencesParams) GetCurrency() Currency {
 	if u == nil {
-		return nil
+		return ""
 	}
 	return u.Currency
 }
@@ -13823,42 +12889,42 @@ func (u *UpdateSubmitterFieldPreferencesParams) SetFontSize(fontSize *int) {
 
 // SetFontType sets the FontType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetFontType(fontType *UpdateSubmitterFieldPreferencesParamsFontType) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetFontType(fontType FieldFontType) {
 	u.FontType = fontType
 	u.require(updateSubmitterFieldPreferencesParamsFieldFontType)
 }
 
 // SetFont sets the Font field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetFont(font *UpdateSubmitterFieldPreferencesParamsFont) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetFont(font FieldFont) {
 	u.Font = font
 	u.require(updateSubmitterFieldPreferencesParamsFieldFont)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetColor(color *UpdateSubmitterFieldPreferencesParamsColor) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetColor(color string) {
 	u.Color = color
 	u.require(updateSubmitterFieldPreferencesParamsFieldColor)
 }
 
 // SetBackground sets the Background field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetBackground(background *UpdateSubmitterFieldPreferencesParamsBackground) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetBackground(background string) {
 	u.Background = background
 	u.require(updateSubmitterFieldPreferencesParamsFieldBackground)
 }
 
 // SetAlign sets the Align field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetAlign(align *UpdateSubmitterFieldPreferencesParamsAlign) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetAlign(align FieldAlign) {
 	u.Align = align
 	u.require(updateSubmitterFieldPreferencesParamsFieldAlign)
 }
 
 // SetValign sets the Valign field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetValign(valign *UpdateSubmitterFieldPreferencesParamsValign) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetValign(valign FieldValign) {
 	u.Valign = valign
 	u.require(updateSubmitterFieldPreferencesParamsFieldValign)
 }
@@ -13879,7 +12945,7 @@ func (u *UpdateSubmitterFieldPreferencesParams) SetPrice(price *float64) {
 
 // SetCurrency sets the Currency field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldPreferencesParams) SetCurrency(currency *UpdateSubmitterFieldPreferencesParamsCurrency) {
+func (u *UpdateSubmitterFieldPreferencesParams) SetCurrency(currency Currency) {
 	u.Currency = currency
 	u.require(updateSubmitterFieldPreferencesParamsFieldCurrency)
 }
@@ -13938,168 +13004,6 @@ func (u *UpdateSubmitterFieldPreferencesParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
-}
-
-// Horizontal alignment of the field text value.
-type UpdateSubmitterFieldPreferencesParamsAlign string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsAlignLeft   UpdateSubmitterFieldPreferencesParamsAlign = "left"
-	UpdateSubmitterFieldPreferencesParamsAlignCenter UpdateSubmitterFieldPreferencesParamsAlign = "center"
-	UpdateSubmitterFieldPreferencesParamsAlignRight  UpdateSubmitterFieldPreferencesParamsAlign = "right"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsAlignFromString(s string) (UpdateSubmitterFieldPreferencesParamsAlign, error) {
-	switch s {
-	case "left":
-		return UpdateSubmitterFieldPreferencesParamsAlignLeft, nil
-	case "center":
-		return UpdateSubmitterFieldPreferencesParamsAlignCenter, nil
-	case "right":
-		return UpdateSubmitterFieldPreferencesParamsAlignRight, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsAlign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsAlign) Ptr() *UpdateSubmitterFieldPreferencesParamsAlign {
-	return &u
-}
-
-// Field box background color.
-type UpdateSubmitterFieldPreferencesParamsBackground string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsBackgroundBlack UpdateSubmitterFieldPreferencesParamsBackground = "black"
-	UpdateSubmitterFieldPreferencesParamsBackgroundWhite UpdateSubmitterFieldPreferencesParamsBackground = "white"
-	UpdateSubmitterFieldPreferencesParamsBackgroundBlue  UpdateSubmitterFieldPreferencesParamsBackground = "blue"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsBackgroundFromString(s string) (UpdateSubmitterFieldPreferencesParamsBackground, error) {
-	switch s {
-	case "black":
-		return UpdateSubmitterFieldPreferencesParamsBackgroundBlack, nil
-	case "white":
-		return UpdateSubmitterFieldPreferencesParamsBackgroundWhite, nil
-	case "blue":
-		return UpdateSubmitterFieldPreferencesParamsBackgroundBlue, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsBackground
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsBackground) Ptr() *UpdateSubmitterFieldPreferencesParamsBackground {
-	return &u
-}
-
-// Font color of the field value.
-type UpdateSubmitterFieldPreferencesParamsColor string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsColorBlack UpdateSubmitterFieldPreferencesParamsColor = "black"
-	UpdateSubmitterFieldPreferencesParamsColorWhite UpdateSubmitterFieldPreferencesParamsColor = "white"
-	UpdateSubmitterFieldPreferencesParamsColorBlue  UpdateSubmitterFieldPreferencesParamsColor = "blue"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsColorFromString(s string) (UpdateSubmitterFieldPreferencesParamsColor, error) {
-	switch s {
-	case "black":
-		return UpdateSubmitterFieldPreferencesParamsColorBlack, nil
-	case "white":
-		return UpdateSubmitterFieldPreferencesParamsColorWhite, nil
-	case "blue":
-		return UpdateSubmitterFieldPreferencesParamsColorBlue, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsColor
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsColor) Ptr() *UpdateSubmitterFieldPreferencesParamsColor {
-	return &u
-}
-
-// Currency value of the payment field. Only for payment fields.
-type UpdateSubmitterFieldPreferencesParamsCurrency string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsCurrencyUsd UpdateSubmitterFieldPreferencesParamsCurrency = "USD"
-	UpdateSubmitterFieldPreferencesParamsCurrencyEur UpdateSubmitterFieldPreferencesParamsCurrency = "EUR"
-	UpdateSubmitterFieldPreferencesParamsCurrencyGbp UpdateSubmitterFieldPreferencesParamsCurrency = "GBP"
-	UpdateSubmitterFieldPreferencesParamsCurrencyCad UpdateSubmitterFieldPreferencesParamsCurrency = "CAD"
-	UpdateSubmitterFieldPreferencesParamsCurrencyAud UpdateSubmitterFieldPreferencesParamsCurrency = "AUD"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsCurrencyFromString(s string) (UpdateSubmitterFieldPreferencesParamsCurrency, error) {
-	switch s {
-	case "USD":
-		return UpdateSubmitterFieldPreferencesParamsCurrencyUsd, nil
-	case "EUR":
-		return UpdateSubmitterFieldPreferencesParamsCurrencyEur, nil
-	case "GBP":
-		return UpdateSubmitterFieldPreferencesParamsCurrencyGbp, nil
-	case "CAD":
-		return UpdateSubmitterFieldPreferencesParamsCurrencyCad, nil
-	case "AUD":
-		return UpdateSubmitterFieldPreferencesParamsCurrencyAud, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsCurrency
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsCurrency) Ptr() *UpdateSubmitterFieldPreferencesParamsCurrency {
-	return &u
-}
-
-// Font family of the field value.
-type UpdateSubmitterFieldPreferencesParamsFont string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsFontTimes     UpdateSubmitterFieldPreferencesParamsFont = "Times"
-	UpdateSubmitterFieldPreferencesParamsFontHelvetica UpdateSubmitterFieldPreferencesParamsFont = "Helvetica"
-	UpdateSubmitterFieldPreferencesParamsFontCourier   UpdateSubmitterFieldPreferencesParamsFont = "Courier"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsFontFromString(s string) (UpdateSubmitterFieldPreferencesParamsFont, error) {
-	switch s {
-	case "Times":
-		return UpdateSubmitterFieldPreferencesParamsFontTimes, nil
-	case "Helvetica":
-		return UpdateSubmitterFieldPreferencesParamsFontHelvetica, nil
-	case "Courier":
-		return UpdateSubmitterFieldPreferencesParamsFontCourier, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsFont
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsFont) Ptr() *UpdateSubmitterFieldPreferencesParamsFont {
-	return &u
-}
-
-// Font type of the field value.
-type UpdateSubmitterFieldPreferencesParamsFontType string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsFontTypeBold       UpdateSubmitterFieldPreferencesParamsFontType = "bold"
-	UpdateSubmitterFieldPreferencesParamsFontTypeItalic     UpdateSubmitterFieldPreferencesParamsFontType = "italic"
-	UpdateSubmitterFieldPreferencesParamsFontTypeBoldItalic UpdateSubmitterFieldPreferencesParamsFontType = "bold_italic"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsFontTypeFromString(s string) (UpdateSubmitterFieldPreferencesParamsFontType, error) {
-	switch s {
-	case "bold":
-		return UpdateSubmitterFieldPreferencesParamsFontTypeBold, nil
-	case "italic":
-		return UpdateSubmitterFieldPreferencesParamsFontTypeItalic, nil
-	case "bold_italic":
-		return UpdateSubmitterFieldPreferencesParamsFontTypeBoldItalic, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsFontType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsFontType) Ptr() *UpdateSubmitterFieldPreferencesParamsFontType {
-	return &u
 }
 
 // Set `true` to make sensitive data masked on the document.
@@ -14163,32 +13067,6 @@ func (u *UpdateSubmitterFieldPreferencesParamsMask) Accept(visitor UpdateSubmitt
 		return visitor.VisitBoolean(u.Boolean)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", u)
-}
-
-// Vertical alignment of the field text value.
-type UpdateSubmitterFieldPreferencesParamsValign string
-
-const (
-	UpdateSubmitterFieldPreferencesParamsValignTop    UpdateSubmitterFieldPreferencesParamsValign = "top"
-	UpdateSubmitterFieldPreferencesParamsValignCenter UpdateSubmitterFieldPreferencesParamsValign = "center"
-	UpdateSubmitterFieldPreferencesParamsValignBottom UpdateSubmitterFieldPreferencesParamsValign = "bottom"
-)
-
-func NewUpdateSubmitterFieldPreferencesParamsValignFromString(s string) (UpdateSubmitterFieldPreferencesParamsValign, error) {
-	switch s {
-	case "top":
-		return UpdateSubmitterFieldPreferencesParamsValignTop, nil
-	case "center":
-		return UpdateSubmitterFieldPreferencesParamsValignCenter, nil
-	case "bottom":
-		return UpdateSubmitterFieldPreferencesParamsValignBottom, nil
-	}
-	var t UpdateSubmitterFieldPreferencesParamsValign
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (u UpdateSubmitterFieldPreferencesParamsValign) Ptr() *UpdateSubmitterFieldPreferencesParamsValign {
-	return &u
 }
 
 // Field validation rules.
@@ -14890,7 +13768,7 @@ type UpdateSubmissionParams struct {
 	// The name of the submission.
 	Name string `json:"name,omitempty" url:"-"`
 	// The date and time when the submission will expire and no longer be available. Pass `null` to remove the expiration.
-	ExpireAt *string `json:"expire_at,omitempty" url:"-"`
+	ExpireAt string `json:"expire_at,omitempty" url:"-"`
 	// Set `true` to archive the submission or `false` to unarchive it.
 	Archived *bool `json:"archived,omitempty" url:"-"`
 
@@ -14914,7 +13792,7 @@ func (u *UpdateSubmissionParams) SetName(name string) {
 
 // SetExpireAt sets the ExpireAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmissionParams) SetExpireAt(expireAt *string) {
+func (u *UpdateSubmissionParams) SetExpireAt(expireAt string) {
 	u.ExpireAt = expireAt
 	u.require(updateSubmissionParamsFieldExpireAt)
 }

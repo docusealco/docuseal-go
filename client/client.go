@@ -420,7 +420,7 @@ func (c *Client) CreateSubmission(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionParams,
 	opts ...option.RequestOption,
-) (*docuseal.CreateSubmissionResult, error) {
+) (*docuseal.SubmissionInitResult, error) {
 	response, err := c.WithRawResponse.CreateSubmission(
 		ctx,
 		request,

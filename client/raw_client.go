@@ -999,7 +999,7 @@ func (r *RawClient) CreateSubmission(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionParams,
 	opts ...option.RequestOption,
-) (*core.Response[*docuseal.CreateSubmissionResult], error) {
+) (*core.Response[*docuseal.SubmissionInitResult], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -1012,7 +1012,7 @@ func (r *RawClient) CreateSubmission(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *docuseal.CreateSubmissionResult
+	var response *docuseal.SubmissionInitResult
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -1031,7 +1031,7 @@ func (r *RawClient) CreateSubmission(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*docuseal.CreateSubmissionResult]{
+	return &core.Response[*docuseal.SubmissionInitResult]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
