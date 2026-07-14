@@ -11,17 +11,18 @@ replaced an oapi-codegen types + hand-client hybrid.
 - Repo root is the generated `docuseal` package (types.go, environments.go,
   pointer.go helpers like `docuseal.String`/`docuseal.Int`) plus generated
   `client/`, `option/`, `core/`, `internal/` packages. Never edit by hand;
-  regenerate with `./generate-types.sh [spec-path-or-url]` (Node.js, Docker
+  regenerate with `./generate-types.rb [spec-path-or-url]` (Node.js, Docker
   and ruby required; the Fern generator runs locally in Docker, no account).
 - `fern/` - Fern workspace config: generator version pin,
   `packageName: docuseal`, module path.
-- `generate-types.sh` preprocesses the spec with ruby (same transform as
-  docuseal-java/dotnet): drops webhook schemas, swaps legacy
-  `POST /submissions` for `/submissions/init` (envelope response), strips
-  tags for a flat surface, injects `x-fern-request-name` for
-  `<OperationId>Params` naming. It also strips Fern's bundled tests
-  (wiremock/, *_test.go) and meta docs, then runs `go mod tidy` so testify
-  does not leak into go.mod.
+- `generate-types.rb` fetches the spec in SDK mode (`?sdk=true`; the
+  webhook drop, `/submissions/init` swap, tag strip and
+  `<OperationId>Params` naming happen on the Rails side), strips Fern's
+  bundled tests (wiremock/, *_test.go) and meta docs, appends
+  `PermanentlyDeleteTemplate`/`PermanentlyDeleteSubmission` (same DELETE
+  endpoints with `?permanently=true`; not expressible in OpenAPI next to
+  the archive operations) to `client/client.go`, then runs `go mod tidy`
+  so testify does not leak into go.mod.
 - Models: required fields and optional strings are plain values
   (`optionalsAsValues` option from the docusealco/fern generator fork);
   optional booleans, numbers, dates, nullable fields and nested objects are
@@ -30,8 +31,9 @@ replaced an oapi-codegen types + hand-client hybrid.
   methods (Fern's explicit-value mechanism): `SetName("")` sends an explicit
   empty string. Literal construction is the norm; never mix literals with
   Set* on the same struct and never copy a struct after calling Set*.
-- The generator image (fernapi/fern-go-sdk:1.47.0-docuseal) is built locally
-  from https://github.com/docusealco/fern by generate-types.sh on first run
+- The generator image (fernapi/fern-go-sdk:1.47.0, marked with the
+  `com.docuseal.fern-fork` label) is built locally from
+  https://github.com/docusealco/fern by generate-types.rb on first run
   (requires pnpm). Replacing only the Go binary in the upstream image is NOT
   enough - the bundled go-v2 node CLI validates config with a zod schema and
   rejects unknown keys, so the full image must be built from the fork.

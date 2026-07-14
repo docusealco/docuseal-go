@@ -180,7 +180,7 @@ submission, err := c.CreateSubmissionFromDocx(context.Background(), &docuseal.Cr
 })
 ```
 
-### CreateSubmissionFromHTML(data)
+### CreateSubmissionFromHtml(data)
 
 [Documentation](https://www.docuseal.com/docs/api?lang=go#create-a-submission-from-html)
 
@@ -191,9 +191,9 @@ This API endpoint allows you to create a one-off submission request document usi
 
 
 ```go
-submission, err := c.CreateSubmissionFromHTML(context.Background(), &docuseal.CreateSubmissionFromHTMLParams{
+submission, err := c.CreateSubmissionFromHtml(context.Background(), &docuseal.CreateSubmissionFromHtmlParams{
 	Name: "Test Submission Document",
-	Documents: []*docuseal.CreateSubmissionFromHTMLDocumentParams{
+	Documents: []*docuseal.CreateSubmissionFromHtmlDocumentParams{
 		{
 			Name: "Test Document",
 			HTML: `<p>Lorem Ipsum is simply dummy text of the
@@ -366,7 +366,7 @@ template, err := c.CreateTemplateFromDocx(context.Background(), &docuseal.Create
 })
 ```
 
-### CreateTemplateFromHTML(data)
+### CreateTemplateFromHtml(data)
 
 [Documentation](https://www.docuseal.com/docs/api?lang=go#create-a-template-from-html)
 
@@ -377,7 +377,7 @@ Provides the functionality to seamlessly generate a PDF document template by uti
 
 
 ```go
-template, err := c.CreateTemplateFromHTML(context.Background(), &docuseal.CreateTemplateFromHTMLParams{
+template, err := c.CreateTemplateFromHtml(context.Background(), &docuseal.CreateTemplateFromHtmlParams{
 	HTML: `<p>Lorem Ipsum is simply dummy text of the
 <text-field
   name="Industry"
@@ -458,6 +458,17 @@ Allows you to archive a document template.
 
 ```go
 _, err := c.ArchiveTemplate(context.Background(), 1000001)
+```
+
+### Configuring Timeouts
+
+Set timeouts to avoid hanging requests:
+
+```go
+c := client.NewClient(
+	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
+	option.WithHTTPClient(&http.Client{Timeout: 30 * time.Second}),
+)
 ```
 
 ## Support

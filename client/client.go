@@ -4,6 +4,7 @@ package client
 
 import (
 	context "context"
+	url "net/url"
 
 	docuseal "github.com/docusealco/docuseal-go"
 	core "github.com/docusealco/docuseal-go/core"
@@ -206,7 +207,7 @@ func (c *Client) CreateSubmissionFromPdf(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromPdfParams,
 	opts ...option.RequestOption,
-) (*docuseal.SubmissionCreateResult, error) {
+) (*docuseal.SubmissionCreateOneoffResult, error) {
 	response, err := c.WithRawResponse.CreateSubmissionFromPdf(
 		ctx,
 		request,
@@ -223,7 +224,7 @@ func (c *Client) CreateSubmissionFromDocx(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionFromDocxParams,
 	opts ...option.RequestOption,
-) (*docuseal.SubmissionCreateResult, error) {
+) (*docuseal.SubmissionCreateOneoffResult, error) {
 	response, err := c.WithRawResponse.CreateSubmissionFromDocx(
 		ctx,
 		request,
@@ -236,12 +237,12 @@ func (c *Client) CreateSubmissionFromDocx(
 }
 
 // This API endpoint allows you to create a one-off submission request document using the provided HTML content, with special field tags rendered as a fillable and signable form.<br><b>Related Guides</b><br><a href="https://www.docuseal.com/guides/create-pdf-document-fillable-form-with-html-api" class="link">Create PDF document fillable form with HTML</a>
-func (c *Client) CreateSubmissionFromHTML(
+func (c *Client) CreateSubmissionFromHtml(
 	ctx context.Context,
-	request *docuseal.CreateSubmissionFromHTMLParams,
+	request *docuseal.CreateSubmissionFromHtmlParams,
 	opts ...option.RequestOption,
-) (*docuseal.SubmissionCreateResult, error) {
-	response, err := c.WithRawResponse.CreateSubmissionFromHTML(
+) (*docuseal.SubmissionCreateOneoffResult, error) {
+	response, err := c.WithRawResponse.CreateSubmissionFromHtml(
 		ctx,
 		request,
 		opts...,
@@ -348,12 +349,12 @@ func (c *Client) CloneTemplate(
 }
 
 // The API endpoint provides the functionality to seamlessly generate a PDF document template by utilizing the provided HTML content while incorporating pre-defined fields.<br><b>Related Guides</b><br><a href="https://www.docuseal.com/guides/create-pdf-document-fillable-form-with-html-api" class="link">Create PDF document fillable form with HTML</a>
-func (c *Client) CreateTemplateFromHTML(
+func (c *Client) CreateTemplateFromHtml(
 	ctx context.Context,
-	request *docuseal.CreateTemplateFromHTMLParams,
+	request *docuseal.CreateTemplateFromHtmlParams,
 	opts ...option.RequestOption,
 ) (*docuseal.Template, error) {
-	response, err := c.WithRawResponse.CreateTemplateFromHTML(
+	response, err := c.WithRawResponse.CreateTemplateFromHtml(
 		ctx,
 		request,
 		opts...,
@@ -420,7 +421,7 @@ func (c *Client) CreateSubmission(
 	ctx context.Context,
 	request *docuseal.CreateSubmissionParams,
 	opts ...option.RequestOption,
-) (*docuseal.SubmissionInitResult, error) {
+) (*docuseal.SubmissionCreateResult, error) {
 	response, err := c.WithRawResponse.CreateSubmission(
 		ctx,
 		request,
@@ -430,4 +431,26 @@ func (c *Client) CreateSubmission(
 		return nil, err
 	}
 	return response.Body, nil
+}
+
+// The API endpoint allows you to permanently delete a document template and all of its submissions.
+func (c *Client) PermanentlyDeleteTemplate(
+	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
+	opts ...option.RequestOption,
+) (*docuseal.TemplateArchiveResult, error) {
+	opts = append(opts, option.WithQueryParameters(url.Values{"permanently": []string{"true"}}))
+	return c.ArchiveTemplate(ctx, id, opts...)
+}
+
+// The API endpoint allows you to permanently delete a submission and all of its submitters and documents.
+func (c *Client) PermanentlyDeleteSubmission(
+	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
+	opts ...option.RequestOption,
+) (*docuseal.SubmissionArchiveResult, error) {
+	opts = append(opts, option.WithQueryParameters(url.Values{"permanently": []string{"true"}}))
+	return c.ArchiveSubmission(ctx, id, opts...)
 }
