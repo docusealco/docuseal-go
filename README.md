@@ -100,7 +100,7 @@ This API endpoint allows you to create signature requests (submissions) for a do
 submission, err := c.CreateSubmission(context.Background(), &docuseal.CreateSubmissionParams{
 	TemplateID: 1000001,
 	SendEmail: docuseal.Bool(true),
-	Submitters: []*docuseal.CreateSubmissionRequestSubmitter{
+	Submitters: []*docuseal.CreateSubmissionSubmitterParams{
 		{
 			Role: "First Party",
 			Email: "john.doe@example.com",
@@ -122,14 +122,14 @@ Provides the functionality to create one-off submission request from a PDF. Use 
 ```go
 submission, err := c.CreateSubmissionFromPdf(context.Background(), &docuseal.CreateSubmissionFromPdfParams{
 	Name: "Test Submission Document",
-	Documents: []*docuseal.CreateSubmissionFromPdfRequestDocument{
+	Documents: []*docuseal.CreateSubmissionFromPdfDocumentParams{
 		{
 			Name: "string",
 			File: "base64",
-			Fields: []*docuseal.CreateSubmissionFromPdfRequestDocumentField{
+			Fields: []*docuseal.CreateSubmissionDocumentFieldParams{
 				{
 					Name: "string",
-					Areas: []*docuseal.CreateSubmissionFromPdfRequestDocumentFieldArea{
+					Areas: []*docuseal.CreateSubmissionDocumentFieldAreaParams{
 						{
 							X: 0,
 							Y: 0,
@@ -142,7 +142,7 @@ submission, err := c.CreateSubmissionFromPdf(context.Background(), &docuseal.Cre
 			},
 		},
 	},
-	Submitters: []*docuseal.CreateSubmissionFromPdfRequestSubmitter{
+	Submitters: []*docuseal.CreateSubmissionSubmitterParams{
 		{
 			Role: "First Party",
 			Email: "john.doe@example.com",
@@ -165,13 +165,13 @@ Provides functionality to create a one-off submission request from a DOCX file w
 submission, err := c.CreateSubmissionFromDocx(context.Background(), &docuseal.CreateSubmissionFromDocxParams{
 	Name: "Test Submission Document",
 	Variables: map[string]any{"variable_name": "value"},
-	Documents: []*docuseal.CreateSubmissionFromDocxRequestDocument{
+	Documents: []*docuseal.CreateSubmissionFromDocxDocumentParams{
 		{
 			Name: "string",
 			File: "base64",
 		},
 	},
-	Submitters: []*docuseal.CreateSubmissionFromPdfRequestSubmitter{
+	Submitters: []*docuseal.CreateSubmissionSubmitterParams{
 		{
 			Role: "First Party",
 			Email: "john.doe@example.com",
@@ -193,7 +193,7 @@ This API endpoint allows you to create a one-off submission request document usi
 ```go
 submission, err := c.CreateSubmissionFromHTML(context.Background(), &docuseal.CreateSubmissionFromHTMLParams{
 	Name: "Test Submission Document",
-	Documents: []*docuseal.CreateSubmissionFromHTMLRequestDocument{
+	Documents: []*docuseal.CreateSubmissionFromHTMLDocumentParams{
 		{
 			Name: "Test Document",
 			HTML: `<p>Lorem Ipsum is simply dummy text of the
@@ -207,7 +207,7 @@ and typesetting industry</p>
 `,
 		},
 	},
-	Submitters: []*docuseal.CreateSubmissionFromPdfRequestSubmitter{
+	Submitters: []*docuseal.CreateSubmissionSubmitterParams{
 		{
 			Role: "First Party",
 			Email: "john.doe@example.com",
@@ -226,7 +226,7 @@ Allows you to update a submission: change its name, expiration date, and archive
 ```go
 submission, err := c.UpdateSubmission(context.Background(), 1001, &docuseal.UpdateSubmissionParams{
 	Name: "New Submission Name",
-	ExpireAt: docuseal.String("2024-09-01 12:00:00 UTC"),
+	ExpireAt: "2024-09-01 12:00:00 UTC",
 	Archived: docuseal.Bool(true),
 })
 ```
@@ -277,10 +277,10 @@ Allows you to update submitter details, pre-fill or update field values and re-s
 ```go
 submitter, err := c.UpdateSubmitter(context.Background(), 500001, &docuseal.UpdateSubmitterParams{
 	Email: "john.doe@example.com",
-	Fields: []*docuseal.UpdateSubmitterRequestField{
+	Fields: []*docuseal.UpdateSubmitterFieldParams{
 		{
 			Name: "First Name",
-			DefaultValue: &docuseal.UpdateSubmitterRequestFieldDefaultValue{String: "Acme"},
+			DefaultValue: &docuseal.UpdateSubmitterFieldParamsDefaultValue{String: "Acme"},
 		},
 	},
 })
@@ -321,14 +321,14 @@ Provides the functionality to create a fillable document template for a PDF file
 ```go
 template, err := c.CreateTemplateFromPdf(context.Background(), &docuseal.CreateTemplateFromPdfParams{
 	Name: "Test PDF",
-	Documents: []*docuseal.CreateTemplateFromPdfRequestDocument{
+	Documents: []*docuseal.CreateTemplateFromPdfDocumentParams{
 		{
 			Name: "string",
 			File: "base64",
-			Fields: []*docuseal.CreateTemplateFromPdfRequestDocumentField{
+			Fields: []*docuseal.CreateTemplateDocumentFieldParams{
 				{
 					Name: "string",
-					Areas: []*docuseal.CreateSubmissionFromPdfRequestDocumentFieldArea{
+					Areas: []*docuseal.CreateTemplateDocumentFieldAreaParams{
 						{
 							X: 0,
 							Y: 0,
@@ -357,7 +357,7 @@ Provides the functionality to create a fillable document template for an existin
 ```go
 template, err := c.CreateTemplateFromDocx(context.Background(), &docuseal.CreateTemplateFromDocxParams{
 	Name: "Test DOCX",
-	Documents: []*docuseal.CreateTemplateFromDocxRequestDocument{
+	Documents: []*docuseal.CreateTemplateFromDocxDocumentParams{
 		{
 			Name: "string",
 			File: "base64",
@@ -441,7 +441,7 @@ Allows you to add, remove or replace documents in the template with provided PDF
 
 ```go
 template, err := c.UpdateTemplateDocuments(context.Background(), 1000001, &docuseal.UpdateTemplateDocumentsParams{
-	Documents: []*docuseal.UpdateTemplateDocumentsRequestDocument{
+	Documents: []*docuseal.UpdateTemplateDocumentsDocumentParams{
 		{
 			File: "string",
 		},
