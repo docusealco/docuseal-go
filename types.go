@@ -2428,19 +2428,21 @@ func (c *CreateSubmissionMessageParams) String() string {
 var (
 	createSubmissionSubmitterFieldParamsFieldName         = big.NewInt(1 << 0)
 	createSubmissionSubmitterFieldParamsFieldDefaultValue = big.NewInt(1 << 1)
-	createSubmissionSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 2)
-	createSubmissionSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 3)
-	createSubmissionSubmitterFieldParamsFieldTitle        = big.NewInt(1 << 4)
-	createSubmissionSubmitterFieldParamsFieldDescription  = big.NewInt(1 << 5)
-	createSubmissionSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 6)
-	createSubmissionSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 7)
+	createSubmissionSubmitterFieldParamsFieldValue        = big.NewInt(1 << 2)
+	createSubmissionSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 3)
+	createSubmissionSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 4)
+	createSubmissionSubmitterFieldParamsFieldTitle        = big.NewInt(1 << 5)
+	createSubmissionSubmitterFieldParamsFieldDescription  = big.NewInt(1 << 6)
+	createSubmissionSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 7)
+	createSubmissionSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 8)
 )
 
 type CreateSubmissionSubmitterFieldParams struct {
 	// Document template field name.
-	Name string `json:"name" url:"name"`
-	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-	DefaultValue *CreateSubmissionSubmitterFieldParamsDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	Name         string        `json:"name" url:"name"`
+	DefaultValue *DefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	// Default value of the field as a plain string. Alias of `default_value` that takes precedence when both are provided.
+	Value string `json:"value,omitempty" url:"value,omitempty"`
 	// Set `true` to make it impossible for the submitter to edit predefined field value.
 	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
 	// Set `true` to make the field required.
@@ -2466,11 +2468,18 @@ func (c *CreateSubmissionSubmitterFieldParams) GetName() string {
 	return c.Name
 }
 
-func (c *CreateSubmissionSubmitterFieldParams) GetDefaultValue() *CreateSubmissionSubmitterFieldParamsDefaultValue {
+func (c *CreateSubmissionSubmitterFieldParams) GetDefaultValue() *DefaultValue {
 	if c == nil {
 		return nil
 	}
 	return c.DefaultValue
+}
+
+func (c *CreateSubmissionSubmitterFieldParams) GetValue() string {
+	if c == nil {
+		return ""
+	}
+	return c.Value
 }
 
 func (c *CreateSubmissionSubmitterFieldParams) GetReadonly() *bool {
@@ -2538,9 +2547,16 @@ func (c *CreateSubmissionSubmitterFieldParams) SetName(name string) {
 
 // SetDefaultValue sets the DefaultValue field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionSubmitterFieldParams) SetDefaultValue(defaultValue *CreateSubmissionSubmitterFieldParamsDefaultValue) {
+func (c *CreateSubmissionSubmitterFieldParams) SetDefaultValue(defaultValue *DefaultValue) {
 	c.DefaultValue = defaultValue
 	c.require(createSubmissionSubmitterFieldParamsFieldDefaultValue)
+}
+
+// SetValue sets the Value field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateSubmissionSubmitterFieldParams) SetValue(value string) {
+	c.Value = value
+	c.require(createSubmissionSubmitterFieldParamsFieldValue)
 }
 
 // SetReadonly sets the Readonly field and marks it as non-optional;
@@ -2625,194 +2641,6 @@ func (c *CreateSubmissionSubmitterFieldParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
-}
-
-// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-type CreateSubmissionSubmitterFieldParamsDefaultValue struct {
-	String                                                        string
-	Double                                                        float64
-	Boolean                                                       bool
-	CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem
-
-	typ string
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) GetCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList() []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem {
-	if c == nil {
-		return nil
-	}
-	return c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	var valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList []*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem
-	if err := json.Unmarshal(data, &valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList); err == nil {
-		c.typ = "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList"
-		c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList = valueCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionSubmitterFieldParamsDefaultValue) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList" || c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList != nil {
-		return json.Marshal(c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionSubmitterFieldParamsDefaultValueVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-	VisitCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList([]*CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) error
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValue) Accept(visitor CreateSubmissionSubmitterFieldParamsDefaultValueVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	if c.typ == "CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList" || c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList != nil {
-		return visitor.VisitCreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList(c.CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem struct {
-	String  string
-	Double  float64
-	Boolean bool
-
-	typ string
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetString() string {
-	if c == nil {
-		return ""
-	}
-	return c.String
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetDouble() float64 {
-	if c == nil {
-		return 0
-	}
-	return c.Double
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) GetBoolean() bool {
-	if c == nil {
-		return false
-	}
-	return c.Boolean
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		c.typ = "String"
-		c.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		c.typ = "Double"
-		c.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		c.typ = "Boolean"
-		c.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, c)
-}
-
-func (c CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
-	if c.typ == "String" || c.String != "" {
-		return json.Marshal(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return json.Marshal(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return json.Marshal(c.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", c)
-}
-
-type CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-}
-
-func (c *CreateSubmissionSubmitterFieldParamsDefaultValueThreeItem) Accept(visitor CreateSubmissionSubmitterFieldParamsDefaultValueThreeItemVisitor) error {
-	if c.typ == "String" || c.String != "" {
-		return visitor.VisitString(c.String)
-	}
-	if c.typ == "Double" || c.Double != 0 {
-		return visitor.VisitDouble(c.Double)
-	}
-	if c.typ == "Boolean" || c.Boolean != false {
-		return visitor.VisitBoolean(c.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", c)
 }
 
 // Field display preferences.
@@ -5340,6 +5168,236 @@ func (c Currency) Ptr() *Currency {
 	return &c
 }
 
+// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
+type DefaultValue struct {
+	String               string
+	Integer              int
+	Double               float64
+	Boolean              bool
+	DefaultValueItemList []*DefaultValueItem
+
+	typ string
+}
+
+func (d *DefaultValue) GetString() string {
+	if d == nil {
+		return ""
+	}
+	return d.String
+}
+
+func (d *DefaultValue) GetInteger() int {
+	if d == nil {
+		return 0
+	}
+	return d.Integer
+}
+
+func (d *DefaultValue) GetDouble() float64 {
+	if d == nil {
+		return 0
+	}
+	return d.Double
+}
+
+func (d *DefaultValue) GetBoolean() bool {
+	if d == nil {
+		return false
+	}
+	return d.Boolean
+}
+
+func (d *DefaultValue) GetDefaultValueItemList() []*DefaultValueItem {
+	if d == nil {
+		return nil
+	}
+	return d.DefaultValueItemList
+}
+
+func (d *DefaultValue) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		d.typ = "String"
+		d.String = valueString
+		return nil
+	}
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		d.typ = "Integer"
+		d.Integer = valueInteger
+		return nil
+	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		d.typ = "Double"
+		d.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		d.typ = "Boolean"
+		d.Boolean = valueBoolean
+		return nil
+	}
+	var valueDefaultValueItemList []*DefaultValueItem
+	if err := json.Unmarshal(data, &valueDefaultValueItemList); err == nil {
+		d.typ = "DefaultValueItemList"
+		d.DefaultValueItemList = valueDefaultValueItemList
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, d)
+}
+
+func (d DefaultValue) MarshalJSON() ([]byte, error) {
+	if d.typ == "String" || d.String != "" {
+		return json.Marshal(d.String)
+	}
+	if d.typ == "Integer" || d.Integer != 0 {
+		return json.Marshal(d.Integer)
+	}
+	if d.typ == "Double" || d.Double != 0 {
+		return json.Marshal(d.Double)
+	}
+	if d.typ == "Boolean" || d.Boolean != false {
+		return json.Marshal(d.Boolean)
+	}
+	if d.typ == "DefaultValueItemList" || d.DefaultValueItemList != nil {
+		return json.Marshal(d.DefaultValueItemList)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", d)
+}
+
+type DefaultValueVisitor interface {
+	VisitString(string) error
+	VisitInteger(int) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+	VisitDefaultValueItemList([]*DefaultValueItem) error
+}
+
+func (d *DefaultValue) Accept(visitor DefaultValueVisitor) error {
+	if d.typ == "String" || d.String != "" {
+		return visitor.VisitString(d.String)
+	}
+	if d.typ == "Integer" || d.Integer != 0 {
+		return visitor.VisitInteger(d.Integer)
+	}
+	if d.typ == "Double" || d.Double != 0 {
+		return visitor.VisitDouble(d.Double)
+	}
+	if d.typ == "Boolean" || d.Boolean != false {
+		return visitor.VisitBoolean(d.Boolean)
+	}
+	if d.typ == "DefaultValueItemList" || d.DefaultValueItemList != nil {
+		return visitor.VisitDefaultValueItemList(d.DefaultValueItemList)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", d)
+}
+
+type DefaultValueItem struct {
+	String  string
+	Integer int
+	Double  float64
+	Boolean bool
+
+	typ string
+}
+
+func (d *DefaultValueItem) GetString() string {
+	if d == nil {
+		return ""
+	}
+	return d.String
+}
+
+func (d *DefaultValueItem) GetInteger() int {
+	if d == nil {
+		return 0
+	}
+	return d.Integer
+}
+
+func (d *DefaultValueItem) GetDouble() float64 {
+	if d == nil {
+		return 0
+	}
+	return d.Double
+}
+
+func (d *DefaultValueItem) GetBoolean() bool {
+	if d == nil {
+		return false
+	}
+	return d.Boolean
+}
+
+func (d *DefaultValueItem) UnmarshalJSON(data []byte) error {
+	var valueString string
+	if err := json.Unmarshal(data, &valueString); err == nil {
+		d.typ = "String"
+		d.String = valueString
+		return nil
+	}
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		d.typ = "Integer"
+		d.Integer = valueInteger
+		return nil
+	}
+	var valueDouble float64
+	if err := json.Unmarshal(data, &valueDouble); err == nil {
+		d.typ = "Double"
+		d.Double = valueDouble
+		return nil
+	}
+	var valueBoolean bool
+	if err := json.Unmarshal(data, &valueBoolean); err == nil {
+		d.typ = "Boolean"
+		d.Boolean = valueBoolean
+		return nil
+	}
+	return fmt.Errorf("%s cannot be deserialized as a %T", data, d)
+}
+
+func (d DefaultValueItem) MarshalJSON() ([]byte, error) {
+	if d.typ == "String" || d.String != "" {
+		return json.Marshal(d.String)
+	}
+	if d.typ == "Integer" || d.Integer != 0 {
+		return json.Marshal(d.Integer)
+	}
+	if d.typ == "Double" || d.Double != 0 {
+		return json.Marshal(d.Double)
+	}
+	if d.typ == "Boolean" || d.Boolean != false {
+		return json.Marshal(d.Boolean)
+	}
+	return nil, fmt.Errorf("type %T does not include a non-empty union type", d)
+}
+
+type DefaultValueItemVisitor interface {
+	VisitString(string) error
+	VisitInteger(int) error
+	VisitDouble(float64) error
+	VisitBoolean(bool) error
+}
+
+func (d *DefaultValueItem) Accept(visitor DefaultValueItemVisitor) error {
+	if d.typ == "String" || d.String != "" {
+		return visitor.VisitString(d.String)
+	}
+	if d.typ == "Integer" || d.Integer != 0 {
+		return visitor.VisitInteger(d.Integer)
+	}
+	if d.typ == "Double" || d.Double != 0 {
+		return visitor.VisitDouble(d.Double)
+	}
+	if d.typ == "Boolean" || d.Boolean != false {
+		return visitor.VisitBoolean(d.Boolean)
+	}
+	return fmt.Errorf("type %T does not include a non-empty union type", d)
+}
+
 var (
 	documentFieldName = big.NewInt(1 << 0)
 	documentFieldURL  = big.NewInt(1 << 1)
@@ -6397,10 +6455,11 @@ func (f *FieldValue) String() string {
 
 // Pre-filled value of the field.
 type FieldValueValue struct {
-	String                       string
-	Double                       float64
-	Boolean                      bool
-	FieldValueValueThreeItemList []*FieldValueValueThreeItem
+	String                      string
+	Integer                     int
+	Double                      float64
+	Boolean                     bool
+	FieldValueValueFourItemList []*FieldValueValueFourItem
 
 	typ string
 }
@@ -6410,6 +6469,13 @@ func (f *FieldValueValue) GetString() string {
 		return ""
 	}
 	return f.String
+}
+
+func (f *FieldValueValue) GetInteger() int {
+	if f == nil {
+		return 0
+	}
+	return f.Integer
 }
 
 func (f *FieldValueValue) GetDouble() float64 {
@@ -6426,11 +6492,11 @@ func (f *FieldValueValue) GetBoolean() bool {
 	return f.Boolean
 }
 
-func (f *FieldValueValue) GetFieldValueValueThreeItemList() []*FieldValueValueThreeItem {
+func (f *FieldValueValue) GetFieldValueValueFourItemList() []*FieldValueValueFourItem {
 	if f == nil {
 		return nil
 	}
-	return f.FieldValueValueThreeItemList
+	return f.FieldValueValueFourItemList
 }
 
 func (f *FieldValueValue) UnmarshalJSON(data []byte) error {
@@ -6440,6 +6506,12 @@ func (f *FieldValueValue) UnmarshalJSON(data []byte) error {
 		f.String = valueString
 		return nil
 	}
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		f.typ = "Integer"
+		f.Integer = valueInteger
+		return nil
+	}
 	var valueDouble float64
 	if err := json.Unmarshal(data, &valueDouble); err == nil {
 		f.typ = "Double"
@@ -6452,10 +6524,10 @@ func (f *FieldValueValue) UnmarshalJSON(data []byte) error {
 		f.Boolean = valueBoolean
 		return nil
 	}
-	var valueFieldValueValueThreeItemList []*FieldValueValueThreeItem
-	if err := json.Unmarshal(data, &valueFieldValueValueThreeItemList); err == nil {
-		f.typ = "FieldValueValueThreeItemList"
-		f.FieldValueValueThreeItemList = valueFieldValueValueThreeItemList
+	var valueFieldValueValueFourItemList []*FieldValueValueFourItem
+	if err := json.Unmarshal(data, &valueFieldValueValueFourItemList); err == nil {
+		f.typ = "FieldValueValueFourItemList"
+		f.FieldValueValueFourItemList = valueFieldValueValueFourItemList
 		return nil
 	}
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
@@ -6465,28 +6537,35 @@ func (f FieldValueValue) MarshalJSON() ([]byte, error) {
 	if f.typ == "String" || f.String != "" {
 		return json.Marshal(f.String)
 	}
+	if f.typ == "Integer" || f.Integer != 0 {
+		return json.Marshal(f.Integer)
+	}
 	if f.typ == "Double" || f.Double != 0 {
 		return json.Marshal(f.Double)
 	}
 	if f.typ == "Boolean" || f.Boolean != false {
 		return json.Marshal(f.Boolean)
 	}
-	if f.typ == "FieldValueValueThreeItemList" || f.FieldValueValueThreeItemList != nil {
-		return json.Marshal(f.FieldValueValueThreeItemList)
+	if f.typ == "FieldValueValueFourItemList" || f.FieldValueValueFourItemList != nil {
+		return json.Marshal(f.FieldValueValueFourItemList)
 	}
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
 type FieldValueValueVisitor interface {
 	VisitString(string) error
+	VisitInteger(int) error
 	VisitDouble(float64) error
 	VisitBoolean(bool) error
-	VisitFieldValueValueThreeItemList([]*FieldValueValueThreeItem) error
+	VisitFieldValueValueFourItemList([]*FieldValueValueFourItem) error
 }
 
 func (f *FieldValueValue) Accept(visitor FieldValueValueVisitor) error {
 	if f.typ == "String" || f.String != "" {
 		return visitor.VisitString(f.String)
+	}
+	if f.typ == "Integer" || f.Integer != 0 {
+		return visitor.VisitInteger(f.Integer)
 	}
 	if f.typ == "Double" || f.Double != 0 {
 		return visitor.VisitDouble(f.Double)
@@ -6494,46 +6573,60 @@ func (f *FieldValueValue) Accept(visitor FieldValueValueVisitor) error {
 	if f.typ == "Boolean" || f.Boolean != false {
 		return visitor.VisitBoolean(f.Boolean)
 	}
-	if f.typ == "FieldValueValueThreeItemList" || f.FieldValueValueThreeItemList != nil {
-		return visitor.VisitFieldValueValueThreeItemList(f.FieldValueValueThreeItemList)
+	if f.typ == "FieldValueValueFourItemList" || f.FieldValueValueFourItemList != nil {
+		return visitor.VisitFieldValueValueFourItemList(f.FieldValueValueFourItemList)
 	}
 	return fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-type FieldValueValueThreeItem struct {
+type FieldValueValueFourItem struct {
 	String  string
+	Integer int
 	Double  float64
 	Boolean bool
 
 	typ string
 }
 
-func (f *FieldValueValueThreeItem) GetString() string {
+func (f *FieldValueValueFourItem) GetString() string {
 	if f == nil {
 		return ""
 	}
 	return f.String
 }
 
-func (f *FieldValueValueThreeItem) GetDouble() float64 {
+func (f *FieldValueValueFourItem) GetInteger() int {
+	if f == nil {
+		return 0
+	}
+	return f.Integer
+}
+
+func (f *FieldValueValueFourItem) GetDouble() float64 {
 	if f == nil {
 		return 0
 	}
 	return f.Double
 }
 
-func (f *FieldValueValueThreeItem) GetBoolean() bool {
+func (f *FieldValueValueFourItem) GetBoolean() bool {
 	if f == nil {
 		return false
 	}
 	return f.Boolean
 }
 
-func (f *FieldValueValueThreeItem) UnmarshalJSON(data []byte) error {
+func (f *FieldValueValueFourItem) UnmarshalJSON(data []byte) error {
 	var valueString string
 	if err := json.Unmarshal(data, &valueString); err == nil {
 		f.typ = "String"
 		f.String = valueString
+		return nil
+	}
+	var valueInteger int
+	if err := json.Unmarshal(data, &valueInteger); err == nil {
+		f.typ = "Integer"
+		f.Integer = valueInteger
 		return nil
 	}
 	var valueDouble float64
@@ -6551,9 +6644,12 @@ func (f *FieldValueValueThreeItem) UnmarshalJSON(data []byte) error {
 	return fmt.Errorf("%s cannot be deserialized as a %T", data, f)
 }
 
-func (f FieldValueValueThreeItem) MarshalJSON() ([]byte, error) {
+func (f FieldValueValueFourItem) MarshalJSON() ([]byte, error) {
 	if f.typ == "String" || f.String != "" {
 		return json.Marshal(f.String)
+	}
+	if f.typ == "Integer" || f.Integer != 0 {
+		return json.Marshal(f.Integer)
 	}
 	if f.typ == "Double" || f.Double != 0 {
 		return json.Marshal(f.Double)
@@ -6564,15 +6660,19 @@ func (f FieldValueValueThreeItem) MarshalJSON() ([]byte, error) {
 	return nil, fmt.Errorf("type %T does not include a non-empty union type", f)
 }
 
-type FieldValueValueThreeItemVisitor interface {
+type FieldValueValueFourItemVisitor interface {
 	VisitString(string) error
+	VisitInteger(int) error
 	VisitDouble(float64) error
 	VisitBoolean(bool) error
 }
 
-func (f *FieldValueValueThreeItem) Accept(visitor FieldValueValueThreeItemVisitor) error {
+func (f *FieldValueValueFourItem) Accept(visitor FieldValueValueFourItemVisitor) error {
 	if f.typ == "String" || f.String != "" {
 		return visitor.VisitString(f.String)
+	}
+	if f.typ == "Integer" || f.Integer != 0 {
+		return visitor.VisitInteger(f.Integer)
 	}
 	if f.typ == "Double" || f.Double != 0 {
 		return visitor.VisitDouble(f.Double)
@@ -14499,17 +14599,19 @@ func (t *TemplateUpdatedEvent) String() string {
 var (
 	updateSubmitterFieldParamsFieldName         = big.NewInt(1 << 0)
 	updateSubmitterFieldParamsFieldDefaultValue = big.NewInt(1 << 1)
-	updateSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 2)
-	updateSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 3)
-	updateSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 4)
-	updateSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 5)
+	updateSubmitterFieldParamsFieldValue        = big.NewInt(1 << 2)
+	updateSubmitterFieldParamsFieldReadonly     = big.NewInt(1 << 3)
+	updateSubmitterFieldParamsFieldRequired     = big.NewInt(1 << 4)
+	updateSubmitterFieldParamsFieldValidation   = big.NewInt(1 << 5)
+	updateSubmitterFieldParamsFieldPreferences  = big.NewInt(1 << 6)
 )
 
 type UpdateSubmitterFieldParams struct {
 	// Document template field name.
-	Name string `json:"name" url:"name"`
-	// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-	DefaultValue *UpdateSubmitterFieldParamsDefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	Name         string        `json:"name" url:"name"`
+	DefaultValue *DefaultValue `json:"default_value,omitempty" url:"default_value,omitempty"`
+	// Default value of the field as a plain string. Alias of `default_value` that takes precedence when both are provided.
+	Value string `json:"value,omitempty" url:"value,omitempty"`
 	// Set `true` to make it impossible for the submitter to edit predefined field value.
 	Readonly *bool `json:"readonly,omitempty" url:"readonly,omitempty"`
 	// Set `true` to make the field required.
@@ -14531,11 +14633,18 @@ func (u *UpdateSubmitterFieldParams) GetName() string {
 	return u.Name
 }
 
-func (u *UpdateSubmitterFieldParams) GetDefaultValue() *UpdateSubmitterFieldParamsDefaultValue {
+func (u *UpdateSubmitterFieldParams) GetDefaultValue() *DefaultValue {
 	if u == nil {
 		return nil
 	}
 	return u.DefaultValue
+}
+
+func (u *UpdateSubmitterFieldParams) GetValue() string {
+	if u == nil {
+		return ""
+	}
+	return u.Value
 }
 
 func (u *UpdateSubmitterFieldParams) GetReadonly() *bool {
@@ -14589,9 +14698,16 @@ func (u *UpdateSubmitterFieldParams) SetName(name string) {
 
 // SetDefaultValue sets the DefaultValue field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSubmitterFieldParams) SetDefaultValue(defaultValue *UpdateSubmitterFieldParamsDefaultValue) {
+func (u *UpdateSubmitterFieldParams) SetDefaultValue(defaultValue *DefaultValue) {
 	u.DefaultValue = defaultValue
 	u.require(updateSubmitterFieldParamsFieldDefaultValue)
+}
+
+// SetValue sets the Value field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSubmitterFieldParams) SetValue(value string) {
+	u.Value = value
+	u.require(updateSubmitterFieldParamsFieldValue)
 }
 
 // SetReadonly sets the Readonly field and marks it as non-optional;
@@ -14662,194 +14778,6 @@ func (u *UpdateSubmitterFieldParams) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
-}
-
-// Default value of the field. Use base64 encoded file or a public URL to the image file to set default signature or image fields.
-type UpdateSubmitterFieldParamsDefaultValue struct {
-	String                                              string
-	Double                                              float64
-	Boolean                                             bool
-	UpdateSubmitterFieldParamsDefaultValueThreeItemList []*UpdateSubmitterFieldParamsDefaultValueThreeItem
-
-	typ string
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) GetString() string {
-	if u == nil {
-		return ""
-	}
-	return u.String
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) GetDouble() float64 {
-	if u == nil {
-		return 0
-	}
-	return u.Double
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) GetBoolean() bool {
-	if u == nil {
-		return false
-	}
-	return u.Boolean
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) GetUpdateSubmitterFieldParamsDefaultValueThreeItemList() []*UpdateSubmitterFieldParamsDefaultValueThreeItem {
-	if u == nil {
-		return nil
-	}
-	return u.UpdateSubmitterFieldParamsDefaultValueThreeItemList
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		u.typ = "String"
-		u.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		u.typ = "Double"
-		u.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		u.typ = "Boolean"
-		u.Boolean = valueBoolean
-		return nil
-	}
-	var valueUpdateSubmitterFieldParamsDefaultValueThreeItemList []*UpdateSubmitterFieldParamsDefaultValueThreeItem
-	if err := json.Unmarshal(data, &valueUpdateSubmitterFieldParamsDefaultValueThreeItemList); err == nil {
-		u.typ = "UpdateSubmitterFieldParamsDefaultValueThreeItemList"
-		u.UpdateSubmitterFieldParamsDefaultValueThreeItemList = valueUpdateSubmitterFieldParamsDefaultValueThreeItemList
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
-}
-
-func (u UpdateSubmitterFieldParamsDefaultValue) MarshalJSON() ([]byte, error) {
-	if u.typ == "String" || u.String != "" {
-		return json.Marshal(u.String)
-	}
-	if u.typ == "Double" || u.Double != 0 {
-		return json.Marshal(u.Double)
-	}
-	if u.typ == "Boolean" || u.Boolean != false {
-		return json.Marshal(u.Boolean)
-	}
-	if u.typ == "UpdateSubmitterFieldParamsDefaultValueThreeItemList" || u.UpdateSubmitterFieldParamsDefaultValueThreeItemList != nil {
-		return json.Marshal(u.UpdateSubmitterFieldParamsDefaultValueThreeItemList)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
-}
-
-type UpdateSubmitterFieldParamsDefaultValueVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-	VisitUpdateSubmitterFieldParamsDefaultValueThreeItemList([]*UpdateSubmitterFieldParamsDefaultValueThreeItem) error
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValue) Accept(visitor UpdateSubmitterFieldParamsDefaultValueVisitor) error {
-	if u.typ == "String" || u.String != "" {
-		return visitor.VisitString(u.String)
-	}
-	if u.typ == "Double" || u.Double != 0 {
-		return visitor.VisitDouble(u.Double)
-	}
-	if u.typ == "Boolean" || u.Boolean != false {
-		return visitor.VisitBoolean(u.Boolean)
-	}
-	if u.typ == "UpdateSubmitterFieldParamsDefaultValueThreeItemList" || u.UpdateSubmitterFieldParamsDefaultValueThreeItemList != nil {
-		return visitor.VisitUpdateSubmitterFieldParamsDefaultValueThreeItemList(u.UpdateSubmitterFieldParamsDefaultValueThreeItemList)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", u)
-}
-
-type UpdateSubmitterFieldParamsDefaultValueThreeItem struct {
-	String  string
-	Double  float64
-	Boolean bool
-
-	typ string
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetString() string {
-	if u == nil {
-		return ""
-	}
-	return u.String
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetDouble() float64 {
-	if u == nil {
-		return 0
-	}
-	return u.Double
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) GetBoolean() bool {
-	if u == nil {
-		return false
-	}
-	return u.Boolean
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) UnmarshalJSON(data []byte) error {
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		u.typ = "String"
-		u.String = valueString
-		return nil
-	}
-	var valueDouble float64
-	if err := json.Unmarshal(data, &valueDouble); err == nil {
-		u.typ = "Double"
-		u.Double = valueDouble
-		return nil
-	}
-	var valueBoolean bool
-	if err := json.Unmarshal(data, &valueBoolean); err == nil {
-		u.typ = "Boolean"
-		u.Boolean = valueBoolean
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, u)
-}
-
-func (u UpdateSubmitterFieldParamsDefaultValueThreeItem) MarshalJSON() ([]byte, error) {
-	if u.typ == "String" || u.String != "" {
-		return json.Marshal(u.String)
-	}
-	if u.typ == "Double" || u.Double != 0 {
-		return json.Marshal(u.Double)
-	}
-	if u.typ == "Boolean" || u.Boolean != false {
-		return json.Marshal(u.Boolean)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", u)
-}
-
-type UpdateSubmitterFieldParamsDefaultValueThreeItemVisitor interface {
-	VisitString(string) error
-	VisitDouble(float64) error
-	VisitBoolean(bool) error
-}
-
-func (u *UpdateSubmitterFieldParamsDefaultValueThreeItem) Accept(visitor UpdateSubmitterFieldParamsDefaultValueThreeItemVisitor) error {
-	if u.typ == "String" || u.String != "" {
-		return visitor.VisitString(u.String)
-	}
-	if u.typ == "Double" || u.Double != 0 {
-		return visitor.VisitDouble(u.Double)
-	}
-	if u.typ == "Boolean" || u.Boolean != false {
-		return visitor.VisitBoolean(u.Boolean)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", u)
 }
 
 // Field display preferences.

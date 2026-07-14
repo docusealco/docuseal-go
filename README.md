@@ -280,7 +280,7 @@ submitter, err := c.UpdateSubmitter(context.Background(), 500001, &docuseal.Upda
 	Fields: []*docuseal.UpdateSubmitterFieldParams{
 		{
 			Name: "First Name",
-			DefaultValue: &docuseal.UpdateSubmitterFieldParamsDefaultValue{String: "Acme"},
+			Value: "Acme",
 		},
 	},
 })
