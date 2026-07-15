@@ -10284,6 +10284,108 @@ func (s *SubmissionListItem) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
+var (
+	submissionPermanentlyDeleteResultFieldID         = big.NewInt(1 << 0)
+	submissionPermanentlyDeleteResultFieldArchivedAt = big.NewInt(1 << 1)
+)
+
+type SubmissionPermanentlyDeleteResult struct {
+	// Submission unique ID number.
+	ID int `json:"id" url:"id"`
+	// Date and time when the submission was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SubmissionPermanentlyDeleteResult) GetID() int {
+	if s == nil {
+		return 0
+	}
+	return s.ID
+}
+
+func (s *SubmissionPermanentlyDeleteResult) GetArchivedAt() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ArchivedAt
+}
+
+func (s *SubmissionPermanentlyDeleteResult) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SubmissionPermanentlyDeleteResult) require(field *big.Int) {
+	if s.explicitFields == nil {
+		s.explicitFields = big.NewInt(0)
+	}
+	s.explicitFields.Or(s.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionPermanentlyDeleteResult) SetID(id int) {
+	s.ID = id
+	s.require(submissionPermanentlyDeleteResultFieldID)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SubmissionPermanentlyDeleteResult) SetArchivedAt(archivedAt *string) {
+	s.ArchivedAt = archivedAt
+	s.require(submissionPermanentlyDeleteResultFieldArchivedAt)
+}
+
+func (s *SubmissionPermanentlyDeleteResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler SubmissionPermanentlyDeleteResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SubmissionPermanentlyDeleteResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SubmissionPermanentlyDeleteResult) MarshalJSON() ([]byte, error) {
+	type embed SubmissionPermanentlyDeleteResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SubmissionPermanentlyDeleteResult) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
 type SubmissionSource string
 
 const (
@@ -14057,6 +14159,108 @@ func (t *TemplateList) MarshalJSON() ([]byte, error) {
 }
 
 func (t *TemplateList) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	templatePermanentlyDeleteResultFieldID         = big.NewInt(1 << 0)
+	templatePermanentlyDeleteResultFieldArchivedAt = big.NewInt(1 << 1)
+)
+
+type TemplatePermanentlyDeleteResult struct {
+	// Template unique ID number.
+	ID int `json:"id" url:"id"`
+	// Date and time when the template was archived.
+	ArchivedAt *string `json:"archived_at,omitempty" url:"archived_at,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TemplatePermanentlyDeleteResult) GetID() int {
+	if t == nil {
+		return 0
+	}
+	return t.ID
+}
+
+func (t *TemplatePermanentlyDeleteResult) GetArchivedAt() *string {
+	if t == nil {
+		return nil
+	}
+	return t.ArchivedAt
+}
+
+func (t *TemplatePermanentlyDeleteResult) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TemplatePermanentlyDeleteResult) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplatePermanentlyDeleteResult) SetID(id int) {
+	t.ID = id
+	t.require(templatePermanentlyDeleteResultFieldID)
+}
+
+// SetArchivedAt sets the ArchivedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TemplatePermanentlyDeleteResult) SetArchivedAt(archivedAt *string) {
+	t.ArchivedAt = archivedAt
+	t.require(templatePermanentlyDeleteResultFieldArchivedAt)
+}
+
+func (t *TemplatePermanentlyDeleteResult) UnmarshalJSON(data []byte) error {
+	type unmarshaler TemplatePermanentlyDeleteResult
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TemplatePermanentlyDeleteResult(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TemplatePermanentlyDeleteResult) MarshalJSON() ([]byte, error) {
+	type embed TemplatePermanentlyDeleteResult
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TemplatePermanentlyDeleteResult) String() string {
 	if t == nil {
 		return "<nil>"
 	}

@@ -4,7 +4,6 @@ package docuseal
 
 import (
 	context "context"
-	url "net/url"
 
 	core "github.com/docusealco/docuseal-go/core"
 	internal "github.com/docusealco/docuseal-go/internal"
@@ -441,9 +440,16 @@ func (c *Client) PermanentlyDeleteTemplate(
 	// The unique identifier of the document template.
 	id int,
 	opts ...RequestOption,
-) (*TemplateArchiveResult, error) {
-	opts = append(opts, WithQueryParameters(url.Values{"permanently": []string{"true"}}))
-	return c.ArchiveTemplate(ctx, id, opts...)
+) (*TemplatePermanentlyDeleteResult, error) {
+	response, err := c.WithRawResponse.PermanentlyDeleteTemplate(
+		ctx,
+		id,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
 }
 
 // The API endpoint allows you to permanently delete a submission and all of its submitters and documents.
@@ -452,7 +458,14 @@ func (c *Client) PermanentlyDeleteSubmission(
 	// The unique identifier of the submission.
 	id int,
 	opts ...RequestOption,
-) (*SubmissionArchiveResult, error) {
-	opts = append(opts, WithQueryParameters(url.Values{"permanently": []string{"true"}}))
-	return c.ArchiveSubmission(ctx, id, opts...)
+) (*SubmissionPermanentlyDeleteResult, error) {
+	response, err := c.WithRawResponse.PermanentlyDeleteSubmission(
+		ctx,
+		id,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
 }

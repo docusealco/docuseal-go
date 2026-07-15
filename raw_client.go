@@ -1035,3 +1035,93 @@ func (r *RawClient) CreateSubmission(
 		Body:       response,
 	}, nil
 }
+
+func (r *RawClient) PermanentlyDeleteTemplate(
+	ctx context.Context,
+	// The unique identifier of the document template.
+	id int,
+	opts ...RequestOption,
+) (*core.Response[*TemplatePermanentlyDeleteResult], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.docuseal.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/templates/%v?permanently=true",
+		id,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *TemplatePermanentlyDeleteResult
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*TemplatePermanentlyDeleteResult]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) PermanentlyDeleteSubmission(
+	ctx context.Context,
+	// The unique identifier of the submission.
+	id int,
+	opts ...RequestOption,
+) (*core.Response[*SubmissionPermanentlyDeleteResult], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.docuseal.com",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/submissions/%v?permanently=true",
+		id,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *SubmissionPermanentlyDeleteResult
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodDelete,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*SubmissionPermanentlyDeleteResult]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
