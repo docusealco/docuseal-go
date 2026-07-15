@@ -52,7 +52,7 @@ For on-premises installations, API keys can be retrieved from the API settings p
 ```go
 ds := docuseal.NewClient(
 	os.Getenv("DOCUSEAL_API_KEY"),
-	docuseal.WithBaseURL("https://yourdocuseal.com/api"),
+	docuseal.WithBaseURL("https://yourdocusealapp.com/api"),
 )
 ```
 
@@ -253,6 +253,7 @@ _, err := ds.ArchiveSubmission(context.Background(), 1001)
 [Documentation](https://www.docuseal.com/docs/api?lang=go#list-all-submitters)
 
 Provides the ability to retrieve a list of submitters.
+
 
 
 ```go

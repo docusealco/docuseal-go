@@ -21,6 +21,9 @@ type Client struct {
 func NewClient(apiKey string, opts ...RequestOption) *Client {
 	opts = append([]RequestOption{WithAPIKey(apiKey)}, opts...)
 	options := core.NewRequestOptions(opts...)
+	if options.HTTPHeader.Get("User-Agent") == "" {
+		options.HTTPHeader.Set("User-Agent", "DocuSeal Go v1.0.0")
+	}
 	return &Client{
 		WithRawResponse: NewRawClient(options),
 		options:         options,

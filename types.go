@@ -849,9 +849,9 @@ func (c *CreateTemplateFromDocxParams) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	createTemplateFromHtmlParamsFieldHTML       = big.NewInt(1 << 0)
-	createTemplateFromHtmlParamsFieldHTMLHeader = big.NewInt(1 << 1)
-	createTemplateFromHtmlParamsFieldHTMLFooter = big.NewInt(1 << 2)
+	createTemplateFromHtmlParamsFieldHtml       = big.NewInt(1 << 0)
+	createTemplateFromHtmlParamsFieldHtmlHeader = big.NewInt(1 << 1)
+	createTemplateFromHtmlParamsFieldHtmlFooter = big.NewInt(1 << 2)
 	createTemplateFromHtmlParamsFieldName       = big.NewInt(1 << 3)
 	createTemplateFromHtmlParamsFieldSize       = big.NewInt(1 << 4)
 	createTemplateFromHtmlParamsFieldExternalID = big.NewInt(1 << 5)
@@ -862,11 +862,11 @@ var (
 
 type CreateTemplateFromHtmlParams struct {
 	// HTML template with field tags.
-	HTML string `json:"html,omitempty" url:"-"`
+	Html string `json:"html,omitempty" url:"-"`
 	// HTML template of the header to be displayed on every page.
-	HTMLHeader string `json:"html_header,omitempty" url:"-"`
+	HtmlHeader string `json:"html_header,omitempty" url:"-"`
 	// HTML template of the footer to be displayed on every page.
-	HTMLFooter string `json:"html_footer,omitempty" url:"-"`
+	HtmlFooter string `json:"html_footer,omitempty" url:"-"`
 	// Template name. Random uuid will be assigned when not specified.
 	Name string `json:"name,omitempty" url:"-"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
@@ -891,25 +891,25 @@ func (c *CreateTemplateFromHtmlParams) require(field *big.Int) {
 	c.explicitFields.Or(c.explicitFields, field)
 }
 
-// SetHTML sets the HTML field and marks it as non-optional;
+// SetHtml sets the Html field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHtmlParams) SetHTML(html string) {
-	c.HTML = html
-	c.require(createTemplateFromHtmlParamsFieldHTML)
+func (c *CreateTemplateFromHtmlParams) SetHtml(html string) {
+	c.Html = html
+	c.require(createTemplateFromHtmlParamsFieldHtml)
 }
 
-// SetHTMLHeader sets the HTMLHeader field and marks it as non-optional;
+// SetHtmlHeader sets the HtmlHeader field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHtmlParams) SetHTMLHeader(htmlHeader string) {
-	c.HTMLHeader = htmlHeader
-	c.require(createTemplateFromHtmlParamsFieldHTMLHeader)
+func (c *CreateTemplateFromHtmlParams) SetHtmlHeader(htmlHeader string) {
+	c.HtmlHeader = htmlHeader
+	c.require(createTemplateFromHtmlParamsFieldHtmlHeader)
 }
 
-// SetHTMLFooter sets the HTMLFooter field and marks it as non-optional;
+// SetHtmlFooter sets the HtmlFooter field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHtmlParams) SetHTMLFooter(htmlFooter string) {
-	c.HTMLFooter = htmlFooter
-	c.require(createTemplateFromHtmlParamsFieldHTMLFooter)
+func (c *CreateTemplateFromHtmlParams) SetHtmlFooter(htmlFooter string) {
+	c.HtmlFooter = htmlFooter
+	c.require(createTemplateFromHtmlParamsFieldHtmlFooter)
 }
 
 // SetName sets the Name field and marks it as non-optional;
@@ -2018,9 +2018,9 @@ func (c *CreateSubmissionFromDocxDocumentParams) String() string {
 
 var (
 	createSubmissionFromHtmlDocumentParamsFieldName       = big.NewInt(1 << 0)
-	createSubmissionFromHtmlDocumentParamsFieldHTML       = big.NewInt(1 << 1)
-	createSubmissionFromHtmlDocumentParamsFieldHTMLHeader = big.NewInt(1 << 2)
-	createSubmissionFromHtmlDocumentParamsFieldHTMLFooter = big.NewInt(1 << 3)
+	createSubmissionFromHtmlDocumentParamsFieldHtml       = big.NewInt(1 << 1)
+	createSubmissionFromHtmlDocumentParamsFieldHtmlHeader = big.NewInt(1 << 2)
+	createSubmissionFromHtmlDocumentParamsFieldHtmlFooter = big.NewInt(1 << 3)
 	createSubmissionFromHtmlDocumentParamsFieldSize       = big.NewInt(1 << 4)
 	createSubmissionFromHtmlDocumentParamsFieldPosition   = big.NewInt(1 << 5)
 )
@@ -2029,11 +2029,11 @@ type CreateSubmissionFromHtmlDocumentParams struct {
 	// Document name. Random uuid will be assigned when not specified.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 	// HTML document content with field tags.
-	HTML string `json:"html" url:"html"`
+	Html string `json:"html" url:"html"`
 	// HTML document content of the header to be displayed on every page.
-	HTMLHeader string `json:"html_header,omitempty" url:"html_header,omitempty"`
+	HtmlHeader string `json:"html_header,omitempty" url:"html_header,omitempty"`
 	// HTML document content of the footer to be displayed on every page.
-	HTMLFooter string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
+	HtmlFooter string `json:"html_footer,omitempty" url:"html_footer,omitempty"`
 	// Page size. Letter 8.5 x 11 will be assigned when not specified.
 	Size PageSize `json:"size,omitempty" url:"size,omitempty"`
 	// Document position in the submission. If not specified, the document will be added in the order it appears in the documents array.
@@ -2053,25 +2053,25 @@ func (c *CreateSubmissionFromHtmlDocumentParams) GetName() string {
 	return c.Name
 }
 
-func (c *CreateSubmissionFromHtmlDocumentParams) GetHTML() string {
+func (c *CreateSubmissionFromHtmlDocumentParams) GetHtml() string {
 	if c == nil {
 		return ""
 	}
-	return c.HTML
+	return c.Html
 }
 
-func (c *CreateSubmissionFromHtmlDocumentParams) GetHTMLHeader() string {
+func (c *CreateSubmissionFromHtmlDocumentParams) GetHtmlHeader() string {
 	if c == nil {
 		return ""
 	}
-	return c.HTMLHeader
+	return c.HtmlHeader
 }
 
-func (c *CreateSubmissionFromHtmlDocumentParams) GetHTMLFooter() string {
+func (c *CreateSubmissionFromHtmlDocumentParams) GetHtmlFooter() string {
 	if c == nil {
 		return ""
 	}
-	return c.HTMLFooter
+	return c.HtmlFooter
 }
 
 func (c *CreateSubmissionFromHtmlDocumentParams) GetSize() PageSize {
@@ -2109,25 +2109,25 @@ func (c *CreateSubmissionFromHtmlDocumentParams) SetName(name string) {
 	c.require(createSubmissionFromHtmlDocumentParamsFieldName)
 }
 
-// SetHTML sets the HTML field and marks it as non-optional;
+// SetHtml sets the Html field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHtmlDocumentParams) SetHTML(html string) {
-	c.HTML = html
-	c.require(createSubmissionFromHtmlDocumentParamsFieldHTML)
+func (c *CreateSubmissionFromHtmlDocumentParams) SetHtml(html string) {
+	c.Html = html
+	c.require(createSubmissionFromHtmlDocumentParamsFieldHtml)
 }
 
-// SetHTMLHeader sets the HTMLHeader field and marks it as non-optional;
+// SetHtmlHeader sets the HtmlHeader field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHtmlDocumentParams) SetHTMLHeader(htmlHeader string) {
-	c.HTMLHeader = htmlHeader
-	c.require(createSubmissionFromHtmlDocumentParamsFieldHTMLHeader)
+func (c *CreateSubmissionFromHtmlDocumentParams) SetHtmlHeader(htmlHeader string) {
+	c.HtmlHeader = htmlHeader
+	c.require(createSubmissionFromHtmlDocumentParamsFieldHtmlHeader)
 }
 
-// SetHTMLFooter sets the HTMLFooter field and marks it as non-optional;
+// SetHtmlFooter sets the HtmlFooter field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateSubmissionFromHtmlDocumentParams) SetHTMLFooter(htmlFooter string) {
-	c.HTMLFooter = htmlFooter
-	c.require(createSubmissionFromHtmlDocumentParamsFieldHTMLFooter)
+func (c *CreateSubmissionFromHtmlDocumentParams) SetHtmlFooter(htmlFooter string) {
+	c.HtmlFooter = htmlFooter
+	c.require(createSubmissionFromHtmlDocumentParamsFieldHtmlFooter)
 }
 
 // SetSize sets the Size field and marks it as non-optional;
@@ -4911,13 +4911,13 @@ func (c *CreateTemplateFromDocxDocumentParams) String() string {
 }
 
 var (
-	createTemplateFromHtmlDocumentParamsFieldHTML = big.NewInt(1 << 0)
+	createTemplateFromHtmlDocumentParamsFieldHtml = big.NewInt(1 << 0)
 	createTemplateFromHtmlDocumentParamsFieldName = big.NewInt(1 << 1)
 )
 
 type CreateTemplateFromHtmlDocumentParams struct {
 	// HTML template with field tags.
-	HTML string `json:"html" url:"html"`
+	Html string `json:"html" url:"html"`
 	// Document name. Random uuid will be assigned when not specified.
 	Name string `json:"name,omitempty" url:"name,omitempty"`
 
@@ -4928,11 +4928,11 @@ type CreateTemplateFromHtmlDocumentParams struct {
 	rawJSON         json.RawMessage
 }
 
-func (c *CreateTemplateFromHtmlDocumentParams) GetHTML() string {
+func (c *CreateTemplateFromHtmlDocumentParams) GetHtml() string {
 	if c == nil {
 		return ""
 	}
-	return c.HTML
+	return c.Html
 }
 
 func (c *CreateTemplateFromHtmlDocumentParams) GetName() string {
@@ -4956,11 +4956,11 @@ func (c *CreateTemplateFromHtmlDocumentParams) require(field *big.Int) {
 	c.explicitFields.Or(c.explicitFields, field)
 }
 
-// SetHTML sets the HTML field and marks it as non-optional;
+// SetHtml sets the Html field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreateTemplateFromHtmlDocumentParams) SetHTML(html string) {
-	c.HTML = html
-	c.require(createTemplateFromHtmlDocumentParamsFieldHTML)
+func (c *CreateTemplateFromHtmlDocumentParams) SetHtml(html string) {
+	c.Html = html
+	c.require(createTemplateFromHtmlDocumentParamsFieldHtml)
 }
 
 // SetName sets the Name field and marks it as non-optional;
@@ -15502,7 +15502,7 @@ func (u *UpdateSubmitterMessageParams) String() string {
 var (
 	updateTemplateDocumentsDocumentParamsFieldName     = big.NewInt(1 << 0)
 	updateTemplateDocumentsDocumentParamsFieldFile     = big.NewInt(1 << 1)
-	updateTemplateDocumentsDocumentParamsFieldHTML     = big.NewInt(1 << 2)
+	updateTemplateDocumentsDocumentParamsFieldHtml     = big.NewInt(1 << 2)
 	updateTemplateDocumentsDocumentParamsFieldPosition = big.NewInt(1 << 3)
 	updateTemplateDocumentsDocumentParamsFieldReplace  = big.NewInt(1 << 4)
 	updateTemplateDocumentsDocumentParamsFieldRemove   = big.NewInt(1 << 5)
@@ -15514,7 +15514,7 @@ type UpdateTemplateDocumentsDocumentParams struct {
 	// Base64-encoded content of the PDF or DOCX file or downloadable file URL. Leave it empty if you create a new document using HTML param.
 	File string `json:"file,omitempty" url:"file,omitempty"`
 	// HTML template with field tags. Leave it empty if you add a document via PDF or DOCX base64 encoded file param or URL.
-	HTML string `json:"html,omitempty" url:"html,omitempty"`
+	Html string `json:"html,omitempty" url:"html,omitempty"`
 	// Position of the document. By default will be added as the last document in the template.
 	Position *int `json:"position,omitempty" url:"position,omitempty"`
 	// Set to `true` to replace existing document with a new file at `position`. Existing document fields will be transferred to the new document if it doesn't contain any fields.
@@ -15543,11 +15543,11 @@ func (u *UpdateTemplateDocumentsDocumentParams) GetFile() string {
 	return u.File
 }
 
-func (u *UpdateTemplateDocumentsDocumentParams) GetHTML() string {
+func (u *UpdateTemplateDocumentsDocumentParams) GetHtml() string {
 	if u == nil {
 		return ""
 	}
-	return u.HTML
+	return u.Html
 }
 
 func (u *UpdateTemplateDocumentsDocumentParams) GetPosition() *int {
@@ -15599,11 +15599,11 @@ func (u *UpdateTemplateDocumentsDocumentParams) SetFile(file string) {
 	u.require(updateTemplateDocumentsDocumentParamsFieldFile)
 }
 
-// SetHTML sets the HTML field and marks it as non-optional;
+// SetHtml sets the Html field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTemplateDocumentsDocumentParams) SetHTML(html string) {
-	u.HTML = html
-	u.require(updateTemplateDocumentsDocumentParamsFieldHTML)
+func (u *UpdateTemplateDocumentsDocumentParams) SetHtml(html string) {
+	u.Html = html
+	u.require(updateTemplateDocumentsDocumentParamsFieldHtml)
 }
 
 // SetPosition sets the Position field and marks it as non-optional;
