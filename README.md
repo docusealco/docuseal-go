@@ -25,7 +25,13 @@ Set up the library with your DocuSeal API key based on your deployment. Retrieve
 API keys for the global cloud can be obtained from your [Global DocuSeal Console](https://console.docuseal.com/api).
 
 ```go
-c := client.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
+import (
+	"os"
+
+	docuseal "github.com/docusealco/docuseal-go"
+)
+
+ds := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
 ```
 
 #### EU Cloud
@@ -33,9 +39,9 @@ c := client.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
 API keys for the EU cloud can be obtained from your [EU DocuSeal Console](https://console.docuseal.eu/api).
 
 ```go
-c := client.NewClient(
+ds := docuseal.NewClient(
 	os.Getenv("DOCUSEAL_API_KEY"),
-	option.WithBaseURL("https://api.docuseal.eu"),
+	docuseal.WithBaseURL("https://api.docuseal.eu"),
 )
 ```
 
@@ -44,9 +50,9 @@ c := client.NewClient(
 For on-premises installations, API keys can be retrieved from the API settings page of your deployed application, e.g., https://yourdocusealapp.com/settings/api.
 
 ```go
-c := client.NewClient(
+ds := docuseal.NewClient(
 	os.Getenv("DOCUSEAL_API_KEY"),
-	option.WithBaseURL("https://yourdocuseal.com/api"),
+	docuseal.WithBaseURL("https://yourdocuseal.com/api"),
 )
 ```
 
@@ -60,7 +66,7 @@ Provides the ability to retrieve a list of available submissions.
 
 
 ```go
-submissions, err := c.GetSubmissions(context.Background(), &docuseal.GetSubmissionsParams{Limit: docuseal.Int(10)})
+submissions, err := ds.GetSubmissions(context.Background(), &docuseal.GetSubmissionsParams{Limit: docuseal.Int(10)})
 ```
 
 ### GetSubmission(id)
@@ -71,7 +77,7 @@ Provides the functionality to retrieve information about a submission.
 
 
 ```go
-submission, err := c.GetSubmission(context.Background(), 1001)
+submission, err := ds.GetSubmission(context.Background(), 1001)
 ```
 
 ### GetSubmissionDocuments(id)
@@ -82,7 +88,7 @@ This endpoint returns a list of partially filled documents for a submission. If 
 
 
 ```go
-submission, err := c.GetSubmissionDocuments(context.Background(), 1001, nil)
+submission, err := ds.GetSubmissionDocuments(context.Background(), 1001, nil)
 ```
 
 ### CreateSubmission(data)
@@ -97,7 +103,7 @@ This API endpoint allows you to create signature requests (submissions) for a do
 
 
 ```go
-submission, err := c.CreateSubmission(context.Background(), &docuseal.CreateSubmissionParams{
+submission, err := ds.CreateSubmission(context.Background(), &docuseal.CreateSubmissionParams{
 	TemplateID: 1000001,
 	SendEmail: docuseal.Bool(true),
 	Submitters: []*docuseal.CreateSubmissionSubmitterParams{
@@ -120,7 +126,7 @@ Provides the functionality to create one-off submission request from a PDF. Use 
 
 
 ```go
-submission, err := c.CreateSubmissionFromPdf(context.Background(), &docuseal.CreateSubmissionFromPdfParams{
+submission, err := ds.CreateSubmissionFromPdf(context.Background(), &docuseal.CreateSubmissionFromPdfParams{
 	Name: "Test Submission Document",
 	Documents: []*docuseal.CreateSubmissionFromPdfDocumentParams{
 		{
@@ -162,7 +168,7 @@ Provides functionality to create a one-off submission request from a DOCX file w
 
 
 ```go
-submission, err := c.CreateSubmissionFromDocx(context.Background(), &docuseal.CreateSubmissionFromDocxParams{
+submission, err := ds.CreateSubmissionFromDocx(context.Background(), &docuseal.CreateSubmissionFromDocxParams{
 	Name: "Test Submission Document",
 	Variables: map[string]any{"variable_name": "value"},
 	Documents: []*docuseal.CreateSubmissionFromDocxDocumentParams{
@@ -191,7 +197,7 @@ This API endpoint allows you to create a one-off submission request document usi
 
 
 ```go
-submission, err := c.CreateSubmissionFromHtml(context.Background(), &docuseal.CreateSubmissionFromHtmlParams{
+submission, err := ds.CreateSubmissionFromHtml(context.Background(), &docuseal.CreateSubmissionFromHtmlParams{
 	Name: "Test Submission Document",
 	Documents: []*docuseal.CreateSubmissionFromHtmlDocumentParams{
 		{
@@ -224,7 +230,7 @@ Allows you to update a submission: change its name, expiration date, and archive
 
 
 ```go
-submission, err := c.UpdateSubmission(context.Background(), 1001, &docuseal.UpdateSubmissionParams{
+submission, err := ds.UpdateSubmission(context.Background(), 1001, &docuseal.UpdateSubmissionParams{
 	Name: "New Submission Name",
 	ExpireAt: "2024-09-01 12:00:00 UTC",
 	Archived: docuseal.Bool(true),
@@ -239,7 +245,7 @@ Allows you to archive a submission.
 
 
 ```go
-_, err := c.ArchiveSubmission(context.Background(), 1001)
+_, err := ds.ArchiveSubmission(context.Background(), 1001)
 ```
 
 ### GetSubmitters(params)
@@ -250,7 +256,7 @@ Provides the ability to retrieve a list of submitters.
 
 
 ```go
-submitters, err := c.GetSubmitters(context.Background(), &docuseal.GetSubmittersParams{Limit: docuseal.Int(10)})
+submitters, err := ds.GetSubmitters(context.Background(), &docuseal.GetSubmittersParams{Limit: docuseal.Int(10)})
 ```
 
 ### GetSubmitter(id)
@@ -261,7 +267,7 @@ Provides functionality to retrieve information about a submitter, along with the
 
 
 ```go
-submitter, err := c.GetSubmitter(context.Background(), 500001)
+submitter, err := ds.GetSubmitter(context.Background(), 500001)
 ```
 
 ### UpdateSubmitter(id, data)
@@ -275,7 +281,7 @@ Allows you to update submitter details, pre-fill or update field values and re-s
 
 
 ```go
-submitter, err := c.UpdateSubmitter(context.Background(), 500001, &docuseal.UpdateSubmitterParams{
+submitter, err := ds.UpdateSubmitter(context.Background(), 500001, &docuseal.UpdateSubmitterParams{
 	Email: "john.doe@example.com",
 	Fields: []*docuseal.UpdateSubmitterFieldParams{
 		{
@@ -294,7 +300,7 @@ Provides the ability to retrieve a list of available document templates.
 
 
 ```go
-templates, err := c.GetTemplates(context.Background(), &docuseal.GetTemplatesParams{Limit: docuseal.Int(10)})
+templates, err := ds.GetTemplates(context.Background(), &docuseal.GetTemplatesParams{Limit: docuseal.Int(10)})
 ```
 
 ### GetTemplate(id)
@@ -305,7 +311,7 @@ Provides the functionality to retrieve information about a document template.
 
 
 ```go
-template, err := c.GetTemplate(context.Background(), 1000001)
+template, err := ds.GetTemplate(context.Background(), 1000001)
 ```
 
 ### CreateTemplateFromPdf(data)
@@ -319,7 +325,7 @@ Provides the functionality to create a fillable document template for a PDF file
 
 
 ```go
-template, err := c.CreateTemplateFromPdf(context.Background(), &docuseal.CreateTemplateFromPdfParams{
+template, err := ds.CreateTemplateFromPdf(context.Background(), &docuseal.CreateTemplateFromPdfParams{
 	Name: "Test PDF",
 	Documents: []*docuseal.CreateTemplateFromPdfDocumentParams{
 		{
@@ -355,7 +361,7 @@ Provides the functionality to create a fillable document template for an existin
 
 
 ```go
-template, err := c.CreateTemplateFromDocx(context.Background(), &docuseal.CreateTemplateFromDocxParams{
+template, err := ds.CreateTemplateFromDocx(context.Background(), &docuseal.CreateTemplateFromDocxParams{
 	Name: "Test DOCX",
 	Documents: []*docuseal.CreateTemplateFromDocxDocumentParams{
 		{
@@ -377,7 +383,7 @@ Provides the functionality to seamlessly generate a PDF document template by uti
 
 
 ```go
-template, err := c.CreateTemplateFromHtml(context.Background(), &docuseal.CreateTemplateFromHtmlParams{
+template, err := ds.CreateTemplateFromHtml(context.Background(), &docuseal.CreateTemplateFromHtmlParams{
 	Html: `<p>Lorem Ipsum is simply dummy text of the
 <text-field
   name="Industry"
@@ -399,7 +405,7 @@ Allows you to clone an existing template into a new template.
 
 
 ```go
-template, err := c.CloneTemplate(context.Background(), 1000001, &docuseal.CloneTemplateParams{
+template, err := ds.CloneTemplate(context.Background(), 1000001, &docuseal.CloneTemplateParams{
 	Name: "Cloned Template",
 })
 ```
@@ -412,7 +418,7 @@ Allows you to merge multiple templates with documents and fields into a new comb
 
 
 ```go
-template, err := c.MergeTemplate(context.Background(), &docuseal.MergeTemplateParams{
+template, err := ds.MergeTemplate(context.Background(), &docuseal.MergeTemplateParams{
 	TemplateIDs: []int{321, 432},
 	Name: "Merged Template",
 })
@@ -426,7 +432,7 @@ Provides the functionality to move a document template to a different folder and
 
 
 ```go
-template, err := c.UpdateTemplate(context.Background(), 1000001, &docuseal.UpdateTemplateParams{
+template, err := ds.UpdateTemplate(context.Background(), 1000001, &docuseal.UpdateTemplateParams{
 	Name: "New Document Name",
 	FolderName: "New Folder",
 })
@@ -440,7 +446,7 @@ Allows you to add, remove or replace documents in the template with provided PDF
 
 
 ```go
-template, err := c.UpdateTemplateDocuments(context.Background(), 1000001, &docuseal.UpdateTemplateDocumentsParams{
+template, err := ds.UpdateTemplateDocuments(context.Background(), 1000001, &docuseal.UpdateTemplateDocumentsParams{
 	Documents: []*docuseal.UpdateTemplateDocumentsDocumentParams{
 		{
 			File: "string",
@@ -457,7 +463,7 @@ Allows you to archive a document template.
 
 
 ```go
-_, err := c.ArchiveTemplate(context.Background(), 1000001)
+_, err := ds.ArchiveTemplate(context.Background(), 1000001)
 ```
 
 ### Configuring Timeouts
@@ -465,9 +471,9 @@ _, err := c.ArchiveTemplate(context.Background(), 1000001)
 Set timeouts to avoid hanging requests:
 
 ```go
-c := client.NewClient(
-	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
-	option.WithHTTPClient(&http.Client{Timeout: 30 * time.Second}),
+ds := docuseal.NewClient(
+	os.Getenv("DOCUSEAL_API_KEY"),
+	docuseal.WithHTTPClient(&http.Client{Timeout: 30 * time.Second}),
 )
 ```
 

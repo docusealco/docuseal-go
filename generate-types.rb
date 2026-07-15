@@ -51,7 +51,21 @@ Dir.glob('patches/*.patch').sort.each do |patch|
   system('git', 'apply', patch, exception: true)
 end
 
+# Fold the client and option packages into the root `docuseal` package so the
+# SDK is a single import (docuseal.NewClient / docuseal.WithBaseURL). core and
+# internal stay as sub-packages (not user-facing).
+(Dir.glob('client/*.go') + Dir.glob('option/*.go')).each do |src|
+  content = File.read(src)
+  content = content.sub(/^package (?:client|option)$/, 'package docuseal')
+  content = content.gsub(%(\tdocuseal "github.com/docusealco/docuseal-go"\n), '')
+  content = content.gsub(%(\toption "github.com/docusealco/docuseal-go/option"\n), '')
+  content = content.gsub(/\bdocuseal\.([A-Z])/, '\1')
+  content = content.gsub(/\boption\.([A-Z])/, '\1')
+  File.write(File.basename(src), content)
+end
+FileUtils.rm_rf(%w[client option])
+
 FileUtils.rm_rf('.fern-out')
 FileUtils.rm_f('openapi.tmp.json')
 system('go', 'mod', 'tidy', exception: true)
-system('gofmt', '-w', *Dir.glob('*.go'), 'client', 'core', 'option', 'internal', exception: true)
+system('gofmt', '-w', *Dir.glob('*.go'), 'core', 'internal', exception: true)
