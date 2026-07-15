@@ -41,7 +41,7 @@ API keys for the EU cloud can be obtained from your [EU DocuSeal Console](https:
 ```go
 ds := docuseal.NewClient(
 	os.Getenv("DOCUSEAL_API_KEY"),
-	docuseal.WithBaseURL("https://api.docuseal.eu"),
+	docuseal.WithBaseURL(docuseal.Environments.EU),
 )
 ```
 

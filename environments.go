@@ -8,6 +8,8 @@ package docuseal
 // if any.
 var Environments = struct {
 	Default string
+	EU      string
 }{
 	Default: "https://api.docuseal.com",
+	EU:      "https://api.docuseal.eu",
 }
