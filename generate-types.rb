@@ -36,7 +36,7 @@ else
 end
 
 FileUtils.rm_rf('.fern-out')
-system({ 'CI' => 'true' }, 'npx', '-y', 'fern-api@5.67.1', 'generate', '--local', exception: true)
+system({ 'CI' => 'true' }, 'npx', '-y', 'fern-api@5.74.2', 'generate', '--local', exception: true)
 
 # Drop Fern's test scaffolding and meta docs.
 FileUtils.rm_rf(['.fern-out/wiremock', '.fern-out/.fern', '.fern-out/client/root_test'])
