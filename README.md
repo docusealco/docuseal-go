@@ -25,7 +25,7 @@ Set up the library with your DocuSeal API key based on your deployment. Retrieve
 API keys for the global cloud can be obtained from your [Global DocuSeal Console](https://console.docuseal.com/api).
 
 ```go
-c := client.NewClient(option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")))
+c := client.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
 ```
 
 #### EU Cloud
@@ -34,7 +34,7 @@ API keys for the EU cloud can be obtained from your [EU DocuSeal Console](https:
 
 ```go
 c := client.NewClient(
-	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
+	os.Getenv("DOCUSEAL_API_KEY"),
 	option.WithBaseURL("https://api.docuseal.eu"),
 )
 ```
@@ -45,7 +45,7 @@ For on-premises installations, API keys can be retrieved from the API settings p
 
 ```go
 c := client.NewClient(
-	option.WithAPIKey(os.Getenv("DOCUSEAL_API_KEY")),
+	os.Getenv("DOCUSEAL_API_KEY"),
 	option.WithBaseURL("https://yourdocuseal.com/api"),
 )
 ```
@@ -196,7 +196,7 @@ submission, err := c.CreateSubmissionFromHtml(context.Background(), &docuseal.Cr
 	Documents: []*docuseal.CreateSubmissionFromHtmlDocumentParams{
 		{
 			Name: "Test Document",
-			HTML: `<p>Lorem Ipsum is simply dummy text of the
+			Html: `<p>Lorem Ipsum is simply dummy text of the
 <text-field
   name="Industry"
   role="First Party"
@@ -378,7 +378,7 @@ Provides the functionality to seamlessly generate a PDF document template by uti
 
 ```go
 template, err := c.CreateTemplateFromHtml(context.Background(), &docuseal.CreateTemplateFromHtmlParams{
-	HTML: `<p>Lorem Ipsum is simply dummy text of the
+	Html: `<p>Lorem Ipsum is simply dummy text of the
 <text-field
   name="Industry"
   role="First Party"

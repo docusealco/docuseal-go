@@ -20,7 +20,8 @@ type Client struct {
 	caller  *internal.Caller
 }
 
-func NewClient(opts ...option.RequestOption) *Client {
+func NewClient(apiKey string, opts ...option.RequestOption) *Client {
+	opts = append([]option.RequestOption{option.WithAPIKey(apiKey)}, opts...)
 	options := core.NewRequestOptions(opts...)
 	return &Client{
 		WithRawResponse: NewRawClient(options),

@@ -27,7 +27,7 @@ if label != 'true'
 end
 
 # A local file argument must be an SDK-mode dump: ApiSpec.call(sdk: true).
-spec = ARGV[0] || 'https://console.docuseal.com/openapi.yml?format=json&sdk=true'
+spec = ARGV[0] || 'https://console.docuseal.com/openapi.json?sdk=true'
 
 if spec.start_with?('http')
   system('curl', '-sf', spec, '-o', 'openapi.tmp.json', exception: true)
@@ -47,44 +47,9 @@ FileUtils.rm_f(Dir.glob('*.go'))
 FileUtils.rm_rf(%w[client core option internal wiremock])
 FileUtils.cp_r('.fern-out/.', '.')
 
-# FromHtml instead of Fern's FromHTML, matching FromDocx/FromPdf.
-Dir.glob(['*.go', '{client,core,option,internal}/**/*.go']).each do |file|
-  content = File.read(file)
-  next unless content.include?('FromHTML')
-
-  File.write(file, content.gsub('FromHTML', 'FromHtml'))
+Dir.glob('patches/*.patch').sort.each do |patch|
+  system('git', 'apply', patch, exception: true)
 end
-
-# DELETE /<resource>/{id}?permanently=true has no own OpenAPI operation.
-client = File.read('client/client.go')
-raise 'client/client.go: permanently delete methods already present' if client.include?('PermanentlyDelete')
-
-client = client.sub(%(\tcontext "context"\n), %(\tcontext "context"\n\turl "net/url"\n))
-client << <<~GO
-
-  // The API endpoint allows you to permanently delete a document template and all of its submissions.
-  func (c *Client) PermanentlyDeleteTemplate(
-  	ctx context.Context,
-  	// The unique identifier of the document template.
-  	id int,
-  	opts ...option.RequestOption,
-  ) (*docuseal.TemplateArchiveResult, error) {
-  	opts = append(opts, option.WithQueryParameters(url.Values{"permanently": []string{"true"}}))
-  	return c.ArchiveTemplate(ctx, id, opts...)
-  }
-
-  // The API endpoint allows you to permanently delete a submission and all of its submitters and documents.
-  func (c *Client) PermanentlyDeleteSubmission(
-  	ctx context.Context,
-  	// The unique identifier of the submission.
-  	id int,
-  	opts ...option.RequestOption,
-  ) (*docuseal.SubmissionArchiveResult, error) {
-  	opts = append(opts, option.WithQueryParameters(url.Values{"permanently": []string{"true"}}))
-  	return c.ArchiveSubmission(ctx, id, opts...)
-  }
-GO
-File.write('client/client.go', client)
 
 FileUtils.rm_rf('.fern-out')
 FileUtils.rm_f('openapi.tmp.json')
