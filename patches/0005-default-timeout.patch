@@ -1,0 +1,21 @@
+--- a/client/client.go
++++ b/client/client.go
+@@ -4,6 +4,8 @@ package client
+ 
+ import (
+ 	context "context"
++	http "net/http"
++	time "time"
+ 
+ 	docuseal "github.com/docusealco/docuseal-go"
+ 	core "github.com/docusealco/docuseal-go/core"
+@@ -25,6 +27,9 @@ func NewClient(apiKey string, opts ...option.RequestOption) *Client {
+ 	if options.HTTPHeader.Get("User-Agent") == "" {
+ 		options.HTTPHeader.Set("User-Agent", "DocuSeal Go v1.0.0")
+ 	}
++	if options.HTTPClient == nil {
++		options.HTTPClient = &http.Client{Timeout: 30 * time.Second}
++	}
+ 	return &Client{
+ 		WithRawResponse: NewRawClient(options),
+ 		options:         options,

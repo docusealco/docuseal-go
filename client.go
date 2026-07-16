@@ -4,6 +4,8 @@ package docuseal
 
 import (
 	context "context"
+	http "net/http"
+	time "time"
 
 	core "github.com/docusealco/docuseal-go/core"
 	internal "github.com/docusealco/docuseal-go/internal"
@@ -22,6 +24,9 @@ func NewClient(apiKey string, opts ...RequestOption) *Client {
 	options := core.NewRequestOptions(opts...)
 	if options.HTTPHeader.Get("User-Agent") == "" {
 		options.HTTPHeader.Set("User-Agent", "DocuSeal Go v1.0.0")
+	}
+	if options.HTTPClient == nil {
+		options.HTTPClient = &http.Client{Timeout: 30 * time.Second}
 	}
 	return &Client{
 		WithRawResponse: NewRawClient(options),
