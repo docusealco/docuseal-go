@@ -5565,14 +5565,14 @@ type Field struct {
 	// Unique identifier of the submitter that filled the field.
 	SubmitterUUID string `json:"submitter_uuid" url:"submitter_uuid"`
 	// Field name.
-	Name string `json:"name" url:"name"`
+	Name *string `json:"name,omitempty" url:"name,omitempty"`
 	// Type of the field (e.g., text, signature, date, initials).
 	Type FieldType `json:"type" url:"type"`
 	// Indicates if the field is required.
-	Required    bool              `json:"required" url:"required"`
+	Required    *bool             `json:"required,omitempty" url:"required,omitempty"`
 	Preferences *FieldPreferences `json:"preferences,omitempty" url:"preferences,omitempty"`
 	// List of areas where the field is located in the document.
-	Areas []*FieldArea `json:"areas" url:"areas"`
+	Areas []*FieldArea `json:"areas,omitempty" url:"areas,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -5595,9 +5595,9 @@ func (f *Field) GetSubmitterUUID() string {
 	return f.SubmitterUUID
 }
 
-func (f *Field) GetName() string {
+func (f *Field) GetName() *string {
 	if f == nil {
-		return ""
+		return nil
 	}
 	return f.Name
 }
@@ -5609,9 +5609,9 @@ func (f *Field) GetType() FieldType {
 	return f.Type
 }
 
-func (f *Field) GetRequired() bool {
+func (f *Field) GetRequired() *bool {
 	if f == nil {
-		return false
+		return nil
 	}
 	return f.Required
 }
@@ -5660,7 +5660,7 @@ func (f *Field) SetSubmitterUUID(submitterUUID string) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *Field) SetName(name string) {
+func (f *Field) SetName(name *string) {
 	f.Name = name
 	f.require(fieldFieldName)
 }
@@ -5674,7 +5674,7 @@ func (f *Field) SetType(type_ FieldType) {
 
 // SetRequired sets the Required field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *Field) SetRequired(required bool) {
+func (f *Field) SetRequired(required *bool) {
 	f.Required = required
 	f.require(fieldFieldRequired)
 }
@@ -6360,7 +6360,7 @@ type FieldValue struct {
 	// Document template field name.
 	Field string `json:"field" url:"field"`
 	// Pre-filled value of the field.
-	Value *FieldValueValue `json:"value" url:"value"`
+	Value *FieldValueValue `json:"value,omitempty" url:"value,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -11285,7 +11285,7 @@ type Submitter struct {
 	Metadata map[string]any `json:"metadata" url:"metadata"`
 	// Submitter preferences.
 	Preferences map[string]any     `json:"preferences" url:"preferences"`
-	Template    *SubmitterTemplate `json:"template" url:"template"`
+	Template    *SubmitterTemplate `json:"template,omitempty" url:"template,omitempty"`
 	// An array of events related to the submission.
 	SubmissionEvents []*SubmissionEvent `json:"submission_events" url:"submission_events"`
 	// An array of pre-filled values for the submitter.
@@ -15884,9 +15884,9 @@ type User struct {
 	// Unique identifier of the user.
 	ID int `json:"id" url:"id"`
 	// The first name of the user.
-	FirstName string `json:"first_name" url:"first_name"`
+	FirstName *string `json:"first_name,omitempty" url:"first_name,omitempty"`
 	// The last name of the user.
-	LastName string `json:"last_name" url:"last_name"`
+	LastName *string `json:"last_name,omitempty" url:"last_name,omitempty"`
 	// The email address of the user.
 	Email string `json:"email" url:"email"`
 
@@ -15904,16 +15904,16 @@ func (u *User) GetID() int {
 	return u.ID
 }
 
-func (u *User) GetFirstName() string {
+func (u *User) GetFirstName() *string {
 	if u == nil {
-		return ""
+		return nil
 	}
 	return u.FirstName
 }
 
-func (u *User) GetLastName() string {
+func (u *User) GetLastName() *string {
 	if u == nil {
-		return ""
+		return nil
 	}
 	return u.LastName
 }
@@ -15948,14 +15948,14 @@ func (u *User) SetID(id int) {
 
 // SetFirstName sets the FirstName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *User) SetFirstName(firstName string) {
+func (u *User) SetFirstName(firstName *string) {
 	u.FirstName = firstName
 	u.require(userFieldFirstName)
 }
 
 // SetLastName sets the LastName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *User) SetLastName(lastName string) {
+func (u *User) SetLastName(lastName *string) {
 	u.LastName = lastName
 	u.require(userFieldLastName)
 }
