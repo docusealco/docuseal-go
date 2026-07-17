@@ -6691,7 +6691,7 @@ var (
 
 type FormCompletedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *FormData `json:"data" url:"data"`
@@ -6703,7 +6703,7 @@ type FormCompletedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FormCompletedEvent) GetEventType() string {
+func (f *FormCompletedEvent) GetEventType() EventType {
 	if f == nil {
 		return ""
 	}
@@ -6740,7 +6740,7 @@ func (f *FormCompletedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FormCompletedEvent) SetEventType(eventType string) {
+func (f *FormCompletedEvent) SetEventType(eventType EventType) {
 	f.EventType = eventType
 	f.require(formCompletedEventFieldEventType)
 }
@@ -7308,7 +7308,7 @@ var (
 
 type FormDeclinedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *FormData `json:"data" url:"data"`
@@ -7320,7 +7320,7 @@ type FormDeclinedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FormDeclinedEvent) GetEventType() string {
+func (f *FormDeclinedEvent) GetEventType() EventType {
 	if f == nil {
 		return ""
 	}
@@ -7357,7 +7357,7 @@ func (f *FormDeclinedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FormDeclinedEvent) SetEventType(eventType string) {
+func (f *FormDeclinedEvent) SetEventType(eventType EventType) {
 	f.EventType = eventType
 	f.require(formDeclinedEventFieldEventType)
 }
@@ -7434,7 +7434,7 @@ var (
 
 type FormStartedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *FormData `json:"data" url:"data"`
@@ -7446,7 +7446,7 @@ type FormStartedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FormStartedEvent) GetEventType() string {
+func (f *FormStartedEvent) GetEventType() EventType {
 	if f == nil {
 		return ""
 	}
@@ -7483,7 +7483,7 @@ func (f *FormStartedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FormStartedEvent) SetEventType(eventType string) {
+func (f *FormStartedEvent) SetEventType(eventType EventType) {
 	f.EventType = eventType
 	f.require(formStartedEventFieldEventType)
 }
@@ -7747,7 +7747,7 @@ var (
 
 type FormViewedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *FormData `json:"data" url:"data"`
@@ -7759,7 +7759,7 @@ type FormViewedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (f *FormViewedEvent) GetEventType() string {
+func (f *FormViewedEvent) GetEventType() EventType {
 	if f == nil {
 		return ""
 	}
@@ -7796,7 +7796,7 @@ func (f *FormViewedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (f *FormViewedEvent) SetEventType(eventType string) {
+func (f *FormViewedEvent) SetEventType(eventType EventType) {
 	f.EventType = eventType
 	f.require(formViewedEventFieldEventType)
 }
@@ -8634,7 +8634,7 @@ var (
 
 type SubmissionArchivedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time                `json:"timestamp" url:"timestamp"`
 	Data      *SubmissionArchiveResult `json:"data" url:"data"`
@@ -8646,7 +8646,7 @@ type SubmissionArchivedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionArchivedEvent) GetEventType() string {
+func (s *SubmissionArchivedEvent) GetEventType() EventType {
 	if s == nil {
 		return ""
 	}
@@ -8683,7 +8683,7 @@ func (s *SubmissionArchivedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionArchivedEvent) SetEventType(eventType string) {
+func (s *SubmissionArchivedEvent) SetEventType(eventType EventType) {
 	s.EventType = eventType
 	s.require(submissionArchivedEventFieldEventType)
 }
@@ -8760,7 +8760,7 @@ var (
 
 type SubmissionCompletedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time   `json:"timestamp" url:"timestamp"`
 	Data      *Submission `json:"data" url:"data"`
@@ -8772,7 +8772,7 @@ type SubmissionCompletedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionCompletedEvent) GetEventType() string {
+func (s *SubmissionCompletedEvent) GetEventType() EventType {
 	if s == nil {
 		return ""
 	}
@@ -8809,7 +8809,7 @@ func (s *SubmissionCompletedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCompletedEvent) SetEventType(eventType string) {
+func (s *SubmissionCompletedEvent) SetEventType(eventType EventType) {
 	s.EventType = eventType
 	s.require(submissionCompletedEventFieldEventType)
 }
@@ -9260,7 +9260,7 @@ var (
 
 type SubmissionCreatedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time   `json:"timestamp" url:"timestamp"`
 	Data      *Submission `json:"data" url:"data"`
@@ -9272,7 +9272,7 @@ type SubmissionCreatedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionCreatedEvent) GetEventType() string {
+func (s *SubmissionCreatedEvent) GetEventType() EventType {
 	if s == nil {
 		return ""
 	}
@@ -9309,7 +9309,7 @@ func (s *SubmissionCreatedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionCreatedEvent) SetEventType(eventType string) {
+func (s *SubmissionCreatedEvent) SetEventType(eventType EventType) {
 	s.EventType = eventType
 	s.require(submissionCreatedEventFieldEventType)
 }
@@ -9711,7 +9711,7 @@ var (
 
 type SubmissionExpiredEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time   `json:"timestamp" url:"timestamp"`
 	Data      *Submission `json:"data" url:"data"`
@@ -9723,7 +9723,7 @@ type SubmissionExpiredEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (s *SubmissionExpiredEvent) GetEventType() string {
+func (s *SubmissionExpiredEvent) GetEventType() EventType {
 	if s == nil {
 		return ""
 	}
@@ -9760,7 +9760,7 @@ func (s *SubmissionExpiredEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SubmissionExpiredEvent) SetEventType(eventType string) {
+func (s *SubmissionExpiredEvent) SetEventType(eventType EventType) {
 	s.EventType = eventType
 	s.require(submissionExpiredEventFieldEventType)
 }
@@ -13675,7 +13675,7 @@ var (
 
 type TemplateArchivedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time              `json:"timestamp" url:"timestamp"`
 	Data      *TemplateArchiveResult `json:"data" url:"data"`
@@ -13687,7 +13687,7 @@ type TemplateArchivedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (t *TemplateArchivedEvent) GetEventType() string {
+func (t *TemplateArchivedEvent) GetEventType() EventType {
 	if t == nil {
 		return ""
 	}
@@ -13724,7 +13724,7 @@ func (t *TemplateArchivedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateArchivedEvent) SetEventType(eventType string) {
+func (t *TemplateArchivedEvent) SetEventType(eventType EventType) {
 	t.EventType = eventType
 	t.require(templateArchivedEventFieldEventType)
 }
@@ -13801,7 +13801,7 @@ var (
 
 type TemplateCreatedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *Template `json:"data" url:"data"`
@@ -13813,7 +13813,7 @@ type TemplateCreatedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (t *TemplateCreatedEvent) GetEventType() string {
+func (t *TemplateCreatedEvent) GetEventType() EventType {
 	if t == nil {
 		return ""
 	}
@@ -13850,7 +13850,7 @@ func (t *TemplateCreatedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateCreatedEvent) SetEventType(eventType string) {
+func (t *TemplateCreatedEvent) SetEventType(eventType EventType) {
 	t.EventType = eventType
 	t.require(templateCreatedEventFieldEventType)
 }
@@ -14682,7 +14682,7 @@ var (
 
 type TemplateUpdatedEvent struct {
 	// The event type.
-	EventType string `json:"event_type" url:"event_type"`
+	EventType EventType `json:"event_type" url:"event_type"`
 	// The event timestamp.
 	Timestamp time.Time `json:"timestamp" url:"timestamp"`
 	Data      *Template `json:"data" url:"data"`
@@ -14694,7 +14694,7 @@ type TemplateUpdatedEvent struct {
 	rawJSON         json.RawMessage
 }
 
-func (t *TemplateUpdatedEvent) GetEventType() string {
+func (t *TemplateUpdatedEvent) GetEventType() EventType {
 	if t == nil {
 		return ""
 	}
@@ -14731,7 +14731,7 @@ func (t *TemplateUpdatedEvent) require(field *big.Int) {
 
 // SetEventType sets the EventType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TemplateUpdatedEvent) SetEventType(eventType string) {
+func (t *TemplateUpdatedEvent) SetEventType(eventType EventType) {
 	t.EventType = eventType
 	t.require(templateUpdatedEventFieldEventType)
 }
