@@ -28,7 +28,7 @@ API keys for the global cloud can be obtained from your [Global DocuSeal Console
 import (
 	"os"
 
-	docuseal "github.com/docusealco/docuseal-go"
+	"github.com/docusealco/docuseal-go"
 )
 
 ds := docuseal.NewClient(os.Getenv("DOCUSEAL_API_KEY"))
